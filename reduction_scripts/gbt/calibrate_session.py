@@ -6,9 +6,8 @@ from pylab import *
 import numpy,matplotlib;
 import sys
 import os
-sys.path.append('/Users/adam/repos/casaradio/branches/python/ginsburg/')
-import makecube
-from agpy import timer
+from gbtpy import makecube
+import timer
 
 samplers = {
         0: ["A9","A13","C25","C29"],

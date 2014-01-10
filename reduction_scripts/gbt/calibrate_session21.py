@@ -1,9 +1,7 @@
 
 from pylab import *
 import numpy,matplotlib;
-import sys
-sys.path.append('/Users/adam/repos/casaradio/branches/python/ginsburg/')
-import makecube
+from gbtpy import makecube
 
 tau = (0.0121710+0.0117295)/2.0
 refpairs = [[8,23],[24,34],[35,56],[57,77],[78,96],[97,111]]
