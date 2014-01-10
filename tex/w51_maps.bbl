@@ -1,0 +1,55 @@
+\begin{thebibliography}{11}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{{Ao} {et~al.}(2013){Ao}, {Henkel}, {Menten}, {Requena-Torres},
+  {Stanke}, {Mauersberger}, {Aalto}, {M{\"u}hle}, \& {Mangum}}]{Ao2013a}
+{Ao}, Y. {et~al.} 2013, \aap, 550, A135
+
+\bibitem[{{Carpenter} \& {Sanders}(1998)}]{Carpenter1998a}
+{Carpenter}, J.~M. \& {Sanders}, D.~B. 1998, \aj, 116, 1856
+
+\bibitem[{{Federrath} {et~al.}(2008){Federrath}, {Klessen}, \&
+  {Schmidt}}]{Federrath2008a}
+{Federrath}, C., {Klessen}, R.~S., \& {Schmidt}, W. 2008, \apjl, 688, L79
+
+\bibitem[{{Ginsburg} {et~al.}(2011){Ginsburg}, {Darling}, {Battersby},
+  {Zeiger}, \& {Bally}}]{Ginsburg2011a}
+{Ginsburg}, A., {Darling}, J., {Battersby}, C., {Zeiger}, B., \& {Bally}, J.
+  2011, \apj, 736, 149
+
+\bibitem[{{Ginsburg} {et~al.}(2013){Ginsburg}, {Glenn}, {Rosolowsky},
+  {Ellsworth-Bowers}, {Battersby}, {Dunham}, {Merello}, {Shirley}, {Bally},
+  {Evans}, {Stringfellow}, \& {Aguirre}}]{Ginsburg2013a}
+{Ginsburg}, A. {et~al.} 2013, ArXiv e-prints
+
+\bibitem[{{Kainulainen} {et~al.}(2011){Kainulainen}, {Alves}, {Beuther},
+  {Henning}, \& {Schuller}}]{Kainulainen2011a}
+{Kainulainen}, J., {Alves}, J., {Beuther}, H., {Henning}, T., \& {Schuller}, F.
+  2011, \aap, 536, A48
+
+\bibitem[{{Langston} {et~al.}(2000){Langston}, {Minter}, {D'Addario},
+  {Eberhardt}, {Koski}, \& {Zuber}}]{Langston2000a}
+{Langston}, G., {Minter}, A., {D'Addario}, L., {Eberhardt}, K., {Koski}, K., \&
+  {Zuber}, J. 2000, \aj, 119, 2801
+
+\bibitem[{{Mangum} \& {Wootten}(1993)}]{Mangum1993a}
+{Mangum}, J.~G. \& {Wootten}, A. 1993, \apjs, 89, 123
+
+\bibitem[{{Schneider} {et~al.}(2013){Schneider}, {Andr{\'e}}, {K{\"o}nyves},
+  {Bontemps}, {Motte}, {Federrath}, {Ward-Thompson}, {Arzoumanian},
+  {Benedettini}, {Bressert}, {Didelon}, {Di Francesco}, {Griffin}, {Hennemann},
+  {Hill}, {Palmeirim}, {Pezzuto}, {Peretto}, {Roy}, {Rygl}, {Spinoglio}, \&
+  {White}}]{Schneider2013a}
+{Schneider}, N. {et~al.} 2013, \apjl, 766, L17
+
+\bibitem[{{Sun} {et~al.}(2011){Sun}, {Reich}, {Han}, {Reich}, {Wielebinski},
+  {Wang}, \& {M{\"u}ller}}]{Sun2011b}
+{Sun}, X.~H., {Reich}, W., {Han}, J.~L., {Reich}, P., {Wielebinski}, R.,
+  {Wang}, C., \& {M{\"u}ller}, P. 2011, \aap, 527, A74
+
+\bibitem[{{van der Tak} {et~al.}(2007){van der Tak}, {Black}, {Sch{\"o}ier},
+  {Jansen}, \& {van Dishoeck}}]{van-Der-Tak2007a}
+{van der Tak}, F.~F.~S., {Black}, J.~H., {Sch{\"o}ier}, F.~L., {Jansen}, D.~J.,
+  \& {van Dishoeck}, E.~F. 2007, \aap, 468, 627
+
+\end{thebibliography}
