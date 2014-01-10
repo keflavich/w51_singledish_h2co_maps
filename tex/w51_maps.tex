@@ -1,0 +1,440 @@
+\input{preface}
+
+\section{Introduction}
+
+
+\section{Observations \& Data Reduction}
+
+(observations paragraph)
+The W51 survey was completed in September 2011.  
+Data were taken in on-the-fly mode with the GBT Ku-band dual-beam system
+and the Arecibo C-band receiver.  On the GBT, cross-hatched north-south
+and east-west maps were created in Galactic coordinates, while at Arecibo
+only east-west maps were taken.
+
+The data was reduced using custom-made scripts based off of both GBTIDL's mapping
+routines (cite Langston?) and Phil Perillat's AOIDL routines.  The code is available
+at \url{https://github.com/keflavich/gbtpy}.
+
+The individual spectral were calibrated using a noise calibration diode as
+usual.  For the GBT data, the first and last scans of each observation were
+used as off positions, and the background level to be subtracted off of the
+continuum was determined by linearly interpolating between these scans.
+
+The Arecibo data reduction process for W51
+presented unique challenges: at C-band, the entire region surveyed contains
+continuum emission, so no truly suitable `off' position was found within the
+survey data.  Similarly, \formaldehyde is ubiquitous across the region, so it
+was necessary to `mask out' the absorption lines when building an off position.
+This was done by interpolating across the line-containing region with a
+polynomial fit (Figure \ref{fig:h2comask}).  The fits were inspected interactively
+and tuned to avoid over-predicting the background.
+
+\Figure{figures/a2705.20120915.b0s1g0.00000_offspectra.png}
+{An example of the \formaldehyde line masking procedure for building an Off
+spectrum.  The line-containing regions for each polarization are shown in cyan
+and purple, with the interpolated replacement in red and green.
+}{fig:h2comask}{0.4}{0}
+
+The maps were made by computing an output grid in Galactic coordinates with
+15\arcsec pixels and adding each spectrum to the appropriate pixel\footnote{We
+use the term `pixel' to refer to a square data element projected on the sky
+with axes in Galactic coordinates.  The term `voxel' is used to indicate a
+cubic data element, with two axes in galactic coordinates and a third in
+frequency or velocity}.  In order
+to avoid empty pixels and maximize the signal-to-noise, the spectra were added
+to the grid with a weight set from a gaussian with $FWHM=20\arcsec$, which
+effectively smooths the output images from $FWHM\approx50\arcsec$ to
+$\approx54\arcsec$.  
+
+The Arecibo data were taken at a spectral resolution of 0.68 \kms\footnote{For
+most of the map area, data is available at much higher $\lesssim0.2$ \kms
+resolution, but the signal-to-noise at this resolution is relatively poor, no
+linewidths were observed to be that narrow, and most importantly, one Arecibo
+data set suffered from a malfunction that allowed data at 1 \kms resolution to
+be taken, but did not acquire the high-resolution data} and the GBT at 0.25
+\kms resolution.  The spectra were regridded onto a velocity grid from $-50$ to
+150 \kms with 1 \kms resolution.  To achieve this, they were first smoothed by
+a gaussian with $FWHM=1 \kms$ then downsampled appropriately.
+
+\section{The Data}
+
+The main products of the mapping data are PPV cubes in the two \formaldehyde
+lines, the integrated continuum in the 2 and 6 cm bands, and optical depth data
+cubes.  In this section we will describe these data and the systematic errors
+associated with them.  In section XXX we will examine ratio maps and cubes and
+describe the errors associated with them.
+
+\subsection{PPV cubes}
+The PPV cubes were created with units of brightness temperature.  The Arecibo
+cubes have contributions from 15-20 independent spectra in each pixel, though
+this hit rate varies in a systematic striped pattern parallel to the Galactic
+plane.  The small overlap regions between different maps have a significantly
+higher number of samples; these regions constitute a small portion of the map.
+The resulting noise level is RMS $\sim 50-60$ mK except toward the \hii
+regions, where it peaks at about 400 mK.  The continuum is derived by averaging
+line-free channels; its signal-to-noise peaks at $\sim900$.
+
+The GBT data were mapped in an orthogonal grid pattern, so the hit coverage is
+more uniform on small scales, but because of the dual-beam Ku-band system, the
+overall noise levels are much more patchy.  Additionally, the nights with
+better weather yielded a lower noise level.  The noise ranges from $\sim7$ mK
+in the W51 Main region to $\sim 20$ mK in the westmost region.  As with the
+Arecibo data, the \hii region adds noise, but the peak noise towards an \hii
+region is only $\sim 20$ mK.  This difference is becuase the diffuse \hii
+region is fainter at 2 cm.  The signal-to-noise ratio in the continuum peaks at
+$\sim 400$.
+
+\subsection{Continuum Images}
+
+While the noise is nominally quite low, there are significant systematic
+effects visible in the continuum maps.  The continuum zero-point of each GBT
+map was determined by assuming that the first and last scan both observed zero
+continuum and that the sky background can be linearly interpolated between the
+start and end of the observations.  In general, these are good assumptions, but
+they leave in systematic offsets of up to $\lesssim-0.15$ K in the maps, most
+likely because there is a $\sim0.15$ K mostly uniform background.
+
+The Arecibo data appear to have smaller systematic offsets, but they are
+somewhat more visually pronounced because there is much more diffuse emission
+at 6 cm.  The continuum level in the Arecibo data was set to be the 10th
+percentile value of each scan, which is effectively the minimum value across
+each scan but with added robustness against noise-generated false minima.  In
+the eastmost and westmost blocks, this strategy was very effective, as there
+are clearly areas in each scan that see no continuum.  However, in the central
+block, this approach resulted in a vertical negative filament that almost
+certainly represents a local minimum.  This negative filament has values
+$\gtrsim-0.08$ K.  Given the excellent agreement between the three
+independently observed blocks in their overlap regions, it is clear that the
+continuum is reliable above $\gtrsim0.5$ K, which is the entire regime in which
+it is a significant contributor to the total background emission (including the
+CMB).
+
+\FigureTwoAA{figures/continuum_11.pdf}
+          {figures/continuum_22.pdf}
+{Continuum images of the 6 cm Arecibo data (left) and 2 cm GBT data (right)}
+{fig:continuum}{1.0}{6in}
+
+
+\subsubsection{Comparison to GPA data}
+\label{sec:gpacompare}
+The Galactic Plane ``A'' survey \citep{Langston2000a} covered the Galactic
+plane at 14.35 GHz using the NRAO 300 ft telescope, with a reported FWHM beam
+size of 6.6\arcmin.  We compared our GBT continuum observations to theirs in
+order to determine whether a significant DC component is missing from our data.
+Because the GPA used $10\deg$ long scans in Galactic latitude, it should fully
+recover all diffuse Galactic Plane emission.
+
+% this analysis is all done in /Users/adam/work/h2co/maps/W51/ipython_log_2014-01-07.py
+In order to perform the comparison, we first had to correct for an offset
+between the GPA and GBT data.  We used the Image Registration toolkit
+(\url{image-registration.rtfd.org}) to measure the offset between the continuum
+images using a cross-correlation technique.
+The GBT and Arecibo data match to within 4\arcsec, while the GPA data showed
+a 4 arcminute offset in longitude and 1 arcminute in latitude.  We then resampled
+the GPA image onto the GBT grid using cubic spline interpolation, then smoothed
+the GBT data to 8.9\arcmin (instead of 6.6\arcmin; because there were significant
+patterned residuals when smoothing to only 6.6\arcmin, we performed a $\chi^2$ fit
+to determine the best smoothing FWHM).
+
+We then compared the surface brightness in the GPA and GBT data, and found that
+the GPA data was $\sim0.2$ K brighter than the GBT in the W51 Main region and
+about equal to the west.  The morphological agreement between the maps is
+imperfect, perhaps in part because of the small area mapped in our GBT data,
+though there also appears to be vertical (along a line of constant longitude)
+stretching of the W51 main source in the GPA data that is not consistent with
+the GBT observations.
+
+
+\subsection{Optical Depths}
+
+The data cubes were converted into ``optical depth'' data cubes by dividing the
+integrated \formaldehyde absorption signature by the measured continuum level.
+We added a fixed background of 2.73 K to the reduced images to account for the
+CMB, which is absent from the images due to the background-subtraction
+process.
+
+Because of the varying background level, the optical depth cubes have highly
+variable signal-to-noise.  In the Arecibo data, 8044 of 17800 pixels have peak
+optical depths $>5\sigma$, and 14547 have peaks $>3\sigma$, so \formaldehyde
+absorption is detected at $\sim80\%$ of the observed positions.
+
+The GBT \formaldehyde \twotwo data have lower peak signal-to-noise due to lower
+continuum background.  Additionally, the \twotwo line is expected to trace
+denser gas and therefore detected on fewer lines of sight.  The \twotwo line is
+detected with a peak at $>5\sigma$ in 3497 pixels (20\%) and $>3\sigma$ in
+12254 pixels (69\%).  The high detection rate validates \formaldehyde as a
+highly efficient dense-gas tracer.
+
+\subsection{Ratio Cubes}
+In order to use the \formaldehyde ratio to determine densities, we first
+created optical depth ratio cubes.  The data were masked by selecting all
+voxels with signal-to-noise $>2$ in  \emph{both} the \oneone and \twotwo data
+cubes.  To filter out spurious signals, of which many are expected given the
+3.5 million voxels in the data cubes, we filtered the cube with a
+number-of-neighbors filter (i.e., a $3\times3$ kernel with all values of unity
+except the center pixel) and removed all pixels with fewer than 7 neighbors
+with detections.  After filtering, 35039 voxels were left, or $\sim 1\%$ of the
+total.  These are located in 5822 pixels, or 33\% of the 17718 pixels valid in
+both data sets.
+
+Histograms of the data are shown in Figure \ref{fig:datahistograms}.  They
+illustrate the non-gaussian nature of the noise.  The ratio distribution, in
+particular, appears to follow a power-law distribution with a cutoff at low
+ratio.
+
+\Figure{figures/cube_histograms_tau_and_ratio}
+{Histograms of the optical depth data cubes.  In panels (a) and (b),
+a Gaussian distribution with width equal to the median absolute deviation
+is shown for reference; the noise is not well described by a single gaussian
+distribution.  In panel (c), the distribution of the ratios is shown.
+Values of the ratio $\gtrsim15$ are nonphysical, but these are only observed
+in a small fraction of the pixels}
+{fig:datahistograms}{0.4}{0}
+
+
+\subsection{Ratio and Density Cubes}
+The \formaldehyde ratio can be directly transformed into a volume density of
+hydrogen $n(\hh)$ by assuming a fixed abundance of \formaldehyde relative to
+\hh.  Precise measurements of the \formaldehyde abundance are not generally
+available, but typical values of $X_{\ortho} = 10^{-10}-10^{-8}$ relative to
+\hh are generally assumed \citep{Mangum1993a, Ginsburg2011a, Ginsburg2013a,
+Ao2013a} and found to be consistent with the observations.
+
+\Figure{figures/tau_ratio_vs_density_thinlimit_t20_sigma1.pdf}
+{The optical depth ratio as a function of \hh density.  The ratio is shown for
+a range of \formaldehyde abundances as indicated in the legend.
+The gas temperature is assumed to be 20 K, and the \formaldehyde lines
+are assumed to both be optically thin.  The gas is assumed to have a
+lognormal density distribution with width $\sigma=1.0$ \citep[see ][ for
+details]{Ginsburg2013a}, so the X-axis indicates the volume-averaged
+mean \hh density.  This width is typical for turbulence with Mach numbers
+$\mathcal{M}\sim1-4$ \citep{Federrath2008a}.}
+{fig:ratiovsdens}{0.4}{0}
+
+The curves for converting the optical depth ratio to a density are shown in
+Figure \ref{fig:ratiovsdens}.  These curves are generated using RADEX LVG models
+\citep[python wrapper \url{https://github.com/keflavich/pyradex/}; original
+code][]{van-Der-Tak2007a}.  They assume a velocity gradient of 1 \kms \perpc.
+The curves cover the range of plausible \formaldehyde abundances
+\citep{Mangum1993a}.  While there are multiple densities corresponding to a
+given ratio for $r>8$, we ignore densities $n(\hh)<10^2$ \percc as gas at these
+extremely low densities provide negligible optical depth per particle and
+therefore should not be detected.
+
+The upper limit on the observed optical depth ratio indicates a first concern
+with the data: in Figure \ref{fig:datahistograms}, the ratio distribution
+extends smoothly from $\sim15-40$.  These high ratios are excluded by the LVG
+models, but an examination of the data reveals there is nothing uniquely
+problematic about the regions exhibiting high ratios.  While many of the voxels
+are on cloud edges and therefore potentially affect by signal-to-noise issues
+in the \twotwo line, some of the high-ratio regions are contiguous and have
+high signal-to-noise detections in both lines.  The main region affected by
+this systematic issue is the W51 West region, G49.4-0.31.
+
+The data provide no ready explanations for these high ratios.  In order to
+be consistent with the models, either the \oneone optical depth must be
+too high or the \twotwo optical depth too low.  This could occur if the
+6 cm continuum is underestimated or the 2 cm continuum is overestimated.
+The latter possibility is very unlikely, as there are no obvious effects that
+would cause this.  The 6 cm continuum could well be underestimated if there
+is a significant diffuse emission component that is completely subtracted off,
+but this is somewhat implausible.  Comparison to the Sino-German 6 cm continuum
+survey \citep{Sun2011b} .... XXX ....
+As discussed in Section \ref{sec:gpacompare}, systematic continuum errors at 2
+cm are $\lesssim 0.2$ K, or $<10\%$, and therefore too small to account for the
+difference.
+
+The data with `unphysical' optical depth ratios are ignored (i.e., set to NaN)
+when converting the ratio cube to a density cube.
+
+The density distribution across the whole PPV space is shown in Figure
+\ref{fig:ppvdenshist}.  The density distribution
+is reasonably represented by a lognormal with mean $\log(n(\hh))=3.1$ and
+$\sigma=0.5$, but significant bumps at both lower and higher density were
+notable, so we fit a 3-component model as shown in the figure.
+Lognormal distributions are frequently seen in column density plots
+\citep[e.g.]{Kainulainen2011a,Schneider2013a}, and the bump at high density is
+attributed to a power-law tail generated by gravity.  If such a power-law tail
+is present in our PPV density data, it is very subtle, and a set of 3 clouds
+with different mean densities and similar lognormal density distribution widths
+is an equally acceptable statistical representation of the data.
+
+The few points with $n>10^{4.5}$ all have highly uncertain densities; their
+densities are likely indeed higher than $10^{4.5}$ \percc, but they may have
+nearly any value above that limit, since the \formaldehyde ratio plateaus to 1
+above that density.
+
+
+\Figure{figures/cube_histograms_density_ppv.pdf}
+{The density distribution of the PPV cube, following the assumptions outlined
+in Figure \ref{fig:ratiovsdens}, particularly $X(\formaldehyde)=10^{-8.5}$.
+The subplots below show the residuals of the fits to the histograms.
+(left)
+The blue curve shows a composite multi-lognormal fit to the distribution,
+with the three individual components shown in red.
+(right) The red curve shows the best-fit single density component.}
+{fig:ppvdenshist}{0.4}{0}
+
+\subsubsection{Model Uncertainty}
+There is a wide acceptable range of \formaldehyde abundances and \hh density
+distributions to be considered.  Figure \ref{fig:ppvdenshistmulti} shows the
+density distribution derived using two different abundances and two different
+lognormal density distribution widths.  Using a $\sim30\times$ (1.5 dex) lower
+abundance results in a $\sim3\times$ (0.5 dex) higher density, demonstrating
+that our density measurements are fairly robust against even large abundance
+variations.  Changes in the density distribution can have similar effects on
+the inferred mean density; the $\delta$-function distribution shown (which is
+entirely implausible) results in a similar $\sim3\times$ increase in the mean
+density, but a factor of $\sim2$ narrowing in the density distribution.
+
+\Figure{figures/cube_histograms_density_ppv_multimodel.pdf}
+{Density distributions from the PPV density cube as shown in Figure
+\ref{fig:ppvdenshist}, but for different assumptions about the \formaldehyde
+abundance and lognormal density distribution width.  $\sigma=0$ indicates a
+$\delta$-function distribution.}
+{fig:ppvdenshistmulti}{0.4}{0}
+
+
+\subsection{Projections}
+Projections along the velocity axis - peak, sum, or other mathematical
+operations - create simple 2-dimensional images that can be readily compared to
+other data sets and simulations.  Figure \ref{fig:densprojections} shows the
+mean and peak projections along the density data cube.  
+
+One feature of particularly low mean and peak density appears at $\ell=49.5,
+-0.3<b<-0.2$, while another elongated structure at $48.8<\ell<49, b=-0.3$
+exhibits an overall uniform high density.  The W51 Main region
+($\ell=49.5$,$b=-0.4$) also shows relatively high densities towards its center,
+but with evidence of a radial decrease in density to its outskirts.
+
+
+% projection_figures.py
+\FigureTwoAA{figures/density_mean_projection_withhist.pdf}
+            {figures/density_peak_projection_withhist.pdf}
+{Projections of the derived density along with histograms
+showing the density distribution and best-fit lognormal.
+(top) Projected mean density.
+(bottom) Projected peak density.
+Two main high-density regions are evident: W51 Main at 49.5 -0.4 and G48.9-0.3 at 48.9 -0.3.}
+{fig:densprojections}{1.0}{6in}
+
+We also show a projection of the velocity at peak density in each pixel (Figure
+\ref{fig:velopv}).  This figure clearly highlights the 68 \kms cloud as a
+high-density feature throughout the region \citep{Carpenter1998a}.  However,
+there are significant gaps in the molecular gas, notably a $\sim6 pc$ gap
+(assuming $D=5$ kpc) at $\ell=49.1, b=-0.34$.
+
+\FigureTwoAA
+{figures/velocity_at_peak_density.pdf}
+{figures/pvdiagram_max_along_latitude.pdf}
+{(top) The velocity at peak density.
+ (bottom) A position-velocity diagram showing the peak density across latitude
+ at each longitude.
+}
+{fig:velopv}{1.0}{6in}
+
+The position-velocity diagram in Figure \ref{fig:velopv} shows the same general
+feature: the highest velocity gas is the densest.  There appears to be an edge
+of high-density gas tracing the most redshifted velocity at each longitude.
+Given the $\sim100$ pc extent of the cloud and the high-density ridge, it is
+entirely implausible that this structure is caused by any local phenomenon,
+e.g. supernovae or cloud collisions.  Instead, the high-density ridge provides
+evidence for a spiral density wave triggering the high densities.
+
+\section{Structure of the Molecular Clod}
+
+
+
+
+% \subsection{Model Fitting}
+% 
+% These $\tau$ cubes are then fit with the RADEX models used for other
+% \formaldehyde fitting.  However, there are multiple velocity components in W51,
+% so I used a two-component (unconstrained) fit for each pixel, which is
+% frequently unstable but in the case of W51 looks to have produced reasonable
+% results.  Note that there was \emph{no} \formaldehyde emission detected anywhere
+% in the W51 region.
+% 
+% A first interesting note is that a local cloud at $v_{lsr}\sim5 \kms$ is
+% detected in \formaldehyde \oneone across most of the cloud and not detected at
+% \twotwo, with $\tau_{\oneone}/\tau_{\twotwo} \gtrsim 3$, implying a
+% very low column
+% $N_{\formaldehyde}\sim10^{11.5}$ or $N_{\hh} \sim 10^{20.5}$.  
+% The cloud is seen in \thirteenco as a very weak, diffuse feature, and in HI absorption
+% as a very sharp, deep (self)-absorption feature.
+% % This density measurement
+% % is consistent with observations from \citet{Ginsburg2011} of high density in
+% % GMCs.  However, GMCs are generally thought of as being low-density clouds, so
+% % this result may be surprising.
+% 
+% %FIGURE: mcmc column vs density 
+% 
+% I successfully made density maps of the W51 cloud, though because the velocity
+% structure is quite complicated, it was necessary to fit two components to most of the
+% map.  Two-component fits are never particularly stable, so it was necessary to
+% restrict the parameters being fitted, and even then the results aren't
+% perfectly reliable.  Despite those caveats, there are some reliable fits,
+% particularly towards the `core' of W51 Main / W51 IRS 2.  There are two
+% high-density components with $n\sim10^5-10^{5.5}$ \percc at different velocities evident
+% in Figure \ref{fig:w51h2cofits}.  The southern component, centered on W51 Main,
+% has $v_{LSR}\sim56-59$.  The northern component, a strip going through IRS 2
+% and towards the west, peaks around $v_{LSR}\sim68-69$ \kms.  A 10 \kms difference
+% between two extremely dense components, both which are necessarily in the
+% foreground of the HII region, is shocking (probably, anyway, unless the sound
+% speed is very high).
+% 
+% 
+% \FigureTwo{figures/W51_H2CO_2parfit_v1_densityvelocity.png}
+% {figures/W51_H2CO_2parfit_v2_densityvelocity.png}
+% {Density and velocity fits to the W51 Arecibo and GBT \formaldehyde 
+% data cubes.  The yellow regions in the top panel correspond to \oneone
+% detections and \twotwo nondetections, indicating upper limits $n<10^{3.8}$
+% (68\% confidence) or $n<10^{4.3}$ (99.7\% confidence).}
+% {fig:w51h2cofits}{1}
+% 
+% There is a large area where \oneone was detected, but \twotwo was not.  Our
+% sensitivity allows us to place a modest upper limit on the gas density, with
+% $3-\sigma$ upper limits $\lesssim10^{4.3}$ \percc (but the most likely
+% densities are $10^2 < n < 10^4$ \percc).  Figure \ref{fig:w51MCMCcompare} shows
+% a particular model for a spectrum that is especially unconstrained.  The
+% \oneone/\twotwo optical depth ratio in this object is $\sim10-20$, indicating that
+% the volume density must be low.
+% 
+% \FigureTwo{figures/MCMC_DensColplot_67_64.png}{figures/spec67_64_bestfit_MCMC.png}
+% {Plots demonstrating upper limit fits.  The left plot shows the allowed
+% parameter space from MCMC sampling of the data given the RADEX model.  The
+% right plot shows the `best-fit' model to the optical depth spectra, which is
+% clearly unconstrained by the relatively insensitive \twotwo\ spectrum.  The
+% sensitivity in the \oneone line is better in large part because of brighter 6
+% cm background across the whole W51 region.  Despite the lack of constraint on the
+% volume density, there is a reasonably strong constraint on the column density.}
+% {fig:w51MCMCcompare}{1}
+% 
+% The molecular gas is concentrated near, but not exactly on, the bright cm
+% peaks.  W51 IRS2 has a massive clump of gas at 65 \kms, and W51 e2 has a
+% similar clump.  However, e2 also seems to have a very dense ($n>10^5 \percc$)
+% infalling clump.  The spectra, along with multicomponent fits, are shown in
+% Figure \ref{fig:w51hiispectra}.
+% 
+% \FigureTwo{figures/W51_bestfit_spec53_49_IRS2.png}{figures/W51_bestfit_spec53_49_W51e2.png}
+% {Plots of the optical depth spectra centered on W51 IRS2 (left) and W51 e2, an
+% ultracompact HII region (right).  IRS2 shows high-density gas with a slight
+% hint of infall, but otherwise a somewhat vanilla spectrum.  W51e2 has a large,
+% high-density red shoulder, indicating high-density gas at the most red velocity
+% in the system.  Because this is foreground gas, that high-density gas
+% \emph{must} be moving towards the \uchii region.}
+% {fig:w51hiispectra}{1}
+
+\appendix{A complete record of the data}
+In the interest of reproducibility, we include a complete code suite detailing
+all of the steps from raw data to final reduced product.
+
+The Arecibo data was first processed using the aoIDL package by Phil Perillat.
+
+Dependencies:
+aoIDL \url{http://www.naic.edu/~phil/download/aoIdl.tar.gz}
+
+\input{solobib}
+\end{document}
+
