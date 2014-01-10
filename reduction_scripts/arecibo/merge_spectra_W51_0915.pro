@@ -1,3 +1,4 @@
+@aoinit
 .r reduce_session
 .r reduce_map
 ;82-126
