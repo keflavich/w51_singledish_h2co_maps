@@ -1,5 +1,18 @@
 """
 Note to self: Write more notes to self about creation dates.
+As of January 15, 2014, I think THIS is the right calibration code to use, not
+the other stuff I had been using... implication is that I haven't recalibrated
+since MAYBE making some important changes?  But probably not?
+
+Creation dates:
+    H2CO:
+    -rw-r--r--  1 adam  staff    54M Mar 25  2013 Session14_167to198_C25_F2.fits
+    H77a:
+    -rw-r--r--  1 adam  staff    54M Jun 13  2011 Session16_74to105_D33_F2.fits
+
+So it's pretty clear these need to be rerun for the H77a data, though the only major
+change seems to be related to tsys flagging
+http://code.google.com/p/casaradio/source/diff?path=/branches/python/ginsburg/makecube.py&format=side&r=80#cc_svn80_415
 """
 try:
     import astropy.io.fits as pyfits
@@ -120,19 +133,19 @@ if __name__ == "__main__":
     for ifnum in [3,2,0,1]:
         for sessionnumber in tau.keys():
             print "Session %i IF %i: " % (sessionnumber,ifnum)
-            timer.print_timing(calibrate_session('/Users/adam/observations/gbt/AGBT10B_019_%i/AGBT10B_019_%i.raw.acs.fits' % (sessionnumber,sessionnumber),
+            calibrate_session('/Users/adam/observations/gbt/AGBT10B_019_%i/AGBT10B_019_%i.raw.acs.fits' % (sessionnumber,sessionnumber),
                     mapnames[sessionnumber], ifnum=ifnum, tau=tau[sessionnumber],
-                    sessionnumber=sessionnumber, refscans_list=refpairs[sessionnumber]))
+                    sessionnumber=sessionnumber, refscans_list=refpairs[sessionnumber])
 
-        timer.print_timing(calibrate_session('/Users/adam/observations/gbt/AGBT10B_019_22/AGBT10B_019_22.raw.acs.fits',
+        calibrate_session('/Users/adam/observations/gbt/AGBT10B_019_22/AGBT10B_019_22.raw.acs.fits',
                 ["W51"], ifnum=ifnum,scanranges=[[184,206]],
                 refscans_list=[[183,188,193,198,203]],
                 sourcenames=["W51WestExtension"],
-                obsmodes=["DecLatMap"]))
+                obsmodes=["DecLatMap"])
 
-        timer.print_timing(calibrate_session('/Users/adam/observations/gbt/AGBT10B_019_17/AGBT10B_019_17_secondhalf.raw.acs.fits',
+        calibrate_session('/Users/adam/observations/gbt/AGBT10B_019_17/AGBT10B_019_17_secondhalf.raw.acs.fits',
                 ["W51"], ifnum=ifnum,scanranges=[[112,185]],
                 sessionnumber=17,
                 refscans_list=[[111,116,121,126,131,136,141,146,151,156,161,166,171,176,181,186]],
                 sourcenames=["W51WestExtension"],
-                obsmodes=["DecLatMap"]))
+                obsmodes=["DecLatMap"])

@@ -16,7 +16,7 @@ filelist = [
     "Session11_158to189_A13_F1.fits",
     "Session11_158to189_A9_F1.fits",
     "Session11_158to189_C25_F2.fits",
-    "Session11_158to189_C29_F2.fits",
+    #"Session11_158to189_C29_F2.fits", # Blurred (triples)!
     "Session11_21to52_A13_F1.fits",
     "Session11_21to52_A9_F1.fits",
     "Session11_21to52_C25_F2.fits",
@@ -27,7 +27,7 @@ filelist = [
     "Session11_53to78_C29_F2.fits",
     "Session11_89to120_A13_F1.fits",
     "Session11_89to120_A9_F1.fits",
-    "Session11_89to120_C25_F2.fits",
+    #"Session11_89to120_C25_F2.fits",  Blurred in the top half
     "Session11_89to120_C29_F2.fits",
     "Session14_12to43_A13_F1.fits",
     "Session14_12to43_A9_F1.fits",
@@ -44,7 +44,7 @@ filelist = [
     "Session14_44to75_A13_F1.fits",
     "Session14_44to75_A9_F1.fits",
     "Session14_44to75_C25_F2.fits",
-    "Session14_44to75_C29_F2.fits",
+    #"Session14_44to75_C29_F2.fits", Blurred (triples)
     "Session14_81to96_A13_F1.fits",
     "Session14_81to96_A9_F1.fits",
     "Session14_81to96_C25_F2.fits",
@@ -75,7 +75,7 @@ filelist = [
     "Session17_42to73_C29_F2.fits",
     "Session17_110to186_A13_F1.fits",
     "Session17_110to186_A9_F1.fits",
-    "Session17_110to186_C25_F2.fits",
+    #"Session17_110to186_C25_F2.fits", Blurred
     "Session17_110to186_C29_F2.fits",
 ]
 filelist2=[
