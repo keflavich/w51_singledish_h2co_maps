@@ -1,7 +1,7 @@
 
 from pylab import *
 import numpy,matplotlib;
-from gbtpy import makecube
+from gbtpy import makecube,calibrate_map_scans
 
 tau = (0.0121710+0.0117295)/2.0
 refpairs = [[8,23],[24,34],[35,56],[57,77],[78,96],[97,111]]
@@ -32,19 +32,19 @@ savefig('/Users/adam/observations/gbt/AGBT10B_019_21/AGBT10B_019_21_continuum.pn
 for (ref1,ref2),mapname in zip(refpairs,mapnames):
     scanrange = [ref1+1,ref2-1]
     outpath = '/Users/adam/observations/gbt/%smap/' % mapname
-    makecube.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_21/AGBT10B_019_21.raw.acs.fits',
+    calibrate_map_scans.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_21/AGBT10B_019_21.raw.acs.fits',
         outpath+'Session21_%ito%i_A13_F1.fits' %
         (ref1,ref2),scanrange=scanrange,refscan1=ref1,refscan2=ref2, feednum=1,
         sampler='A13', filepyfits=filepyfits, datapfits=datapfits, tau=tau, dataarr=dataarr)
-    makecube.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_21/AGBT10B_019_21.raw.acs.fits',
+    calibrate_map_scans.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_21/AGBT10B_019_21.raw.acs.fits',
         outpath+'Session21_%ito%i_A9_F1.fits' %
         (ref1,ref2),scanrange=scanrange,refscan1=ref1,refscan2=ref2, feednum=1,
         sampler='A9', filepyfits=filepyfits, datapfits=datapfits, tau=tau, dataarr=dataarr)
-    makecube.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_21/AGBT10B_019_21.raw.acs.fits',
+    calibrate_map_scans.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_21/AGBT10B_019_21.raw.acs.fits',
         outpath+'Session21_%ito%i_C25_F2.fits' %
         (ref1,ref2),scanrange=scanrange,refscan1=ref1,refscan2=ref2, feednum=2,
         sampler='C25', filepyfits=filepyfits, datapfits=datapfits, tau=tau, dataarr=dataarr)
-    makecube.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_21/AGBT10B_019_21.raw.acs.fits',
+    calibrate_map_scans.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_21/AGBT10B_019_21.raw.acs.fits',
         outpath+'Session21_%ito%i_C29_F2.fits' %
         (ref1,ref2),scanrange=scanrange,refscan1=ref1,refscan2=ref2, feednum=2,
         sampler='C29', filepyfits=filepyfits, datapfits=datapfits, tau=tau, dataarr=dataarr)

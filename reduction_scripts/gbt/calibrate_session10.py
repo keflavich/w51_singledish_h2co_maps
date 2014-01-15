@@ -1,6 +1,6 @@
 from pylab import *
 import numpy,matplotlib;
-from gbtpy import makecube
+from gbtpy import makecube,calibrate_map_scans
 
 tau = 0.02
 # 8 - 26 are cals
@@ -33,19 +33,19 @@ savefig('/Users/adam/observations/gbt/AGBT10B_019_10/AGBT10B_019_10_continuum.pn
 for (ref1,ref2),mapname in zip(refpairs,mapnames):
     scanrange = [ref1+1,ref2-1]
     outpath = '/Users/adam/observations/gbt/%smap/' % mapname
-    makecube.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_10/AGBT10B_019_10.raw.acs.fits',
+    calibrate_map_scans.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_10/AGBT10B_019_10.raw.acs.fits',
         outpath+'Session10_%ito%i_A13_F1.fits' %
         (ref1,ref2),scanrange=scanrange,refscan1=ref1,refscan2=ref2, feednum=1,
         sampler='A13', filepyfits=filepyfits, datapfits=datapfits, tau=tau, dataarr=dataarr)
-    makecube.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_10/AGBT10B_019_10.raw.acs.fits',
+    calibrate_map_scans.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_10/AGBT10B_019_10.raw.acs.fits',
         outpath+'Session10_%ito%i_A9_F1.fits' %
         (ref1,ref2),scanrange=scanrange,refscan1=ref1,refscan2=ref2, feednum=1,
         sampler='A9', filepyfits=filepyfits, datapfits=datapfits, tau=tau, dataarr=dataarr)
-    makecube.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_10/AGBT10B_019_10.raw.acs.fits',
+    calibrate_map_scans.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_10/AGBT10B_019_10.raw.acs.fits',
         outpath+'Session10_%ito%i_C25_F2.fits' %
         (ref1,ref2),scanrange=scanrange,refscan1=ref1,refscan2=ref2, feednum=2,
         sampler='C25', filepyfits=filepyfits, datapfits=datapfits, tau=tau, dataarr=dataarr)
-    makecube.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_10/AGBT10B_019_10.raw.acs.fits',
+    calibrate_map_scans.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_10/AGBT10B_019_10.raw.acs.fits',
         outpath+'Session10_%ito%i_C29_F2.fits' %
         (ref1,ref2),scanrange=scanrange,refscan1=ref1,refscan2=ref2, feednum=2,
         sampler='C29', filepyfits=filepyfits, datapfits=datapfits, tau=tau, dataarr=dataarr)

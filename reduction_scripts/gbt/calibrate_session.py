@@ -1,3 +1,6 @@
+"""
+Note to self: Write more notes to self about creation dates.
+"""
 try:
     import astropy.io.fits as pyfits
 except ImportError:
@@ -6,7 +9,7 @@ from pylab import *
 import numpy,matplotlib;
 import sys
 import os
-from gbtpy import makecube
+from gbtpy import makecube,calibrate_map_scans
 import timer
 
 samplers = {
@@ -64,7 +67,7 @@ def calibrate_session(filename, mapnames, ifnum=0,
         outpath = '%s%smap/' % (gbtpath,mapname)
         ref1,ref2 = min(refscans),max(refscans)
         for sampler,feednum in zip(samplers[ifnum],feeds[ifnum]):
-            makecube.calibrate_cube_data(filename,
+            calibrate_map_scans.calibrate_cube_data(filename,
                     outpath+'Session%i_%ito%i_%s_F%i.fits' %
                     (sessionnumber,ref1,ref2,sampler,feednum),
                     scanrange=scanrange, feednum=feednum, sampler=sampler,

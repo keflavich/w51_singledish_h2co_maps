@@ -35,6 +35,10 @@ usual.  For the GBT data, the first and last scans of each observation were
 used as off positions, and the background level to be subtracted off of the
 continuum was determined by linearly interpolating between these scans.
 
+The GBT data infrequently exhibited major data artifacts; a key phase of the
+reduction process was excising bad observations, which were usually isolated to
+a single component of the backend.
+
 The Arecibo data reduction process for W51
 presented unique challenges: at C-band, the entire region surveyed contains
 continuum emission, so no truly suitable `off' position was found within the
@@ -70,6 +74,17 @@ be taken, but did not acquire the high-resolution data} and the GBT at 0.25
 \kms resolution.  The spectra were regridded onto a velocity grid from $-50$ to
 150 \kms with 1 \kms resolution.  To achieve this, they were first smoothed by
 a gaussian with $FWHM=1 \kms$ then downsampled appropriately.
+
+The Arecibo data were corrected to main beam brightness temperature $T_{MB}$
+using a main-beam efficiency $\eta_{MB} = 0.491544 + 0.00580397 za -
+0.000341992 za^2$, which is a fit to 5 years worth of calibration data acquired
+at Arecibo and assembled by Phil Perrilat.
+
+The Green Bank data have a main beam efficiency $\eta_{MB} = 0.886$, or a gain
+of 1.98 K/Jy assuming a 51 \arcsec beam \citep[see][for additional
+discussion]{Mangum2013a}.  The GBT data were also corrected for atmospheric
+opacity with a typical zenith optical depth $\tau_{z}\approx0.02$, so this
+correction was never more than $\sim5\%$.
 
 \section{The Data}
 
@@ -125,40 +140,87 @@ it is a significant contributor to the total background emission (including the
 CMB).
 
 \FigureTwoAA{figures/continuum_11.pdf}
-          {figures/continuum_22.pdf}
+            {figures/continuum_22.pdf}
 {Continuum images of the 6 cm Arecibo data (left) and 2 cm GBT data (right)}
 {fig:continuum}{1.0}{6in}
 
 
-\subsubsection{Comparison to GPA data}
+\subsubsection{Comparison between GBT and GPA data}
 \label{sec:gpacompare}
 The Galactic Plane ``A'' survey \citep{Langston2000a} covered the Galactic
 plane at 14.35 GHz using the NRAO 300 ft telescope, with a reported FWHM beam
 size of 6.6\arcmin.  We compared our GBT continuum observations to theirs in
 order to determine whether a significant DC component is missing from our data.
 Because the GPA used $10\deg$ long scans in Galactic latitude, it should fully
-recover all diffuse Galactic Plane emission.
+recover all diffuse Galactic Plane emission.  In the released brightness temperature
+maps, brightness down to a scale of $1.5\deg$ is recovered.  However, because the
+5 \arcmin steps between scans is smaller than the 14.35 GHz beam, point source fluxes
+in the GPA are underestimated by 19\%.
 
 % this analysis is all done in /Users/adam/work/h2co/maps/W51/ipython_log_2014-01-07.py
+% then in contcompare_dc_2cm.py
 In order to perform the comparison, we first had to correct for an offset
 between the GPA and GBT data.  We used the Image Registration toolkit
-(\url{image-registration.rtfd.org}) to measure the offset between the continuum
+(\url{http://image-registration.rtfd.org}) to measure the offset between the continuum
 images using a cross-correlation technique.
 The GBT and Arecibo data match to within 4\arcsec, while the GPA data showed
-a 4 arcminute offset in longitude and 1 arcminute in latitude.  We then resampled
+a 4\arcmin offset in longitude and 1\arcmin in latitude.  We then resampled
 the GPA image onto the GBT grid using cubic spline interpolation, then smoothed
-the GBT data to 8.9\arcmin (instead of 6.6\arcmin; because there were significant
-patterned residuals when smoothing to only 6.6\arcmin, we performed a $\chi^2$ fit
-to determine the best smoothing FWHM).
+both data sets to 9.5\arcmin to account for image artifacts (particularly
+vertical streaking) in the GPA data.
 
-We then compared the surface brightness in the GPA and GBT data, and found that
-the GPA data was $\sim0.2$ K brighter than the GBT in the W51 Main region and
-about equal to the west.  The morphological agreement between the maps is
-imperfect, perhaps in part because of the small area mapped in our GBT data,
-though there also appears to be vertical (along a line of constant longitude)
-stretching of the W51 main source in the GPA data that is not consistent with
-the GBT observations.
+We compared the surface brightness in the GPA and GBT data, and found that
+the GPA data was $\sim0.2$ K brighter than the GBT in the diffuse portion of
+the W51 Main region; the offset is not consistent with a purely multiplicative
+offset (Figure \ref{fig:2cmcompare}).  The GBT observed the W51 Main peak to be moderately brighter,
+which is likely a result of the sparse sampling in the GPA.  The morphological
+agreement between the maps is imperfect, perhaps in part because of the small
+area mapped in our GBT data, though there also appears to be vertical (along a
+line of constant longitude) stretching of the W51 main source in the unsmoothed
+GPA data that is not consistent with the GBT observations.
 
+\Figure{figures/comparison_to_gpa.pdf}
+{Comparison between the GBT and NRAO 300 ft \citep{Langston2000a} data.
+(top left) NRAO 300 ft 2 cm map
+(top right) Arecibo 6 cm map of the same region smoothed to about 8.9\arcmin. 
+The colorbar applies to both figures,
+showing brightness temperature units in K.  The red contours in both figures
+show the region observed by Green Bank; flux outside of those boundaries is
+extrapolated.  The green contours show the region where $T_B$(GBT)$>T_B$(300 ft).
+(bottom) Plot of the GBT vs the 300 ft surface brightness measurements.
+The large red dots show the region within the red contours, while the small
+blue dots show the extrapolated points.  
+}
+{fig:2cmcompare}{0.5}{0}
+
+\subsubsection{Comparison between Arecibo and Urumqi data}
+We compare the 6 cm continuum to the Urumqi 25m data from \citet{Sun2007a} and
+\citet{Sun2011a}.  Figure \ref{fig:6cmcompare} shows the comparison of the
+Urumqi data and the Arecibo continuum data smoothed to 9.5\arcmin resolution.
+The agreement is excellent.
+
+
+\Figure{figures/comparison_to_urumqi_6cm.pdf}
+{Comparison between the Arecibo and Urumqi 25m \citep{Sun2011b} data.
+(top left) Urumqi 6 cm map of the W51 region.
+(top right) Arecibo 6 cm map of the same region smoothed to the 9.5\arcmin
+resolution of the Urumqi data set.  The colorbar applies to both figures,
+showing brightness temperature units in K.  The red contours in both figures
+show the region observed by Arecibo; flux outside of those boundaries is
+extrapolated.
+(bottom) Plot of the Arecibo vs the Urumqi surface brightness measurements.
+The large red dots show the region within the red contours, while the small
+blue dots show the extrapolated points.  The dashed gray line is the one-to-one
+line.
+}
+{fig:6cmcompare}{0.5}{0}
+
+
+\subsubsection{Comparison of GBT and Arecibo data}
+In order to compare the Green Bank and Arecibo continuum data, we converted
+the brightness temperature maps to Janskys assuming a beam FWHM of 50\arcsec
+for both surveys and central frequencies of 4.8 and 14.5 GHz for Arecibo and
+Green Bank respectively.
 
 \subsection{Optical Depths}
 
@@ -254,7 +316,9 @@ The latter possibility is very unlikely, as there are no obvious effects that
 would cause this.  The 6 cm continuum could well be underestimated if there
 is a significant diffuse emission component that is completely subtracted off,
 but this is somewhat implausible.  Comparison to the Sino-German 6 cm continuum
-survey \citep{Sun2011b} .... XXX ....
+survey \citep{Sun2007a,Sun2011b} reveals excellent agreement with our data at
+all flux levels (see Figure \ref{fig:6cmcompare}); if anything, the 6 cm
+Arecibo data may slightly overestimate the continuum.
 As discussed in Section \ref{sec:gpacompare}, systematic continuum errors at 2
 cm are $\lesssim 0.2$ K, or $<10\%$, and therefore too small to account for the
 difference.
@@ -357,7 +421,36 @@ e.g. supernovae or cloud collisions.  Instead, the high-density ridge provides
 evidence for a spiral density wave triggering the high densities.
 
 \section{Structure of the Molecular Clod}
+We now examine a few regions in more detail (right?)
 
+\subsection{Infrared Dark Cloud G49.47-0.27}
+The cloud to the north of W51 Main/IRS2 appears as a dark feature in Spitzer
+GLIMPSE 8 \um maps.  It is detected in \formaldehyde from 54 to 64
+\kms.  Throughout, it has a high \oneone/\twotwo ratio, $\gtrsim7$ in
+most voxels, indicating a low density $n\lesssim10^3$ \percc.  The \oneone
+optical depth is high, up to $\sim1/3$, so if there is any clumping, the gas
+may be optically thick, which would imply that our density measurement is an
+overestimate.
+
+Centered at 60.6 \kms, the region has a line FWHM 5 - 7 \kms, indicating that
+it is quite turbulent, with 3D Mach number in the range $10 < \mathcal{M} < 20$
+for an assumed $10 < T < 20$ K.  At its centroid velocity, it is connected
+to the rest of the W51 GMC.
+
+There is a bubble HII region in the north part of this cloud, at G49.470-0.255,
+with radius $0.016\deg$ (1.5 pc).  The \hii region is at a $v_{lsr}=50$\kms.
+Because it is not detected in Brackett $\gamma$ emission (Bally et al?
+UKIDSS?), it is most likely behind the cloud.
+
+The \citet{Kang2009a} Spitzer survey of YSOs in the region indicates that there
+are no YSOs within the boundaries of this cloud; it is very likely
+non-star-forming at present.
+
+\subsection{HII region G49.37-0.30, AKA W51 West}
+W51 West is a busy and luminous \hii region; it is the second-brightest radio
+and millimeter continuum source in our survey after the W51 Main/IRS2 region.
+As noted in \citet{Carpenter1998a}, its velocity ($v_{LSR}\sim 50\kms$ XXX) 
+may indicate that the cloud is unassociated with the W51 Main GMC.
 
 
 
@@ -440,7 +533,12 @@ evidence for a spiral density wave triggering the high densities.
 % \emph{must} be moving towards the \uchii region.}
 % {fig:w51hiispectra}{1}
 
-\appendix{A complete record of the data}
+\textbf{Acknowledgements}:
+We thank Xiaohui Sun for providing the Urumqi 6 cm Stokes I image prior to its
+availability on the survey website.
+
+\appendix
+\section{A complete record of the data}
 In the interest of reproducibility, we include a complete code suite detailing
 all of the steps from raw data to final reduced product.  If one acquires all
 of the raw data from both Arecibo and GBT, the data and derivative products
@@ -461,11 +559,13 @@ alternative, but at the time these data were taken, it was not quite mature
 enough for use with our Ku-band data.  The custom-made scripts also provided
 needed flexibility for comparing the GBT and Arecibo data.
 
+
 Dependencies:
 \begin{itemize}
     \item aoIDL \url{http://www.naic.edu/~phil/download/aoIdl.tar.gz}
     \item gbtpy \url{https://github.com/keflavich/gbtpy}
 \end{itemize}
+
 
 \input{solobib}
 \end{document}

@@ -87,6 +87,8 @@ for line in bsgs:
             try:
                 makecube.add_file_to_cube(fn,
                                           cubename+'.fits',
+                                          add_with_kernel=True,
+                                          kernel_fwhm=20./3600.,
                                           nhits=cubename+'_nhits.fits',
                                           velocityrange=velocityrange,
                                           excludefitrange=[vmin,vmax],

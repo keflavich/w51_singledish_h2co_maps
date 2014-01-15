@@ -23,5 +23,4 @@ The various `merge` scripts do all the hard reduction work.  Run them with the i
 
 Creating the Maps
 -----------------
-
-
+Run `makecube_W51.py` and `makecube_W51_6cmRRLs.py` to create the H2CO and RRL data cubes.

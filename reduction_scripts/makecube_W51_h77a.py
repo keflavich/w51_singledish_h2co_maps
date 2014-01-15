@@ -297,7 +297,8 @@ for fn in filelist+filelist2:
                               kernel_fwhm=20./3600.,
                               nhits=cubename_supersampled+"_nhits.fits", wcstype='V',
                               diagnostic_plot_name=fullfn.replace('.fits','_data_scrubbed.png'),
-                              velocityrange=velocityrange,excludefitrange=[-15,30],noisecut=1.0)
+                              velocityrange=velocityrange,excludefitrange=[-15,30],noisecut=np.inf)
+                              # noisecut was probably a bad idea: it cut SIGNAL  
                               # more aggressive noisecut
 
 makecube.runscript(cubename_supersampled)

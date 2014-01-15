@@ -1,7 +1,7 @@
 
 from pylab import *
 import numpy,matplotlib;
-from gbtpy import makecube
+from gbtpy import makecube,calibrate_map_scans
 
 tau = (0.0211061 + 0.0259094)/2.0
 
@@ -33,19 +33,19 @@ outpath = '/Users/adam/observations/gbt/G34map/'
 
 for (ref1,ref2) in refpairs:
     scanrange = [ref1+1,ref2-1]
-    makecube.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_20/AGBT10B_019_20.raw.acs.fits.backup',
+    calibrate_map_scans.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_20/AGBT10B_019_20.raw.acs.fits.backup',
         outpath+'Session20_%ito%i_A13_F1.fits' %
         (ref1,ref2),scanrange=scanrange,refscan1=ref1,refscan2=ref2, feednum=1,
         sampler='A13', filepyfits=filepyfits, datapfits=datapfits, tau=tau, dataarr=dataarr)
-    makecube.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_20/AGBT10B_019_20.raw.acs.fits.backup',
+    calibrate_map_scans.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_20/AGBT10B_019_20.raw.acs.fits.backup',
         outpath+'Session20_%ito%i_A9_F1.fits' %
         (ref1,ref2),scanrange=scanrange,refscan1=ref1,refscan2=ref2, feednum=1,
         sampler='A9', filepyfits=filepyfits, datapfits=datapfits, tau=tau, dataarr=dataarr)
-    makecube.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_20/AGBT10B_019_20.raw.acs.fits.backup',
+    calibrate_map_scans.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_20/AGBT10B_019_20.raw.acs.fits.backup',
         outpath+'Session20_%ito%i_C25_F2.fits' %
         (ref1,ref2),scanrange=scanrange,refscan1=ref1,refscan2=ref2, feednum=2,
         sampler='C25', filepyfits=filepyfits, datapfits=datapfits, tau=tau, dataarr=dataarr)
-    makecube.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_20/AGBT10B_019_20.raw.acs.fits.backup',
+    calibrate_map_scans.calibrate_cube_data('/Users/adam/observations/gbt/AGBT10B_019_20/AGBT10B_019_20.raw.acs.fits.backup',
         outpath+'Session20_%ito%i_C29_F2.fits' % (ref1,ref2),
         scanrange=scanrange,refscan1=ref1,refscan2=ref2, feednum=2,
         sampler='C29', filepyfits=filepyfits, datapfits=datapfits, tau=tau, dataarr=dataarr)
