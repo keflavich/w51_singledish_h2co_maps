@@ -16,11 +16,11 @@ filelist = [
     "Session11_158to189_A13_F1.fits",
     "Session11_158to189_A9_F1.fits",
     "Session11_158to189_C25_F2.fits",
-    #"Session11_158to189_C29_F2.fits", # Blurred (triples)!
+    #"Session11_158to189_C29_F2.fits", # Blurred (triples)!   Could these be issues in the FITS packing?
     "Session11_21to52_A13_F1.fits",
     "Session11_21to52_A9_F1.fits",
-    "Session11_21to52_C25_F2.fits",
-    "Session11_21to52_C29_F2.fits",
+    "Session11_21to52_C25_F2.fits", # small blur jump (not worth discarding?)
+    "Session11_21to52_C29_F2.fits", # Major TSYS dip?
     "Session11_53to78_A13_F1.fits",
     "Session11_53to78_A9_F1.fits",
     "Session11_53to78_C25_F2.fits",
