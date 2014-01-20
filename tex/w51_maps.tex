@@ -220,7 +220,42 @@ line.
 In order to compare the Green Bank and Arecibo continuum data, we converted
 the brightness temperature maps to Janskys assuming a beam FWHM of 50\arcsec
 for both surveys and central frequencies of 4.8 and 14.5 GHz for Arecibo and
-Green Bank respectively.
+Green Bank respectively, however in this section they are referred to as $S_{5
+GHz}$ and $S_{15 GHz}$ for brevity.
+
+The data are well-correlated, with $S_{5 GHz} \sim 1.1 S_{15 GHz}$ (Figure
+\ref{fig:gbtaocompare}), consistent with a spectral index $\alpha_\nu=-0.1$
+typical of optically thin brehmsstrahlung.
+However, in Figure \ref{fig:contrrlcompare}a, a great deal of structure in the
+$S_{15 GHz}/S_{5 GHz}$ ratio is evident in the vicinity of W51 Main: the ratio
+is higher towards the continuum peaks, indicating that the peaks have higher
+free-free optical depths than their envelopes.
+
+We additionally compare the radio recombination lines observed simultaneously
+with the continuum and \formaldehyde.  Hydrogen RRLs are often extremely
+well-correlated with the continuum and are therefore good indicators of the
+calibration quality.
+
+In Figure \ref{fig:contrrlcompare}, we show the ratios between the two
+frequencies in RRLs and continuum and the line-to-continuum ratios at both
+frequencies.  The `line' values are the integrated flux densities over the
+range 20 to 100 \kms, which includes all H$\alpha$ emission but no He$\alpha$.
+
+% TODO: re-create h112alpha cube: likely problem with bg subtraction at 20 km/s
+XXXX continue from here XXXX
+
+
+\Figure{figures/continuum_rrl_comparisongrid.pdf}
+{Plots of the 5 GHz and 15 GHz }
+{fig:gbtaocontcompare}{0.5}{0}
+
+\FigureFour
+{figures/ratiomap_cont_c2cmtc6cm}
+{figures/ratiomap_cont_h112lc}
+{figures/ratiomap_cont_h77lc}
+{figures/ratiomap_cont_h77th112}
+{...}
+{fig:contrrlcompare}
 
 \subsection{Optical Depths}
 

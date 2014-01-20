@@ -25,7 +25,7 @@ filelist = [
 "Session11_158to189_B17_F1.fits",
 "Session11_158to189_B21_F1.fits",
 "Session11_158to189_D33_F2.fits",
-"Session11_158to189_D37_F2.fits",
+#"Session11_158to189_D37_F2.fits",
 "Session11_21to52_B17_F1.fits",
 "Session11_21to52_B21_F1.fits",
 "Session11_21to52_D33_F2.fits",
@@ -143,11 +143,11 @@ for fn in filelist+filelist2:
                               nhits=cubename_supersampled+"_nhits.fits", 
                               wcstype='V',
                               diagnostic_plot_name=fullfn.replace('.fits','_data_scrubbed.png'),
-                              velocityrange=velocityrange,excludefitrange=[-15,30],noisecut=50,
+                              velocityrange=velocityrange,excludefitrange=[20,100],noisecut=50,
                               continuum_prefix=cubename_supersampled+fn.replace(".fits",''),
                               negative_mean_cut=-1)
                               # noisecut was probably a bad idea: it cut SIGNAL  
                               # more aggressive noisecut
 
 makecube.runscript(cubename_supersampled)
-makecube.make_flats(cubename_supersampled,vrange=[30,90],noisevrange=[-15,30])
+makecube.make_flats(cubename_supersampled,vrange=[20,100],noisevrange=[-15,20])

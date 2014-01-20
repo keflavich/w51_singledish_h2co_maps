@@ -109,7 +109,7 @@ for line in bsgs:
     #        fn = fn.replace(".fits","_fixed.fits")
 
 
-    flat_vrange = [30,90]
+    flat_vrange = [20,100]
 
     if os.path.exists(cubename+".fits"):
         makecube.runscript(cubename)
