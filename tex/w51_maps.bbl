@@ -1,4 +1,4 @@
-\begin{thebibliography}{11}
+\begin{thebibliography}{15}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{{Ao} {et~al.}(2013){Ao}, {Henkel}, {Menten}, {Requena-Torres},
@@ -27,10 +27,18 @@
 {Kainulainen}, J., {Alves}, J., {Beuther}, H., {Henning}, T., \& {Schuller}, F.
   2011, \aap, 536, A48
 
+\bibitem[{{Kang} {et~al.}(2009){Kang}, {Bieging}, {Povich}, \&
+  {Lee}}]{Kang2009a}
+{Kang}, M., {Bieging}, J.~H., {Povich}, M.~S., \& {Lee}, Y. 2009, \apj, 706, 83
+
 \bibitem[{{Langston} {et~al.}(2000){Langston}, {Minter}, {D'Addario},
   {Eberhardt}, {Koski}, \& {Zuber}}]{Langston2000a}
 {Langston}, G., {Minter}, A., {D'Addario}, L., {Eberhardt}, K., {Koski}, K., \&
   {Zuber}, J. 2000, \aj, 119, 2801
+
+\bibitem[{{Mangum} {et~al.}(2013){Mangum}, {Darling}, {Henkel}, \&
+  {Menten}}]{Mangum2013a}
+{Mangum}, J.~G., {Darling}, J., {Henkel}, C., \& {Menten}, K.~M. 2013
 
 \bibitem[{{Mangum} \& {Wootten}(1993)}]{Mangum1993a}
 {Mangum}, J.~G. \& {Wootten}, A. 1993, \apjs, 89, 123
@@ -42,10 +50,20 @@
   {White}}]{Schneider2013a}
 {Schneider}, N. {et~al.} 2013, \apjl, 766, L17
 
-\bibitem[{{Sun} {et~al.}(2011){Sun}, {Reich}, {Han}, {Reich}, {Wielebinski},
-  {Wang}, \& {M{\"u}ller}}]{Sun2011b}
+\bibitem[{{Sun} {et~al.}(2007){Sun}, {Han}, {Reich}, {Reich}, {Shi},
+  {Wielebinski}, \& {F{\"u}rst}}]{Sun2007a}
+{Sun}, X.~H., {Han}, J.~L., {Reich}, W., {Reich}, P., {Shi}, W.~B.,
+  {Wielebinski}, R., \& {F{\"u}rst}, E. 2007, \aap, 463, 993
+
+\bibitem[{{Sun} {et~al.}(2011{\natexlab{a}}){Sun}, {Reich}, {Reich}, {Xiao},
+  {Gao}, \& {Han}}]{Sun2011a}
+{Sun}, X.~H., {Reich}, P., {Reich}, W., {Xiao}, L., {Gao}, X.~Y., \& {Han},
+  J.~L. 2011{\natexlab{a}}, \aap, 536, A83
+
+\bibitem[{{Sun} {et~al.}(2011{\natexlab{b}}){Sun}, {Reich}, {Han}, {Reich},
+  {Wielebinski}, {Wang}, \& {M{\"u}ller}}]{Sun2011b}
 {Sun}, X.~H., {Reich}, W., {Han}, J.~L., {Reich}, P., {Wielebinski}, R.,
-  {Wang}, C., \& {M{\"u}ller}, P. 2011, \aap, 527, A74
+  {Wang}, C., \& {M{\"u}ller}, P. 2011{\natexlab{b}}, \aap, 527, A74
 
 \bibitem[{{van der Tak} {et~al.}(2007){van der Tak}, {Black}, {Sch{\"o}ier},
   {Jansen}, \& {van Dishoeck}}]{van-Der-Tak2007a}
