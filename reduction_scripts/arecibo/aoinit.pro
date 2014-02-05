@@ -1,2 +1,2 @@
 ; Configuration for Arecibo data reduction
-setenv,"AODATAROOT=/Users/adam/observations/arecibo/'
+setenv,"AODATAROOT=/Users/adam/observations/arecibo/"
