@@ -17,3 +17,9 @@ accum_map,flist,savefile='/Users/adam/observations/arecibo/20120910/W51_h2coW_sp
 
 flist = get_scanlist(0,145,obsdate='20120915',machine='eta',bsg='b0s1g0',projid='a2705')
 accum_map,flist,savefile='/Users/adam/observations/arecibo/20120910/W51_h2co_spectra_0915.fits',velocities=[-30,-5,10,37,72,115],obsdate='20120915',machine='eta',line='h2co',percentile=10,/doplot,/do_mask_line
+
+
+flist = get_scanlist(0,136,obsdate='20120915',machine='eta',bsg='b2s1g1',projid='a2705')
+accum_map,flist,savefile='/Users/adam/observations/arecibo/20120910/W51_h213coW_spectra_0915.fits',velocities=[-10,-2,10,45,72,115],obsdate='20120915',machine='eta',line='h213coW',percentile=10,/doplot,/do_mask_line
+flist = get_scanlist(0,136,obsdate='20120915',machine='eta',bsg='b1s1g0',projid='a2705')
+accum_map,flist,savefile='/Users/adam/observations/arecibo/20120910/W51_h213co_spectra_0915.fits',velocities=[-10,-2,10,45,72,115],obsdate='20120915',machine='eta',line='h213co',percentile=10,/doplot,/do_mask_line
