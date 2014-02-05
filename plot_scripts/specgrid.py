@@ -15,7 +15,15 @@ def spectral_grid(cube11=pyspeckit.Cube(datapath+'W51_H2CO11_taucube_supersample
                   cube22=pyspeckit.Cube(datapath+'W51_H2CO22_pyproc_taucube_lores_supersampled.fits'),
                   figure=pl.figure(1,figsize=(10,10)),
                   yrange=(-2.1,0.5),
-                  ratio=False):
+                  vrange=(40,80),
+                  ratio=False,
+                  nx=6,
+                  ny=6,
+                  dx=4,
+                  dy=4,
+                  xc=94,
+                  yc=75
+                 ):
 
     for c in [cube11,cube22]: # h213cocube
         c.xarr.convert_to_unit('km/s')
@@ -45,28 +53,27 @@ def spectral_grid(cube11=pyspeckit.Cube(datapath+'W51_H2CO11_taucube_supersample
             r.plotter(axis=c12.plotter.axis,clear=False,color='r')
         if dolegend:
             pl.legend(loc='best')
-        pl.gca().set_xlim(-100,100)
+        pl.gca().set_xlim(*vrange)
       
 
     pl.clf()
 
     pl.subplots_adjust(wspace=0,hspace=0,left=0.05,right=0.95,bottom=0.05,top=0.95)
 
-    nx,ny = 6,6
-    xc,yc = 52,48 # center
-    xc,yc = 45,42 # bottom left
+    xl = xc - (nx/2.)*dx
+    yl = yc - (ny/2.)*dy
     w = wcs.WCS(strip_headers.flatten_header(cube11.header))
     for ii,(spy,spx) in enumerate(itertools.product(range(nx),range(ny))):
         sp = pl.subplot(nx,ny,ii+1)
         sp.zorder = nx-spx+ny*spy
-        some_plots(spx*2+xc,(ny-spy-1)*2+yc,dolegend=False)#,dolegend=(ii==24))
+        some_plots(spx*dx+xl,(ny-spy-1)*dy+yl,dolegend=False)#,dolegend=(ii==24))
         sp.set_ylim(*yrange)
         if spx > 0:
             sp.set_yticks([])
         if spy < ny-1:
             sp.set_xticks([])
 
-        (l,b), = w.wcs_pix2world([[spx*2+xc,(ny-spy-1)*2+yc]],0)
+        (l,b), = w.wcs_pix2world([[spx*dx+xl,(ny-spy-1)*dy+yl]],0)
         sp.annotate('%0.3f %+0.3f' % (l,b),(0.5,0.9),xycoords='axes fraction',fontsize=12,
                     horizontalalignment='center')
 
@@ -79,7 +86,7 @@ spectral_grid(#cube11=pyspeckit.Cube('/Users/adam/work/gc/limabean/LimaBean_H2CO
               #cube22=pyspeckit.Cube('/Users/adam/work/gc/limabean/LimaBean_H2CO22_taucube_smoothtoCband.fits'),
               #h213co11cube=pyspeckit.Cube('/Users/adam/work/gc/limabean/LimaBean_H213CO_taucube.fits'),
               figure=pl.figure(2,figsize=(10,10)),
-              yrange=(-0.05,0.2),
+              yrange=(-0.01,0.5),
               ratio=False)
 pl.savefig(figpath+'spectralgrid_optdepth.pdf')
 
