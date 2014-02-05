@@ -74,6 +74,12 @@ for fn in files:
     if not os.path.exists(prefix+fn):
         print "File not found: ",prefix+fn
         continue
+    try:
+        fits.getdata(prefix+fn)
+    except:
+        print "Failed to load ",prefix+fn
+        continue
+
     fullfn = fix_TDIM_in_header(prefix+fn)
     makecube.add_file_to_cube(fullfn,
                               cubename_supersampled+'.fits',
