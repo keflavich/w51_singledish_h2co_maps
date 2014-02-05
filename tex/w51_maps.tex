@@ -1,6 +1,45 @@
 \input{preface}
 
+% Somewhere in here:
+% need a shoutout to "Overheard on Astro-PH"
+
+\section{Abstract}
+We present new 2 cm and 6 cm maps of \formaldehyde and the radio continuum in
+the W51 star forming complex acquired with Arecibo and the Green Bank Telescope
+at $\sim50\arcsec$ resolution.
+We perform a detailed analysis of the data and data processing with an emphasis on
+ensuring the reliability of the data.
+The data set is made public...
+
+
 \section{Introduction}
+To do.
+
+Massive star clusters are among the most visually outstanding features in the
+night sky.  In other galaxies, they are useful probes of the star formation history
+and can be individually identified and measured \citep{Bastian2008a}.  Locally,
+they are the essential laboratories in which we can study the formation of massive
+stars \citep{Davies2012a}.
+
+In order to utilize these clusters as laboratories, we need to understand their
+formation in detail.  Clusters are often assumed and measured to be coeval
+\citep[e.g.][]{Kudryavtseva2012a}, but uncertainties remain \citep{Beccari2010a}.
+In the most massive clusters, there are predictions that multiple generations
+or an extended generation of stars should form prior to gas expulsion because
+the gas will remain gravitationally bound \citep{Bressert2012a}.   Feedback from
+and within young massive clusters is an active field of numerical study
+\citep{Rogers2013a,Dale2013a,Dale2012a,Dale2008a,Dale2005a,Parker2013a,Myers2014a,Krumholz2014a}
+%While
+%only 5-35\% of all stars form in bound clusters \citep{Kruijssen2012a},
+
+The results of cluster formation may be decided before the first stars are
+formed.  The starless initial conditions of massive clusters have not yet been
+definitively observed \citep{Ginsburg2012a} though there are viable candidates
+such as G0.253+0.016 \citep{Longmore2012b}.  The initial conditions for star
+formation on any scale are clearly turbulent.  However, there is no evidence
+whether these initial conditions differ in any qualitative way from turbulence
+in local, low-mass star-forming regions.
+
 
 
 \section{Observations \& Data Reduction}
@@ -91,8 +130,8 @@ correction was never more than $\sim5\%$.
 The main products of the mapping data are PPV cubes in the two \formaldehyde
 lines, the integrated continuum in the 2 and 6 cm bands, and optical depth data
 cubes.  In this section we will describe these data and the systematic errors
-associated with them.  In section XXX we will examine ratio maps and cubes and
-describe the errors associated with them.
+associated with them.  In Section \ref{sec:ratiodenscubes} we will examine
+ratio maps and cubes and describe the errors associated with them.
 
 \subsection{PPV cubes}
 The PPV cubes were created with units of brightness temperature.  The Arecibo
@@ -242,19 +281,37 @@ frequencies.  The `line' values are the integrated flux densities over the
 range 20 to 100 \kms, which includes all H$\alpha$ emission but no He$\alpha$.
 
 % TODO: re-create h112alpha cube: likely problem with bg subtraction at 20 km/s
-XXXX continue from here XXXX
+% Done!
+The ratios between the X and Y axis in each plot in Figure
+\ref{fig:contrrlcompare} are fitted using a total least squares approach with
+uniform errors for each data point.   The line-to-continuum ratio is
+$L/C(H77\alpha)\sim0.06$ and $L/C(H112\alpha)\sim0.03$; in both cases there is
+little evidence for deviation from a linear relationship.
 
 
 \Figure{figures/continuum_rrl_comparisongrid.pdf}
-{Plots of the 5 GHz and 15 GHz }
+{Plots of the 5 GHz and 15 GHz continuum and RRL flux densities against one
+another; all units are in Jy.  The dashed lines show the total least squares
+best fit line with the slope shown in the legend.  Wherever the density of
+points is too high to display, the points have been replaced with a contour
+plot showing the density of data points.  The upper-right panel shows a
+comparison of the continuum ratio to the RRL ratio.  The dashed line in the
+upper-right plot has slope 1, and the dotted line has slope 0.6.}
 {fig:gbtaocontcompare}{0.5}{0}
 
 \FigureFour
 {figures/ratiomap_cont_c2cmtc6cm}
+{figures/ratiomap_cont_h77th112}
 {figures/ratiomap_cont_h112lc}
 {figures/ratiomap_cont_h77lc}
-{figures/ratiomap_cont_h77th112}
-{...}
+{Ratio maps of W51.  
+(a) Continuum ratio $S_{15 GHz} / S_{5 GHz}$.  For $\alpha=-0.1$, an optically
+thin free-free source, the ratio is 0.9, while for $\alpha=2$, an optically thick source,
+the ratio is 9.
+(b) The ratio of the integrated H77$\alpha$ to the H112$\alpha$ line.
+(c) H112$\alpha$ / $S_{5 GHz}$
+(c) H77$\alpha$ / $S_{15 GHz}$
+}
 {fig:contrrlcompare}
 
 \subsection{Optical Depths}
@@ -286,8 +343,9 @@ cubes.  To filter out spurious signals, of which many are expected given the
 number-of-neighbors filter (i.e., a $3\times3$ kernel with all values of unity
 except the center pixel) and removed all pixels with fewer than 7 neighbors
 with detections.  After filtering, 35039 voxels were left, or $\sim 1\%$ of the
-total.  These are located in 5822 pixels, or 33\% of the 17718 pixels valid in
-both data sets.
+total (though this fraction is arbitrary, since the number of spectral pixels
+is determined by the gridding).  These are located in 5822 pixels, or 33\% of
+the 17718 pixels valid in both data sets.
 
 Histograms of the data are shown in Figure \ref{fig:datahistograms}.  They
 illustrate the non-gaussian nature of the noise.  The ratio distribution, in
@@ -305,6 +363,7 @@ in a small fraction of the pixels}
 
 
 \subsection{Ratio and Density Cubes}
+\label{sec:ratiodenscubes}
 The \formaldehyde ratio can be directly transformed into a volume density of
 hydrogen $n(\hh)$ by assuming a fixed abundance of \formaldehyde relative to
 \hh.  Precise measurements of the \formaldehyde abundance are not generally
@@ -312,6 +371,7 @@ available, but typical values of $X_{\ortho} = 10^{-10}-10^{-8}$ relative to
 \hh are generally assumed \citep{Mangum1993a, Ginsburg2011a, Ginsburg2013a,
 Ao2013a} and found to be consistent with the observations.
 
+% ~/work/h2co/codes/ratio_to_dens_plots.py
 \Figure{figures/tau_ratio_vs_density_thinlimit_t20_sigma1.pdf}
 {The optical depth ratio as a function of \hh density.  The ratio is shown for
 a range of \formaldehyde abundances as indicated in the legend.
@@ -443,7 +503,9 @@ there are significant gaps in the molecular gas, notably a $\sim6 pc$ gap
 {figures/pvdiagram_max_along_latitude.pdf}
 {(top) The velocity at peak density.
  (bottom) A position-velocity diagram showing the peak density across latitude
- at each longitude.
+ at each longitude.  There is a density enhancement at the highest velocities
+ across the entire $\sim100$ pc slice; it may be an indication of an impinging 
+ spiral density wave (discussion to be added later XXXX).
 }
 {fig:velopv}{1.0}{6in}
 

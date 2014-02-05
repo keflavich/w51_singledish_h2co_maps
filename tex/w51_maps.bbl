@@ -1,12 +1,48 @@
-\begin{thebibliography}{15}
+\begin{thebibliography}{27}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{{Ao} {et~al.}(2013){Ao}, {Henkel}, {Menten}, {Requena-Torres},
   {Stanke}, {Mauersberger}, {Aalto}, {M{\"u}hle}, \& {Mangum}}]{Ao2013a}
 {Ao}, Y. {et~al.} 2013, \aap, 550, A135
 
+\bibitem[{{Bastian}(2008)}]{Bastian2008a}
+{Bastian}, N. 2008, \mnras, 390, 759
+
+\bibitem[{{Beccari} {et~al.}(2010){Beccari}, {Spezzi}, {De Marchi}, {Paresce},
+  {Young}, {Andersen}, {Panagia}, {Balick}, {Bond}, {Calzetti}, {Carollo},
+  {Disney}, {Dopita}, {Frogel}, {Hall}, {Holtzman}, {Kimble}, {McCarthy},
+  {O'Connell}, {Saha}, {Silk}, {Trauger}, {Walker}, {Whitmore}, \&
+  {Windhorst}}]{Beccari2010a}
+{Beccari}, G. {et~al.} 2010, \apj, 720, 1108
+
+\bibitem[{{Bressert} {et~al.}(2012){Bressert}, {Ginsburg}, {Bally},
+  {Battersby}, {Longmore}, \& {Testi}}]{Bressert2012a}
+{Bressert}, E., {Ginsburg}, A., {Bally}, J., {Battersby}, C., {Longmore}, S.,
+  \& {Testi}, L. 2012, \apjl, 758, L28
+
 \bibitem[{{Carpenter} \& {Sanders}(1998)}]{Carpenter1998a}
 {Carpenter}, J.~M. \& {Sanders}, D.~B. 1998, \aj, 116, 1856
+
+\bibitem[{{Dale} \& {Bonnell}(2008)}]{Dale2008a}
+{Dale}, J.~E. \& {Bonnell}, I.~A. 2008, \mnras, 391, 2
+
+\bibitem[{{Dale} {et~al.}(2005){Dale}, {Bonnell}, {Clarke}, \&
+  {Bate}}]{Dale2005a}
+{Dale}, J.~E., {Bonnell}, I.~A., {Clarke}, C.~J., \& {Bate}, M.~R. 2005,
+  \mnras, 358, 291
+
+\bibitem[{{Dale} {et~al.}(2012){Dale}, {Ercolano}, \& {Bonnell}}]{Dale2012a}
+{Dale}, J.~E., {Ercolano}, B., \& {Bonnell}, I.~A. 2012, \mnras, 427, 2852
+
+\bibitem[{{Dale} {et~al.}(2013){Dale}, {Ngoumou}, {Ercolano}, \&
+  {Bonnell}}]{Dale2013a}
+{Dale}, J.~E., {Ngoumou}, J., {Ercolano}, B., \& {Bonnell}, I.~A. 2013
+
+\bibitem[{{Davies}(2012)}]{Davies2012a}
+{Davies}, B. 2012, in Astronomical Society of the Pacific Conference Series,
+  Vol. 465, Proceedings of a Scientific Meeting in Honor of Anthony F. J.
+  Moffat, ed. L.~{Drissen}, C.~{Rubert}, N.~{St-Louis}, \& A.~F.~J. {Moffat},
+  383
 
 \bibitem[{{Federrath} {et~al.}(2008){Federrath}, {Klessen}, \&
   {Schmidt}}]{Federrath2008a}
@@ -31,6 +67,10 @@
   {Lee}}]{Kang2009a}
 {Kang}, M., {Bieging}, J.~H., {Povich}, M.~S., \& {Lee}, Y. 2009, \apj, 706, 83
 
+\bibitem[{{Krumholz} {et~al.}(2014){Krumholz}, {Bate}, {Arce}, {Dale},
+  {Gutermuth}, {Klein}, {Li}, {Nakamura}, \& {Zhang}}]{Krumholz2014a}
+{Krumholz}, M.~R. {et~al.} 2014
+
 \bibitem[{{Langston} {et~al.}(2000){Langston}, {Minter}, {D'Addario},
   {Eberhardt}, {Koski}, \& {Zuber}}]{Langston2000a}
 {Langston}, G., {Minter}, A., {D'Addario}, L., {Eberhardt}, K., {Koski}, K., \&
@@ -42,6 +82,16 @@
 
 \bibitem[{{Mangum} \& {Wootten}(1993)}]{Mangum1993a}
 {Mangum}, J.~G. \& {Wootten}, A. 1993, \apjs, 89, 123
+
+\bibitem[{{Myers} {et~al.}(2014){Myers}, {Klein}, {Krumholz}, \&
+  {McKee}}]{Myers2014a}
+{Myers}, A., {Klein}, R., {Krumholz}, M., \& {McKee}, C. 2014, ArXiv e-prints
+
+\bibitem[{{Parker} \& {Dale}(2013)}]{Parker2013a}
+{Parker}, R.~J. \& {Dale}, J.~E. 2013
+
+\bibitem[{{Rogers} \& {Pittard}(2013)}]{Rogers2013a}
+{Rogers}, H. \& {Pittard}, J.~M. 2013, \mnras, 431, 1337
 
 \bibitem[{{Schneider} {et~al.}(2013){Schneider}, {Andr{\'e}}, {K{\"o}nyves},
   {Bontemps}, {Motte}, {Federrath}, {Ward-Thompson}, {Arzoumanian},
