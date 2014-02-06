@@ -11,7 +11,7 @@ datapath = '/Users/adam/work/h2co/maps/W51/'
 figpath = '/Users/adam/work/h2co/figures/'
 
 def spectral_grid(cube11=pyspeckit.Cube(datapath+'W51_H2CO11_taucube_supersampled.fits'),
-                  #h213co11cube=pyspeckit.Cube(datapath+'.fits'),
+                  h213co11cube=pyspeckit.Cube(datapath+'W51_H213CO11_taucube_supersampled.fits'),
                   cube22=pyspeckit.Cube(datapath+'W51_H2CO22_pyproc_taucube_lores_supersampled.fits'),
                   figure=pl.figure(1,figsize=(10,10)),
                   yrange=(-2.1,0.5),
@@ -22,23 +22,25 @@ def spectral_grid(cube11=pyspeckit.Cube(datapath+'W51_H2CO11_taucube_supersample
                   dx=4,
                   dy=4,
                   xc=94,
-                  yc=75
+                  yc=75,
+                  baseline=False
                  ):
 
     for c in [cube11,cube22]: # h213cocube
         c.xarr.convert_to_unit('km/s')
 
     def some_plots(xx,yy,dolegend=False):
-        #c13 = h213co11cube.get_spectrum(xx,yy)
+        c13 = h213co11cube.get_spectrum(xx,yy)
         c12 = cube11.get_spectrum(xx,yy)
         c22 = cube22.get_spectrum(xx,yy)
 
         for c in (c12,c22):# c13,
             c.plotter.autorefresh=False
 
-        c12.baseline(exclude=[-225,200],order=5)
-        #c13.baseline(exclude=[-225,200],order=5)
-        #c13.plotter(label='H$_{2}$$^{13}$CO 1-1',axis=pl.gca(),color='b',alpha=0.5)
+        if baseline:
+            c12.baseline(exclude=[-225,200],order=5)
+            c13.baseline(exclude=[-225,200],order=5)
+        c13.plotter(label='H$_{2}$$^{13}$CO 1-1',axis=pl.gca(),color='b',alpha=0.5)
         #c12.plotter(axis=c13.plotter.axis,clear=False,color='k',label="H$_{2}$CO 1-1")
         c12.plotter(axis=pl.gca(),color='k',label="H$_{2}$CO 1-1")
         #(c13*6).plotter(label='6$\\times$H$_{2}$$^{13}$CO',axis=pl.gca(),color='r',clear=False)

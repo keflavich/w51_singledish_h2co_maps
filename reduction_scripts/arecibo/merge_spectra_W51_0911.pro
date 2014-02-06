@@ -20,6 +20,6 @@ accum_map,flist,savefile='/Users/adam/observations/arecibo/20120910/W51_h2co_spe
 
 ; these appear not to work
 flist = get_scanlist(0,134,obsdate='20120911',machine='eta',bsg='b2s1g1')
-accum_map,flist,savefile='/Users/adam/observations/arecibo/20120910/W51_h213coW_spectra_0911.fits',velocities=[-10,-2,10,45,72,115],obsdate='20120911',machine='eta',line='h213coW',percentile=10,/doplot,/do_mask_line
+accum_map,flist,savefile='/Users/adam/observations/arecibo/20120910/W51_h213coW_spectra_0911.fits',obsdate='20120911',machine='eta',line='h213coW',percentile=10,/doplot
 flist = get_scanlist(0,134,obsdate='20120911',machine='eta',bsg='b1s1g0')
-accum_map,flist,savefile='/Users/adam/observations/arecibo/20120910/W51_h213co_spectra_0911.fits',velocities=[-10,-2,10,45,72,115],obsdate='20120911',machine='eta',line='h213co',percentile=10,/doplot,/do_mask_line
+accum_map,flist,savefile='/Users/adam/observations/arecibo/20120910/W51_h213co_spectra_0911.fits',obsdate='20120911',machine='eta',line='h213co',percentile=10,/doplot

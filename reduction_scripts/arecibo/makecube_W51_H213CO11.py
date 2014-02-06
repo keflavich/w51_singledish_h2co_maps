@@ -63,8 +63,9 @@ for fn in files:
         continue
     try:
         fits.getdata(prefix+fn)
-    except:
+    except Exception as ex:
         print "Failed to load ",prefix+fn
+        print ex
         continue
 
     fullfn = fix_TDIM_in_header(prefix+fn)
