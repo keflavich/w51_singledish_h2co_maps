@@ -1,21 +1,8 @@
-try:
-    import astropy.io.fits as pyfits
-    import astropy.wcs as pywcs
-except ImportError:
-    import pyfits
-    import pywcs
-import coords
+import astropy.io.fits as pyfits
+import astropy.io.fits as fits
 import numpy as np
-import matplotlib
-import pylab
-try:
-    import aplpy
-except ImportError:
-    print "aplpy won't import..."
 import os
-#from agpy import readcol,asinh_norm
 
-import sys
 from gbtpy import makecube
 
 def fix_TDIM_in_header(fn):
