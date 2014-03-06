@@ -2,7 +2,7 @@ import pylab as pl
 import numpy as np
 from astropy.io import fits as pyfits
 from agpy import asinh_norm
-from gbtpy import makecube
+from sdpy import makecube
 
 linefreq = 14.488479e9
 
