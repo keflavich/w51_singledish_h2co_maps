@@ -27,6 +27,12 @@ function mask_line,velo,spec,velocities,fitorder,velocity_buffer=velocity_buffer
     ; in between will be interpolated over
     ; e.g.:
     ; [0,10,20,30] will fit 0-10,20-30 and will replace 10-20 with the fit
+    ; Whoa, hold on there, EDIT!  That's not true.
+    ; Given a velocities=[a,b,c,d,e,f]
+    ; the fit region is specified by:
+    ; a:b, c:d, e:f
+    ; and the replace/reject region
+    ; b:c, d:e
 
     ; velocity_buffer gives the range around the masked region to include in the polyfit
     ;if n_elements(velocity_buffer) eq 0 then velocity_buffer = 20 
