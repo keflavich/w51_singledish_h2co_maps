@@ -4,6 +4,8 @@ from astropy.io import fits as pyfits
 from agpy import asinh_norm
 from gbtpy import makecube
 
+linefreq = 14.488479e9
+
 filelist = [
     "Session10_32to93_A13_F1.fits",
     # gigantic jump = bad "Session10_32to93_A9_F1.fits",
@@ -112,7 +114,7 @@ if False: # old cube, don't care any more
     #    raise ValueError("Add more points.  Something's going to be out of range for stupid star stupid link")
     makecube.generate_header(49.209553, -0.277137, naxis1=192, naxis2=128,
                              pixsize=24, naxis3=naxis3, cd3=cd3, crval3=crval3,
-                             clobber=True, restfreq=14.488479e9)
+                             clobber=True, restfreq=linefreq)
     makecube.make_blank_images(cubename_lores,clobber=True)
 
 
@@ -136,7 +138,8 @@ if False: # old cube, don't care any more
 
     makecube.runscript(cubename_lores)
     makecube.make_flats(cubename_lores,vrange=[45,75],noisevrange=[-15,30])
-    makecube.make_taucube(cubename_lores,cubename_lores+"_continuum.fits",etamb=0.886)
+    makecube.make_taucube(cubename_lores, cubename_lores+"_continuum.fits",
+                          etamb=0.886, linefreq=linefreq*u.Hz, tex=2.0)
 
 
 cubename_lores_supersampled = '/Users/adam/work/h2co/maps/w51/W51_H2CO22_pyproc_cube_lores_supersampled'
@@ -180,4 +183,5 @@ for fn in filelist+filelist2:
 
 makecube.runscript(cubename_lores_supersampled)
 makecube.make_flats(cubename_lores_supersampled,vrange=[45,75],noisevrange=[-15,30])
-makecube.make_taucube(cubename_lores_supersampled,cubename_lores_supersampled+"_continuum.fits",etamb=0.886)
+makecube.make_taucube(cubename_lores_supersampled,cubename_lores_supersampled+"_continuum.fits",
+                      etamb=0.886, linefreq=linefreq*u.Hz, tex=2.0)

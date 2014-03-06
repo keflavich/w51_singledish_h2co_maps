@@ -55,15 +55,15 @@ vmax = 80
 velocityrange = [-50,150] # match GBT exactly
 
 
-#makecube.generate_header(49.523158,-0.34987466,naxis1=96,naxis2=96,pixsize=20,naxis3=1600,cd3=0.5,clobber=True,restfreq=4.8296594e9)
-#makecube.generate_header(49.353568,-0.2982199,naxis1=144,naxis2=96,pixsize=20,naxis3=1600,cd3=0.5,clobber=True,restfreq=4.8296594e9)
+#makecube.generate_header(49.523158,-0.34987466,naxis1=96,naxis2=96,pixsize=20,naxis3=1600,cd3=0.5,clobber=True,restfreq=linefreq)
+#makecube.generate_header(49.353568,-0.2982199,naxis1=144,naxis2=96,pixsize=20,naxis3=1600,cd3=0.5,clobber=True,restfreq=linefreq)
 # reduced to CD3 = 1.0, naxis3 = 350 because of size and because the arecibo spectra looked artificially smoothed
 cd3 = 1.0 # match GBT exactly
 naxis3 = int((velocityrange[1]-velocityrange[0]) / cd3) + 1
 crval3 = 50.0
 vels = crval3+cd3*(np.arange(naxis3)+1-naxis3/2-1)
 makecube.generate_header(49.209553,-0.277137,naxis1=192,naxis2=128,pixsize=24,naxis3=int(naxis3),cd3=cd3,crval3=crval3,clobber=True,
-                         restfreq=4.8296594e9)
+                         restfreq=linefreq)
 cubename = '/Users/adam/work/h2co/maps/w51/W51_H2CO11_cube'
 makecube.make_blank_images(cubename,clobber=True)
 
@@ -84,7 +84,8 @@ flat_vrange = [45,75]
 
 makecube.runscript(cubename)
 makecube.make_flats(cubename,vrange=flat_vrange,noisevrange=[-50,-1])
-makecube.make_taucube(cubename, continuum=cubename+"_continuum.fits") # etamb accounted for already , etamb=0.51)
+makecube.make_taucube(cubename, continuum=cubename+"_continuum.fits",
+                      linefreq=linefreq, tex=1.5) # etamb accounted for already , etamb=0.51)
 makecube.make_flats(cubename.replace("cube","taucube"),vrange=flat_vrange,noisevrange=[-50,-1],suffix='.fits')
 
 
@@ -96,7 +97,7 @@ naxis3 = int((velocityrange[1]-velocityrange[0]) / cd3) + 1
 crval3 = 50.0
 vels = crval3+cd3*(np.arange(naxis3)+1-naxis3/2-1)
 makecube.generate_header(49.209553,-0.277137,naxis1=308,naxis2=205,pixsize=15,naxis3=int(naxis3),cd3=cd3,crval3=crval3,clobber=True,
-                         restfreq=4.8296594e9)
+                         restfreq=linefreq)
 makecube.make_blank_images(cubename_supersampled,clobber=True)
 
 files = ['W51_h2coW_spectra_0910.fits',
@@ -119,7 +120,8 @@ flat_vrange = [45,75]
 
 makecube.runscript(cubename_supersampled)
 makecube.make_flats(cubename_supersampled,vrange=flat_vrange,noisevrange=[-50,-1])
-makecube.make_taucube(cubename_supersampled, continuum=cubename_supersampled+"_continuum.fits") # etamb accounted for already , etamb=0.51)
+makecube.make_taucube(cubename_supersampled, continuum=cubename_supersampled+"_continuum.fits",
+                      linefreq=linefreq, tex=1.5) # etamb accounted for already , etamb=0.51)
 makecube.make_flats(cubename_supersampled.replace("cube","taucube"),vrange=flat_vrange,noisevrange=[-50,-1],suffix='.fits')
 
 
@@ -137,7 +139,7 @@ velocityrange = [-50,130]
 cd3 = 0.25
 naxis3 = int(velocityrange[1]-velocityrange[0] / cd3)
 makecube.generate_header(49.209553,-0.277137,naxis1=192,naxis2=128,pixsize=24,naxis3=int(naxis3),cd3=cd3,crval3=10.0,clobber=True,
-                         restfreq=4.8296594e9)
+                         restfreq=linefreq)
 cubename = '/Users/adam/work/h2co/maps/w51/W51_H2CO11_hires_cube'
 makecube.make_blank_images(cubename,clobber=True)
 
@@ -160,11 +162,12 @@ flat_vrange = [45,75]
 
 makecube.runscript(cubename)
 makecube.make_flats(cubename,vrange=flat_vrange,noisevrange=[-50,-1])
-makecube.make_taucube(cubename, continuum=cubename+"_continuum.fits") # etamb accounted for already, etamb=0.51)
+makecube.make_taucube(cubename, continuum=cubename+"_continuum.fits",
+                      linefreq=linefreq, tex=1.5) # etamb accounted for already, etamb=0.51)
 makecube.make_flats(cubename.replace("cube","taucube"),vrange=flat_vrange,noisevrange=[-50,-1],suffix='.fits')
 
 
-#makecube.generate_header(49.523158,-0.34987466,naxis1=96,naxis2=96,pixsize=20,naxis3=1600,cd3=0.5,clobber=True,restfreq=4.8296594e9)
+#makecube.generate_header(49.523158,-0.34987466,naxis1=96,naxis2=96,pixsize=20,naxis3=1600,cd3=0.5,clobber=True,restfreq=linefreq)
 cubename = '/Users/adam/work/h2co/maps/w51/W51_h108a_cube'
 makecube.make_blank_images(cubename,clobber=True)
 
@@ -195,7 +198,7 @@ makecube.make_flats(cubename,vrange=[vmin,vmax],noisevrange=[-50,-1])
 # crval3 = 50.0
 # vels = crval3+cd3*(np.arange(naxis3)+1-naxis3/2-1)
 # makecube.generate_header(49.209553,-0.277137,naxis1=308,naxis2=205,pixsize=15,naxis3=int(naxis3),cd3=cd3,crval3=crval3,clobber=True,
-#                          restfreq=4.8296594e9)
+#                          restfreq=linefreq)
 # makecube.make_blank_images(cubename_supersampled,clobber=True)
 # 
 # files = ['W51_h213coW_spectra_0910.fits',
