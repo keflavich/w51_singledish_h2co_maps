@@ -1,8 +1,10 @@
-*gz
-*aux
-*blg
 ipython*py
 
 # keep bbl, not .bib
 #*bbl
 *.bib
+*log
+*pdf
+*gz
+*aux
+*blg
