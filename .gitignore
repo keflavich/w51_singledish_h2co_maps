@@ -1,0 +1,8 @@
+*gz
+*aux
+*blg
+ipython*py
+
+# keep bbl, not .bib
+#*bbl
+*.bib
