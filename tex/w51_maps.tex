@@ -320,7 +320,18 @@ The data cubes were converted into ``optical depth'' data cubes by dividing the
 integrated \formaldehyde absorption signature by the measured continuum level.
 We added a fixed background of 2.73 K to the reduced images to account for the
 CMB, which is absent from the images due to the background-subtraction
-process.
+process.  We define an ``observer's optical depth''
+\begin{equation}
+    \tau_{obs} = -\log\left[\frac{T_{mb}}{T_{bg}}\right]
+\end{equation}
+as opposed to the `true' optical depth
+\begin{equation}
+    \tau = -\log\left[\frac{T_{mb}-T_{ex}}{T_{bg}-T_{ex}}\right]
+\end{equation}
+The approximation $\tau_{obs}$ is valid for $T_{ex} << T_{bg}$, which is true when an
+\hii region is the backlight but generally not when the CMB is.  We will examine the effects
+of using $\tau_{obs}$, i.e. assuming $T_{ex} = 0$, in Section \ref{sec:}.
+
 
 Because of the varying background level, the optical depth cubes have highly
 variable signal-to-noise.  In the Arecibo data, 8044 of 17800 pixels have peak

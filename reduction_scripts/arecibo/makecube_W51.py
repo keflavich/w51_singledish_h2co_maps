@@ -85,7 +85,7 @@ flat_vrange = [45,75]
 makecube.runscript(cubename)
 makecube.make_flats(cubename,vrange=flat_vrange,noisevrange=[-50,-1])
 makecube.make_taucube(cubename, continuum=cubename+"_continuum.fits",
-                      linefreq=linefreq, tex=1.5) # etamb accounted for already , etamb=0.51)
+                      linefreq=linefreq, tex=0) # etamb accounted for already , etamb=0.51)
 makecube.make_flats(cubename.replace("cube","taucube"),vrange=flat_vrange,noisevrange=[-50,-1],suffix='.fits')
 
 
@@ -121,7 +121,7 @@ flat_vrange = [45,75]
 makecube.runscript(cubename_supersampled)
 makecube.make_flats(cubename_supersampled,vrange=flat_vrange,noisevrange=[-50,-1])
 makecube.make_taucube(cubename_supersampled, continuum=cubename_supersampled+"_continuum.fits",
-                      linefreq=linefreq, tex=1.5) # etamb accounted for already , etamb=0.51)
+                      linefreq=linefreq, tex=0) # etamb accounted for already , etamb=0.51)
 makecube.make_flats(cubename_supersampled.replace("cube","taucube"),vrange=flat_vrange,noisevrange=[-50,-1],suffix='.fits')
 
 
@@ -163,7 +163,7 @@ flat_vrange = [45,75]
 makecube.runscript(cubename)
 makecube.make_flats(cubename,vrange=flat_vrange,noisevrange=[-50,-1])
 makecube.make_taucube(cubename, continuum=cubename+"_continuum.fits",
-                      linefreq=linefreq, tex=1.5) # etamb accounted for already, etamb=0.51)
+                      linefreq=linefreq, tex=0) # etamb accounted for already, etamb=0.51)
 makecube.make_flats(cubename.replace("cube","taucube"),vrange=flat_vrange,noisevrange=[-50,-1],suffix='.fits')
 
 

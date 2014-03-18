@@ -139,7 +139,7 @@ if False: # old cube, don't care any more
     makecube.runscript(cubename_lores)
     makecube.make_flats(cubename_lores,vrange=[45,75],noisevrange=[-15,30])
     makecube.make_taucube(cubename_lores, cubename_lores+"_continuum.fits",
-                          etamb=0.886, linefreq=linefreq*u.Hz, tex=2.0)
+                          etamb=0.886, linefreq=linefreq*u.Hz, tex=0)
 
 
 cubename_lores_supersampled = '/Users/adam/work/h2co/maps/w51/W51_H2CO22_pyproc_cube_lores_supersampled'
@@ -184,4 +184,4 @@ for fn in filelist+filelist2:
 makecube.runscript(cubename_lores_supersampled)
 makecube.make_flats(cubename_lores_supersampled,vrange=[45,75],noisevrange=[-15,30])
 makecube.make_taucube(cubename_lores_supersampled,cubename_lores_supersampled+"_continuum.fits",
-                      etamb=0.886, linefreq=linefreq*u.Hz, tex=2.0)
+                      etamb=0.886, linefreq=linefreq*u.Hz, tex=0)
