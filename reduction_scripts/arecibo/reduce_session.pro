@@ -31,8 +31,8 @@ function tsysmodel,za,p=p,tsys_scale=tsys_scale
     return,model*tsys_scale
 end
 
-pro wcs_line,header,line=line,crpix=crpix,cdelt=cdelt,crvalL=crvalL,vel_lsr=vel_lsr,crvalT=crvalT,$
-    restfreq=restfreq
+pro wcs_line, header, line=line, crpix=crpix, cdelt=cdelt, crvalL=crvalL,$
+              vel_lsr=vel_lsr, crvalT=crvalT, crvalB=crvalB, restfreq=restfreq
     if keyword_set(restfreq) then begin
         if ((restfreq lt 4000) or (restfreq gt 6000)) then begin
             message,'Rest frequency is not within C-band.  Must be specified in MHz.  Was: '+strtrim(restfreq)
@@ -88,6 +88,7 @@ pro wcs_line,header,line=line,crpix=crpix,cdelt=cdelt,crvalL=crvalL,vel_lsr=vel_
     cdelt = mean(velo_lsr[1:8191] - velo_lsr[0:8190])
     crvalL = velo_lsr[wherezero]
     crvalT = velo_topo[wherezero]
+    crvalB = velo_bary[wherezero]
     crpix = wherezero+1
 
 end
@@ -107,7 +108,7 @@ function add_lines_to_header,header,freqrange,spechead,linedict=linedict,machine
     for ii=0,n_elements(names)-1 do begin 
         ;linedict = [linedict,{name:names[ii],freq:freq[ii]}]
         if (freqrange[0] lt freq[ii]*1e3) and (freqrange[1] gt freq[ii]*1e3) then begin
-            wcs_line,spechead,crpix=crpix,cdelt=cdelt,crvalL=crvalL,vel_lsr=vel_lsr,crvalT=crvalT,restfreq=freq[ii]*1e3
+            wcs_line,spechead,crpix=crpix,cdelt=cdelt,crvalL=crvalL,vel_lsr=vel_lsr,crvalT=crvalT,crvalB=crvalB,restfreq=freq[ii]*1e3
             header = [header,'CRPIX1'+csuffix[jj]+' =  ' + string(strcompress(crpix),format='(A65)')]
             header = [header,'CRVAL1'+csuffix[jj]+' =  ' + string(strcompress(CRVALL),format='(A65)')]
             header = [header,'CDELT1'+csuffix[jj]+' =  ' + string(strcompress(CDELT),format='(A65)')]
@@ -259,7 +260,7 @@ pro reduce_session,line=line,output_prefix=output_prefix,offsmooth=offsmooth,obs
         print,"Scan number ",scannum," object ",spec.h.object," line ",line," bsg ",bsg
         ; there was a change to the Arecibo version of some component that required spec.h.restfrq to be set forcibly
         ; the change occured between 9/5/2011 and 10/10/2011
-        wcs_line,spec.h,crpix=crpix,cdelt=cdelt,crvalL=crvalL,vel_lsr=vel_lsr,crvalT=crvalT,line=line,restfreq=restfreq
+        wcs_line,spec.h,crpix=crpix,cdelt=cdelt,crvalL=crvalL,vel_lsr=vel_lsr,crvalT=crvalT,line=line,crvalB=crvalB,restfreq=restfreq
         spec.h.restfrq = restfreq * 1e6
         tagnames = tag_names(spec.h)
         fitsheader = strarr(n_elements(tagnames)) 

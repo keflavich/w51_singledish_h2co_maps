@@ -1,9 +1,10 @@
 from astropy.io import fits
 import numpy as np
 import progressbar
+from paths import datapath
 
-h2co11 = fits.getdata('W51_H2CO11_taucube_supersampled.fits')
-h2co22 = fits.getdata('W51_H2CO22_pyproc_taucube_lores_supersampled.fits')
+h2co11 = fits.getdata(datapath+'W51_H2CO11_taucube_supersampled.fits')
+h2co22 = fits.getdata(datapath+'W51_H2CO22_pyproc_taucube_lores_supersampled.fits')
 
 noise11 = h2co11[:50,:,:].std(axis=0)
 noise22 = h2co22[:50,:,:].std(axis=0)
@@ -64,13 +65,38 @@ def ratio_to_dens(ratio):
 
 dcube = ratio_to_dens(ratio)
 
-ratioF = fits.open('W51_H2CO11_taucube_supersampled.fits')
+ratioF = fits.open(datapath+'W51_H2CO11_taucube_supersampled.fits')
 ratioF[0].data = dcube
 ratioF[0].header['BUNIT'] = 'log volume density'
-ratioF.writeto('W51_H2CO11_to_22_logdensity_supersampled.fits',clobber=True)
+ratioF.writeto(datapath+'W51_H2CO11_to_22_logdensity_supersampled.fits',clobber=True)
 
-cont11 = fits.getdata('W51_H2CO11_cube_supersampled_continuum.fits')
-cont22 = fits.getdata('W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')
+cont11 = fits.getdata(datapath+'W51_H2CO11_cube_supersampled_continuum.fits') + 2.73
+cont22 = fits.getdata(datapath+'W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits') + 2.73
+cont11[cont11<2.73] = 2.73
+cont22[cont22<2.73] = 2.73
+
+"""
+Build up "grids" of tex/tau for given backgrounds that can then be ratio'd
+This is more efficient that computing a fresh tauratio array each iteration
+"""
+kwargs = dict(sigma=sigma, opr=opr, temperature=temperature)
+pb = progressbar.ProgressBar()
+tbg1grid = np.hstack([tbg1grid,np.logspace(2,np.log10(350),15)[1:]])
+tau1grid = [vtau(dens, line=tau1, tex=tex1, tbg=tbg1, **kwargs)
+            for tbg1 in pb(tbg1grid)]
+pb = progressbar.ProgressBar()
+tbg2grid = np.linspace(2.73,40,100)
+tau2grid = [vtau(dens, line=tau2, tex=tex2, tbg=tbg2, **kwargs)
+            for tbg2 in pb(tbg2grid)]
+
+def get_tau_ratio(c1,c2,pos=True):
+    # find nearest match
+    ind1 = np.argmin(np.abs(tbg1grid-c1))
+    ind2 = np.argmin(np.abs(tbg2grid-c2))
+    # only absorption observed, therefore force models...
+    if pos:
+        ok = (tau1grid[ind1] > 0) & (tau2grid[ind2] > 0) * (dens < 7)
+    return tau1grid[ind1]/tau2grid[ind2] * ok
 
 def ratio_to_dens_slow(ratio, c11, c22):
     """
@@ -87,18 +113,17 @@ def ratio_to_dens_slow(ratio, c11, c22):
 
     outc = (ratio*0).reshape(fshape)
 
+    # set up a grid...
+
     pb = progressbar.ProgressBar(maxval=np.isfinite(c11*c22).sum())
     pb.start()
     count = 0
     for ii,(r,c1,c2) in enumerate(zip(rrs, c11.flat, c22.flat)):
         #print r.shape,c1,c2
         if np.isfinite(c1) and np.isfinite(c2):
-            tauratio = vtau_ratio(dens, line1=tau1, line2=tau2, tex1=tex1,
-                                  tex2=tex2,
-                                  tbg1=c1+2.73, tbg2=c2+2.73, sigma=sigma,
-                                  opr=opr, temperature=temperature)
+            tauratio = get_tau_ratio(c1,c2)
 
-            ok = np.arange(tauratio.size) > np.argmax(tauratio)
+            ok = (dens < 7) & (tauratio < 25)
 
             inds = np.argsort(tauratio[ok])
             outc[:,ii] = np.interp(r, tauratio[ok][inds], dens[ok][inds], np.nan, np.nan)
@@ -106,12 +131,12 @@ def ratio_to_dens_slow(ratio, c11, c22):
         pb.update(count)
     pb.finish()
 
-    return outc
+    return outc.reshape(ratio.shape)
 
 dcube = ratio_to_dens_slow(ratio,cont11,cont22)
 
 ratioF = fits.open('W51_H2CO11_taucube_supersampled.fits')
-ratioF[0].data = dcube
+ratioF[0].data = dcube.reshape(ratio.shape)
 ratioF[0].header['BUNIT'] = 'log volume density'
 ratioF.writeto('W51_H2CO11_to_22_logdensity_supersampled_textbg_sigma%0.1f.fits' % sigma,
                clobber=True)

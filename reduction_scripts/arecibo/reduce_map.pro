@@ -335,7 +335,8 @@ pro accum_map,flist,savefile=savefile,line=line,output_prefix=output_prefix,offs
     ;istat3 = masavg(desc,1,avspec)
     masclose,desc
 
-    wcs_line,avspec.h,crpix=crpix,cdelt=cdelt,crvalL=crvalL,vel_lsr=vel_lsr,crvalT=crvalT,line=line,restfreq=restfreq
+    wcs_line, avspec.h, crpix=crpix, cdelt=cdelt, crvalL=crvalL,$
+        vel_lsr=vel_lsr, crvalT=crvalT, line=line, crvalB=crvalB, restfreq=restfreq
     tagnames = tag_names(avspec.h)
     ;fxbhmake,fitsheader,n_elements(flist)*n_elements(spec),'data',/initialize,/date
     fxhmake,fitsheader,/extend,/initialize,/date
@@ -379,6 +380,11 @@ pro accum_map,flist,savefile=savefile,line=line,output_prefix=output_prefix,offs
     fitsheader = [fitsheader,'CDELT1T =  ' + string(strcompress(CDELT),format='(A65)')]
     fitsheader = [fitsheader,'CTYPE1T =  ' + string("'VRAD-TOP'",format='(A65)')]
     fitsheader = [fitsheader,'CUNIT1T =  ' + string("'km/s'",format='(A65)')]
+    fitsheader = [fitsheader,'CRPIX1B =  ' + string(strcompress(crpix),format='(A65)')]
+    fitsheader = [fitsheader,'CRVAL1B =  ' + string(strcompress(CRVALB),format='(A65)')]
+    fitsheader = [fitsheader,'CDELT1B =  ' + string(strcompress(CDELT),format='(A65)')]
+    fitsheader = [fitsheader,'CTYPE1B =  ' + string("'VRAD-BAR'",format='(A65)')]
+    fitsheader = [fitsheader,'CUNIT1B =  ' + string("'km/s'",format='(A65)')]
     fitsheader = [fitsheader,'CTYPE1  =  ' + string("'FREQ'",format='(A65)')]
     fitsheader = [fitsheader,'CUNIT1  =  ' + string("'Hz'",format='(A65)')]
     fitsheader = [fitsheader,'RESTFRQ =  ' + string(restfreq,format='(F65)')]

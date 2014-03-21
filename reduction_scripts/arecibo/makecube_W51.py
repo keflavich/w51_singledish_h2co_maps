@@ -76,7 +76,7 @@ files = ['W51_h2coW_spectra_0910.fits',
 for fn in files:
     fullfn = fix_TDIM_in_header(prefix+fn)
     makecube.add_file_to_cube(fullfn,
-                              cubename+'.fits',nhits=cubename+'_nhits.fits',wcstype='D',
+                              cubename+'.fits',nhits=cubename+'_nhits.fits',
                               diagnostic_plot_name=fullfn.replace('.fits','_data_scrubbed.png'),
                               velocityrange=velocityrange,excludefitrange=[vmin,vmax],linefreq=linefreq)
 
@@ -112,7 +112,7 @@ for fn in files:
                               cubename_supersampled+'.fits',
                               add_with_kernel=True,
                               kernel_fwhm=20./3600.,
-                              nhits=cubename_supersampled+'_nhits.fits',wcstype='D',
+                              nhits=cubename_supersampled+'_nhits.fits',
                               diagnostic_plot_name=fullfn.replace('.fits','_data_scrubbed.png'),
                               velocityrange=velocityrange,excludefitrange=[vmin,vmax],linefreq=linefreq)
 
@@ -154,7 +154,7 @@ for fn in files:
     fullfn = fix_TDIM_in_header(prefix+fn)
 
     makecube.add_file_to_cube(fullfn,
-                              cubename+'.fits',nhits=cubename+'_nhits.fits',wcstype='D',
+                              cubename+'.fits',nhits=cubename+'_nhits.fits',
                               diagnostic_plot_name=fullfn.replace('.fits','_data_scrubbed.png'),
                               velocityrange=velocityrange,excludefitrange=[vmin,vmax],linefreq=linefreq)
 
@@ -179,7 +179,7 @@ files = ['W51_h108a_spectra_0910.fits',
 for fn in files:
     fullfn = fix_TDIM_in_header(prefix+fn)
     makecube.add_file_to_cube(fullfn,
-        cubename+'.fits',nhits=cubename+'_nhits.fits',wcstype='D',
+        cubename+'.fits',nhits=cubename+'_nhits.fits',
         diagnostic_plot_name=fullfn.replace('.fits','_data_scrubbed.png'),
         velocityrange=velocityrange,excludefitrange=[vmin,vmax])
 
@@ -213,7 +213,7 @@ makecube.make_flats(cubename,vrange=[vmin,vmax],noisevrange=[-50,-1])
 #                               cubename_supersampled+'.fits',
 #                               add_with_kernel=True,
 #                               kernel_fwhm=20./3600.,
-#                               nhits=cubename_supersampled+'_nhits.fits',wcstype='D',
+#                               nhits=cubename_supersampled+'_nhits.fits',
 #                               diagnostic_plot_name=fullfn.replace('.fits','_data_scrubbed.png'),
 #                               velocityrange=velocityrange,excludefitrange=[vmin,vmax],linefreq=linefreq)
 # 

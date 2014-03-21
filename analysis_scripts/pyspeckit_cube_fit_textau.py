@@ -104,7 +104,9 @@ if True:
     # try7 has a lower signal cut
     # try8 includes tbackground
     parcubefilename = outcube = 'W51_taucube_fit_parcube_try8.fits'
-    refit=not os.path.exists(outcube)
+    # parcube is messed?
+    #refit=not os.path.exists(outcube)
+    refit=True
     if refit:
         guesses = np.empty((8,) + cont11.shape)
         guesses[:6,:,:] = np.array([4.5,13.1,-3,20,60,1.0,]).reshape((6,1,1,))
