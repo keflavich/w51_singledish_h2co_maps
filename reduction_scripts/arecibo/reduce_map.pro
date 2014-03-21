@@ -335,7 +335,7 @@ pro accum_map,flist,savefile=savefile,line=line,output_prefix=output_prefix,offs
     ;istat3 = masavg(desc,1,avspec)
     masclose,desc
 
-    wcs_line, avspec.h, crpix=crpix, cdelt=cdelt, crvalL=crvalL,$
+    wcs_line, avspec.h, crpix=crpix, cdeltv=cdeltv, crvalL=crvalL,$
         vel_lsr=vel_lsr, crvalT=crvalT, line=line, crvalB=crvalB, restfreq=restfreq,$
         topofreq=topofreq,crvalF=crvalF,cdeltF=cdeltF
     tagnames = tag_names(avspec.h)
