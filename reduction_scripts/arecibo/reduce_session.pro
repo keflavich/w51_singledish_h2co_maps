@@ -32,7 +32,8 @@ function tsysmodel,za,p=p,tsys_scale=tsys_scale
 end
 
 pro wcs_line, header, line=line, crpix=crpix, cdelt=cdelt, crvalL=crvalL,$
-              vel_lsr=vel_lsr, crvalT=crvalT, crvalB=crvalB, restfreq=restfreq
+              vel_lsr=vel_lsr, crvalT=crvalT, crvalB=crvalB, restfreq=restfreq,$
+              topofreq=topofreq,crvalF=crvalF,cdeltF=cdeltF
     if keyword_set(restfreq) then begin
         if ((restfreq lt 4000) or (restfreq gt 6000)) then begin
             message,'Rest frequency is not within C-band.  Must be specified in MHz.  Was: '+strtrim(restfreq)
@@ -67,21 +68,28 @@ pro wcs_line, header, line=line, crpix=crpix, cdelt=cdelt, crvalL=crvalL,$
         restfreq = 4.91632*1e3
     endif
 
+    topofreq = masfreq(header, retvel=0)
+
     speedoflight=2.99792458e8
 
     ;x = masfreq(header)
-    velo_topo = masfreq(header,/retvel,restFreq=restfreq,velcrdsys='T') ;(x-restfreq)/restfreq * speedoflight
-    velo_bary = masfreq(header,/retvel,restfreq=restfreq,velcrdsys='B') ;velo_topo - header.vel_bary
+    ;(x-restfreq)/restfreq * speedoflight
+    velo_topo = masfreq(header,/retvel,restFreq=restfreq,velcrdsys='T')
+    ;velo_topo - header.vel_bary
+    velo_bary = masfreq(header,/retvel,restfreq=restfreq,velcrdsys='B')
     ra  = header.crval2
     dec = header.crval3
     vec = anglestovec3(ra*!dtor,dec*!dtor)
+    
+    ; get offset_lsr in METERS PER SECOND (m/s)
     offset_lsr=velLsrProj(vec,header.vel_bary/speedoflight)*speedoflight 
+
     ;velo_lsr1 = (x-restfreq)/restfreq * speedoflight+offset_lsr
     velo_lsr = masfreq(header,/retvel,restfreq=restfreq,velcrdsys='L') ;velo_topo - header.vel_bary
     ;plot,velo_lsr,velo_lsr1
 
     ;plot,velo_lsr/1e3,spec.d,psym=10
-    vel_lsr = offset_lsr
+    vel_lsr = offset_lsr/1e3 ; convert from m/s to km/s
 
     m = min(abs(velo_lsr),wherezero)
     
@@ -89,11 +97,14 @@ pro wcs_line, header, line=line, crpix=crpix, cdelt=cdelt, crvalL=crvalL,$
     crvalL = velo_lsr[wherezero]
     crvalT = velo_topo[wherezero]
     crvalB = velo_bary[wherezero]
+    crvalF = topofreq[wherezero]
+    cdeltF = mean(topofreq[1:8191] - topofreq[0:8190])
     crpix = wherezero+1
 
 end
 
-function add_lines_to_header,header,freqrange,spechead,linedict=linedict,machine=machine,projid=projid
+function add_lines_to_header,header,freqrange,spechead,$
+        linedict=linedict,machine=machine,projid=projid
     if machine eq 'macbook' or machine eq 'eta' then begin
         readcol,getenv('AODATAROOT')+'/arecibo_lines_named.txt',names,freq,tupp,format='(A,F,F)',/silent
     endif else if machine eq 'ao' then begin

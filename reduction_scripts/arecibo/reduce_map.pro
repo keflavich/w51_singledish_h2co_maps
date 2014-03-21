@@ -336,7 +336,8 @@ pro accum_map,flist,savefile=savefile,line=line,output_prefix=output_prefix,offs
     masclose,desc
 
     wcs_line, avspec.h, crpix=crpix, cdelt=cdelt, crvalL=crvalL,$
-        vel_lsr=vel_lsr, crvalT=crvalT, line=line, crvalB=crvalB, restfreq=restfreq
+        vel_lsr=vel_lsr, crvalT=crvalT, line=line, crvalB=crvalB, restfreq=restfreq,$
+        topofreq=topofreq,crvalF=crvalF,cdeltF=cdeltF
     tagnames = tag_names(avspec.h)
     ;fxbhmake,fitsheader,n_elements(flist)*n_elements(spec),'data',/initialize,/date
     fxhmake,fitsheader,/extend,/initialize,/date
@@ -345,7 +346,7 @@ pro accum_map,flist,savefile=savefile,line=line,output_prefix=output_prefix,offs
         if stregex(tagnames[jj],"TDIM",/bool) then continue
         szval = size(avspec.h.(jj))
         if (szval[1] eq 1 or szval[1] eq 2) then begin
-            printval = string(avspec.h.(jj),format='(I66)')
+            printval = string(avspech.(jj),format='(I66)')
         endif else if (szval[1] eq 4 or szval[1] eq 5) then begin
             printval = string(avspec.h.(jj),format='(F66)')
         endif else begin
@@ -432,6 +433,10 @@ pro accum_map,flist,savefile=savefile,line=line,output_prefix=output_prefix,offs
     fxbaddcol,14,fitsheader,[1],'SCANNUM'
     fxbaddcol,15,fitsheader,dblarr(1),'SCANMIN'
     fxbaddcol,16,fitsheader,dblarr(1),'INTMEAN'
+    fxbaddcol,17,fitsheader,dblarr(1),'CRVAL1F'
+    fxbaddcol,18,fitsheader,dblarr(1),'CDELT1F'
+    fxbaddcol,19,fitsheader,dblarr(1),'VLSR_OFF'
+    fxbaddcol,20,fitsheader,dblarr(1),'RESTFREQ'
     ;fxbaddcol,14,fitsheader,dblarr(1),'SCANMEAN'
     ;            fxbwrite,fitsnumber,offspec_avg,13,1
     ;            fxbwrite,fitsnumber,continuum_fitpars,14,1
@@ -570,6 +575,10 @@ pro accum_map,flist,savefile=savefile,line=line,output_prefix=output_prefix,offs
                 fxbwrite,fitsnumber,scannum,14,index
                 fxbwrite,fitsnumber,double(scanmin),15,index
                 fxbwrite,fitsnumber,double(mean(scanmeans[*,index-1])),16,index
+                fxbwrite,fitsnumber,double(CRVALF),17,index
+                fxbwrite,fitsnumber,double(CDELTF),18,index
+                fxbwrite,fitsnumber,double(vel_lsr),19,index
+                fxbwrite,fitsnumber,double(restfreq),20,index
             endfor
 
             ; only count scans that are not end-of-scan calibration
