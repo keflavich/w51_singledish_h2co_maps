@@ -131,7 +131,7 @@ if False: # old cube, don't care any more
         pl.savefig(fullfn.replace(".fits","_data_subbed.png"))
         makecube.add_file_to_cube(fullfn,
                                   cubename_lores+".fits",
-                                  nhits=cubename_lores+"_nhits.fits", wcstype='V',
+                                  nhits=cubename_lores+"_nhits.fits",
                                   diagnostic_plot_name=fullfn.replace('.fits','_data_scrubbed.png'),
                                   velocityrange=velocityrange,excludefitrange=[40,75],noisecut=np.inf)
                                   # more aggressive noisecut
@@ -175,7 +175,7 @@ for fn in filelist+filelist2:
                               cubename_lores_supersampled+".fits",
                               add_with_kernel=True,
                               kernel_fwhm=20./3600.,
-                              nhits=cubename_lores_supersampled+"_nhits.fits", wcstype='V',
+                              nhits=cubename_lores_supersampled+"_nhits.fits",
                               diagnostic_plot_name=fullfn.replace('.fits','_data_scrubbed.png'),
                               velocityrange=velocityrange,excludefitrange=[40,75],noisecut=np.inf,
                               continuum_prefix=cubename_lores_supersampled+fn.replace(".fits",''),
