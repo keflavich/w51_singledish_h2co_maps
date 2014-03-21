@@ -371,19 +371,19 @@ pro accum_map,flist,savefile=savefile,line=line,output_prefix=output_prefix,offs
     fitsheader = [fitsheader,'TSYSFIT =  ' + string(strcompress(tsys_fromfit),format='(F)')]
     fitsheader = [fitsheader,'CRPIX1V =  ' + string(strcompress(crpix),format='(A65)')]
     fitsheader = [fitsheader,'CRVAL1V =  ' + string(strcompress(CRVALL),format='(A65)')]
-    fitsheader = [fitsheader,'CDELT1V =  ' + string(strcompress(CDELT),format='(A65)')]
+    fitsheader = [fitsheader,'CDELT1V =  ' + string(strcompress(CDELTV),format='(A65)')]
     fitsheader = [fitsheader,'CTYPE1V =  ' + string("'VRAD-LSR'",format='(A65)')]
     fitsheader = [fitsheader,'CUNIT1V =  ' + string("'km/s'",format='(A65)')]
     fitsheader = [fitsheader,'VEL_LSR =  ' + string(vel_lsr,format='(F65)')]
     fitsheader = [fitsheader,'RESTFRQV=  ' + string(strcompress(spec.h.restfrq),format='(A65)')]
     fitsheader = [fitsheader,'CRPIX1T =  ' + string(strcompress(crpix),format='(A65)')]
     fitsheader = [fitsheader,'CRVAL1T =  ' + string(strcompress(CRVALT),format='(A65)')]
-    fitsheader = [fitsheader,'CDELT1T =  ' + string(strcompress(CDELT),format='(A65)')]
+    fitsheader = [fitsheader,'CDELT1T =  ' + string(strcompress(CDELTV),format='(A65)')]
     fitsheader = [fitsheader,'CTYPE1T =  ' + string("'VRAD-TOP'",format='(A65)')]
     fitsheader = [fitsheader,'CUNIT1T =  ' + string("'km/s'",format='(A65)')]
     fitsheader = [fitsheader,'CRPIX1B =  ' + string(strcompress(crpix),format='(A65)')]
     fitsheader = [fitsheader,'CRVAL1B =  ' + string(strcompress(CRVALB),format='(A65)')]
-    fitsheader = [fitsheader,'CDELT1B =  ' + string(strcompress(CDELT),format='(A65)')]
+    fitsheader = [fitsheader,'CDELT1B =  ' + string(strcompress(CDELTV),format='(A65)')]
     fitsheader = [fitsheader,'CTYPE1B =  ' + string("'VRAD-BAR'",format='(A65)')]
     fitsheader = [fitsheader,'CUNIT1B =  ' + string("'km/s'",format='(A65)')]
     fitsheader = [fitsheader,'CTYPE1  =  ' + string("'FREQ'",format='(A65)')]
@@ -570,7 +570,7 @@ pro accum_map,flist,savefile=savefile,line=line,output_prefix=output_prefix,offs
                 fxbwrite,fitsnumber,double(cali.cntstok[1]),9,index
                 fxbwrite,fitsnumber,double(CRPIX),10,index
                 fxbwrite,fitsnumber,double(CRVALL),11,index
-                fxbwrite,fitsnumber,double(CDELT),12,index
+                fxbwrite,fitsnumber,double(CDELTV),12,index
                 fxbwrite,fitsnumber,double(etamb_polyfit[jj]),13,index
                 fxbwrite,fitsnumber,scannum,14,index
                 fxbwrite,fitsnumber,double(scanmin),15,index

@@ -93,7 +93,7 @@ pro wcs_line, header, line=line, crpix=crpix, cdeltv=cdeltv, crvalL=crvalL,$
 
     m = min(abs(velo_lsr),wherezero)
     
-    cdelt = mean(velo_lsr[1:8191] - velo_lsr[0:8190])
+    cdeltv = mean(velo_lsr[1:8191] - velo_lsr[0:8190])
     crvalL = velo_lsr[wherezero]
     crvalT = velo_topo[wherezero]
     crvalB = velo_bary[wherezero]
@@ -122,7 +122,7 @@ function add_lines_to_header,header,freqrange,spechead,$
             wcs_line,spechead,crpix=crpix,cdeltv=cdeltv,crvalL=crvalL,vel_lsr=vel_lsr,crvalT=crvalT,crvalB=crvalB,restfreq=freq[ii]*1e3
             header = [header,'CRPIX1'+csuffix[jj]+' =  ' + string(strcompress(crpix),format='(A65)')]
             header = [header,'CRVAL1'+csuffix[jj]+' =  ' + string(strcompress(CRVALL),format='(A65)')]
-            header = [header,'CDELT1'+csuffix[jj]+' =  ' + string(strcompress(CDELT),format='(A65)')]
+            header = [header,'CDELT1'+csuffix[jj]+' =  ' + string(strcompress(CDELTV),format='(A65)')]
             header = [header,'CTYPE1'+csuffix[jj]+' =  ' + string("'VRAD-LSR'",format='(A65)')]
             header = [header,'CUNIT1'+csuffix[jj]+' =  ' + string("'km/s'",format='(A65)')]
             header = [header,'RESTFRQ'+csuffix[jj]+'=  ' + string(strcompress(freq[ii]*1e9),format='(A65)')]
@@ -312,14 +312,14 @@ pro reduce_session,line=line,output_prefix=output_prefix,offsmooth=offsmooth,obs
         fitsheader = [fitsheader,'TSYSB   =  ' + string(strcompress(tsys[1]),format='(A65)')]
         fitsheader = [fitsheader,'CRPIX1V =  ' + string(strcompress(crpix),format='(A65)')]
         fitsheader = [fitsheader,'CRVAL1V =  ' + string(strcompress(CRVALL),format='(A65)')]
-        fitsheader = [fitsheader,'CDELT1V =  ' + string(strcompress(CDELT),format='(A65)')]
+        fitsheader = [fitsheader,'CDELT1V =  ' + string(strcompress(CDELTV),format='(A65)')]
         fitsheader = [fitsheader,'CTYPE1V =  ' + string("'VRAD-LSR'",format='(A65)')]
         fitsheader = [fitsheader,'CUNIT1V =  ' + string("'km/s'",format='(A65)')]
         fitsheader = [fitsheader,'RESTFRQV=  ' + string(strcompress(spec.h.restfrq),format='(A65)')]
         fitsheader = [fitsheader,'VEL_LSR =  ' + string(vel_lsr,format='(F65)')]
         fitsheader = [fitsheader,'CRPIX1T =  ' + string(strcompress(crpix),format='(A65)')]
         fitsheader = [fitsheader,'CRVAL1T =  ' + string(strcompress(CRVALT),format='(A65)')]
-        fitsheader = [fitsheader,'CDELT1T =  ' + string(strcompress(CDELT),format='(A65)')]
+        fitsheader = [fitsheader,'CDELT1T =  ' + string(strcompress(CDELTV),format='(A65)')]
         fitsheader = [fitsheader,'CTYPE1T =  ' + string("'VRAD-TOP'",format='(A65)')]
         fitsheader = [fitsheader,'CUNIT1T =  ' + string("'km/s'",format='(A65)')]
         fitsheader = [fitsheader,'CTYPE1  =  ' + string("'FREQ'",format='(A65)')]
