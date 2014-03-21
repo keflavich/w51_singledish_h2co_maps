@@ -346,7 +346,7 @@ pro accum_map,flist,savefile=savefile,line=line,output_prefix=output_prefix,offs
         if stregex(tagnames[jj],"TDIM",/bool) then continue
         szval = size(avspec.h.(jj))
         if (szval[1] eq 1 or szval[1] eq 2) then begin
-            printval = string(avspech.(jj),format='(I66)')
+            printval = string(avspec.h.(jj),format='(I66)')
         endif else if (szval[1] eq 4 or szval[1] eq 5) then begin
             printval = string(avspec.h.(jj),format='(F66)')
         endif else begin
