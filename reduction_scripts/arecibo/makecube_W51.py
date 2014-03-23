@@ -181,7 +181,8 @@ for fn in files:
     makecube.add_file_to_cube(fullfn,
         cubename+'.fits',nhits=cubename+'_nhits.fits',
         diagnostic_plot_name=fullfn.replace('.fits','_data_scrubbed.png'),
-        velocityrange=velocityrange,excludefitrange=[vmin,vmax])
+        velocityrange=velocityrange,excludefitrange=[vmin,vmax],
+        linefreq=5.14870e9)
 
 
 makecube.make_flats(cubename,vrange=[vmin,vmax],noisevrange=[-50,-1])
