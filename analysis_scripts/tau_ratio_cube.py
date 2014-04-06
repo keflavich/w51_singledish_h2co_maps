@@ -1,4 +1,5 @@
 from astropy.io import fits
+from FITS_tools.strip_headers import flatten_header
 import numpy as np
 import progressbar
 from paths import datapath
@@ -81,7 +82,7 @@ This is more efficient that computing a fresh tauratio array each iteration
 """
 kwargs = dict(sigma=sigma, opr=opr, temperature=temperature)
 pb = progressbar.ProgressBar()
-tbg1grid = np.hstack([tbg1grid,np.logspace(2,np.log10(350),15)[1:]])
+tbg1grid = np.hstack([np.linspace(2.73,100,100),np.logspace(2,np.log10(350),15)[1:]])
 tau1grid = [vtau(dens, line=tau1, tex=tex1, tbg=tbg1, **kwargs)
             for tbg1 in pb(tbg1grid)]
 pb = progressbar.ProgressBar()
@@ -135,8 +136,23 @@ def ratio_to_dens_slow(ratio, c11, c22):
 
 dcube = ratio_to_dens_slow(ratio,cont11,cont22)
 
-ratioF = fits.open('W51_H2CO11_taucube_supersampled.fits')
+ratioF = fits.open(datapath+'W51_H2CO11_taucube_supersampled.fits')
 ratioF[0].data = dcube.reshape(ratio.shape)
 ratioF[0].header['BUNIT'] = 'log volume density'
-ratioF.writeto('W51_H2CO11_to_22_logdensity_supersampled_textbg_sigma%0.1f.fits' % sigma,
+ratioF.writeto(datapath+'W51_H2CO11_to_22_logdensity_supersampled_textbg_sigma%0.1f.fits' % sigma,
                clobber=True)
+
+
+
+
+densc = fits.getdata(datapath+'W51_H2CO11_to_22_logdensity_supersampled.fits')
+header = fits.getheader(datapath+'W51_H2CO11_cube_supersampled_continuum.fits')
+dens_peak = np.nanmax(densc,axis=0)
+dens_peakf = fits.PrimaryHDU(data=dens_peak,header=flatten_header(header))
+dens_peakf.writeto(datapath+'W51_H2CO_logdensity_peak.fits',clobber=True)
+
+densc = fits.getdata(datapath+'W51_H2CO11_to_22_logdensity_supersampled_textbg_sigma%0.1f.fits' % sigma)
+header = fits.getheader(datapath+'W51_H2CO11_cube_supersampled_continuum.fits')
+dens_peak = np.nanmax(densc,axis=0)
+dens_peakf = fits.PrimaryHDU(data=dens_peak, header=flatten_header(header))
+dens_peakf.writeto(datapath+'W51_H2CO_logdensity_textbg_peak.fits',clobber=True)

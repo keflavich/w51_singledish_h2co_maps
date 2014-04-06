@@ -2,17 +2,19 @@ import pylab as pl
 import numpy as np
 import astroML.plotting as ampl
 from astropy.io import fits
-from agpy.mad import MAD
-import itertools
+#from agpy.mad import MAD
+#import itertools
 import pyspeckit
-import mpl_toolkits
+#import mpl_toolkits
 import aplpy
 from common_constants import datapath_cubes,figpath,get_cached
+
+pl.rcParams['font.size'] = 16
 
 dens = fits.getdata(datapath_cubes+'W51_H2CO11_to_22_logdensity_supersampled.fits')
 cube = pyspeckit.Cube(datapath_cubes+'W51_H2CO11_to_22_logdensity_supersampled.fits')
 #dens = cube.cube
-header = fits.getheader('W51_H2CO11_cube_supersampled_continuum.fits')
+header = fits.getheader(datapath_cubes+'W51_H2CO11_cube_supersampled_continuum.fits')
 
 dens_peak = np.nanmax(dens,axis=0)
 dens_mean = np.log10(np.nanmean(10**dens,axis=0))
@@ -91,11 +93,11 @@ pl.savefig(figpath+'density_mean_projection_withhist.pdf',bbox_inches='tight')
 
 dens[np.isnan(dens)] = -np.inf
 peakpos = np.argmax(dens,axis=0)
-peakvel = cube.xarr[peakpos]
+peakvel = cube.xarr[peakpos].copy() # to get around np read-only flags
 peakvel[np.isnan(dens_peak)] = np.nan
 dens[np.isinf(dens)+np.isnan(dens)] = np.inf
 minvpos = np.argmin(dens,axis=0)
-minvel = cube.xarr[minvpos]
+minvel = cube.xarr[minvpos].copy() # to get around np read-only flags
 minvel[np.isnan(dens_peak)] = np.nan
 
 hdu_peakvel = fits.PrimaryHDU(data=peakvel, header=header)

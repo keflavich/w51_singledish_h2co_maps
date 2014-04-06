@@ -33,7 +33,7 @@ class LinkedView(plugins.PluginBase):
         line.data = data[i];
         line.elements().transition()
             .attr("d", line.datafunc(line.data))
-            .style("stroke", this.style.fill);
+            .style("stroke", this.style.stroke);
       }
       pts.elements().on("mouseover", mouseover);
     };
@@ -82,13 +82,17 @@ fig = plt.figure()
 
 dowcs=False
 
+from astropy.io import fits
+fn = '/Users/adam/work/w51/W51_irac4.fits'
+img = fits.getdata(fn)
+from astropy.wcs import WCS
+hdr = fits.getheader(fn)
+wcs = WCS(hdr)
+pixll,pixur = [(1,1),(hdr['NAXIS1'],hdr['NAXIS2'])]
+pixll,pixur = np.array([(480,720),(1412,1211)])+1
+
 if dowcs:
     from wcsaxes import WCSAxes
-    from astropy.io import fits
-    from astropy.wcs import WCS
-    fn = '/Users/adam/work/w51/W51_irac4.fits'
-    img = fits.getdata(fn)
-    wcs = WCS(fits.getheader(fn))
 
     ax = [None,None]
     ax[1] = WCSAxes(fig, [0.1, 0.1, 0.8, 0.4], wcs=wcs)
@@ -105,14 +109,24 @@ if dowcs:
                            transform=tr_gal,
                            edgecolor='cyan',
                            facecolor='none',
-                           linewidths=3)
+                           linewidths=1)
 else:
-    ax = plt.subplot(2,1,1),plt.subplot(2,1,2)
+    ax = (matplotlib.axes.Axes(fig, [0.1,0.65,0.8,0.3]),
+          matplotlib.axes.Axes(fig, [0.1,0.05,0.8,0.55]))
+    for a in ax:
+        fig.add_axes(a)
+    ll = wcs.wcs_pix2world([pixll],1)[0]
+    ur = wcs.wcs_pix2world([pixur],1)[0]
+    ax[1].imshow(img[pixll[1]-1:pixur[1]-1,
+                     pixur[0]-1:pixll[0]-1:-1],
+                 extent=[ur[0],ll[0],ll[1],ur[1],],
+                 interpolation='nearest', vmin=0.1, cmap=plt.cm.gist_heat,
+                 vmax=1000, norm=matplotlib.colors.LogNorm())
     points = ax[1].scatter(P, A,
                            s=s*3600*4, alpha=0.5,
                            edgecolor='black',
                            facecolor='cyan',
-                           linewidths=3)
+                           linewidths=1)
     ax[1].set_xlabel('GLON')
     ax[1].set_ylabel('GLAT')
 
@@ -120,22 +134,28 @@ else:
 #lines = ax[0].plot(x, 0 * x, '-w', lw=3, alpha=0.5)
 #spectra.ploteach(axis=ax[0],clear=False,xmin=40,xmax=80)
 xarr1 = spectra[0].xarr[201:]
-yarr1 = np.array([sp.data[201:] for sp in spectra])
-ax[0].set_xlim(30,80)
-ax[0].set_ylim(yarr1.min(),yarr1.max())
-lines = ax[0].plot(xarr1, 0*yarr1.T, lw=3, alpha=0.5, color='w')
+yarr1 = np.array([sp.data[201:]/sp.data[201:].min() for sp in spectra])
+lines = ax[0].plot(xarr1, -10+0*yarr1.T, lw=1, alpha=1.0, color='w')
 #lines = ax[0].lines
+xarr2 = spectra[0].xarr[:201]
+yarr2 = np.array([sp.data[:201]/sp.data[:201].min() for sp in spectra])
+lines2 = ax[0].plot(xarr2, -10+0*yarr2.T, lw=1, alpha=1.0, color='w')
 
+ax[0].set_xlim(30,80)
+ax[0].set_ylim(-0.1,yarr1.max())
 
 ax[0].set_title("Hover over points to see lines")
 
 #data = np.array([(np.array(sp.xarr),sp.data) for sp in spectra])
-data = np.array([(xarr1,y) for y in yarr1])
+data1 = np.array([(xarr1,y) for y in yarr1])
+data2 = np.array([(xarr2,y) for y in yarr2])
 
 #plt.show()
 
 # transpose line data and add plugin
-linedata = data.transpose(0, 2, 1).tolist()
-plugins.connect(fig, LinkedView(points, lines[0], linedata))
+linedata1 = data1.transpose(0, 2, 1).tolist()
+linedata2 = data2.transpose(0, 2, 1).tolist()
+plugins.connect(fig, LinkedView(points, lines[0], linedata1))
+#plugins.connect(fig, LinkedView(points, lines2[0], linedata2))
 
 mpld3.show()

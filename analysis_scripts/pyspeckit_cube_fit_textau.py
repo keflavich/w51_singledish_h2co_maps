@@ -1,84 +1,12 @@
-import pyspeckit
+from load_pyspeckit_cubes import both,T,F,cont11,cont22,h2co11filename
 from astropy.io import fits
-import types
-import numpy as np
 import os
-#cube1 = pyspeckit.Cube('W51_H2CO11_cube_sub.fits')        / 0.51 # eta_mb = 0.51 for arecibo @ c-band according to outergal paper
-#cube2 = pyspeckit.Cube('W51_H2CO22_pyproc_cube_sess22_sub.fits') / 0.886 # from both outergal and pilot
-
-print "TO DO: fix (hold in place) abundance"
-
-doextra=False
-
-#etamb already accounted for
-cube1 = pyspeckit.Cube('/Users/adam/work/h2co/maps/W51/W51_H2CO11_cube_supersampled_sub.fits')
-cube2 = pyspeckit.Cube('/Users/adam/work/h2co/maps/W51/W51_H2CO22_pyproc_cube_lores_supersampled_sub.fits')
-cube1.xarr.refX_units='GHz'
-cube1.xarr.refX = 4.829659400
-E1 = cube1.cube[cube1.xarr.as_unit('km/s') < 0].std(axis=0)
-cube1.errorcube = np.repeat(np.reshape(E1,(1,)+E1.shape),cube1.shape[0],axis=0)
-cube2.xarr.refX_units='GHz'
-cube2.xarr.refX = 14.48847881
-E2 = cube2.cube[cube2.xarr.as_unit('km/s') < 0].std(axis=0)
-cube2.errorcube = np.repeat(np.reshape(E2,(1,)+E2.shape),cube2.shape[0],axis=0)
-both = pyspeckit.CubeStack([cube1,cube2])
-both.mapplot()
-#both.units = 'Optical Depth $\\tau$'
-#both.header['BUNIT'] = 'Optical Depth $\\tau$'
-# need continua now
-cont11 = fits.getdata('/Users/adam/work/h2co/maps/W51/W51_H2CO11_cube_supersampled_continuum.fits') + 2.73
-cont22 = fits.getdata('/Users/adam/work/h2co/maps/W51/W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits') + 2.73
-cont11[cont11<2.73] = 2.73
-cont22[cont22<2.73] = 2.73
-
-
 import numpy as np
-import pyspeckit
-try:
-    import astropy.io.fits as pyfits
-except ImportError:
-    import pyfits
-from pyspeckit.spectrum import models
-from pyspeckit.wrappers import fith2co
-
-path_to_data = "/Users/adam/work/h2co/radex/troscompt_grid_March2012"
-
-texgrid1 = pyfits.getdata(path_to_data+'/1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tex1.fits')
-taugrid1 = pyfits.getdata(path_to_data+'/1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tau1.fits')
-texgrid2 = pyfits.getdata(path_to_data+'/1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tex2.fits')
-taugrid2 = pyfits.getdata(path_to_data+'/1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tau2.fits')
-hdr    = pyfits.getheader(path_to_data+'/1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tau2.fits')
-# # this deserves a lot of explanation:
-# # models.formaldehyde.formaldehyde_radex is the MODEL that we are going to fit
-# # models.model.SpectralModel is a wrapper to deal with parinfo, multiple peaks,
-# # and annotations
-# # all of the parameters after the first are passed to the model function
-T,F = True,False
-formaldehyde_radex_fitter = models.model.SpectralModel(
-        models.formaldehyde.formaldehyde_radex_orthopara_temp, 8,
-        parnames=['density','column','orthopara','temperature','center','width','tbackground1','tbackground2'], 
-        parvalues=[4,12,0.0,15.0,0,1,2.73,2.73],
-        parlimited=[(True,True), (True,True), (True,True), (True,True), (False,False), (True,False), (True,False), (True,False)], 
-        parlimits=[(1,8), (11,16), (-3,np.log10(3.0)), (5,55), (0,0), (0,0), (2.73,0), (2.73,0)],
-        fixed=[F,F,T,T,F,F,T,T],
-        parsteps=[0.01,0.01,0,0,0,0,0,0],
-        fitunits='Hz',
-        texgrid=((4,5,texgrid1),(14,15,texgrid2)),
-        taugrid=((4,5,taugrid1),(14,15,taugrid2)),
-        hdr=hdr,
-        shortvarnames=("n","N",'OP','T',"v","\\sigma",'T_{bg,1}','T_{bg,2}'),
-        )
-
-
-#both.Registry.add_fitter('formaldehyde_radex',formaldehyde_radex_fitter,4,multisingle='multi')
-both.Registry.add_fitter('formaldehyde_radex',formaldehyde_radex_fitter,8,multisingle='multi')
-
-both.plot_special = fith2co.plotter_override
-both.plot_special_kwargs = {'vrange':[30,90],'fignum':3,'reset_xlimits':True}
+import types
 
 #sp = both.get_spectrum(14,31)
 #sp.specfit(fittype='formaldehyde_radex',guesses=[4,13,-20,1],multifit=True,quiet=False,verbose=True,negamp=True)
-x,y = 157,79
+x,y = 88,77
 both.plot_spectrum(x,y)
 both.specfit(fittype='formaldehyde_radex',guesses=[4,13,-3,20,65,1,
                                                    cont11[y,x],
@@ -88,8 +16,11 @@ both.specfit(fittype='formaldehyde_radex',guesses=[4,13,-3,20,65,1,
              use_window_limits=False,
              fit_plotted_area=False)
 both.plot_spectrum(x,y, errstyle='fill', residfignum=5)
-both.specfit.add_sliders()
+#both.specfit.add_sliders()
 
+doextra=False
+
+twopar = True
 if True:
 
     #fith2co.plotter_override(sp,vrange=[-50,10],fignum=5,reset_xlimits=True)
@@ -103,28 +34,49 @@ if True:
     # try6 includes errors
     # try7 has a lower signal cut
     # try8 includes tbackground
-    parcubefilename = outcube = 'W51_taucube_fit_parcube_try8.fits'
+    # try9 includes tbackground with corrected velocities
+    # try10 includes tbackground and tries two independent pars.  Scary.
+    parcubefilename = outcube = 'W51_taucube_fit_parcube_try10.fits'
     # parcube is messed?
-    #refit=not os.path.exists(outcube)
-    refit=True
+    refit=not os.path.exists(outcube)
+    #refit=True
     if refit:
-        guesses = np.empty((8,) + cont11.shape)
-        guesses[:6,:,:] = np.array([4.5,13.1,-3,20,60,1.0,]).reshape((6,1,1,))
-        guesses[6,:,:] = cont11
-        guesses[7,:,:] = cont22
-        both.fiteach(guesses=guesses,
-                     absorption=True,
-                     integral=False,
-                     fittype='formaldehyde_radex',
-                     multicore=8,
-                     signal_cut=3,
-                     fixed=[F,F,T,T,F,F,T,T],
-                     parlimited=[(True,True), (True,True), (True,True), (True,True), (False,False), (True,False), (True,False), (True,False)], 
-                     parlimits=[(1,8), (11,16), (-3,np.log10(3.0)), (5,55), (0,0), (0,0), (2.73,0), (2.73,0)],
-                     start_from_point=[x,y])
+        if twopar:
+            guesses = np.empty((16,) + cont11.shape)
+            guesses[:6,:,:] = np.array([4.5,13.1,-3,20,60,1.0,]).reshape((6,1,1,))
+            guesses[6,:,:] = cont11
+            guesses[7,:,:] = cont22
+            guesses[8:14,:,:] = np.array([4.5,13.1,-3,20,70,1.0,]).reshape((6,1,1,))
+            guesses[14,:,:] = cont11
+            guesses[15,:,:] = cont22
+            both.fiteach(guesses=guesses,
+                         absorption=True,
+                         integral=False,
+                         fittype='formaldehyde_radex',
+                         multicore=8,
+                         signal_cut=4,
+                         fixed=[F,F,T,T,F,F,T,T]*2,
+                         parlimited=[(T,T), (T,T), (T,T), (T,T), (F,F), (T,F), (T,F), (T,F)]*2,
+                         parlimits=[(1,8), (11,16), (-3,np.log10(3.0)), (5,55), (0,0), (0,0), (2.73,0), (2.73,0)]*2,
+                         start_from_point=[x,y])
+        else:
+            guesses = np.empty((8,) + cont11.shape)
+            guesses[:6,:,:] = np.array([4.5,13.1,-3,20,60,1.0,]).reshape((6,1,1,))
+            guesses[6,:,:] = cont11
+            guesses[7,:,:] = cont22
+            both.fiteach(guesses=guesses,
+                         absorption=True,
+                         integral=False,
+                         fittype='formaldehyde_radex',
+                         multicore=8,
+                         signal_cut=3,
+                         fixed=[F,F,T,T,F,F,T,T],
+                         parlimited=[(T,T), (T,T), (T,T), (T,T), (F,F), (T,F), (T,F), (T,F)],
+                         parlimits=[(1,8), (11,16), (-3,np.log10(3.0)), (5,55), (0,0), (0,0), (2.73,0), (2.73,0)],
+                         start_from_point=[x,y])
         both.write_fit(parcubefilename,clobber=True)
-        cubeheader = pyfits.getheader('/Users/adam/work/h2co/maps/W51/W51_H2CO11_taucube.fits')
-        tempf = pyfits.open(parcubefilename) # error in pyspeckit header tracking
+        cubeheader = fits.getheader(h2co11filename)
+        tempf = fits.open(parcubefilename) # error in pyspeckit header tracking
         tempf[0].header = cubeheader
         tempf.writeto(parcubefilename,clobber=True)
         # filter out bad fits for each component independently
@@ -141,10 +93,12 @@ if True:
         #tempf[0].data[7, (tempf[0].data[15,:,:] == 0)|(tempf[0].data[15,:,:] > 2)] = 0
         #tempf.writeto(parcubefilename.replace(".fits","_filtered.fits"),clobber=True)
     else:
-        both.load_model_fit(parcubefilename,4,fittype='formaldehyde_radex',_temp_fit_loc=(x,y))
-        both.parcube[4:,both.parcube[-1,:,:]==0] = 0
+        both.load_model_fit(parcubefilename,8,fittype='formaldehyde_radex',_temp_fit_loc=(x,y))
+        #both.parcube[4:,both.parcube[-1,:,:]==0] = 0
         # alternative
         # both.load_model_fit('W51_scaled_parcube.fits',4,fittype='formaldehyde_radex_tau',_temp_fit_loc=(15,30))
+        #
+    both.mapplot(estimator=0, vmin=3, vmax=6)
 
     # Individual spectra stuff - not set up for W51 yet
     # sp1 = pyspeckit.Spectrum('G173.47+2.44_h2co.fits',wcstype='D') / 0.51

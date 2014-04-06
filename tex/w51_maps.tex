@@ -66,7 +66,7 @@ east-west maps were taken.
 
 The data was reduced using custom-made scripts based off of both GBTIDL's
 mapping routines (cite Langston?) and Phil Perillat's AOIDL routines.  The code
-is available at \url{https://github.com/keflavich/gbtpy}.  The data reduction
+is available at \url{https://github.com/keflavich/sdpy}.  The data reduction
 workflow, along with a summary of the code, is presented in the Appendix.
 
 The individual spectral were calibrated using a noise calibration diode as
@@ -658,10 +658,10 @@ steps and stores the resulting time-series of spectra in a FITS file.  The
 \texttt{make\_off} routine creates an `off' spectrum by averaging selected
 (ideally emission-free) scans, smoothing them, and interpolating across
 regions of the spectrum with lines or electronic artifacts.  The data were then
-gridded into map cubes using the \texttt{makecube} routines in \texttt{gbtpy}.
+gridded into map cubes using the \texttt{makecube} routines in \texttt{sdpy}.
 
 The GBT data was processed using exclusively custom-made scripts stored in
-\texttt{gbtpy}.  The KFPA pipeline
+\texttt{sdpy}.  The KFPA pipeline
 (\url{https://safe.nrao.edu/wiki/bin/view/Kbandfpa/ObserverGuide}) is a useful
 alternative, but at the time these data were taken, it was not quite mature
 enough for use with our Ku-band data.  The custom-made scripts also provided
@@ -671,7 +671,7 @@ needed flexibility for comparing the GBT and Arecibo data.
 Dependencies:
 \begin{itemize}
     \item aoIDL \url{http://www.naic.edu/~phil/download/aoIdl.tar.gz}
-    \item gbtpy \url{https://github.com/keflavich/gbtpy}
+    \item sdpy \url{https://github.com/keflavich/sdpy}
 \end{itemize}
 
 
