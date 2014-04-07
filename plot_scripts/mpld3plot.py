@@ -133,29 +133,36 @@ else:
 # create the line object
 #lines = ax[0].plot(x, 0 * x, '-w', lw=3, alpha=0.5)
 #spectra.ploteach(axis=ax[0],clear=False,xmin=40,xmax=80)
-xarr1 = spectra[0].xarr[201:]
-yarr1 = np.array([sp.data[201:]/sp.data[201:].min() for sp in spectra])
-lines = ax[0].plot(xarr1, -10+0*yarr1.T, lw=1, alpha=1.0, color='w')
-#lines = ax[0].lines
-xarr2 = spectra[0].xarr[:201]
-yarr2 = np.array([sp.data[:201]/sp.data[:201].min() for sp in spectra])
-lines2 = ax[0].plot(xarr2, -10+0*yarr2.T, lw=1, alpha=1.0, color='w')
+l1 = False
 
+if l1:
+    xarr1 = spectra[0].xarr[201:]
+    yarr1 = np.array([sp.data[201:]/sp.data[201:].min() for sp in spectra])
+    lines = ax[0].plot(xarr1, -10+0*yarr1.T, lw=1, alpha=1.0, color='w')
+    data = np.array([(xarr1,y) for y in yarr1])
+    yarr = yarr1
+else:
+    xarr2 = spectra[0].xarr[:201]
+    xarr2.convert_to_unit('GHz')
+    xarr2.refX = 4.82966
+    xarr2.convert_to_unit('km/s')
+    yarr2 = np.array([sp.data[:201]/sp.data[:201].min() for sp in spectra])
+    lines = ax[0].plot(xarr2, -10+0*yarr2.T, lw=1, alpha=1.0, color='w')
+    data = np.array([(xarr2,y) for y in yarr2])
+    yarr = yarr2
+
+#lines = ax[0].lines
 ax[0].set_xlim(30,80)
-ax[0].set_ylim(-0.1,yarr1.max())
+ax[0].set_ylim(-0.1,yarr.max())
 
 ax[0].set_title("Hover over points to see lines")
 
 #data = np.array([(np.array(sp.xarr),sp.data) for sp in spectra])
-data1 = np.array([(xarr1,y) for y in yarr1])
-data2 = np.array([(xarr2,y) for y in yarr2])
 
 #plt.show()
 
 # transpose line data and add plugin
-linedata1 = data1.transpose(0, 2, 1).tolist()
-linedata2 = data2.transpose(0, 2, 1).tolist()
-plugins.connect(fig, LinkedView(points, lines[0], linedata1))
-#plugins.connect(fig, LinkedView(points, lines2[0], linedata2))
+linedata = data.transpose(0, 2, 1).tolist()
+plugins.connect(fig, LinkedView(points, lines[0], linedata))
 
 mpld3.show()
