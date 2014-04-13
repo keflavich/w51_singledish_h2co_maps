@@ -33,14 +33,16 @@ fwhm = np.sqrt(8*np.log(2))
 ac_kernsize = (r_sm.value/pixsize)/fwhm
 dc_kernsize = (r_sm_dc.value/pixsize)/fwhm
 
-sm_ac = smooth(ac, ac_kernsize, interpolate_nan=True, downsample=True,downsample_factor=downsample_factor)
+sm_ac = smooth(ac, ac_kernsize, interpolate_nan=True,
+               downsample=True,downsample_factor=downsample_factor)
 sm_dc = dc # alternate option
 # this is slow; should use astropy version
-sm_dc = smooth(dc, dc_kernsize, downsample=True,downsample_factor=downsample_factor) # (8.9**2-6.6**2)**0.5/2.35 == 2.54
+sm_dc = smooth(dc, dc_kernsize, downsample=True,
+               downsample_factor=downsample_factor) # (8.9**2-6.6**2)**0.5/2.35 == 2.54
 
 # correction not needed
 # sm_ac_hdu = fits.PrimaryHDU(sm_ac, ac_hdr)
-# 
+#
 # result = image_registration.FITS_tools.register_fits(sm_ac_hdu, dcfn, return_cropped_images=True, verbose=True, upsample_factor=10)
 # sm_ac,dc = result[-2:]
 

@@ -1,14 +1,15 @@
 import pylab as pl
 import numpy as np
 import aplpy
+from paths import datapath
 
 for fn in (1,2):
     pl.figure(fn)
     pl.clf()
 
 
-oneonefn = 'W51_H2CO11_cube_supersampled_continuum.fits'
-twotwofn = 'W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits'
+oneonefn = datapath+'W51_H2CO11_cube_supersampled_continuum.fits'
+twotwofn = datapath+'W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits'
 F1 = aplpy.FITSFigure(oneonefn,convention='calabretta',figure=pl.figure(1),)
 F2 = aplpy.FITSFigure(twotwofn,convention='calabretta',figure=pl.figure(2),)
 
@@ -27,8 +28,6 @@ F2.add_colorbar()
 con11 = 10**np.linspace(-1,2.5,6)
 con22 = 10**np.linspace(-1,1.5,6)
 linewidths = np.linspace(2,0.5,6)
-F1.show_contour(oneonefn, levels=con11, colors=['r'], linewidths=linewidths)
-F2.show_contour(twotwofn, levels=con22, colors=['r'], linewidths=linewidths)
 
 def loc1(x):
     return np.interp(x, F1.colorbar._colorbar._values, np.linspace(0,1,len(F1.colorbar._colorbar._values)))
@@ -48,8 +47,13 @@ F2.colorbar._colorbar_axes.figure.show()
 
 F1.save('/Users/adam/work/h2co/maps/paper/figures/continuum_11.pdf',dpi=100)
 F2.save('/Users/adam/work/h2co/maps/paper/figures/continuum_22.pdf',dpi=100)
+F1.show_contour(oneonefn, levels=con11, colors=['r'], linewidths=linewidths)
+F2.show_contour(twotwofn, levels=con22, colors=['r'], linewidths=linewidths)
+F1.save('/Users/adam/work/h2co/maps/paper/figures/continuum_11_contours.pdf',dpi=100)
+F2.save('/Users/adam/work/h2co/maps/paper/figures/continuum_22_contours.pdf',dpi=100)
 
-for fn in (1,2):
-    pl.figure(fn)
-    pl.draw()
-    pl.show()
+if False:
+    for fn in (1,2):
+        pl.figure(fn)
+        pl.draw()
+        pl.show()
