@@ -495,43 +495,153 @@ therefore should not be detected.
 % but with evidence of a radial decrease in density to its outskirts.
 
 
-% projection_figures.py
-\FigureTwoAA{figures/density_mean_projection_withhist.pdf}
-            {figures/density_peak_projection_withhist.pdf}
-{Projections of the derived density along with histograms
-showing the density distribution and best-fit lognormal.
-(top) Projected mean density.
-(bottom) Projected peak density.
-Two main high-density regions are evident: W51 Main at 49.5 -0.4 and G48.9-0.3 at 48.9 -0.3.}
-{fig:densprojections}{1.0}{6in}
+%% projection_figures.py
+%\FigureTwoAA{figures/density_mean_projection_withhist.pdf}
+%            {figures/density_peak_projection_withhist.pdf}
+%{Projections of the derived density along with histograms
+%showing the density distribution and best-fit lognormal.
+%(top) Projected mean density.
+%(bottom) Projected peak density.
+%Two main high-density regions are evident: W51 Main at 49.5 -0.4 and G48.9-0.3 at 48.9 -0.3.}
+%{fig:densprojections}{1.0}{6in}
 
-We also show a projection of the velocity at peak density in each pixel (Figure
-\ref{fig:velopv}).  This figure clearly highlights the 68 \kms cloud as a
-high-density feature throughout the region \citep{Carpenter1998a}.  However,
-there are significant gaps in the molecular gas, notably a $\sim6 pc$ gap
-(assuming $D=5$ kpc) at $\ell=49.1, b=-0.34$.
+% We also show a projection of the velocity at peak density in each pixel (Figure
+% \ref{fig:velopv}).  This figure clearly highlights the 68 \kms cloud as a
+% high-density feature throughout the region \citep{Carpenter1998a}.  However,
+% there are significant gaps in the molecular gas, notably a $\sim6 pc$ gap
+% (assuming $D=5$ kpc) at $\ell=49.1, b=-0.34$.
 
-\FigureTwoAA
-{figures/velocity_at_peak_density.pdf}
-{figures/pvdiagram_max_along_latitude.pdf}
-{(top) The velocity at peak density.
- (bottom) A position-velocity diagram showing the peak density across latitude
- at each longitude.  There is a density enhancement at the highest velocities
- across the entire $\sim100$ pc slice; it may be an indication of an impinging 
- spiral density wave (discussion to be added later XXXX).
-}
-{fig:velopv}{1.0}{6in}
+% \FigureTwoAA
+% {figures/velocity_at_peak_density.pdf}
+% {figures/pvdiagram_max_along_latitude.pdf}
+% {(top) The velocity at peak density.
+%  (bottom) A position-velocity diagram showing the peak density across latitude
+%  at each longitude.  There is a density enhancement at the highest velocities
+%  across the entire $\sim100$ pc slice; it may be an indication of an impinging 
+%  spiral density wave (discussion to be added later XXXX).
+% }
+% {fig:velopv}{1.0}{6in}
 
-The position-velocity diagram in Figure \ref{fig:velopv} shows the same general
-feature: the highest velocity gas is the densest.  There appears to be an edge
-of high-density gas tracing the most redshifted velocity at each longitude.
-Given the $\sim100$ pc extent of the cloud and the high-density ridge, it is
-entirely implausible that this structure is caused by any local phenomenon,
-e.g. supernovae or cloud collisions.  Instead, the high-density ridge provides
-evidence for a spiral density wave triggering the high densities.
+% The position-velocity diagram in Figure \ref{fig:velopv} shows the same general
+% feature: the highest velocity gas is the densest.  There appears to be an edge
+% of high-density gas tracing the most redshifted velocity at each longitude.
+% Given the $\sim100$ pc extent of the cloud and the high-density ridge, it is
+% entirely implausible that this structure is caused by any local phenomenon,
+% e.g. supernovae or cloud collisions.  Instead, the high-density ridge provides
+% evidence for a spiral density wave triggering the high densities.
 
 \section{Structure of the Molecular Clod}
-We now examine a few regions in more detail (right?)
+The \formaldehyde observations reveal two essential features of the W51 GMC:
+its density structure and its line-of-sight geometry.
+
+\subsection{Model fitting and geometry}
+Both \formaldehyde lines are seen only in absorption.  However, in some cases
+the absorption is against a continuum background, while in others the
+absorption may be only against the CMB.
+
+We have fit the \formaldehyde lines constrained by the LVG models (Section
+\ref{sec:models}) to spectra averaged over regions with coherent molecular
+absorption signatures.  We compared the $\chi^2$ values for fits with the
+observed continuum as the background to those with the background fixed to
+$T_{BG} = T_{CMB}$.  We then selected the better of the two fits as
+representative of the physical conditions.
+
+It is possible that there are multiple continuum emitters along the line of
+sight in many cases, with the absorbing molecular gas somewhere in the middle.
+While this possibility adds uncertainty to the measurements, there are some
+cases in which the dominant continuum can unambiguously be assigned a
+foreground or background position.
+
+\subsection{W51 B}
+The W51 B filament is rich in molecular gas, but has relatively weak
+\formaldehyde absorption.  The absorption models are inconsistent with
+the molecular gas being in front of the continuum emission.
+Figure \ref{fig:h2cofrontbackmodel} shows an example model fit with the
+continuum assumed to be in front and in back, illustrating that the best-fit
+model parameters with continuum in the back do not reproduce the data.
+
+% pyspeckit_individual_fits
+% paperfigure_filament_demonstrate_frontback(fixedTO=True):
+\Figure{figures/spectralfits_70kmscloud_aperture_ap6_modelcomparison_residuals.pdf}
+{An example of the difference in models between a continuum source (red) and
+the CMB (green) as the background.  The top plot shows the \oneone line and the
+bottom shows the \twotwo line both with the continuum level set to zero in the
+plot but treated as a frozen parameter in the fit.  The residuals are shown
+offset above the spectra, with the dashed line indicating the zero-residual
+level.  The grey shaded regions show the 1-$\sigma$ error bars on each pixel.
+The model with the CMB as the only
+background is able to reproduce the absorption line, while the model with the
+\hii region in the background cannot account for the depth of the \twotwo line.
+The reduced $\chi^2/n$ for the models are 14.1 (red) and 2.8 (green), evaluated
+only over the pixels where the model is greater than the local RMS.}
+{fig:h2cofrontbackmodel}{0.5}{0}
+
+The mass-weighted mean density ranges from $\sim$1.5\ee{4} to 5.6\ee{4} \percc, with
+the lowest mean density corresponding to the highest column density toward the
+center.
+
+\subsection{The edge of W51 C}
+W51 C is a supernova remnant that spatially overlaps with the W51 B star
+forming region.  There are clumps aligned along the 68 \kms filamentary cloud
+with very high CO and HI velocities \citep{Koo1997b,Koo1997c,Brogan2013a}.
+
+The clumps at $\sim68$ \kms are lower density ($n<1.5\ee{4}$ \percc) and in the
+background of the HII region.  These clumps are associated with the supernova
+interaction region.  The $62 \kms$ have densities a few times higher,
+$n\sim4\ee{4}$ \percc, and are clearly in the foreground of the continuum
+emission because their absorption depths are $\sim2.5$ K, which cannot occur
+for absorption against the CMB.
+
+We are therefore seeing molecular gas both in front of and behind the
+supernova.  This geometry can be readily confirmed by looking for molecular absorption
+at much lower frequencies where the SN synchrotron emission dominates over the
+\hii region free-free emission, i.e. the 335 and 71 MHz \para lines.
+
+
+\subsection{The 66 \kms IRDC}
+Between W51 A and W51 B, there is a component of the 68 \kms cloud that is
+filamentary and in the foreground of all of the free-free emission.
+This cloud component is evident as an IRDC in the Spitzer GLIMPSE images from
+$\ell=49.393 b=-0.357$ to $\ell=49.207 b=-0.338$.
+
+The \hii region G49.20-0.35 is clearly behind the IRDC, though there are strong
+morphological hints that it is interacting with and truncated by the cloud.
+
+\subsubsection{G49.27-0.34}
+% digging_in_to_G49.27-0.34.py
+The \uchii region G49.27-0.34, which was considered a candidate extended green
+object (EGO) and subsequently rejected for lack of \hh emission
+\citep{deBuizer2010a,Lee2013a}, exhibits a second velocity component at $\sim68
+\kms$, slightly but clearly redshifted of the rest of the IRDC.  Its mass is
+$\sim2\ee{3} \msun$ based on the BGPS flux and using the assumptions outlined
+in \citet{Aguirre2011a}, suggesting that the high velocity could be due to
+infall or virialized gas within a deep potential.  The virialized velocity
+width, given the radius and mass from the BGPS data, is $\sigma_{vir}=8.8 \kms$.
+
+Both radio continuum and RRLs are detected toward this source.  The H77$\alpha$
+RRL velocity is $\sim60$ \kms, significantly blueshifted from the molecular
+gas.  The \formaldehyde lines do not independently distinguish between the
+continuum source being in the front or back of the cloud, but the mean density
+from the BGPS mass and radius $n\sim2.5\ee{4}$ \percc is within a factor of 2
+of the \formaldehyde-derived density, $n\sim1.4\ee{4}$ \percc, if the continuum
+source is behind the gas, while the \formaldehyde-derived density is too low,
+$n\sim2\ee{3}$ \percc if the continuum source is in front.
+
+The implied geometry therefore has the \hii region behind the molecular gas,
+plowing toward it at a velocity difference $\Delta v \sim 8$ \kms.
+Such a high velocity difference may indicate that the \hii region is confined by
+the molecular gas and on a plunging orbit into the cloud.
+% Notes to self:
+% Considered the alternative: what if the cloud was actually much hotter and
+% therefore lower mass?  Then, the HII region could be in front.  That would
+% also explain the CO self-absorption.  However, the temperatures required are
+% ~50-100 K, but the CO temperature is ~15K
+% Could do an SED fit to check; that is not worth the effort at present
+
+\subsubsection{G49.4-0.3f, aka G49.34-0.34}
+The \hii region centered at 49.34-0.34 was identified by \citet{Mehringer1994a}
+as part of the G49.4-0.3 complex.
+
 
 \subsection{Infrared Dark Cloud G49.47-0.27}
 The cloud to the north of W51 Main/IRS2 appears as a dark feature in Spitzer

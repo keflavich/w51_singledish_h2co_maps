@@ -21,8 +21,7 @@ function get_scanlist,scanstart,nscans,fbase=fbase,bsg=bsg,obsdate=obsdate,machi
     return,flist[1:*]
 end
 
-function mask_line,velo,spec,velocities,fitorder,velocity_buffer=velocity_buffer,$
-         pp=pp
+function mask_line,velo,spec,velocities,fitorder, pp=pp
     ; velocities should be specified as a set of ranges to fit
     ; in between will be interpolated over
     ; e.g.:
@@ -33,9 +32,6 @@ function mask_line,velo,spec,velocities,fitorder,velocity_buffer=velocity_buffer
     ; a:b, c:d, e:f
     ; and the replace/reject region
     ; b:c, d:e
-
-    ; velocity_buffer gives the range around the masked region to include in the polyfit
-    ;if n_elements(velocity_buffer) eq 0 then velocity_buffer = 20 
 
     fit_mask = replicate(0,n_elements(velo))
     replace_mask = replicate(0,n_elements(velo))
@@ -56,17 +52,6 @@ function mask_line,velo,spec,velocities,fitorder,velocity_buffer=velocity_buffer
     pp = poly_fit(velo[fit_region],spec[fit_region],fitorder)
     spec[replace_region] = poly(velo[replace_region],pp)
 
-    ; mask out selected velocities (e.g., where line is)
-    ; then, replace with best-fit across that region
-    ;mask_region = where((velo lt max(velocities))*(velo gt min(velocities)),nmask,complement=not_mask)
-    ;if nmask gt 0 then begin
-    ;    fitvelocities = [min(velocities)-velocity_buffer,max(velocities)+velocity_buffer]
-    ;    fit_region = where((velo lt max(fitvelocities))*(velo gt max(velocities))+$
-    ;        (velo gt min(fitvelocities))*(velo lt min(velocities)),nfit,complement=not_fit)
-    ;    pp = poly_fit(velo[fit_region],spec[fit_region],fitorder)
-    ;    spec[mask_region] = poly(velo[mask_region],pp)
-    ;endif
-
     return,spec
 end
 
@@ -76,7 +61,7 @@ end
 function make_off,flist,exclude_middle=exclude_middle,percentile=percentile,doplot=doplot,$
     continuum_fitpars=continuum_fitpars, fitorder_off=fitorder_off,scanmeans=scanmeans,dostop=dostop,$
     speccube=speccube, scaled_speccube=speccube_scaled, savefile=savefile, do_mask_line=do_mask_line, $
-    fitorder_line=fitorder_line, velocities=velocities, velocity_buffer=velocity_buffer, $
+    fitorder_line=fitorder_line, velocities=velocities, $
     restfreq=restfreq,hack_obsmode=hack_obsmode,domedsmooth=domedsmooth
     ; continuum_fitpars : output array with polyfit parameters for each pol
     ; scanmeans : output array of accumulated spectrum means
@@ -204,8 +189,8 @@ function make_off,flist,exclude_middle=exclude_middle,percentile=percentile,dopl
             pol1 = medsmooth(pol1, 5)
             pol2 = medsmooth(pol2, 5)
         endif
-        off0 = mask_line(velo, pol1, velocities, fitorder_line, velocity_buffer=velocity_buffer,pp=pp1)
-        off1 = mask_line(velo, pol2, velocities, fitorder_line, velocity_buffer=velocity_buffer,pp=pp2)
+        off0 = mask_line(velo, pol1, velocities, fitorder_line, pp=pp1)
+        off1 = mask_line(velo, pol2, velocities, fitorder_line, pp=pp2)
         avg_off = [[off0],[off1]]
     endif else begin
         avg_off = avg_off_A
@@ -266,7 +251,7 @@ end
 pro accum_map,flist,savefile=savefile,line=line,output_prefix=output_prefix,offsmooth=offsmooth,obsdate=obsdate,$
     dostop=dostop,scanstart=scanstart,nscans=nscans,machine=machine,velocities=velocities,restfreq=restfreq,$
     fitorder=fitorder,projid=projid,debug=debug,flatten=flatten,percentile=percentile,exclude_middle=exclude_middle,$
-    velocity_buffer=velocity_buffer,zoomregion=zoomregion,doplot=doplot,do_mask_line=do_mask_line,hack_obsmode=hack_obsmode,$
+    zoomregion=zoomregion,doplot=doplot,do_mask_line=do_mask_line,hack_obsmode=hack_obsmode,$
     domedsmooth=domedsmooth
 
     if ~keyword_set(obsdate) then obsdate='20101111'
@@ -281,8 +266,6 @@ pro accum_map,flist,savefile=savefile,line=line,output_prefix=output_prefix,offs
     ; not used if ~keyword_set(offsmooth) then offsmooth=-64
     if ~keyword_set(fitorder) then fitorder=2
     if n_elements(exclude_middle) eq 0 then exclude_middle = 1 ; try to exclude the central "spike" from the Mock
-    ; number of km/s above/below the specified velocities to include when fitting
-    if n_elements(velocity_buffer) eq 0 then velocity_buffer = 20 
     ; frequency in MHz to zoom in on when plotting "final" reduced spec
     if n_elements(zoomregion) eq 0 then zoomregion = [4828,4831]
     if n_elements(debug) eq 0 then debug=0
@@ -410,7 +393,7 @@ pro accum_map,flist,savefile=savefile,line=line,output_prefix=output_prefix,offs
     offspec_avg = make_off( flist, exclude_middle=exclude_middle, percentile=percentile, $
         doplot=doplot, continuum_fitpars=continuum_fitpars,  fitorder_off=fitorder_off, $
         scanmeans=scanmeans, dostop=dostop, savefile=savefile, do_mask_line=do_mask_line, $
-        velocities=velocities, velocity_buffer=velocity_buffer, $
+        velocities=velocities, $
         restfreq=restfreq,hack_obsmode=hack_obsmode,domedsmooth=domedsmooth)
 
     help,offspec_avg

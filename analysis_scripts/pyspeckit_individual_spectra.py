@@ -1,5 +1,6 @@
 from __future__ import print_function
 from load_pyspeckit_cubes import both,T,F,cont11,cont22,cont11filename
+import matplotlib as mpl
 import pyspeckit
 from astropy.io import fits
 import pyregion
@@ -22,14 +23,14 @@ regfiledict = {"/Users/adam/work/w51/dense_filament_spectral_apertures.reg":
 
 def modelpars():
     
-    limits = [(1, 8),
-              (11, 16),
-              (-3, 0.47712125471966244),
-              (5, 55),
+    limits = [(1, 8), # dens
+              (11, 16), # col
+              (-3, 0.47712125471966244), # opr
+              (5, 55), # temp
               (50, 80), # velo
-              (0, 0),
-              (2.73, 0),
-              (2.73, 0),
+              (0, 0), # width
+              (2.73, 0), # cont11
+              (2.73, 0), # cont22
               (1, 8),
               (11, 16),
               (-3, 0.47712125471966244),
@@ -58,16 +59,25 @@ def modelpars():
 
     return limits,limited
 
-def plotitem(sp, ii=0, **kwargs):
+def plotitem(sp, ii=0, errstyle='fill', vrange=[40,80], resid=False,
+             dolegend=False, refresh=False, residkwargs={}, **kwargs):
     sp.plot_special = types.MethodType(fith2co.plotter_override, sp, sp.__class__)
-    plotkwargs = {'vrange':[40,80],'fignum':ii+1,'reset_xlimits':True,
-                  'annotate': False, 'errstyle':'fill'}
+    plotkwargs = {'vrange':vrange,'fignum':ii+1,'reset_xlimits':True,
+                  'annotate': False, 'errstyle':errstyle}
     plotkwargs.update(kwargs)
+
+    if resid:
+        plotkwargs['resid_overlay'] = True
+        plotkwargs['residkwargs'] = {'zeroline': True,
+                                     }
+        plotkwargs['residkwargs'].update(residkwargs)
+
     sp.plot_special_kwargs = plotkwargs
     sp.plot_special(**plotkwargs)
+
     # plot cleanup junk
     sp.plotter.figure.subplots_adjust(hspace=0)
-    # move h2co2-2 title down
+    # move h2co2-2 title down CANCELED by set_position below
     sp.axisdict['twotwo'].title.set_y(0.9)
     #sp.plotter.figure.subplots_adjust(right=0.8)
     #sp.specfit.annotate(bbox_to_anchor=(1.33,1.0))
@@ -79,7 +89,21 @@ def plotitem(sp, ii=0, **kwargs):
     sp.axisdict['oneone'].set_xticks([])
     sp.axisdict['oneone'].set_xticklabels([])
 
-def do_indiv_fits(regfilename, outpfx, ncomp=1):
+    # move both titles to bottom right
+    for label, ax in sp.axisdict.items():
+        ax.title.set_position((0.85,0.07))
+
+    if dolegend:
+        for ax in sp.axisdict.values():
+            box = ax.get_position()
+            ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+        sp.specfit.annotate(bbox_to_anchor=(1.01,0.9), loc='upper left',
+                            chi2='allthree', fontsize=14)
+            
+    if refresh:
+        sp.plotter.refresh()
+
+def do_indiv_fits(regfilename, outpfx, ncomp=1, dobaseline=False, **kwargs):
     regions = pyregion.open(regfilename)
 
     spectra = [both.get_apspec(r.coord_list, coordsys=r.coord_format,
@@ -88,11 +112,33 @@ def do_indiv_fits(regfilename, outpfx, ncomp=1):
 
     cont11hdu = fits.open(cont11filename)[0]
 
-    limits, limited = modelpars()
+    pl.ioff()
 
-    for cont in ('front','back',):
-        print("Continuum in the %s" % cont)
-        for ii,(sp,r) in enumerate(zip(spectra,regions)):
+    for ii,(sp,r) in enumerate(zip(spectra,regions)):
+
+        if hasattr(ncomp,'__len__'):
+            nc = ncomp[ii]
+        else:
+            nc = ncomp
+
+        chi2, parinfo = {},{}
+        sp.header['REGION'] = "{shape}({ra},{dec},{radius})".format(shape=r.name,
+                                                                    ra=r.coord_list[0],
+                                                                    dec=r.coord_list[1],
+                                                                    radius=r.coord_list[2])
+
+        ## this is pretty hacky =(
+        #if dobaseline:
+        #    spdict = fith2co.BigSpectrum_to_H2COdict(sp)
+        #    for n,s in spdict.items():
+        #        s.baseline(exclude=[2,8,43,75])
+        #    sp = pyspeckit.Spectra(spdict.values())
+        #    spectra[ii] = sp
+
+
+
+        for cont in ('front','back',):
+            print("Continuum in the %s" % cont)
             fig = pl.figure(ii, figsize=(12,8))
             fig.clf()
             name = r.attr[1]['text']
@@ -107,27 +153,10 @@ def do_indiv_fits(regfilename, outpfx, ncomp=1):
                 c11 = 2.7315
                 c22 = 2.7315
 
-            gg = [4,13,-3,20,68,1, c11, c22]*2
-            gg[8] = 5
-            gg[12] = 60
-            fixed = np.array([F,F,T,T,F,F,T,T]*2)
-
-            if ncomp == 1:
-                sp.specfit(fittype='formaldehyde_radex',guesses=gg[:8],
-                           fixed=fixed[:8], multifit=True,quiet=True,verbose=False,
-                           limits=limits[:8],
-                           limited=limited[:8],
-                           use_window_limits=False, fit_plotted_area=False)
-            elif ncomp == 2:
-                sp.specfit(fittype='formaldehyde_radex',guesses=gg,
-                           fixed=fixed, multifit=True,quiet=True,verbose=False,
-                           limits=limits,
-                           limited=limited,
-                           use_window_limits=False, fit_plotted_area=False)
-            else:
-                raise ValueError('ncomp must be 1 or 2')
+            dofit(sp, c11, c22, nc, **kwargs)
 
             sp.specname = name
+            sp.header['OBJECT'] = name
             print("ap%i %s: ni=%i, X^2%0.1f, X^2/n=%0.1f, n=%0.1f" % (ii,
                                                                       sp.specname,
                                                                       sp.specfit.fitter.mp.niter,
@@ -144,20 +173,79 @@ def do_indiv_fits(regfilename, outpfx, ncomp=1):
             #               limited=limited,
             #               use_window_limits=False, fit_plotted_area=False)
 
+            sp.plotter.autorefresh=False
             plotitem(sp, ii)
 
             sp.plotter.savefig(outpfx+'_aperture_%s_%s.pdf' % (name,cont))
+
+            plotitem(sp, ii, dolegend=True)
+
+            # seriously, something aint'n't right here
+            pl.figure(sp.plotter.figure.number)
+            pl.savefig(outpfx+'_aperture_%s_%s_legend.pdf' % (name,cont),
+                       bbox_extra_artists=[sp.specfit.fitleg])
+
+            # for writing to file, select the best-fit
+            chi2[cont] = sp.specfit.chi2
+            parinfo[cont] = sp.specfit.parinfo
+            if cont == 'back': # second one...
+                if sp.specfit.chi2 > chi2['front']:
+                    print("Back chi^2 > front chi^2.  Replacing parameters with Continuum in the Front")
+                    sp.specfit.parinfo = parinfo['front']
+                    sp.specfit.chi2 = chi2['front']
+
             sp.write(outpfx+"_aperture_%s.fits" % name)
+
+    pl.ion()
 
     return spectra
 
+
+limits, limited = modelpars()
+
+def dofit(sp, c11, c22, ncomp, fixed=np.array([F,F,T,T,F,F,T,T]*2),
+          limits=limits, limited=limited, verbose=False,
+          c11b=None, c22b=None,
+          vguesses=[68,60]):
+    gg = [4,13,-3,20,vguesses[0],1, c11, c22]*2
+    gg[8] = 5
+    gg[12] = vguesses[1]
+
+    # ALWAYS fix the continuum
+    fixed[6::8] = True
+    fixed[7::8] = True
+
+    if c11b is not None:
+        gg[14] = c11b
+    if c22b is not None:
+        gg[15] = c22b
+
+    if ncomp == 1:
+        sp.specfit(fittype='formaldehyde_radex',guesses=gg[:8],
+                   fixed=fixed[:8], multifit=True,quiet=True,verbose=verbose,
+                   limits=limits[:8],
+                   limited=limited[:8],
+                   use_window_limits=False, fit_plotted_area=False)
+    elif ncomp == 2:
+        sp.specfit(fittype='formaldehyde_radex',guesses=gg,
+                   fixed=fixed, multifit=True,quiet=True,verbose=verbose,
+                   limits=limits,
+                   limited=limited,
+                   use_window_limits=False, fit_plotted_area=False)
+    else:
+        raise ValueError('ncomp must be 1 or 2')
+
+
 def filaments_right():
+    ncomp = [1,1,1,2,2,1,1]
     return do_indiv_fits("/Users/adam/work/w51/dense_filament_spectral_apertures.reg",
-                         'spectralfits/spectralfits_70kmscloud')
+                         'spectralfits/spectralfits_70kmscloud', ncomp=ncomp)
 
 def filaments_left():
+    ncomp = [2,2,2,2,1,2,1]
     return do_indiv_fits("/Users/adam/work/w51/filament_leftside_spectral_apertures.reg",
-                         'spectralfits/spectralfits_70kmscloudLeft')
+                         'spectralfits/spectralfits_70kmscloudLeft',
+                         ncomp=ncomp)
 
 def w51main():
     return do_indiv_fits("/Users/adam/work/w51/w51main_spectral_apertures.reg",
@@ -166,11 +254,41 @@ def w51main():
 
 def maus():
     return do_indiv_fits("/Users/adam/work/w51/maus_spectral_apertures.reg",
-                         'spectralfits/spectralfits_maus')
+                         'spectralfits/spectralfits_maus',
+                         ncomp=2,
+                         vguesses=[68,50])
 
 def middlechunk():
+    ncomp = [2,2,1,1,1,1,1]
+    ncomp = [2,2,2,2,1,1,2] # in 3,4,7, second comp is at 70 kms
+    outpfx = 'spectralfits/spectralfits_63kmscloud'
     spectra = do_indiv_fits("/Users/adam/work/w51/middlechunk_spectral_apertures.reg",
-                            'spectralfits/spectralfits_63kmscloud')
+                            outpfx,
+                            ncomp=ncomp)
+
+    sp = spectra[0]
+    dofit(sp, sp.header['CONT11'], sp.header['CONT22'],
+          vguesses=[59,63], ncomp=2)
+
+    plotitem(sp, 0, dolegend=True)
+
+    pl.figure(sp.plotter.figure.number)
+    pl.savefig(outpfx+'_aperture_%s_%s_legend.pdf' % (sp.specname,'back'),
+               bbox_extra_artists=[sp.specfit.fitleg])
+
+    for ii,sp in enumerate(spectra):
+        if ii == 0: continue
+        dofit(sp, sp.header['CONT11'], sp.header['CONT22'],
+              vguesses=[60,68],
+              c11b=2.7315, c22b=2.7315,
+              ncomp=ncomp[ii])
+
+        plotitem(sp, ii, dolegend=True)
+
+        pl.figure(sp.plotter.figure.number)
+        pl.savefig(outpfx+'_aperture_%s_%s_legend.pdf' % (sp.specname,'both'),
+                   bbox_extra_artists=[sp.specfit.fitleg])
+
     return spectra
 
 def do_all_h2co():
@@ -202,12 +320,97 @@ def fit_twocomp_foregroundbackground(sp):
 
     plotitem(sp, 0, show_components=True)
 
-    print("ni=%i, X^2%0.1f, X^2/n=%0.1f, n=%0.1f" %
+    print("ni=%i, X^2=%0.1f, X^2/n=%0.1f, n=%0.1f" %
           (sp.specfit.fitter.mp.niter, sp.specfit.chi2,
            sp.specfit.chi2/sp.specfit.dof, sp.specfit.parinfo.DENSITY0.value))
     print(sp.specfit.parinfo)
 
     return sp
+
+def paperfigure_filament_demonstrate_frontback(fixedTO=True):
+    """
+    fixedTO: fixed temerature/orthopara
+    """
+    with mpl.rc_context(fname='/Users/adam/.matplotlib/pubfiguresrc'):
+        sp = pyspeckit.Spectrum('spectralfits/spectralfits_70kmscloud_aperture_ap6.fits')
+        from load_pyspeckit_cubes import formaldehyde_radex_fitter
+        sp.Registry.add_fitter('formaldehyde_radex',formaldehyde_radex_fitter,8,multisingle='multi')
+
+
+        c11 = sp.header["CONT11"]
+        c22 = sp.header["CONT22"]
+        gg = [4,13,-3,20,68,1, c11, c22]*2
+        gg[8] = 5
+        gg[12] = 60
+        if fixedTO:
+            fixed = np.array([F,F,T,T,F,F,T,T]*2)
+        else:
+            fixed = np.array([F,F,F,F,F,F,T,T]*2)
+        limits, limited = modelpars()
+
+        # CHEATER baselining:
+        sp.data[sp.xarr.as_unit('GHz') < 5] -= 0.05
+
+        sp.specfit(fittype='formaldehyde_radex',guesses=gg[:8],
+                   fixed=fixed[:8], multifit=True,quiet=True,verbose=False,
+                   limits=limits[:8],
+                   limited=limited[:8],
+                   use_window_limits=False, fit_plotted_area=False, plot=False,
+                   clear=False)
+
+        print("Continuum in the back.")
+        print(sp.specfit.parinfo)
+        print(sp.specfit.chi2, sp.specfit.optimal_chi2(reduced=False), sp.specfit.optimal_chi2(reduced=False, threshold=0))
+        print(sp.specfit.chi2/sp.specfit.dof, sp.specfit.optimal_chi2(reduced=True), sp.specfit.optimal_chi2(reduced=True, threshold=0))
+        #parinfo_back = sp.specfit.parinfo
+        #model_back = sp.specfit.model
+        plotitem(sp,0,clear=True, vrange=[50,90])
+        plotitem(sp,1,clear=True, vrange=[50,90], dolegend=True)
+        plotitem(sp,3,clear=True, vrange=[50,90], resid=True,
+                 resid_yoffsets={'oneone':0.15, 'twotwo': 0.04},
+                 residkwargs={'color':'r'})
+
+        gg[6] = 2.7315
+        gg[7] = 2.7315
+        sp.specfit(fittype='formaldehyde_radex',guesses=gg[:8],
+                   fixed=fixed[:8], multifit=True,quiet=True,verbose=False,
+                   limits=limits[:8],
+                   limited=limited[:8],
+                   use_window_limits=False, fit_plotted_area=False, plot=False,
+                   clear=False)
+        #parinfo_front = sp.specfit.parinfo
+        #model_front = sp.specfit.model
+
+        plotitem(sp, 3, clear=False, plot_fit_kwargs=dict(composite_fit_color='g'),
+                 errstyle='none', vrange=[50,90], resid=True,
+                 resid_yoffsets={'oneone':0.15, 'twotwo': 0.04},
+                 residkwargs={'color':'g'})
+        plotitem(sp, 0, clear=False, plot_fit_kwargs=dict(composite_fit_color='g'),
+                 errstyle='none', vrange=[50,90])
+        plotitem(sp,2,clear=True, vrange=[50,90],dolegend=True)
+        #sp.specfit.plot_fit(composite_fit_color='g')
+        #plotitem(sp,0,clear=False)
+        print("Continuum in the front.")
+        print(sp.specfit.parinfo)
+        print(sp.specfit.chi2, sp.specfit.optimal_chi2(reduced=False), sp.specfit.optimal_chi2(reduced=False, threshold=0))
+        print(sp.specfit.chi2/sp.specfit.dof, sp.specfit.optimal_chi2(reduced=True), sp.specfit.optimal_chi2(reduced=True, threshold=0))
+
+        pl.figure(1)
+        if fixedTO:
+            pl.savefig('spectralfits/spectralfits_70kmscloud_aperture_ap6_modelcomparison.pdf')
+        else:
+            pl.savefig('spectralfits/spectralfits_70kmscloud_aperture_ap6_modelcomparison_freed.pdf')
+
+        pl.figure(4)
+        pl.subplot(211).set_ylim(-0.45,0.25)
+        pl.subplot(212).set_ylim(-0.08,0.06)
+        if fixedTO:
+            pl.savefig('spectralfits/spectralfits_70kmscloud_aperture_ap6_modelcomparison_withresiduals.pdf')
+        else:
+            pl.savefig('spectralfits/spectralfits_70kmscloud_aperture_ap6_modelcomparison_withresiduals_freed.pdf')
+
+    return sp
+    
 
 def do_ap2_middlechunk(spectra_middle=None):
     if spectra_middle is None:
