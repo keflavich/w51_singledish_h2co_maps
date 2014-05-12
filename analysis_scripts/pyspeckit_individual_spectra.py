@@ -1,8 +1,10 @@
 from __future__ import print_function
+import glob
 from load_pyspeckit_cubes import both,T,F,cont11,cont22,cont11filename
 import matplotlib as mpl
 import pyspeckit
 from astropy.io import fits
+import astropy.table
 import pyregion
 import types
 from pyspeckit.wrappers import fith2co
@@ -103,7 +105,36 @@ def plotitem(sp, ii=0, errstyle='fill', vrange=[40,80], resid=False,
     if refresh:
         sp.plotter.refresh()
 
-def do_indiv_fits(regfilename, outpfx, ncomp=1, dobaseline=False, **kwargs):
+def initialize_table():
+    parnames = ['DENSITY', 'COLUMN', 'ORTHOPARA',
+                'TEMPERATURE', 'CENTER', 'WIDTH', 'TBACKGROUND0',
+                'TBACKGROUND1',]
+    colnames = (['name','component_number','chi2','dof','opt_chi2','opt_red_chi2'] +
+                [x for y in zip(parnames, ['e'+p for p in parnames]) for x in y])
+    dtypes = [np.str,np.int] + [np.float]*(4+len(parnames)*2)
+    table = astropy.table.Table(names=colnames, dtypes=dtypes)
+    return table
+
+def add_parinfo_to_table(table, parinfo, chi2, dof, opt_chi2, opt_red_chi2, name=""):
+    new_row = [name]
+    new_row.append(0)
+    new_row += [chi2, dof, opt_chi2, opt_red_chi2]
+    for pp in parinfo[:8]:
+        new_row.append(pp.value)
+        new_row.append(np.nan if pp.fixed else pp.error)
+    table.add_row(new_row)
+
+    if len(parinfo)>8:
+        new_row = [name]
+        new_row.append(1)
+        new_row += [chi2, dof, opt_chi2, opt_red_chi2]
+        for pp in parinfo[8:]:
+            new_row.append(pp.value)
+            new_row.append(np.nan if pp.fixed else pp.error)
+    table.add_row(new_row)
+
+def do_indiv_fits(regfilename, outpfx, ncomp=1, dobaseline=False, table=None,
+                  **kwargs):
     regions = pyregion.open(regfilename)
 
     spectra = [both.get_apspec(r.coord_list, coordsys=r.coord_format,
@@ -196,9 +227,49 @@ def do_indiv_fits(regfilename, outpfx, ncomp=1, dobaseline=False, **kwargs):
 
             sp.write(outpfx+"_aperture_%s.fits" % name)
 
+            if table is not None:
+                add_parinfo_to_table(table, sp.specfit.parinfo, sp.specfit.chi2,
+                                     sp.specfit.dof, sp.specfit.optimal_chi2(reduced=False),
+                                     sp.specfit.optimal_chi2(reduced=True),
+                                     name=sp.specname)
+
     pl.ion()
 
     return spectra
+
+def get_last_chi2_fromheader(header):
+    """
+    This is a fragile way to recover the best-fit chi2
+    """
+    for line in header:
+        if 'Chi^2' in line:
+            chi2 = line.split()[4]
+    return chi2
+
+def reload_fits():
+#    spectra_front = []
+#    spectra_back = []
+    spectra = []
+    for fn in glob.glob("spectralfits/*fits"):
+        if not ('CO' in fn or 'HI' in fn or 'RRL' in fn):
+            sp = pyspeckit.Spectrum(fn)
+            spectra.append(sp)
+
+    return spectra
+#            if 'front' in fn:
+#                spectra_front.append(fn)
+#            else:
+#                spectra_back.append(fn)
+#
+#    spectra = []
+#    for spb,spf in zip(spectra_front,spectra_back):
+#        if spb.specname != spf.specname:
+#            raise ValueError("Mismatch between spectral names")
+#        chi2_b = get_last_chi2_fromheader(spb.header)
+#        chi2_f = get_last_chi2_fromheader(spf.header)
+#        spectra.append(spb if chi2_b < chi2_f else chi2_f)
+#
+#    return spectra,spectra_front, spectra_back
 
 
 limits, limited = modelpars()
@@ -236,35 +307,58 @@ def dofit(sp, c11, c22, ncomp, fixed=np.array([F,F,T,T,F,F,T,T]*2),
         raise ValueError('ncomp must be 1 or 2')
 
 
-def filaments_right():
+def filaments_right(table=None):
+    if table is None:
+        table = initialize_table()
     ncomp = [1,1,1,2,2,1,1]
     return do_indiv_fits("/Users/adam/work/w51/dense_filament_spectral_apertures.reg",
-                         'spectralfits/spectralfits_70kmscloud', ncomp=ncomp)
+                         'spectralfits/spectralfits_70kmscloud', ncomp=ncomp,
+                         table=table)
 
-def filaments_left():
+def filaments_left(table=None):
+    if table is None:
+        table = initialize_table()
     ncomp = [2,2,2,2,1,2,1]
-    return do_indiv_fits("/Users/adam/work/w51/filament_leftside_spectral_apertures.reg",
-                         'spectralfits/spectralfits_70kmscloudLeft',
-                         ncomp=ncomp)
+    outpfx = 'spectralfits/spectralfits_70kmscloudLeft'
+    spectra = do_indiv_fits("/Users/adam/work/w51/filament_leftside_spectral_apertures.reg",
+                            outpfx, ncomp=ncomp,
+                            table=table)
+    dofit(spectra[0], spectra[0].header['CONT11'], spectra[0].header['CONT22'], vguesses=[64, 68], ncomp=2)
+    plotitem(spectra[0], 0, dolegend=True)
+    pl.figure(spectra[0].plotter.figure.number)
+    pl.savefig(outpfx+'_aperture_%s_%s_legend.pdf' % (spectra[0].specname,'back'),
+               bbox_extra_artists=[spectra[0].specfit.fitleg])
 
-def w51main():
+    return spectra
+    
+
+def w51main(table=None):
+    if table is None:
+        table = initialize_table()
     return do_indiv_fits("/Users/adam/work/w51/w51main_spectral_apertures.reg",
                          'spectralfits/spectralfits_w51main',
-                         ncomp=2)
+                         ncomp=2,
+                         table=table)
 
-def maus():
+def maus(table=None):
+    if table is None:
+        table = initialize_table()
     return do_indiv_fits("/Users/adam/work/w51/maus_spectral_apertures.reg",
                          'spectralfits/spectralfits_maus',
                          ncomp=2,
-                         vguesses=[68,50])
+                         vguesses=[68,50],
+                         table=table)
 
-def middlechunk():
+def middlechunk(table=None):
+    if table is None:
+        table = initialize_table()
     ncomp = [2,2,1,1,1,1,1]
     ncomp = [2,2,2,2,1,1,2] # in 3,4,7, second comp is at 70 kms
     outpfx = 'spectralfits/spectralfits_63kmscloud'
     spectra = do_indiv_fits("/Users/adam/work/w51/middlechunk_spectral_apertures.reg",
                             outpfx,
-                            ncomp=ncomp)
+                            ncomp=ncomp,
+                            table=table)
 
     sp = spectra[0]
     dofit(sp, sp.header['CONT11'], sp.header['CONT22'],
@@ -292,11 +386,12 @@ def middlechunk():
     return spectra
 
 def do_all_h2co():
-    return (filaments_right() +
-            filaments_left() +
-            middlechunk() +
-            maus() +
-            w51main()
+    table = initialize_table()
+    return (filaments_right(table=table) +
+            filaments_left(table=table) +
+            middlechunk(table=table) +
+            maus(table=table) +
+            w51main(table=table)
             )
 
 def fit_twocomp_foregroundbackground(sp):
@@ -568,6 +663,8 @@ def do_rrlspectra():
                 sp.xarr.convert_to_unit('km/s')
                 sp.specname = r.attr[1]['text']
                 sp.unit = 'K'
+                # fit twice: first time, sets the errors
+                sp.specfit(fittype='gaussian', guesses=[1,60,5], multifit=True)
                 sp.specfit(fittype='gaussian', guesses=[1,60,5], multifit=True)
                 pars = sp.specfit.modelpars
                 pars[2] /= 5
@@ -580,10 +677,11 @@ def do_rrlspectra():
                 fakespec.plotter(axis=sp.plotter.axis, xmin=40, xmax=80,
                                  color=colors[ii], clear=False,
                                  linestyle='steps--')
+                rrlid = 'H77a' if '77' in hline else '110'
+                sp.write(regfiledict[regfn]+"_RRL%s_aperture_%s.fits" % (rrlid,sp.specname))
 
             sp.plotter.axis.set_ylabel("$T_A^*$ (K)")
             sp.plotter.savefig(regfiledict[regfn]+"_RRL_aperture_%s.pdf" % sp.specname)
-            sp.write(regfiledict[regfn]+"_RRL_aperture_%s.fits" % sp.specname)
 
 def do_HIspectra():
     hcubes = load_HIcubes()
