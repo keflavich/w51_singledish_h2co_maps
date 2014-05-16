@@ -8,16 +8,18 @@ import pyspeckit
 #import mpl_toolkits
 import aplpy
 from common_constants import datapath_cubes,figpath,get_cached
+import spectral_cube
+import os
+import paths
 
 pl.rcParams['font.size'] = 16
 
-dens = fits.getdata(datapath_cubes+'W51_H2CO11_to_22_logdensity_supersampled.fits')
-cube = pyspeckit.Cube(datapath_cubes+'W51_H2CO11_to_22_logdensity_supersampled.fits')
-#dens = cube.cube
+dens = spectral_cube.SpectralCube.read(datapath_cubes+'W51_H2CO11_to_22_logdensity_supersampled.fits')
 header = fits.getheader(datapath_cubes+'W51_H2CO11_cube_supersampled_continuum.fits')
 
-dens_peak = np.nanmax(dens,axis=0)
-dens_mean = np.log10(np.nanmean(10**dens,axis=0))
+dens_peak = dens.max(axis=0)
+data = dens.filled_data[:]
+dens_mean = np.log10(np.nanmean(10**data,axis=0))
 
 hdu_peak = fits.PrimaryHDU(data=dens_peak, header=header)
 hdu_mean = fits.PrimaryHDU(data=dens_mean, header=header)
@@ -26,8 +28,10 @@ for fn in (1,2):
     pl.figure(fn)
     pl.clf()
 
-F1 = aplpy.FITSFigure(hdu_peak,convention='calabretta',figure=pl.figure(1),subplot=[0.1,0.1,0.5,0.8])
-F2 = aplpy.FITSFigure(hdu_mean,convention='calabretta',figure=pl.figure(2),subplot=[0.1,0.1,0.5,0.8])
+F1 = aplpy.FITSFigure(hdu_peak, convention='calabretta', figure=pl.figure(1),
+                      subplot=[0.1, 0.1, 0.5, 0.8])
+F2 = aplpy.FITSFigure(hdu_mean, convention='calabretta', figure=pl.figure(2),
+                      subplot=[0.1, 0.1, 0.5, 0.8])
 
 F1.set_tick_labels_xformat('dd.d')
 F2.set_tick_labels_xformat('dd.d')
@@ -50,7 +54,9 @@ ymin2,ymax2 = F2._ax1.bbox._bbox._points.T[1]
 
 pl.figure(1)
 ax1 = pl.axes([0.68,ymin1,0.25,ymax1-ymin1])
-counts,bins,patches = ampl.hist(dens_peak[dens_peak==dens_peak], bins=100, log=True, histtype='step', linewidth=2, alpha=0.8, color='k', ax=ax1)
+counts,bins,patches = ampl.hist(dens_peak[dens_peak==dens_peak], bins=100,
+                                log=True, histtype='step', linewidth=2,
+                                alpha=0.8, color='k', ax=ax1)
 sp = pyspeckit.Spectrum(xarr=(bins[1:]+bins[:-1])/2.,data=counts)
 sp.specfit(guesses=[200,3,1])
 p,m,w = sp.specfit.parinfo.values
@@ -206,6 +212,25 @@ for slice_pix in [50,60,70,80,90,100]:
 
     pl.savefig(figpath+'pvdiagram_slice_ell=%0.2f.pdf' % zax[slice_pix],bbox_inches='tight')
 
+
+
+oneone = spectral_cube.SpectralCube.read('h2co_singledish/W51_H2CO11_taucube_supersampled.fits')
+twotwo = spectral_cube.SpectralCube.read('h2co_singledish/W51_H2CO22_pyproc_taucube_lores_supersampled.fits')
+thirteen = spectral_cube.SpectralCube.read('grs_48and50_cube_supersampledh2cogrid.fits')
+thirteen._mask = spectral_cube.LazyMask(lambda x: 1, thirteen)
+#sl13 = thirteen.spectral_slab(40*u.km/u.s, 80*u.km/u.s)
+#sl13mom0 = sl13.moment0()
+mask = (thirteen > 0.1) | (spectral_cube.LazyMask(np.isnan, thirteen))
+comasked = oneone.with_mask(mask)
+slab_masked = comasked.spectral_slab(40*u.km/u.s, 80*u.km/u.s)
+#spectral_cube.spectral_cube.wcs_utils.check_equality(mask._wcs, comasked.wcs, verbose=True)
+mom0 = slab_masked.moment0()
+fig2 = pl.figure(2)
+fig2.clf()
+F = aplpy.FITSFigure(mom0.hdu, figure=fig2)
+F.show_grayscale()
+F.recenter(49.182984, -0.33612413, width=0.7, height=0.45)
+F.show_regions(os.path.join(paths.datapath_w51, 'cyan_segments.reg'))
 
 
 pl.draw()

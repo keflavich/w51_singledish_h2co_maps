@@ -329,21 +329,27 @@ as opposed to the `true' optical depth
     \tau = -\log\left[\frac{T_{mb}-T_{ex}}{T_{bg}-T_{ex}}\right]
 \end{equation}
 The approximation $\tau_{obs}$ is valid for $T_{ex} << T_{bg}$, which is true when an
-\hii region is the backlight but generally not when the CMB is.  We will examine the effects
-of using $\tau_{obs}$, i.e. assuming $T_{ex} = 0$, in Section \ref{sec:}.
+\hii region is the backlight but generally not when the CMB is.  Displaying the
+data on this scale makes regions of similar gas surface density appear the
+same, rather than being enhanced where there are backlights.  The noise is
+correspondingly suppressed where backlighting sources are present.
+%We will examine the effects
+%of using $\tau_{obs}$, i.e. assuming $T_{ex} = 0$, in Section \ref{sec:}.
 
 
-Because of the varying background level, the optical depth cubes have highly
-variable signal-to-noise.  In the Arecibo data, 8044 of 17800 pixels have peak
-optical depths $>5\sigma$, and 14547 have peaks $>3\sigma$, so \formaldehyde
-absorption is detected at $\sim80\%$ of the observed positions.
+\formaldehyde absorption is ubiquitous across the map.  In the Arecibo data,
+8044 of 17800 spatial pixels have peak optical depths $>5\sigma$, and 14547
+have peaks $>3\sigma$, so \formaldehyde absorption is detected at $\sim80\%$ of
+the observed positions.
 
-The GBT \formaldehyde \twotwo data have lower peak signal-to-noise due to lower
-continuum background.  Additionally, the \twotwo line is expected to trace
-denser gas and therefore detected on fewer lines of sight.  The \twotwo line is
-detected with a peak at $>5\sigma$ in 3497 pixels (20\%) and $>3\sigma$ in
-12254 pixels (69\%).  The high detection rate validates \formaldehyde as a
-highly efficient dense-gas tracer.
+The GBT \formaldehyde \twotwo data have lower peak signal-to-noise because the
+continuum background is lower.  Additionally, the \twotwo line is expected to
+trace denser gas and therefore be detected along fewer lines of sight.  The
+\twotwo line is detected with a peak at $>5\sigma$ in 3497 pixels (20\%) and
+$>3\sigma$ in 12254 pixels (69\%).  The high detection rate validates
+\formaldehyde as an efficient dense-gas tracer.
+
+There were no detections of \formaldehyde \oneone or \twotwo emission.
 
 \subsection{Ratio Cubes}
 In order to use the \formaldehyde ratio to determine densities, we first
@@ -562,7 +568,7 @@ model parameters with continuum in the back do not reproduce the data.
 
 % pyspeckit_individual_fits
 % paperfigure_filament_demonstrate_frontback(fixedTO=True):
-\Figure{figures/spectralfits_70kmscloud_aperture_ap6_modelcomparison_residuals.pdf}
+\Figure{figures/spectralfits_70kmscloud_aperture_ap6_modelcomparison_withresiduals.pdf}
 {An example of the difference in models between a continuum source (red) and
 the CMB (green) as the background.  The top plot shows the \oneone line and the
 bottom shows the \twotwo line both with the continuum level set to zero in the
@@ -606,6 +612,15 @@ $\ell=49.393 b=-0.357$ to $\ell=49.207 b=-0.338$.
 
 The \hii region G49.20-0.35 is clearly behind the IRDC, though there are strong
 morphological hints that it is interacting with and truncated by the cloud.
+
+\Figure{figures/filaments_H2CO_13CO_pvslice.pdf}
+{A position-velocity slice of the 68 \kms cloud, which includes an infrared dark
+cloud and the interaction region with the W51C supernova remnant.
+(top) \formaldehyde \oneone observed optical depth
+(middle) \formaldehyde \twotwo observed optical depth
+(bottom) \thirteenco 1-0 emission from the GRS with \formaldehyde \oneone
+contours superposed.}
+{fig:filament_pvslice}{0.5}{0}
 
 \subsubsection{G49.27-0.34}
 % digging_in_to_G49.27-0.34.py

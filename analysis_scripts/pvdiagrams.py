@@ -35,11 +35,6 @@ def clean(s, g, niter=100, gain=0.1, threshold=1.25):
         sig /= mx*gain
     return result
 
-endpoints_wcs = pyregion.open('pvendpoints.reg')
-
-if not 'colorpvs' in locals():
-    colorpvs = {}
-
 cm = pl.cm.gray_r
 
 # number of subplots
@@ -83,13 +78,18 @@ def get_pvs(cubefn, endpoints):
     cdelt = pvextractor.utils.wcs_utils.get_spectral_scale(cube.wcs)
     #cube,velo,cdelt = pvextractor.utils.get_cube_info(cubefn)
     pv = pvextractor.extract_pv_slice(cube, endpoints,
-                                      width=25*u.arcsec)
+                                      width=60*u.arcsec)
                                       #respect_nan=False)
     npv = len(endpoints)
     return (pv,npv,velo,cdelt)
 
 
 if __name__ == "__main__":
+    endpoints_wcs = pyregion.open('pvendpoints.reg')
+
+    if not 'colorpvs' in locals():
+        colorpvs = {}
+
     for jj,color in enumerate(('green','red','blue','cyan','yellow')):
         coords = np.array([s.coord_list for s in endpoints_wcs if s.attr[1]['color'] == color])
 
