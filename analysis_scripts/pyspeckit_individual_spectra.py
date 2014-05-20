@@ -10,6 +10,8 @@ import types
 from pyspeckit.wrappers import fith2co
 import numpy as np
 import pylab as pl
+import os
+from paths import datapath,datapath_w51,figurepath,datapath_spectra
 
 regfiledict = {"/Users/adam/work/w51/dense_filament_spectral_apertures.reg":
                'spectralfits/spectralfits_70kmscloud',
@@ -109,16 +111,20 @@ def initialize_table():
     parnames = ['DENSITY', 'COLUMN', 'ORTHOPARA',
                 'TEMPERATURE', 'CENTER', 'WIDTH', 'TBACKGROUND0',
                 'TBACKGROUND1',]
-    colnames = (['name','component_number','chi2','dof','opt_chi2','opt_red_chi2'] +
+    colnames = (['name', 'component_number', 'frontback', 'frontbackbest',
+                 'chi2', 'dof', 'opt_chi2', 'opt_red_chi2', 'ra', 'dec',
+                 'radius'] +
                 [x for y in zip(parnames, ['e'+p for p in parnames]) for x in y])
-    dtypes = [np.str,np.int] + [np.float]*(4+len(parnames)*2)
+    dtypes = ['S20',np.int,'S5','S5'] + [np.float]*(7+len(parnames)*2)
     table = astropy.table.Table(names=colnames, dtypes=dtypes)
     return table
 
-def add_parinfo_to_table(table, parinfo, chi2, dof, opt_chi2, opt_red_chi2, name=""):
+def add_parinfo_to_table(table, parinfo, chi2, dof, opt_chi2, opt_red_chi2, ra,
+                         dec, radius, frontback="", frontbackbest="", name=""):
     new_row = [name]
     new_row.append(0)
-    new_row += [chi2, dof, opt_chi2, opt_red_chi2]
+    new_row += [frontback, frontbackbest, chi2, dof, opt_chi2, opt_red_chi2,
+                ra, dec, radius]
     for pp in parinfo[:8]:
         new_row.append(pp.value)
         new_row.append(np.nan if pp.fixed else pp.error)
@@ -127,14 +133,15 @@ def add_parinfo_to_table(table, parinfo, chi2, dof, opt_chi2, opt_red_chi2, name
     if len(parinfo)>8:
         new_row = [name]
         new_row.append(1)
-        new_row += [chi2, dof, opt_chi2, opt_red_chi2]
+        new_row += [frontback, frontbackbest, chi2, dof, opt_chi2,
+                    opt_red_chi2, ra, dec, radius]
         for pp in parinfo[8:]:
             new_row.append(pp.value)
             new_row.append(np.nan if pp.fixed else pp.error)
-    table.add_row(new_row)
+        table.add_row(new_row)
 
 def do_indiv_fits(regfilename, outpfx, ncomp=1, dobaseline=False, table=None,
-                  **kwargs):
+                  tableprefix="", **kwargs):
     regions = pyregion.open(regfilename)
 
     spectra = [both.get_apspec(r.coord_list, coordsys=r.coord_format,
@@ -222,16 +229,42 @@ def do_indiv_fits(regfilename, outpfx, ncomp=1, dobaseline=False, table=None,
             if cont == 'back': # second one...
                 if sp.specfit.chi2 > chi2['front']:
                     print("Back chi^2 > front chi^2.  Replacing parameters with Continuum in the Front")
-                    sp.specfit.parinfo = parinfo['front']
-                    sp.specfit.chi2 = chi2['front']
-
-            sp.write(outpfx+"_aperture_%s.fits" % name)
+                    best = 'front'
+                else:
+                    best = 'back'
+                # set the previous, unset to match this...
+                # since we're guaranteed to be in the 2nd of 2 in a loop here,
+                # no danger
+                table[-1]['frontbackbest'] = best
+                if nc == 2:
+                    # or previous *two* if twocomp
+                    table[-2]['frontbackbest'] = best
+                # at this stage, 'frontbackbest' should be universally assigned....
+                if np.any(table['frontbackbest'] == ''):
+                    import ipdb; ipdb.set_trace()
+            else:
+                best = ''
 
             if table is not None:
                 add_parinfo_to_table(table, sp.specfit.parinfo, sp.specfit.chi2,
                                      sp.specfit.dof, sp.specfit.optimal_chi2(reduced=False),
                                      sp.specfit.optimal_chi2(reduced=True),
-                                     name=sp.specname)
+                                     ra=r.coord_list[0],
+                                     dec=r.coord_list[1],
+                                     radius=r.coord_list[2],
+                                     frontback=cont,
+                                     frontbackbest=best,
+                                     name=tableprefix+sp.specname)
+
+            if best != '':
+                sp.specfit.parinfo = parinfo[best]
+                sp.specfit.chi2 = chi2[best]
+
+            sp.write(outpfx+"_aperture_%s.fits" % name)
+
+    table.write(os.path.join(datapath_spectra,
+                             tableprefix+"spectralfit_table.ipac"),
+                format='ascii.ipac')
 
     pl.ion()
 
@@ -313,6 +346,7 @@ def filaments_right(table=None):
     ncomp = [1,1,1,2,2,1,1]
     return do_indiv_fits("/Users/adam/work/w51/dense_filament_spectral_apertures.reg",
                          'spectralfits/spectralfits_70kmscloud', ncomp=ncomp,
+                         tableprefix="filamentsright_",
                          table=table)
 
 def filaments_left(table=None):
@@ -322,6 +356,7 @@ def filaments_left(table=None):
     outpfx = 'spectralfits/spectralfits_70kmscloudLeft'
     spectra = do_indiv_fits("/Users/adam/work/w51/filament_leftside_spectral_apertures.reg",
                             outpfx, ncomp=ncomp,
+                            tableprefix="filamentsleft_",
                             table=table)
     dofit(spectra[0], spectra[0].header['CONT11'], spectra[0].header['CONT22'], vguesses=[64, 68], ncomp=2)
     plotitem(spectra[0], 0, dolegend=True)
@@ -338,6 +373,7 @@ def w51main(table=None):
     return do_indiv_fits("/Users/adam/work/w51/w51main_spectral_apertures.reg",
                          'spectralfits/spectralfits_w51main',
                          ncomp=2,
+                         tableprefix="w51main_",
                          table=table)
 
 def maus(table=None):
@@ -347,6 +383,7 @@ def maus(table=None):
                          'spectralfits/spectralfits_maus',
                          ncomp=2,
                          vguesses=[68,50],
+                         tableprefix="maus_",
                          table=table)
 
 def middlechunk(table=None):
@@ -358,6 +395,7 @@ def middlechunk(table=None):
     spectra = do_indiv_fits("/Users/adam/work/w51/middlechunk_spectral_apertures.reg",
                             outpfx,
                             ncomp=ncomp,
+                            tableprefix="middlechunk_",
                             table=table)
 
     sp = spectra[0]
@@ -371,7 +409,8 @@ def middlechunk(table=None):
                bbox_extra_artists=[sp.specfit.fitleg])
 
     for ii,sp in enumerate(spectra):
-        if ii == 0: continue
+        if ii == 0:
+            continue
         dofit(sp, sp.header['CONT11'], sp.header['CONT22'],
               vguesses=[60,68],
               c11b=2.7315, c22b=2.7315,
@@ -387,12 +426,56 @@ def middlechunk(table=None):
 
 def do_all_h2co():
     table = initialize_table()
-    return (filaments_right(table=table) +
-            filaments_left(table=table) +
-            middlechunk(table=table) +
-            maus(table=table) +
-            w51main(table=table)
-            )
+    result = (filaments_right(table=table) + filaments_left(table=table) +
+              middlechunk(table=table) + maus(table=table) +
+              w51main(table=table))
+    table.write(os.path.join(datapath_spectra, "spectralfit_table.ipac"),
+                format='ascii.ipac')
+    table2 = add_tex_tau_to_table(table)
+    table2.write(os.path.join(datapath_spectra, "spectralfit_table_withtextau.ipac"),
+                 format='ascii.ipac')
+    return result,table
+
+def split_table(table):
+    comp0 = table[table['component_number']==0]
+    comp0best = comp0[comp0['frontback'] == comp0['frontbackbest']]
+    comp1 = table[table['component_number']==1]
+    comp1best = comp1[comp1['frontback'] == comp1['frontbackbest']]
+    return comp0,comp1,comp0best,comp1best
+
+def table_to_reg(table, regfilename, system='galactic'):
+    with open(regfilename, 'w') as outf:
+        outf.write(system+"\n")
+        for row in table:
+            rowdict = dict(zip(row.colnames, row.data))
+            #rowdict['radius'] = "{0}\"".format(rowdict['radius']*3600)
+            outf.write("circle({ra},{dec},{radius}) # text={{{DENSITY:0.2f}}}\n".format(**rowdict))
+
+
+def add_tex_tau_to_table(table):
+    import pyradex
+    R = pyradex.Radex(species='o-h2co_troscompt', h2column=1e21, abundance=10**-8.5)
+
+    newcols = {'tau1':[],
+               'tau2':[],
+               'tex1':[],
+               'tex2':[]}
+    for t in table:
+        R.temperature = t['TEMPERATURE']
+        R.column = 10**t['COLUMN']
+        orthofrac = 10**t['ORTHOPARA']/(1+10**t['ORTHOPARA'])
+        R.density = {'oH2': 10**t['DENSITY']*orthofrac,
+                     'pH2': 10**t['DENSITY']*(1-orthofrac)}
+        R.run_radex()
+        newcols['tex1'].append(R.tex[0].value)
+        newcols['tex2'].append(R.tex[2].value)
+        newcols['tau1'].append(R.tau[0])
+        newcols['tau2'].append(R.tau[2])
+
+    for k in newcols:
+        table.add_column(astropy.table.Column(name=k, data=newcols[k]))
+
+    return table
 
 def fit_twocomp_foregroundbackground(sp):
     """

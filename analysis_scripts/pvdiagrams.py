@@ -77,8 +77,8 @@ def get_pvs(cubefn, endpoints):
     velo = cube.spectral_axis
     cdelt = pvextractor.utils.wcs_utils.get_spectral_scale(cube.wcs)
     #cube,velo,cdelt = pvextractor.utils.get_cube_info(cubefn)
-    pv = pvextractor.extract_pv_slice(cube, endpoints,
-                                      width=60*u.arcsec)
+    pvPath = pvextractor.geometry.path.Path(endpoints, width=60*u.arcsec)
+    pv = pvextractor.extract_pv_slice(cube, pvPath)
                                       #respect_nan=False)
     npv = len(endpoints)
     return (pv,npv,velo,cdelt)
@@ -90,7 +90,7 @@ if __name__ == "__main__":
     if not 'colorpvs' in locals():
         colorpvs = {}
 
-    for jj,color in enumerate(('green','red','blue','cyan','yellow')):
+    for jj,color in enumerate(('green','red','blue','purple','cyan','yellow')):
         coords = np.array([s.coord_list for s in endpoints_wcs if s.attr[1]['color'] == color])
 
         pl.figure(jj+1)

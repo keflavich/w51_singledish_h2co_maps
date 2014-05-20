@@ -2,6 +2,9 @@
 
 % Somewhere in here:
 % need a shoutout to "Overheard on Astro-PH"
+%
+% FOCUS ON THE *OBSERVATIONAL* QUESTIONS solved here... the theoretical just
+% aren't going to be that exciting
 
 \section{Abstract}
 We present new 2 cm and 6 cm maps of \formaldehyde and the radio continuum in
@@ -352,7 +355,7 @@ $>3\sigma$ in 12254 pixels (69\%).  The high detection rate validates
 There were no detections of \formaldehyde \oneone or \twotwo emission.
 
 \subsection{Ratio Cubes}
-In order to use the \formaldehyde ratio to determine densities, we first
+In order to compare the \formaldehyde spectra, we first
 created optical depth ratio cubes.  The data were masked by selecting all
 voxels with signal-to-noise $>2$ in  \emph{both} the \oneone and \twotwo data
 cubes.  To filter out spurious signals, of which many are expected given the
@@ -381,12 +384,12 @@ in a small fraction of the pixels}
 
 \subsection{Ratio and Density Cubes}
 \label{sec:ratiodenscubes}
-The \formaldehyde ratio can be directly transformed into a volume density of
-hydrogen $n(\hh)$ by assuming a fixed abundance of \formaldehyde relative to
-\hh.  Precise measurements of the \formaldehyde abundance are not generally
-available, but typical values of $X_{\ortho} = 10^{-10}-10^{-8}$ relative to
-\hh are generally assumed \citep{Mangum1993a, Ginsburg2011a, Ginsburg2013a,
-Ao2013a} and found to be consistent with the observations.
+The \formaldehyde optical depth ratio can be directly transformed into a volume
+density of hydrogen $n(\hh)$ by assuming a fixed abundance of \formaldehyde
+relative to \hh.  Precise measurements of the \formaldehyde abundance are not
+generally available, but typical values of $X_{\ortho} = 10^{-10}-10^{-8}$
+relative to \hh are generally assumed \citep{Mangum1993a, Ginsburg2011a,
+Ginsburg2013a, Ao2013a} and found to be consistent with the observations.
 
 % ~/work/h2co/codes/ratio_to_dens_plots.py
 \Figure{figures/tau_ratio_vs_density_thinlimit_t20_sigma1.pdf}
@@ -409,6 +412,11 @@ The curves cover the range of plausible \formaldehyde abundances
 given ratio for $r>8$, we ignore densities $n(\hh)<10^2$ \percc as gas at these
 extremely low densities provide negligible optical depth per particle and
 therefore should not be detected.
+
+However, the \emph{observed} optical depth is not the true optical depth; it
+does not account for the excitation temperature of the molecule.  The curves in
+Figure \ref{fig:ratiovsdens} cannot be blindly applied to the observed optical
+depth cubes.
 
 %This is all wrong because it assumes T_ex = 0, which is false.
 % The upper limit on the observed optical depth ratio indicates a first concern
@@ -582,26 +590,35 @@ The reduced $\chi^2/n$ for the models are 14.1 (red) and 2.8 (green), evaluated
 only over the pixels where the model is greater than the local RMS.}
 {fig:h2cofrontbackmodel}{0.5}{0}
 
-The mass-weighted mean density ranges from $\sim$1.5\ee{4} to 5.6\ee{4} \percc, with
-the lowest mean density corresponding to the highest column density toward the
-center.
+% The mass-weighted mean density ranges from $\sim$1.5\ee{4} to 5.6\ee{4} \percc,
+% with the lowest mean density corresponding to the highest column density toward
+% the center.
+
+The relative positioning of the molecular gas behind the \hii regions suggests
+that they are also behind the W51 C supernova remnant.
 
 \subsection{The edge of W51 C}
 W51 C is a supernova remnant that spatially overlaps with the W51 B star
-forming region.  There are clumps aligned along the 68 \kms filamentary cloud
-with very high CO and HI velocities \citep{Koo1997b,Koo1997c,Brogan2013a}.
+forming region.  \citet{Brogan2013a} argue that the supernova remnant must be
+in front of the \hii region G49.2-0.3 because the \hii-region has not absorbed
+all of the 4m nonthermal emission.  The G49.1-0.4, G49.0-0.3, and G48.9-0.3
+regions, however, show absorption signatures and may be in the foreground.
+There are clumps aligned along the 68 \kms filamentary cloud with very high CO
+and HI velocities \citep{Koo1997b,Koo1997c,Brogan2013a}, indicating that the
+SNR is interacting with the molecular gas.
 
 The clumps at $\sim68$ \kms are lower density ($n<1.5\ee{4}$ \percc) and in the
 background of the HII region.  These clumps are associated with the supernova
-interaction region.  The $62 \kms$ have densities a few times higher,
+interaction region.  The $62 \kms$ clumps have densities a few times higher,
 $n\sim4\ee{4}$ \percc, and are clearly in the foreground of the continuum
 emission because their absorption depths are $\sim2.5$ K, which cannot occur
 for absorption against the CMB.
 
 We are therefore seeing molecular gas both in front of and behind the
-supernova.  This geometry can be readily confirmed by looking for molecular absorption
-at much lower frequencies where the SN synchrotron emission dominates over the
-\hii region free-free emission, i.e. the 335 and 71 MHz \para lines.
+supernova.  This geometry can be readily confirmed by looking for molecular
+absorption at much lower frequencies where the SN synchrotron emission
+dominates over the \hii region free-free emission, i.e. the 335 and 71 MHz
+\para lines.
 
 
 \subsection{The 66 \kms IRDC}
@@ -619,7 +636,9 @@ cloud and the interaction region with the W51C supernova remnant.
 (top) \formaldehyde \oneone observed optical depth
 (middle) \formaldehyde \twotwo observed optical depth
 (bottom) \thirteenco 1-0 emission from the GRS with \formaldehyde \oneone
-contours superposed.}
+contours superposed.  The weakness of the \formaldehyde absorption on the right
+half of the cloud corroborates the geometry inferred from comparison of the \oneone
+and \twotwo lines in Figure \ref{fig:h2cofrontbackmodel}.}
 {fig:filament_pvslice}{0.5}{0}
 
 \subsubsection{G49.27-0.34}
@@ -704,6 +723,15 @@ and millimeter continuum source in our survey after the W51 Main/IRS2 region.
 As noted in \citet{Carpenter1998a}, its velocity ($v_{LSR}\sim 50\kms$ XXX) 
 may indicate that the cloud is unassociated with the W51 Main GMC.
 
+
+\section{A scenario fitting the W51 region}
+The W51 cloud complex has been discussed as both a collection of unrelated
+clouds and a tight complex of interacting clouds \citep{Carpenter1998a,
+Kang2010a}.  The \formaldehyde data presented here support the idea that the 68
+\kms cloud is a coherent entity and that it is interacting with other clouds
+associated with W51 A.  The presence of W51 Main at the interaction point
+between multiple clouds hints that its great mass and star-forming potential
+was triggered by this cloud-cloud collision.
 
 
 % \subsection{Model Fitting}

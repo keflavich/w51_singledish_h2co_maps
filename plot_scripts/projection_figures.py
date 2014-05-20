@@ -20,8 +20,9 @@ header = fits.getheader(datapath_cubes+'W51_H2CO11_cube_supersampled_continuum.f
 dens_peak = dens.max(axis=0)
 data = dens.filled_data[:]
 dens_mean = np.log10(np.nanmean(10**data,axis=0))
+#dens_mean = dens._apply_along_axis(lambda x: 10**x
 
-hdu_peak = fits.PrimaryHDU(data=dens_peak, header=header)
+hdu_peak = dens_peak.hdu
 hdu_mean = fits.PrimaryHDU(data=dens_mean, header=header)
 
 for fn in (1,2):
