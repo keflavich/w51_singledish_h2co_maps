@@ -295,7 +295,7 @@ little evidence for deviation from a linear relationship.
 Radio recombination lines are generally observed to be well-correlated with the
 corresponding radio continuum, particularly at low frequencies.  At 5 and 15
 GHz, the population level departure coefficients are close to 1, $b_n > 0.95$
-\citep{Rohlfs2009a,Walmsley1990a}.
+\citep{Wilson2009a,Walmsley1990a}.
 
 While radio recombination lines are purely thermal in nature, the large-scale
 continuum may include a contribution from synchrotron emission.  The
@@ -307,6 +307,14 @@ Figure \ref{fig:gbtaocontcompare} shows a comparison between the integrated RRL
 surface brightness and radio continuum at both 2 and 6 cm.  The figure shows
 the total least squares best-fit slopes to the data assuming uniform error,
 which yield a measurement of the line-to-continuum ratio.
+
+We use the line-to-continuum ratio in both bands to measure the electron
+temperature using Equation 14.58 of \citet{Wilson2009a}, which assumes a
+plane-parallel, optically-thin emission region with lines formed in local
+thermodynamic equilibrium.  The two lines yield consistent measurements, with
+mean $T_e\sim7000-8000$ K.  There is only a little structure in the $T_e$ maps,
+with a hint of higher temperatures around G49.1-0.4, coincident with the W51C
+supernova remnant.
 
 
 
@@ -334,6 +342,19 @@ the ratio is 9.
 (c) H77$\alpha$ / $S_{15 GHz}$
 }
 {fig:contrrlcompare}
+
+\FigureThreePDF
+{figures/ratiomap_cont_h112te}
+{figures/ratiomap_cont_h77te}
+{figures/electron_temperature_77vs111}
+{(a) The H112$\alpha$ electron temperature map
+(b) The H77$\alpha$ electron temperature map
+(c) The measured electron temperature in the 6 cm vs the 2 cm band at each spatial
+pixel with significant detected RRL emission.  The contours show regions of
+increasing pixel density.  The $x$ marks the median and the $+$ marks the mean
+over all pixels.
+}
+{fig:tevste}%{0.5}{0}
 
 \subsection{Optical Depths}
 
@@ -402,6 +423,7 @@ in a small fraction of the pixels}
 
 \subsection{Ratio and Density Cubes}
 \label{sec:ratiodenscubes}
+\todo{[May be removed]}
 The \formaldehyde optical depth ratio can be directly transformed into a volume
 density of hydrogen $n(\hh)$ by assuming a fixed abundance of \formaldehyde
 relative to \hh.  Precise measurements of the \formaldehyde abundance are not
@@ -435,6 +457,7 @@ However, the \emph{observed} optical depth is not the true optical depth; it
 does not account for the excitation temperature of the molecule.  The curves in
 Figure \ref{fig:ratiovsdens} cannot be blindly applied to the observed optical
 depth cubes.
+\todo{[This means I may remove this section entirely]}
 
 %This is all wrong because it assumes T_ex = 0, which is false.
 % The upper limit on the observed optical depth ratio indicates a first concern
@@ -562,7 +585,7 @@ depth cubes.
 % e.g. supernovae or cloud collisions.  Instead, the high-density ridge provides
 % evidence for a spiral density wave triggering the high densities.
 
-\section{Structure of the Molecular Clod}
+\section{Structure of the Molecular Clod [sic]}
 The \formaldehyde observations reveal two essential features of the W51 GMC:
 its density structure and its line-of-sight geometry.
 
@@ -632,7 +655,7 @@ higher, $n\sim4\ee{4}$ \percc, and are clearly in the foreground of the
 continuum emission because their absorption depths are $\sim2.5$ K, which
 cannot occur for absorption against the CMB.  Figure \ref{fig:contbetween63kms}
 shows a model spectrum fitted assuming the continuum lies between the two
-molecular velocity components.  The relative strength of the \thireteenco and
+molecular velocity components.  The relative strength of the \thirteenco and
 the \formaldehyde also suggests that the 68 \kms component is behind the
 continuum.
 

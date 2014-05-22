@@ -25,6 +25,7 @@ h112i = fits.getdata(os.path.join(datapath,'H110a_integral.fits')) * ktojy111 # 
 h112a = fits.getdata(os.path.join(datapath,'H110a_amplitude.fits')) * ktojy111
 h112a.value[h112a == 0] = np.nan
 h112c = fits.getdata(os.path.join(datapath,'W51_h112alpha_cube_supersampled_continuum.fits')) * ktojy111
+h112c.value[h112c == 0] = np.nan
 h112h = fits.getheader(os.path.join(datapath,'W51_h112alpha_cube_supersampled_continuum.fits'))
 
 h77iname = os.path.join(datapath,'H77a_integral.fits') #'W51_h77a_pyproc_integrated_supersampled.fits')
@@ -35,6 +36,7 @@ h77a.value[h77a == 0] = np.nan
 h77cname = os.path.join(datapath,'W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')
 h77cname = os.path.join(datapath,'W51_h77a_pyproc_cube_supersampled_continuum.fits')
 h77c = fits.getdata(h77cname) * ktojy77 / etamb_77
+h77c.value[h77c == 0] = np.nan
 h77h = fits.getheader(h77cname)
 
 integrated_threshold111 = 0.2 * ktojy111
@@ -56,16 +58,16 @@ h112te = (6.985e3/anut * (rrl(112).to(u.GHz).value)**1.1 * (1./(1.+hefrac)) * (v
 
 figs = []
 
-vmaxes = {'77lc': 0.35,
-          '112lc': 0.15,
-          'te': 1.5e4,
+vmaxes = {'77lc': 0.4,
+          '112lc': 0.2,
+          'te': 2.0e4,
           'th': 3.5,
           'tc': 2.5}
 
 vmins = {'lc': 0,
          'te': 5000,
          'th': 0,
-         'tc': 0}
+         'tc': -0.1}
 
 titles = {'h77lc':r'H77$\alpha$ Line/Continuum',
           'h112lc':r'H112$\alpha$ Line/Continuum',
