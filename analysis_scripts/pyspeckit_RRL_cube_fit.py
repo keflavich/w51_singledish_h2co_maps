@@ -39,6 +39,9 @@ hdr['BUNIT'] = 'K'
 hdu.data=cube1.parcube[0,:,:]
 hdu.writeto('H77a_amplitude.fits',clobber=True)
 
+hdr['BUNIT'] = 'K km/s'
+hdu.data = cube1.parcube[0] * np.sqrt(2*np.pi)*cube1.parcube[2,:,:]
+hdu.writeto('H77a_integral.fits',clobber=True)
 
 cube2 = pyspeckit.Cube(dpath+'W51_h110alpha_cube_supersampled_sub.fits')
 
@@ -83,3 +86,7 @@ hdu.writeto('H110a_velocity_width.fits',clobber=True)
 hdr['BUNIT'] = 'K'
 hdu.data=cube2.parcube[0,:,:]
 hdu.writeto('H110a_amplitude.fits',clobber=True)
+
+hdr['BUNIT'] = 'K km/s'
+hdu.data = cube2.parcube[0] * np.sqrt(2*np.pi)*cube2.parcube[2,:,:]
+hdu.writeto('H110a_integral.fits',clobber=True)

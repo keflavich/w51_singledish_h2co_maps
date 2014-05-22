@@ -291,6 +291,24 @@ uniform errors for each data point.   The line-to-continuum ratio is
 $L/C(H77\alpha)\sim0.06$ and $L/C(H112\alpha)\sim0.03$; in both cases there is
 little evidence for deviation from a linear relationship.
 
+\subsubsection{Comparison of the RRL and continuum data}
+Radio recombination lines are generally observed to be well-correlated with the
+corresponding radio continuum, particularly at low frequencies.  At 5 and 15
+GHz, the population level departure coefficients are close to 1, $b_n > 0.95$
+\citep{Rohlfs2009a,Walmsley1990a}.
+
+While radio recombination lines are purely thermal in nature, the large-scale
+continuum may include a contribution from synchrotron emission.  The
+morphological similarity between the 90 cm and 4 m images presented by
+\citet{Brogan2013a} and our 6 and 2 cm data hint that synchrotron emission
+could be significant.
+
+Figure \ref{fig:gbtaocontcompare} shows a comparison between the integrated RRL
+surface brightness and radio continuum at both 2 and 6 cm.  The figure shows
+the total least squares best-fit slopes to the data assuming uniform error,
+which yield a measurement of the line-to-continuum ratio.
+
+
 
 \Figure{figures/continuum_rrl_comparisongrid.pdf}
 {Plots of the 5 GHz and 15 GHz continuum and RRL flux densities against one
@@ -607,19 +625,26 @@ There are clumps aligned along the 68 \kms filamentary cloud with very high CO
 and HI velocities \citep{Koo1997b,Koo1997c,Brogan2013a}, indicating that the
 SNR is interacting with the molecular gas.
 
-The clumps at $\sim68$ \kms are lower density ($n<1.5\ee{4}$ \percc) and in the
-background of the HII region.  These clumps are associated with the supernova
-interaction region.  The $62 \kms$ clumps have densities a few times higher,
-$n\sim4\ee{4}$ \percc, and are clearly in the foreground of the continuum
-emission because their absorption depths are $\sim2.5$ K, which cannot occur
-for absorption against the CMB.
+The clumps at $\sim68$ \kms are either lower density ($n<1.5\ee{4}$ \percc) and in the
+background of the HII region or high density ($n>1.5\ee{5}$ \percc), low-column
+density and in the foreground.  The $62$ \kms clumps have densities a few times
+higher, $n\sim4\ee{4}$ \percc, and are clearly in the foreground of the
+continuum emission because their absorption depths are $\sim2.5$ K, which
+cannot occur for absorption against the CMB.  Figure \ref{fig:contbetween63kms}
+shows a model spectrum fitted assuming the continuum lies between the two
+molecular velocity components.  The relative strength of the \thireteenco and
+the \formaldehyde also suggests that the 68 \kms component is behind the
+continuum.
 
-We are therefore seeing molecular gas both in front of and behind the
-supernova.  This geometry can be readily confirmed by looking for molecular
-absorption at much lower frequencies where the SN synchrotron emission
-dominates over the \hii region free-free emission, i.e. the 335 and 71 MHz
-\para lines.
+We are seeing molecular gas both in front of and behind the supernova.  This
+geometry can be readily confirmed by looking for molecular absorption at much
+lower frequencies where the SN synchrotron emission dominates over the \hii
+region free-free emission, i.e. the 335 and 71 MHz \para lines.
 
+\Figure{figures/spectralfits_63kmscloud_aperture_ap3_both_legend.pdf}
+{The spectrum extracted from G49.119-0.277, showing a model in which the continuum
+is \emph{behind} the 63 \kms component but in front of the 68 \kms component.}
+{fig:contbetween63kms}{0.5}{0}
 
 \subsection{The 66 \kms IRDC}
 Between W51 A and W51 B, there is a component of the 68 \kms cloud that is

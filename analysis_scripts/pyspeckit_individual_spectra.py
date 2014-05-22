@@ -64,10 +64,12 @@ def modelpars():
     return limits,limited
 
 def plotitem(sp, ii=0, errstyle='fill', vrange=[40,80], resid=False,
-             dolegend=False, refresh=False, residkwargs={}, **kwargs):
+             dolegend=False, refresh=False, show_components=True,
+             residkwargs={}, **kwargs):
     sp.plot_special = types.MethodType(fith2co.plotter_override, sp, sp.__class__)
     plotkwargs = {'vrange':vrange,'fignum':ii+1,'reset_xlimits':True,
-                  'annotate': False, 'errstyle':errstyle}
+                  'annotate': False, 'errstyle':errstyle,
+                  'show_components': show_components}
     plotkwargs.update(kwargs)
 
     if resid:
@@ -442,6 +444,26 @@ def split_table(table):
     comp1 = table[table['component_number']==1]
     comp1best = comp1[comp1['frontback'] == comp1['frontbackbest']]
     return comp0,comp1,comp0best,comp1best
+
+def split_table_bycolumn(table):
+    best = table[table['frontback'] == table['frontbackbest']]
+    deepest = [t1 if ((t2['component_number'] == 1 and t2['COLUMN'] < t1['COLUMN'])
+                      or t2['component_number'] == 0) else t2
+               for t1,t2 in zip(best[:-1],best[1:])
+               if (t2['component_number']==1 or
+                   (t1['component_number']==0 and t2['component_number']==0))
+               ]
+    return astropy.table.Table(rows=deepest, names=table.colnames)
+
+def split_table_byvelo(table):
+    best = table[table['frontback'] == table['frontbackbest']]
+    highv = [t1 if ((abs(t2['CENTER']-68) > abs(t1['CENTER']-68)) or
+                    t2['component_number'] == 0) else t2
+             for t1,t2 in zip(best[:-1],best[1:])
+             if (t2['component_number']==1 or
+                 (t1['component_number']==0 and t2['component_number']==0))
+             ]
+    return astropy.table.Table(rows=highv, names=table.colnames)
 
 def table_to_reg(table, regfilename, system='galactic'):
     with open(regfilename, 'w') as outf:

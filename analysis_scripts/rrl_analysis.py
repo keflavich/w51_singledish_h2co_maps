@@ -1,3 +1,4 @@
+import os
 import aplpy
 from astropy.io import fits
 import pylab as pl
@@ -9,7 +10,8 @@ from agpy import fit_a_line
 import astropy.units as u
 import common_constants
 aobeam,gbbeam = common_constants.beams()
-from common_constants import h2co11freq,h2co22freq,etamb_77
+from common_constants import h2co11freq,h2co22freq,etamb_77,rrl
+from paths import datapath
 
 pl.mpl.rcParams['axes.color_cycle'] = ["#"+x for x in "348ABD, 7A68A6, A60628, 467821, CF4457, 188487, E24A33".split(", ")]
 
@@ -18,39 +20,70 @@ fwhm = np.sqrt(8*np.log(2))
 ktojy111 = (1*u.K).to(u.Jy,u.brightness_temperature((2*np.pi*(aobeam/fwhm)**2), h2co11freq))
 ktojy77 = (1*u.K).to(u.Jy,u.brightness_temperature((2*np.pi*(gbbeam/fwhm)**2), h2co22freq))
 
-aofn = 'W51_Halpha_6cm_cube_supersampled.fits'
-h112i = fits.getdata(aofn.replace("cube","integrated")) * ktojy111
-h112c = fits.getdata('W51_h112alpha_cube_supersampled_continuum.fits') * ktojy111
-h112h = fits.getheader('W51_h112alpha_cube_supersampled_continuum.fits')
+aofn = os.path.join(datapath,'W51_Halpha_6cm_cube_supersampled.fits')
+h112i = fits.getdata(os.path.join(datapath,'H110a_integral.fits')) * ktojy111 # ,aofn.replace("cube","integrated"))) * ktojy111
+h112a = fits.getdata(os.path.join(datapath,'H110a_amplitude.fits')) * ktojy111
+h112a.value[h112a == 0] = np.nan
+h112c = fits.getdata(os.path.join(datapath,'W51_h112alpha_cube_supersampled_continuum.fits')) * ktojy111
+h112h = fits.getheader(os.path.join(datapath,'W51_h112alpha_cube_supersampled_continuum.fits'))
 
-h77iname = 'W51_h77a_pyproc_integrated_supersampled.fits'
+h77iname = os.path.join(datapath,'H77a_integral.fits') #'W51_h77a_pyproc_integrated_supersampled.fits')
+h77aname = os.path.join(datapath,'H77a_amplitude.fits') #'W51_h77a_pyproc_integrated_supersampled.fits')
 h77i = fits.getdata(h77iname) * ktojy77 / etamb_77
-h77cname = 'W51_h77a_pyproc_cube_supersampled_continuum.fits'
-h77cname = 'W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits'
+h77a = fits.getdata(h77aname) * ktojy77 / etamb_77
+h77a.value[h77a == 0] = np.nan
+h77cname = os.path.join(datapath,'W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')
+h77cname = os.path.join(datapath,'W51_h77a_pyproc_cube_supersampled_continuum.fits')
 h77c = fits.getdata(h77cname) * ktojy77 / etamb_77
 h77h = fits.getheader(h77cname)
 
-h77lc = h77i/h77c * (h77i.value > 0.01)
-h112lc = h112i/h112c * (h112i.value > 0.01)
-rrlmask = (h77i.value > 0.01) * (h112i.value > 0.01)
-h77th112 = h77i/h112i * rrlmask
+integrated_threshold111 = 0.2 * ktojy111
+integrated_threshold77 = 0.03 * ktojy77
+h77lc = h77a/h77c * (h77a > integrated_threshold77)
+h112lc = h112a/h112c * (h112a > integrated_threshold111)
+rrlmask = (h77a > integrated_threshold77) * (h112a > integrated_threshold111)
+h77th112 = h77a/h112a * rrlmask
 c2cmtc6cm = h77c/h112c * rrlmask
+
+# Electron Temperatures
+# Compute using Wilson 2009, eqn 14.58
+vwidth77 = fits.getdata(os.path.join(datapath,'H77a_velocity_width.fits')) * u.km/u.s
+vwidth110 = fits.getdata(os.path.join(datapath,'H110a_velocity_width.fits')) * u.km/u.s
+anut = 1.0 # Gaunt correction factor, eqn 10.35, pg 251
+hefrac = 0.1 # Wilson 2009, p369
+h77te = (6.985e3/anut * (rrl(77).to(u.GHz).value)**1.1 * (1./(1.+hefrac)) * (vwidth77*fwhm).to(u.km/u.s).value**-1 * h77lc**-1)**0.87
+h112te = (6.985e3/anut * (rrl(112).to(u.GHz).value)**1.1 * (1./(1.+hefrac)) * (vwidth110*fwhm).to(u.km/u.s).value**-1 * h112lc**-1)**0.87
 
 figs = []
 
+vmaxes = {'77lc': 0.35,
+          '112lc': 0.15,
+          'te': 1.5e4,
+          'th': 3.5,
+          'tc': 2.5}
+
+vmins = {'lc': 0,
+         'te': 5000,
+         'th': 0,
+         'tc': 0}
+
 titles = {'h77lc':r'H77$\alpha$ Line/Continuum',
           'h112lc':r'H112$\alpha$ Line/Continuum',
+          'h77te':r'H77$\alpha$ Electron Temperature',
+          'h112te':r'H112$\alpha$ Electron Temperature',
           'h77th112':r'H77$\alpha$ / H112$\alpha$',
           'c2cmtc6cm':r'$S_{15 GHz}/S_{5 GHz}$'}
 
-for ii,img in enumerate('h77lc,h112lc,h77th112,c2cmtc6cm'.split(',')):
+for ii,img in enumerate('h77te,h112te,h77lc,h112lc,h77th112,c2cmtc6cm'.split(',')):
     name = img
     img = locals()[name].value
     hdu = fits.PrimaryHDU(data=img, header=h112h)
     pl.figure(ii)
     pl.clf()
     F = aplpy.FITSFigure(hdu, figure=pl.figure(ii))
-    F.show_colorscale(vmin=0,vmax=0.1 if 'lc' in name else 2.5)
+    vmax = [vmaxes[k] for k in vmaxes if k in name][0]
+    vmin = [vmins[k] for k in vmins if k in name][0]
+    F.show_colorscale(vmin=vmin,vmax=vmax)
     F.recenter(49.235,-0.303,width=0.952,height=0.433)
     F.add_colorbar()
     F._ax1.set_title(titles[name])
@@ -64,7 +97,7 @@ for ii,img in enumerate('h77lc,h112lc,h77th112,c2cmtc6cm'.split(',')):
 pl.figure(6)
 pl.clf()
 F = aplpy.FITSFigure(h77cname, figure=pl.figure(6), convention='calabretta')
-F.show_grayscale(vmin=-0.1,vmid=-0.4,vmax=8,invert=True,stretch='log')
+F.show_grayscale(vmin=-0.1,vmid=-0.4,vmax=550,invert=True,stretch='log')
 F.recenter(49.235,-0.303,width=0.952,height=0.433)
 F.show_contour(hdu, levels=[0.3,0.5,0.7], colors=['b',(0.2,1,0.4,0.8),'r'])
 F.add_colorbar()
@@ -72,40 +105,66 @@ F.add_colorbar()
 pl.figure(7)
 pl.clf()
 F = aplpy.FITSFigure(h77iname, figure=pl.figure(7), convention='calabretta')
-F.show_grayscale(vmin=-0.1/23,vmid=-0.4/23,vmax=8./23,invert=True,stretch='log')
+F.show_grayscale(vmin=-0.1,vmid=-0.4,vmax=180.,invert=True,stretch='log')
 F.recenter(49.235,-0.303,width=0.952,height=0.433)
 F.show_contour(hdu, levels=[0.3,0.5,0.7], colors=['b',(0.2,1,0.4,0.8),'r'])
 F.add_colorbar()
 
-keys = [r'H77$\alpha$',
+pl.figure(8)
+pl.clf()
+ax = pl.gca()
+pl.plot([000,4e4],[000,4e4],'k--')
+h77te_med = np.median(h77te.value[np.isfinite(h77te.value)])
+h112te_med = np.median(h112te.value[np.isfinite(h112te.value)])
+h77te_mean = np.mean(h77te.value[np.isfinite(h77te.value)])
+h112te_mean = np.mean(h112te.value[np.isfinite(h112te.value)])
+mpl_plot_templates.adaptive_param_plot(h77te.value, h112te.value, bins=50,
+                                       ncontours=10, threshold=5, fill=True,
+                                       alpha=0.5, cmap=pl.mpl.cm.spectral,
+                                       axis=ax)
+pl.plot(h77te_med, h112te_med, 'kx')
+pl.plot(h77te_mean, h112te_mean, 'k+')
+ax.set_xlabel(r"$T_e(\mathrm{H}77\alpha)$")
+ax.set_ylabel(r"$T_e(\mathrm{H}112\alpha)$")
+ax.axis([0,2e4,0,2e4])
+pl.savefig('/Users/adam/work/h2co/maps/paper/figures/electron_temperature_77vs111.pdf')
+
+
+keys = [
+       r'$S_{5 GHz}$',
        r'$S_{15 GHz}$',
        r'H112$\alpha$',
-       r'$S_{5 GHz}$']
+       r'H77$\alpha$',
+        ]
 
-data = {r'H77$\alpha$':  h77i,
+data = {r'H77$\alpha$':  h77a,
         r'$S_{15 GHz}$': h77c,
-        r'H112$\alpha$': h112i,
+        r'H112$\alpha$': h112a,
         r'$S_{5 GHz}$':  h112c}
 
-combs = itertools.combinations(keys,2)
+combs = list(itertools.combinations(keys,2))
 
-xpos = {r'H77$\alpha$':0,
+xpos = {r'$S_{5 GHz}$':0,
         r'$S_{15 GHz}$':1,
-        r'H112$\alpha$':2,}
+        r'H112$\alpha$':2,
+        }
 
 ypos = {r'$S_{15 GHz}$':0,
         r'H112$\alpha$':1,
-        r'$S_{5 GHz}$':2}
+        r'H77$\alpha$':2,
+        }
 
 pl.figure(5)
 pl.clf()
 mp = multiplot.multipanel(dims=(3,3),diagonal=False,figID=5)
 for ii,(xd,yd) in zip(mp.grid.keys(),combs):
+    if not(yd in ypos and xd in xpos):
+        continue
     print mp.axis_number(ypos[yd],xpos[xd],), xpos[xd], ypos[yd]
     ax = mp.grid[mp.axis_number(ypos[yd],xpos[xd])]
     #ax.plot(data[xd][rrlmask],data[yd][rrlmask],'.')
-    mpl_plot_templates.adaptive_param_plot(data[xd][rrlmask],
-                                           data[yd][rrlmask],
+    mpl_plot_templates.adaptive_param_plot(data[xd][rrlmask].to(u.Jy).value,
+                                           data[yd][rrlmask].to(u.Jy).value,
                                            bins=30,
                                            threshold=5,
                                            fill=False,
@@ -143,9 +202,9 @@ for ii,(xd,yd) in zip(mp.grid.keys(),combs):
 #    ax = pl.subplot(3,3,ii+1)
 #    ax.plot(xd[rrlmask],yd[rrlmask],'.')
 ax = mp.grid[mp.axis_number(0,2)]
-mpl_plot_templates.adaptive_param_plot(h77th112[rrlmask],
-                                       c2cmtc6cm[rrlmask],
-                                       bins=np.linspace(0,2.5,25),
+mpl_plot_templates.adaptive_param_plot(h77th112[rrlmask].value,
+                                       c2cmtc6cm[rrlmask].value,
+                                       bins=np.linspace(0,vmaxes['th'],25),
                                        threshold=8,
                                        fill=False,
                                        alpha=0.8,
@@ -156,8 +215,8 @@ ax.plot(np.linspace(0,3),1.0*np.linspace(0,3),'k--',alpha=0.5)
 ax.plot(np.linspace(0,3),0.6*np.linspace(0,3),'k:',alpha=0.5)
 ax.set_xlabel(r"H77$\alpha$/H112$\alpha$")
 ax.set_ylabel(r"$S_{15 GHz} / S_{5 GHz}$")
-ax.set_ylim(0,2.5)
-ax.set_xlim(0,2.5)
+ax.set_ylim(0,vmaxes['tc'])
+ax.set_xlim(0,vmaxes['th'])
 ax.set_xticks(ax.get_xticks()[1:])
 ax.set_yticks(ax.get_yticks()[1:])
 

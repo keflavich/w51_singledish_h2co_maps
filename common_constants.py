@@ -23,6 +23,12 @@ tau22cubefn = "W51_H2CO22_pyproc_taucube_lores_supersampled.fits"
 namedict = {'tau11cube':datapath_cubes+tau11cubefn,
             'tau22cube':datapath_cubes+tau22cubefn}
 
+def rrl(n,dn=1,amu=1.007825):    # compute Radio Recomb Line feqs in GHz
+    # from Brown, Lockman & Knapp ARAA 1978 16 445
+    nu = 3.289842e6*(1-5.48593e-4/amu)*(1/float(n)**2 - 1/float(n+dn)**2)
+    return nu * u.GHz
+
+
 __cache__ = {}
 
 def get_cached(name):

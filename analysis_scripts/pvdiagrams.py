@@ -90,7 +90,7 @@ if __name__ == "__main__":
     if not 'colorpvs' in locals():
         colorpvs = {}
 
-    for jj,color in enumerate(('green','red','blue','purple','cyan','yellow')):
+    for jj,color in enumerate(('green','red','blue','purple','cyan','yellow','orange')):
         coords = np.array([s.coord_list for s in endpoints_wcs if s.attr[1]['color'] == color])
 
         pl.figure(jj+1)
