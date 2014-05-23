@@ -244,5 +244,6 @@ if __name__ == "__main__":
                    bbox_inches='tight')
         pl.savefig(os.path.join(datapath_w51,'pvdiagrams','W51_FilamentPVDiagrams_co32included_regrid_%s.pdf' % color),
                    bbox_inches='tight')
+        pl.title(color)
 
     pl.show()
