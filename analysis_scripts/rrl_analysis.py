@@ -45,7 +45,8 @@ h77lc = h77a/h77c * (h77a > integrated_threshold77)
 h112lc = h112a/h112c * (h112a > integrated_threshold111)
 rrlmask = (h77a > integrated_threshold77) * (h112a > integrated_threshold111)
 h77th112 = h77a/h112a * rrlmask
-c2cmtc6cm = h77c/h112c * rrlmask
+c2cmtc6cm = (h77c/h112c * rrlmask)
+c2cmtc6cm.value[c2cmtc6cm <= 0] = np.nan
 
 # Electron Temperatures
 # Compute using Wilson 2009, eqn 14.58
@@ -55,6 +56,12 @@ anut = 1.0 # Gaunt correction factor, eqn 10.35, pg 251
 hefrac = 0.1 # Wilson 2009, p369
 h77te = (6.985e3/anut * (rrl(77).to(u.GHz).value)**1.1 * (1./(1.+hefrac)) * (vwidth77*fwhm).to(u.km/u.s).value**-1 * h77lc**-1)**0.87
 h112te = (6.985e3/anut * (rrl(112).to(u.GHz).value)**1.1 * (1./(1.+hefrac)) * (vwidth110*fwhm).to(u.km/u.s).value**-1 * h112lc**-1)**0.87
+h77tename = os.path.join(datapath,'H77a_electrontemperature.fits')
+h112tename = os.path.join(datapath,'H112a_electrontemperature.fits')
+hdu = fits.PrimaryHDU(data=h77te.value, header=h77h)
+hdu.writeto(h77tename, clobber=True)
+hdu = fits.PrimaryHDU(data=h112te.value, header=h112h)
+hdu.writeto(h112tename, clobber=True)
 
 figs = []
 
@@ -96,23 +103,23 @@ for ii,img in enumerate('h77te,h112te,h77lc,h112lc,h77th112,c2cmtc6cm'.split(','
     F.save('/Users/adam/work/h2co/maps/paper/figures/ratiomap_cont_%s.pdf' % name)
     F.save('/Users/adam/work/h2co/maps/paper/figures/ratiomap_cont_%s.png' % name)
 
-pl.figure(6)
+pl.figure(ii+1)
 pl.clf()
-F = aplpy.FITSFigure(h77cname, figure=pl.figure(6), convention='calabretta')
+F = aplpy.FITSFigure(h77cname, figure=pl.figure(ii+1), convention='calabretta')
 F.show_grayscale(vmin=-0.1,vmid=-0.4,vmax=550,invert=True,stretch='log')
 F.recenter(49.235,-0.303,width=0.952,height=0.433)
 F.show_contour(hdu, levels=[0.3,0.5,0.7], colors=['b',(0.2,1,0.4,0.8),'r'])
 F.add_colorbar()
 
-pl.figure(7)
+pl.figure(ii+2)
 pl.clf()
-F = aplpy.FITSFigure(h77iname, figure=pl.figure(7), convention='calabretta')
+F = aplpy.FITSFigure(h77iname, figure=pl.figure(ii+2), convention='calabretta')
 F.show_grayscale(vmin=-0.1,vmid=-0.4,vmax=180.,invert=True,stretch='log')
 F.recenter(49.235,-0.303,width=0.952,height=0.433)
 F.show_contour(hdu, levels=[0.3,0.5,0.7], colors=['b',(0.2,1,0.4,0.8),'r'])
 F.add_colorbar()
 
-pl.figure(8)
+pl.figure(ii+3)
 pl.clf()
 ax = pl.gca()
 pl.plot([000,4e4],[000,4e4],'k--')
@@ -156,9 +163,9 @@ ypos = {r'$S_{15 GHz}$':0,
         r'H77$\alpha$':2,
         }
 
-pl.figure(5)
+pl.figure(ii+4)
 pl.clf()
-mp = multiplot.multipanel(dims=(3,3),diagonal=False,figID=5)
+mp = multiplot.multipanel(dims=(3,3),diagonal=False,figID=ii+4)
 for ii,(xd,yd) in zip(mp.grid.keys(),combs):
     if not(yd in ypos and xd in xpos):
         continue
