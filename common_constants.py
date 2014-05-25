@@ -1,5 +1,6 @@
 from astropy import units as u
 from astropy.io import fits
+from paths import datapath,datapath_w51,figurepath
 
 def beams():
     # smoothed by 20" during mapping
@@ -10,18 +11,16 @@ def beams():
 h2co11freq = 4.82966 * u.GHz
 h2co22freq = 14.48848 * u.GHz
 
+TCMB = 2.7315
+
 # etamb_111 = 0.51 # ALREADY ACCOUNTED FOR!
 etamb_77 = 0.886
-
-datapath = '/Users/adam/work/w51/'
-datapath_cubes = '/Users/adam/work/w51/h2co_singledish/'
-figpath = '/Users/adam/work/h2co/maps/paper/figures/'
 
 tau11cubefn = 'W51_H2CO11_taucube_supersampled.fits'
 tau22cubefn = "W51_H2CO22_pyproc_taucube_lores_supersampled.fits"
 
-namedict = {'tau11cube':datapath_cubes+tau11cubefn,
-            'tau22cube':datapath_cubes+tau22cubefn}
+namedict = {'tau11cube':datapath+tau11cubefn,
+            'tau22cube':datapath+tau22cubefn}
 
 def rrl(n,dn=1,amu=1.007825):    # compute Radio Recomb Line feqs in GHz
     # from Brown, Lockman & Knapp ARAA 1978 16 445

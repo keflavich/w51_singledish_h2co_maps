@@ -1,3 +1,9 @@
+"""
+Script to do the parameter fitting for the H2CO cubes
+
+It has gone through at least 11 iterations, some of which tried fitting the
+observed optical depth cubes (bad) and others which do the full line modeling.
+"""
 from load_pyspeckit_cubes import both,T,F,cont11,cont22,h2co11filename
 from astropy.io import fits
 import os
@@ -20,6 +26,10 @@ both.plot_spectrum(x,y, errstyle='fill', residfignum=5)
 
 doextra=False
 
+# Added 5/23/2014
+mask = fits.getdata('mask_h2co_signal.fits')
+both.maskmap = mask
+
 twopar = True
 if True:
 
@@ -36,7 +46,8 @@ if True:
     # try8 includes tbackground
     # try9 includes tbackground with corrected velocities
     # try10 includes tbackground and tries two independent pars.  Scary.
-    parcubefilename = outcube = 'W51_taucube_fit_parcube_try10.fits'
+    # try11 includes tbackground and tries two independent pars.  It is pre-masked. 5/23/2014
+    parcubefilename = outcube = 'W51_taucube_fit_parcube_try11.fits'
     # parcube is messed?
     refit=not os.path.exists(outcube)
     #refit=True
@@ -53,7 +64,7 @@ if True:
                          absorption=True,
                          integral=False,
                          fittype='formaldehyde_radex',
-                         multicore=8,
+                         multicore=4,
                          signal_cut=4,
                          fixed=[F,F,T,T,F,F,T,T]*2,
                          parlimited=[(T,T), (T,T), (T,T), (T,T), (F,F), (T,F), (T,F), (T,F)]*2,
@@ -93,7 +104,9 @@ if True:
         #tempf[0].data[7, (tempf[0].data[15,:,:] == 0)|(tempf[0].data[15,:,:] > 2)] = 0
         #tempf.writeto(parcubefilename.replace(".fits","_filtered.fits"),clobber=True)
     else:
-        both.load_model_fit(parcubefilename,8,fittype='formaldehyde_radex',_temp_fit_loc=(x,y))
+        both.load_model_fit(parcubefilename, 8,
+                            fittype='formaldehyde_radex',
+                            _temp_fit_loc=(x,y))
         #both.parcube[4:,both.parcube[-1,:,:]==0] = 0
         # alternative
         # both.load_model_fit('W51_scaled_parcube.fits',4,fittype='formaldehyde_radex_tau',_temp_fit_loc=(15,30))

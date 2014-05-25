@@ -3,21 +3,22 @@ import numpy as np
 import astroML.plotting as ampl
 from astropy.io import fits
 from agpy.mad import MAD
-import itertools
+from paths import dpath,fpath
 
 pl.rcParams['font.size'] = 20
 
-h2co11 = fits.getdata('W51_H2CO11_taucube_supersampled.fits')
-h2co22 = fits.getdata('W51_H2CO22_pyproc_taucube_lores_supersampled.fits')
+h2co11 = fits.getdata(dpath('W51_H2CO11_taucube_supersampled.fits'))
+h2co22 = fits.getdata(dpath('W51_H2CO22_pyproc_taucube_lores_supersampled.fits'))
 
-ratio = fits.getdata('W51_H2CO11_to_22_tau_ratio_supersampled_neighbors.fits')
+ratio = fits.getdata(dpath('W51_H2CO11_to_22_tau_ratio_supersampled_neighbors.fits'))
 
 pl.figure(1)
 pl.clf()
 
 ax1 = pl.subplot(1,3,1)
 oneone = h2co11[h2co11==h2co11]
-counts, bins, patches = ampl.hist(oneone, bins=100, log=True, histtype='step', linewidth=2, alpha=0.8, color='k')
+counts, bins, patches = ampl.hist(oneone, bins=100, log=True, histtype='step',
+                                  linewidth=2, alpha=0.8, color='k')
 ylim = ax1.get_ylim()
 med, mad = np.median(oneone),MAD(oneone)
 pl.plot(bins,counts.max()*np.exp(-(bins-med)**2/(2*mad**2)),'r--')
@@ -44,5 +45,6 @@ pl.xlabel("Ratio (1-1)/(2-2)")
 #pl.plot(bins,counts.max()*np.exp(-(bins-med)**2/(2*mad**2)),'k--')
 #ax3.set_ylim(*ylim)
 
-pl.savefig('/Users/adam/work/h2co/maps/paper/figures/cube_histograms_tau_and_ratio.pdf',bbox_inches='tight')
+pl.savefig(fpath('cube_histograms_tau_and_ratio.pdf'),
+           bbox_inches='tight')
 pl.show()

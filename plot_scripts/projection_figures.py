@@ -2,27 +2,28 @@ import pylab as pl
 import numpy as np
 import astroML.plotting as ampl
 from astropy.io import fits
+from astropy import units as u
+
 #from agpy.mad import MAD
 #import itertools
 import pyspeckit
 #import mpl_toolkits
 import aplpy
-from common_constants import datapath_cubes,figpath,get_cached
-import spectral_cube
-import os
-import paths
+from common_constants import get_cached
+from spectral_cube import SpectralCube, LazyMask
+from paths import fpath,dpath,rpath,datapath_w51
 
 pl.rcParams['font.size'] = 16
 
-dens = spectral_cube.SpectralCube.read(datapath_cubes+'W51_H2CO11_to_22_logdensity_supersampled.fits')
-header = fits.getheader(datapath_cubes+'W51_H2CO11_cube_supersampled_continuum.fits')
+cube = dens = SpectralCube.read(dpath('W51_H2CO11_to_22_logdensity_supersampled.fits'))
+header = fits.getheader(dpath('W51_H2CO11_cube_supersampled_continuum.fits'))
 
 dens_peak = dens.max(axis=0)
 data = dens.filled_data[:]
 dens_mean = np.log10(np.nanmean(10**data,axis=0))
 #dens_mean = dens._apply_along_axis(lambda x: 10**x
 
-hdu_peak = dens_peak.hdu
+hdu_peak = fits.PrimaryHDU(data=dens_peak.value, header=header)
 hdu_mean = fits.PrimaryHDU(data=dens_mean, header=header)
 
 for fn in (1,2):
@@ -94,17 +95,18 @@ ax2.set_xlim(1.5,6)
 ax2.set_xlabel(nh2)
 
 pl.figure(1)
-pl.savefig(figpath+'density_peak_projection_withhist.pdf',bbox_inches='tight')
+pl.savefig(fpath('density_peak_projection_withhist.pdf'),bbox_inches='tight')
 pl.figure(2)
-pl.savefig(figpath+'density_mean_projection_withhist.pdf',bbox_inches='tight')
+pl.savefig(fpath('density_mean_projection_withhist.pdf'),bbox_inches='tight')
 
+dens = dens.filled_data[:]
 dens[np.isnan(dens)] = -np.inf
 peakpos = np.argmax(dens,axis=0)
-peakvel = cube.xarr[peakpos].copy() # to get around np read-only flags
+peakvel = cube.spectral_axis[peakpos].to(u.km/u.s).value # cube.xarr[peakpos].copy() # to get around np read-only flags
 peakvel[np.isnan(dens_peak)] = np.nan
 dens[np.isinf(dens)+np.isnan(dens)] = np.inf
 minvpos = np.argmin(dens,axis=0)
-minvel = cube.xarr[minvpos].copy() # to get around np read-only flags
+minvel = cube.spectral_axis[minvpos].copy().to(u.km/u.s).value # cube.xarr[minvpos].copy() # to get around np read-only flags
 minvel[np.isnan(dens_peak)] = np.nan
 
 hdu_peakvel = fits.PrimaryHDU(data=peakvel, header=header)
@@ -128,7 +130,7 @@ F3.colorbar.set_axis_label_rotation(270)
 F3.colorbar.set_axis_label_pad(30)
 F3.recenter(49.23,-0.28,width=1,height=0.5)
 
-F3.save(figpath+'velocity_at_peak_density.pdf')
+F3.save(fpath('velocity_at_peak_density.pdf'))
 
 tau11cube = get_cached('tau11cube')[0].data
 tau22cube = get_cached('tau22cube')[0].data
@@ -140,7 +142,8 @@ mask_1 = (sn11 > 1) & (sn22 > 1)
 mask_3 = (sn11 > 3) & (sn22 > 3)
 mask_5 = (sn11 > 5) & (sn22 > 5)
 
-dens[np.isinf(dens)] = np.nan
+dens.value[np.isinf(dens)] = np.nan
+dens = dens.value
 
 def makepv(cube):
     pv = np.nanmax(cube,axis=1)
@@ -155,7 +158,8 @@ pv11 = makepv(tau11cube*mask_1)
 pv22 = makepv(tau22cube*mask_1)
 pvmin = np.nanmin(dens,axis=1)
 pvmin = np.ma.masked_where(np.isnan(pvmin),pvmin)
-yax = cube.xarr
+#yax = cube.xarr
+yax = cube.spectral_axis.to(u.km/u.s).value
 xax = (np.arange(pvdens.shape[1])+1-header['CRPIX1'])*header['CD1_1']+header['CRVAL1']
 
 fn = 4
@@ -176,7 +180,7 @@ for pv,qty in zip((pvdens,pv11,pv22,pvdens3,pvdens5),
     ax.set_xlabel("Galactic Longitude")
     ax.set_ylabel(r'$V_{LSR} [$km s$^{-1}]$')
 
-    pl.savefig(figpath+'pvdiagram_%s_max_along_latitude.pdf' % qty)
+    pl.savefig(fpath('pvdiagram_%s_max_along_latitude.pdf' % qty))
 
 fn = 5
 pl.figure(fn)
@@ -211,27 +215,28 @@ for slice_pix in [50,60,70,80,90,100]:
     ax.set_ylabel(r'$V_{LSR} [$km s$^{-1}]$')
     ax.set_title(r"Slice $\ell=%0.2f$" % (zax[slice_pix]))
 
-    pl.savefig(figpath+'pvdiagram_slice_ell=%0.2f.pdf' % zax[slice_pix],bbox_inches='tight')
+    pl.savefig(fpath('pvdiagram_slice_ell=%0.2f.pdf' % zax[slice_pix]),
+               bbox_inches='tight')
 
 
 
-oneone = spectral_cube.SpectralCube.read('h2co_singledish/W51_H2CO11_taucube_supersampled.fits')
-twotwo = spectral_cube.SpectralCube.read('h2co_singledish/W51_H2CO22_pyproc_taucube_lores_supersampled.fits')
-thirteen = spectral_cube.SpectralCube.read('grs_48and50_cube_supersampledh2cogrid.fits')
-thirteen._mask = spectral_cube.LazyMask(lambda x: 1, thirteen)
+oneone = SpectralCube.read(dpath('/W51_H2CO11_taucube_supersampled.fits'))
+twotwo = SpectralCube.read(dpath('/W51_H2CO22_pyproc_taucube_lores_supersampled.fits'))
+thirteen = SpectralCube.read(dpath('grs_48and50_cube_supersampledh2cogrid.fits',datapath_w51))
+thirteen._mask = LazyMask(lambda x: 1, thirteen)
 #sl13 = thirteen.spectral_slab(40*u.km/u.s, 80*u.km/u.s)
 #sl13mom0 = sl13.moment0()
-mask = (thirteen > 0.1) | (spectral_cube.LazyMask(np.isnan, thirteen))
+mask = (thirteen > 0.1) | (LazyMask(np.isnan, thirteen))
 comasked = oneone.with_mask(mask)
 slab_masked = comasked.spectral_slab(40*u.km/u.s, 80*u.km/u.s)
-#spectral_cube.spectral_cube.wcs_utils.check_equality(mask._wcs, comasked.wcs, verbose=True)
+#spectral_cube.wcs_utils.check_equality(mask._wcs, comasked.wcs, verbose=True)
 mom0 = slab_masked.moment0()
 fig2 = pl.figure(2)
 fig2.clf()
 F = aplpy.FITSFigure(mom0.hdu, figure=fig2)
 F.show_grayscale()
 F.recenter(49.182984, -0.33612413, width=0.7, height=0.45)
-F.show_regions(os.path.join(paths.datapath_w51, 'cyan_segments.reg'))
+F.show_regions(rpath('cyan_segments.reg'))
 
 
 pl.draw()

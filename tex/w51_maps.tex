@@ -562,12 +562,12 @@ depth cubes.
 %Two main high-density regions are evident: W51 Main at 49.5 -0.4 and G48.9-0.3 at 48.9 -0.3.}
 %{fig:densprojections}{1.0}{6in}
 
-% We also show a projection of the velocity at peak density in each pixel (Figure
+% We show a projection of the velocity at peak density in each pixel (Figure
 % \ref{fig:velopv}).  This figure clearly highlights the 68 \kms cloud as a
 % high-density feature throughout the region \citep{Carpenter1998a}.  However,
 % there are significant gaps in the molecular gas, notably a $\sim6 pc$ gap
 % (assuming $D=5$ kpc) at $\ell=49.1, b=-0.34$.
-
+% 
 % \FigureTwoAA
 % {figures/velocity_at_peak_density.pdf}
 % {figures/pvdiagram_max_along_latitude.pdf}
@@ -784,51 +784,44 @@ between multiple clouds hints that its great mass and star-forming potential
 was triggered by this cloud-cloud collision.
 
 
-% \subsection{Model Fitting}
-% 
-% These $\tau$ cubes are then fit with the RADEX models used for other
-% \formaldehyde fitting.  However, there are multiple velocity components in W51,
-% so I used a two-component (unconstrained) fit for each pixel, which is
-% frequently unstable but in the case of W51 looks to have produced reasonable
-% results.  Note that there was \emph{no} \formaldehyde emission detected anywhere
-% in the W51 region.
-% 
-% A first interesting note is that a local cloud at $v_{lsr}\sim5 \kms$ is
-% detected in \formaldehyde \oneone across most of the cloud and not detected at
-% \twotwo, with $\tau_{\oneone}/\tau_{\twotwo} \gtrsim 3$, implying a
-% very low column
-% $N_{\formaldehyde}\sim10^{11.5}$ or $N_{\hh} \sim 10^{20.5}$.  
-% The cloud is seen in \thirteenco as a very weak, diffuse feature, and in HI absorption
-% as a very sharp, deep (self)-absorption feature.
-% % This density measurement
-% % is consistent with observations from \citet{Ginsburg2011} of high density in
-% % GMCs.  However, GMCs are generally thought of as being low-density clouds, so
-% % this result may be surprising.
-% 
-% %FIGURE: mcmc column vs density 
-% 
-% I successfully made density maps of the W51 cloud, though because the velocity
-% structure is quite complicated, it was necessary to fit two components to most of the
-% map.  Two-component fits are never particularly stable, so it was necessary to
-% restrict the parameters being fitted, and even then the results aren't
-% perfectly reliable.  Despite those caveats, there are some reliable fits,
-% particularly towards the `core' of W51 Main / W51 IRS 2.  There are two
-% high-density components with $n\sim10^5-10^{5.5}$ \percc at different velocities evident
-% in Figure \ref{fig:w51h2cofits}.  The southern component, centered on W51 Main,
-% has $v_{LSR}\sim56-59$.  The northern component, a strip going through IRS 2
-% and towards the west, peaks around $v_{LSR}\sim68-69$ \kms.  A 10 \kms difference
-% between two extremely dense components, both which are necessarily in the
-% foreground of the HII region, is shocking (probably, anyway, unless the sound
-% speed is very high).
-% 
-% 
-% \FigureTwo{figures/W51_H2CO_2parfit_v1_densityvelocity.png}
-% {figures/W51_H2CO_2parfit_v2_densityvelocity.png}
-% {Density and velocity fits to the W51 Arecibo and GBT \formaldehyde 
-% data cubes.  The yellow regions in the top panel correspond to \oneone
-% detections and \twotwo nondetections, indicating upper limits $n<10^{3.8}$
-% (68\% confidence) or $n<10^{4.3}$ (99.7\% confidence).}
-% {fig:w51h2cofits}{1}
+\subsection{Model Fitting}
+
+Describe fitting models to absorption lines (NOT to tau)
+
+A local cloud at $v_{lsr}\sim5 \kms$ is detected in \formaldehyde \oneone
+across most of the cloud and not detected at \twotwo, with
+$\tau_{\oneone}/\tau_{\twotwo} \gtrsim 3$, implying a very low column
+$N_{\formaldehyde}\sim10^{11.5}$ or $N_{\hh} \sim 10^{20.5}$.  The cloud is
+seen in \thirteenco as a very weak, diffuse feature, and in HI absorption as a
+narrow (self)-absorption feature.
+
+
+We fit the \formaldehyde models on a pixel-by-pixel basis.  Nearly all pixels
+with significant detections include two blended velocity components.
+Two-component fits are never particularly stable, so it was necessary to
+restrict the parameters being fitted, and even then the results aren't
+perfectly reliable.  Despite those caveats, there are some reliable fits,
+particularly towards the `core' of W51 Main / W51 IRS 2.  There are two
+high-density components with $n\sim10^5-10^{5.5}$ \percc at different
+velocities evident in Figure \ref{fig:w51h2cofits}.  The southern component,
+centered on W51 Main, has $v_{LSR}\sim56-59$.  The northern component, a strip
+going through IRS 2 and towards the west, peaks around $v_{LSR}\sim68-69$ \kms.
+A 10 \kms difference between two extremely dense components, both which are
+necessarily in the foreground of the HII region, is shocking (probably, anyway,
+unless the sound speed is very high).
+
+
+\FigureTwo{figures/W51_H2CO_2parfittry10_v1_densityvelocity.pdf}
+          {figures/W51_H2CO_2parfittry10_v2_densityvelocity.pdf}
+{Density and velocity fits to the W51 Arecibo and GBT \formaldehyde 
+data cubes.  The left figure shows velocity components restricted
+to have central $V_{LSR} < 65$ \kms, while the right figure shows
+velocity components with $V_{LSR} > 65$ \kms.  
+%The yellow regions in the top panel correspond to \oneone
+%detections and \twotwo nondetections, indicating upper limits $n<10^{3.8}$
+%(68\% confidence) or $n<10^{4.3}$ (99.7\% confidence).
+}
+{fig:w51h2cofits}{1}
 % 
 % There is a large area where \oneone was detected, but \twotwo was not.  Our
 % sensitivity allows us to place a modest upper limit on the gas density, with

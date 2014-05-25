@@ -1,15 +1,14 @@
 from spectral_cube import SpectralCube,BooleanArrayMask
-from paths import datapath
+from paths import dpath
 from astropy import units as u
 from astropy.convolution import convolve
 from astropy.io import fits
 import numpy as np
-import os
 
-h2co11 = SpectralCube.read(os.path.join(datapath,
-                                        'W51_H2CO11_cube_supersampled_sub.fits'))
-h2co22 = SpectralCube.read(os.path.join(datapath,
-                                        'W51_H2CO22_pyproc_cube_lores_supersampled_sub.fits'))
+TCMB = 2.7315
+
+h2co11 = SpectralCube.read(dpath('W51_H2CO11_cube_supersampled_sub.fits'))
+h2co22 = SpectralCube.read(dpath('W51_H2CO22_pyproc_cube_lores_supersampled_sub.fits'))
 
 vrange = [45,75]*u.km/u.s
 h2co11slab = h2co11.spectral_slab(*vrange)
@@ -56,11 +55,25 @@ boolean_maskslab = BooleanArrayMask(boolean_maskslab, maskslab._mask1._wcs)
 h2co11integ2 = h2co11slab.with_mask(boolean_maskslab).sum(axis=0) * dx
 h2co22integ2 = h2co22slab.with_mask(boolean_maskslab).sum(axis=0) * dx
 
-cont11 = fits.getdata(os.path.join(datapath,'W51_H2CO11_cube_supersampled_continuum.fits')) + 2.73
-cont22 = fits.getdata(os.path.join(datapath,'W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')) + 2.73
-cont11[cont11<2.73] = 2.73
-cont22[cont22<2.73] = 2.73
+h2co11peak = h2co11slab.with_mask(boolean_maskslab).min(axis=0)
+h2co22peak = h2co22slab.with_mask(boolean_maskslab).min(axis=0)
 
-hdu = fits.open(os.path.join(datapath,'W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits'))[0]
+cont11 = fits.getdata(dpath('W51_H2CO11_cube_supersampled_continuum.fits')) + TCMB
+cont22 = fits.getdata(dpath('W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')) + TCMB
+cont11[cont11<TCMB] = TCMB
+cont22[cont22<TCMB] = TCMB
+
+hdu = fits.open(dpath('W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits'))[0]
 hdu.data = (np.isfinite(h2co11integ2).astype('int'))
-hdu.writeto(os.path.join(datapath,'mask_h2co_signal.fits'), clobber=True)
+hdu.writeto(dpath('mask_h2co_signal.fits'), clobber=True)
+
+depth11 = -np.log((h2co11peak+cont11) / cont11)
+depth22 = -np.log((h2co22peak+cont22) / cont22)
+
+hdu.header['BUNIT'] = ''
+hdu.data = depth11.value
+hdu.writeto(dpath('peak_optdepth_11.fits'), clobber=True)
+hdu.data = depth22.value
+hdu.writeto(dpath('peak_optdepth_22.fits'), clobber=True)
+hdu.data = (depth11/depth22).value
+hdu.writeto(dpath('peak_optdepth_ratio.fits'), clobber=True)

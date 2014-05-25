@@ -1,7 +1,7 @@
 import aplpy
 
-def FITSFigure(name, convention='calabretta', xcen=49.23, ycen=-0.28, width=1,
-               height=0.5, **kwargs):
+def FITSFigure(name, convention='calabretta', xcen=49.27, ycen=-0.32, width=0.9,
+               height=0.4, **kwargs):
     F = aplpy.FITSFigure(name, convention=convention, **kwargs)
 
     F.set_tick_labels_xformat('dd.d')
