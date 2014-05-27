@@ -220,8 +220,8 @@ for slice_pix in [50,60,70,80,90,100]:
 
 
 
-oneone = SpectralCube.read(dpath('/W51_H2CO11_taucube_supersampled.fits'))
-twotwo = SpectralCube.read(dpath('/W51_H2CO22_pyproc_taucube_lores_supersampled.fits'))
+oneone = SpectralCube.read(dpath('W51_H2CO11_taucube_supersampled.fits'))
+twotwo = SpectralCube.read(dpath('W51_H2CO22_pyproc_taucube_lores_supersampled.fits'))
 thirteen = SpectralCube.read(dpath('grs_48and50_cube_supersampledh2cogrid.fits',datapath_w51))
 thirteen._mask = LazyMask(lambda x: 1, thirteen)
 #sl13 = thirteen.spectral_slab(40*u.km/u.s, 80*u.km/u.s)

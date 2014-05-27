@@ -4,11 +4,12 @@ import pylab as pl
 import numpy as np
 import matplotlib as mpl
 
-import aplpy
+from aplpy_figure_maker import FITSFigure
 from astropy.io import fits
 from astroquery.vizier import Vizier
 from astropy import coordinates
 from paths import datapath, datapath_w51, figurepath
+from FITS_tools.strip_headers import flatten_header
 
 # Shortcut functions to get the full paths to files
 def p1(x):
@@ -25,13 +26,10 @@ def savefig(savename, **kwargs):
     pl.savefig(p3(savename.replace("pdf","png")), **kwargs)
     pl.savefig(p3(savename.replace("png","pdf")), **kwargs)
 
-def setprops(F):
-    F.set_tick_labels_xformat('dd.d')
-    F.set_tick_labels_yformat('dd.d')
-
 zoomargs = {'x': 49.31, 'y':-0.35, 'width': 0.55, 'height':0.34}
 # copied from projection_figures
 zoomargs = {'x': 49.23, 'y': -0.28, 'width':1, 'height':0.5}
+zoomargs = dict(x=49.27, y=-0.32, width=0.9, height=0.4)
 
 for fignum in (1,2,3):
     if pl.fignum_exists(fignum):
@@ -52,7 +50,7 @@ glon,glat = np.array(zip(*[(rd.galactic.l.degree,
 # Added 5/23/2014
 mask = fits.getdata(p1('mask_h2co_signal.fits'))
 
-for suffix,extrastr in ((".fits",""), ("_prefiltered.fits", "filtered")):
+for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
     parcubefile = fits.open(p1('W51_taucube_fit_parcube_try10'+suffix))
     #parcubefile[0].header = fits.getheader('W51_H2CO11_taucube_integrated.fits')
     parcubefile[0].header['CTYPE3'] = 'linear'
@@ -74,58 +72,47 @@ for suffix,extrastr in ((".fits",""), ("_prefiltered.fits", "filtered")):
 
     pl.figure(1,figsize=(12,12))
     pl.clf()
-    dens1 = aplpy.FITSFigure(parcubefile,convention='calabretta',slices=[0],figure=pl.figure(1),subplot=topbounds)
-    setprops(dens1)
+    dens1 = FITSFigure(parcubefile,convention='calabretta',slices=[0],figure=pl.figure(1),subplot=topbounds)
     dens1.show_colorscale(vmin=2,vmax=6,cmap=cmhot)
     dens1.recenter(**zoomargs)
-    dens1.add_colorbar()
     dens1.colorbar._colorbar_axes.set_ylabel('log$_{10}$(n(H$_2$) cm$^{-3}$)')
     dens1.hide_xaxis_label()
     dens1.hide_xtick_labels()
-    velo1 = aplpy.FITSFigure(parcubefile,convention='calabretta',slices=[4],figure=pl.figure(1),subplot=bottombounds)
-    setprops(velo1)
+    velo1 = FITSFigure(parcubefile,convention='calabretta',slices=[4],figure=pl.figure(1),subplot=bottombounds)
     velo1.show_colorscale(vmin=52,vmax=66,cmap=cmjet)
     velo1.recenter(**zoomargs)
-    velo1.add_colorbar()
     velo1.colorbar._colorbar_axes.set_ylabel('Velocity ($V_{LSR}$ km s$^{-1}$)')
     savefig('W51_H2CO_2parfittry10_v1_densityvelocity%s.png' % extrastr,bbox_inches='tight')
 
     dens1.remove_colorbar()
     dens1.hide_colorscale()
-    col1 = aplpy.FITSFigure(parcubefile,convention='calabretta',slices=[1],figure=pl.figure(1),subplot=topbounds)
+    col1 = FITSFigure(parcubefile,convention='calabretta',slices=[1],figure=pl.figure(1),subplot=topbounds)
     col1.show_colorscale(vmin=11,vmax=13.5,cmap=cmhot)
     col1.recenter(**zoomargs)
-    col1.add_colorbar()
     col1.colorbar._colorbar_axes.set_ylabel('log$_{10}$(N(H$_2$) cm$^{-2}$)')
     col1.hide_xaxis_label()
     col1.hide_xtick_labels()
-    setprops(col1)
     savefig('W51_H2CO_2parfittry10_v1_columnvelocity%s.png' % extrastr,bbox_inches='tight')
 
     pl.figure(2,figsize=(12,12))
     pl.clf()
-    dens2 = aplpy.FITSFigure(parcubefile,convention='calabretta',slices=[8],figure=pl.figure(2),subplot=topbounds)
-    setprops(dens2)
+    dens2 = FITSFigure(parcubefile,convention='calabretta',slices=[8],figure=pl.figure(2),subplot=topbounds)
     dens2.show_colorscale(vmin=2,vmax=6,cmap=cmhot)
     dens2.recenter(**zoomargs)
-    dens2.add_colorbar()
     dens2.colorbar._colorbar_axes.set_ylabel('log$_{10}$(n(H$_2$) cm$^{-3}$)')
     dens2.hide_xaxis_label()
     dens2.hide_xtick_labels()
-    velo2 = aplpy.FITSFigure(parcubefile,convention='calabretta',slices=[12],figure=pl.figure(2),subplot=bottombounds)
-    setprops(velo2)
+    velo2 = FITSFigure(parcubefile,convention='calabretta',slices=[12],figure=pl.figure(2),subplot=bottombounds)
     velo2.show_colorscale(vmin=65,vmax=73,cmap=cmjet)
     velo2.recenter(**zoomargs)
-    velo2.add_colorbar()
     velo2.colorbar._colorbar_axes.set_ylabel('Velocity ($V_{LSR}$ km s$^{-1}$)')
     savefig('W51_H2CO_2parfittry10_v2_densityvelocity%s.png' % extrastr,bbox_inches='tight')
 
     dens2.remove_colorbar()
     dens2.hide_colorscale()
-    col2 = aplpy.FITSFigure(parcubefile,convention='calabretta',slices=[9],figure=pl.figure(2),subplot=topbounds)
+    col2 = FITSFigure(parcubefile,convention='calabretta',slices=[9],figure=pl.figure(2),subplot=topbounds)
     col2.show_colorscale(vmin=11,vmax=13.5,cmap=cmhot)
     col2.recenter(**zoomargs)
-    col2.add_colorbar()
     col2.colorbar._colorbar_axes.set_ylabel('log$_{10}$(N(H$_2$) cm$^{-2}$)')
     col2.hide_xaxis_label()
     col2.hide_xtick_labels()
@@ -134,11 +121,9 @@ for suffix,extrastr in ((".fits",""), ("_prefiltered.fits", "filtered")):
     pl.figure(3)
     pl.clf()
     pl.rc('font',size=24)
-    dens1 = aplpy.FITSFigure(parcubefile,convention='calabretta',slices=[0],figure=pl.figure(3))
-    setprops(dens1)
+    dens1 = FITSFigure(parcubefile,convention='calabretta',slices=[0],figure=pl.figure(3))
     dens1.show_colorscale(vmin=2,vmax=6,cmap=cmhot)
     dens1.recenter(**zoomargs)
-    dens1.add_colorbar()
     dens1.colorbar._colorbar_axes.set_ylabel('log$_{10}$(n(H$_2$) cm$^{-3}$)')
     dens1.set_tick_labels_format('dd.d','d.dd')
     #dens1.hide_xaxis_label()
@@ -154,3 +139,38 @@ for suffix,extrastr in ((".fits",""), ("_prefiltered.fits", "filtered")):
     dens1.show_markers(glon,glat,marker='+',edgecolor='k')
     dens1.refresh()
     savefig('W51_H2CO_2parfittry10_v1_justdensity%s_withYSOs.png' % extrastr,bbox_inches='tight')
+
+    column1 = 10**parcubefile[0].data[1] * parcubefile[0].data[5]
+    column2 = 10**parcubefile[0].data[9] * parcubefile[0].data[13]
+    totalcolumn = np.log10(column1 + column2)
+    totalcolumn[totalcolumn == 0] = np.nan
+    colhdu = fits.PrimaryHDU(data=totalcolumn, header=flatten_header(parcubefile[0].header))
+
+    pl.figure(4)
+    pl.clf()
+    tcol = FITSFigure(colhdu, figure=pl.figure(4))
+    tcol.show_colorscale(cmap=cmhot)
+    tcol.colorbar._colorbar_axes.set_ylabel('log$_{10}$(N(H$_2$) cm$^{-2}$)')
+    savefig('W51_H2CO_2parfittry10_totalcolumn.png', bbox_inches='tight')
+
+
+    labels = {'dens':'log$_{10}$(n(H$_2$) cm$^{-3}$)',
+              'velocity':'Velocity ($V_{LSR}$ km s$^{-1}$)',
+              'width':'Line Width (km s$^{-1}$)',
+              'column':'log$_{10}$(N(H$_2$) cm$^{-2}$)'}
+    cmaps = {'dens':cmhot,
+             'velocity':cmjet,
+             'width':cmjet,
+             'column':cmhot,}
+
+    for parnum, param in [(0,'dens1'),(1,'column1'),(4,'velocity1'),(5,'width1'),
+                          (8,'dens2'),(9,'column2'),(12,'velocity2'),(13,'width2')]:
+        fig = pl.figure(5,figsize=(12,12))
+        pl.clf()
+        F = FITSFigure(parcubefile,convention='calabretta',slices=[parnum],figure=fig)
+        F.show_colorscale(cmap=cmaps[param[:-1]])
+        F.recenter(**zoomargs)
+        F.colorbar._colorbar_axes.set_ylabel(labels[param[:-1]])
+        savefig('W51_H2CO_2parfittry10_{0}.png'.format(param),bbox_inches='tight')
+
+pl.show()

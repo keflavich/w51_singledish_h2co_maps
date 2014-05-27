@@ -9,6 +9,9 @@ def FITSFigure(name, convention='calabretta', xcen=49.27, ycen=-0.32, width=0.9,
 
     F.show_colorscale()
     F.recenter(xcen,ycen,width=width,height=height)
-    F.add_colorbar()
+    try:
+        F.add_colorbar()
+    except:
+        pass
 
     return F

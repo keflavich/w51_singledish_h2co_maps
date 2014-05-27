@@ -1,11 +1,14 @@
 from astropy.io import fits
 from FITS_tools.strip_headers import flatten_header
 import numpy as np
-import progressbar
-from paths import datapath
+from astropy.utils.console import ProgressBar
+from astropy.convolution import convolve
+from h2co_modeling import SmoothtauModels
+from common_constants import TCMB
+from paths import datapath,dpath
 
-h2co11 = fits.getdata(datapath+'W51_H2CO11_taucube_supersampled.fits')
-h2co22 = fits.getdata(datapath+'W51_H2CO22_pyproc_taucube_lores_supersampled.fits')
+h2co11 = fits.getdata(dpath('W51_H2CO11_taucube_supersampled.fits'))
+h2co22 = fits.getdata(dpath('W51_H2CO22_pyproc_taucube_lores_supersampled.fits'))
 
 noise11 = h2co11[:50,:,:].std(axis=0)
 noise22 = h2co22[:50,:,:].std(axis=0)
@@ -17,12 +20,10 @@ mask = (sn11 > 2) & (sn22 > 2)
 ratio = h2co11/h2co22
 ratio[True-mask] = np.nan
 
-ratioF = fits.open('W51_H2CO11_taucube_supersampled.fits')
+ratioF = fits.open(dpath('W51_H2CO11_taucube_supersampled.fits'))
 ratioF[0].data = ratio
-ratioF[0].header['BUNIT'] = 'none'
-ratioF.writeto('W51_H2CO11_to_22_tau_ratio_supersampled.fits',clobber=True)
-
-from astropy.convolution import convolve
+ratioF[0].header['BUNIT'] = ''
+ratioF.writeto(dpath('W51_H2CO11_to_22_tau_ratio_supersampled.fits'),clobber=True)
 
 filt = np.ones([3,3,3],dtype='bool')
 filt[1,1,1] = 0
@@ -30,7 +31,7 @@ nneighbors = convolve(np.isfinite(ratio), filt)
 ratio[(nneighbors<7) + (True-np.isfinite(nneighbors))] = np.nan
 
 ratioF[0].data = ratio
-ratioF.writeto('W51_H2CO11_to_22_tau_ratio_supersampled_neighbors.fits',clobber=True)
+ratioF.writeto(dpath('W51_H2CO11_to_22_tau_ratio_supersampled_neighbors.fits'),clobber=True)
 
 nfin = np.isfinite(ratio).sum()
 nok = (np.isfinite(sn11)*np.isfinite(sn22)).sum()
@@ -39,10 +40,8 @@ nfinpix = np.isfinite(ratio).max(axis=0).sum()
 nokpix = (np.isfinite(sn11)*np.isfinite(sn22)).max(axis=0).sum()
 print "Unfiltered pixels ",nfinpix," of ", nokpix," or ",nfinpix/float(nokpix)*100,"%"
 
-#import sys
-#sys.path.append("/Users/adam/work/h2co/lowdens/code/")
-from h2co_modeling import SmoothtauModels
-stm = SmoothtauModels('/Users/adam/work/h2co/radex/troscompt_April2013_linearXH2CO/1-1_2-2_XH2CO=1e-9_troscompt.dat')
+modelpath = '/Users/adam/work/h2co/radex/troscompt_April2013_linearXH2CO/'
+stm = SmoothtauModels(modelpath+'1-1_2-2_XH2CO=1e-9_troscompt.dat')
 
 abund = -9
 temperature = 20
@@ -71,24 +70,22 @@ ratioF[0].data = dcube
 ratioF[0].header['BUNIT'] = 'log volume density'
 ratioF.writeto(datapath+'W51_H2CO11_to_22_logdensity_supersampled.fits',clobber=True)
 
-cont11 = fits.getdata(datapath+'W51_H2CO11_cube_supersampled_continuum.fits') + 2.73
-cont22 = fits.getdata(datapath+'W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits') + 2.73
-cont11[cont11<2.73] = 2.73
-cont22[cont22<2.73] = 2.73
+cont11 = fits.getdata(datapath+'W51_H2CO11_cube_supersampled_continuum.fits') + TCMB
+cont22 = fits.getdata(datapath+'W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits') + TCMB
+cont11[cont11<TCMB] = TCMB
+cont22[cont22<TCMB] = TCMB
 
 """
 Build up "grids" of tex/tau for given backgrounds that can then be ratio'd
 This is more efficient that computing a fresh tauratio array each iteration
 """
 kwargs = dict(sigma=sigma, opr=opr, temperature=temperature)
-pb = progressbar.ProgressBar()
-tbg1grid = np.hstack([np.linspace(2.73,100,100),np.logspace(2,np.log10(350),15)[1:]])
+tbg1grid = np.hstack([np.linspace(TCMB,100,100),np.logspace(2,np.log10(350),15)[1:]])
 tau1grid = [vtau(dens, line=tau1, tex=tex1, tbg=tbg1, **kwargs)
-            for tbg1 in pb(tbg1grid)]
-pb = progressbar.ProgressBar()
-tbg2grid = np.linspace(2.73,40,100)
+            for tbg1 in ProgressBar(tbg1grid)]
+tbg2grid = np.linspace(TCMB,40,100)
 tau2grid = [vtau(dens, line=tau2, tex=tex2, tbg=tbg2, **kwargs)
-            for tbg2 in pb(tbg2grid)]
+            for tbg2 in ProgressBar(tbg2grid)]
 
 def get_tau_ratio(c1,c2,pos=True):
     # find nearest match
@@ -116,8 +113,8 @@ def ratio_to_dens_slow(ratio, c11, c22):
 
     # set up a grid...
 
-    pb = progressbar.ProgressBar(maxval=np.isfinite(c11*c22).sum())
-    pb.start()
+    pb = ProgressBar(np.isfinite(c11*c22).sum())
+    #pb.start()
     count = 0
     for ii,(r,c1,c2) in enumerate(zip(rrs, c11.flat, c22.flat)):
         #print r.shape,c1,c2
@@ -130,7 +127,7 @@ def ratio_to_dens_slow(ratio, c11, c22):
             outc[:,ii] = np.interp(r, tauratio[ok][inds], dens[ok][inds], np.nan, np.nan)
             count += 1
         pb.update(count)
-    pb.finish()
+    #pb.finish()
 
     return outc.reshape(ratio.shape)
 

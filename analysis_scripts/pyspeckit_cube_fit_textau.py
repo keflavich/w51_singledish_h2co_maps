@@ -16,8 +16,8 @@ x,y = 88,77
 both.plot_spectrum(x,y)
 both.specfit(fittype='formaldehyde_radex',guesses=[4,13,-3,20,65,1,
                                                    cont11[y,x],
-                                                   cont22[y,x]],
-             fixed=[F,F,T,T,F,F,T,T],
+                                                   cont22[y,x]]*2,
+             fixed=[F,F,T,T,F,F,T,T]*2,
              multifit=True,quiet=False,verbose=True,
              use_window_limits=False,
              fit_plotted_area=False)
@@ -60,6 +60,10 @@ if True:
             guesses[8:14,:,:] = np.array([4.5,13.1,-3,20,70,1.0,]).reshape((6,1,1,))
             guesses[14,:,:] = cont11
             guesses[15,:,:] = cont22
+
+            # correct the continuum in the right-side filament
+            guesses[np.array([6,7,14,15]),89:114,196:240] = 2.73
+
             both.fiteach(guesses=guesses,
                          absorption=True,
                          integral=False,

@@ -120,9 +120,11 @@ flat_vrange = [45,75]
 
 makecube.runscript(cubename_supersampled)
 makecube.make_flats(cubename_supersampled,vrange=flat_vrange,noisevrange=[-50,-1])
-makecube.make_taucube(cubename_supersampled, continuum=cubename_supersampled+"_continuum.fits",
+makecube.make_taucube(cubename_supersampled,
+                      continuum=cubename_supersampled+"_continuum.fits",
                       linefreq=linefreq, tex=0) # etamb accounted for already , etamb=0.51)
-makecube.make_flats(cubename_supersampled.replace("cube","taucube"),vrange=flat_vrange,noisevrange=[-50,-1],suffix='.fits')
+makecube.make_flats(cubename_supersampled.replace("cube","taucube"),
+                    vrange=flat_vrange,noisevrange=[-50,-1],suffix='.fits')
 
 
 

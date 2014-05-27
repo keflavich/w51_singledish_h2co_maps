@@ -99,9 +99,10 @@ and purple, with the interpolated replacement in red and green.
 The maps were made by computing an output grid in Galactic coordinates with
 15\arcsec pixels and adding each spectrum to the appropriate pixel\footnote{We
 use the term `pixel' to refer to a square data element projected on the sky
-with axes in Galactic coordinates.  The term `voxel' is used to indicate a
-cubic data element, with two axes in galactic coordinates and a third in
-frequency or velocity}.  In order
+with axes in Galactic coordinates.  The term `voxel'\todo{, short for
+`volumeicture element' (it's not a word)} is used to indicate a cubic data
+element, with two axes in galactic coordinates and a third in frequency or
+velocity}.  In order
 to avoid empty pixels and maximize the signal-to-noise, the spectra were added
 to the grid with a weight set from a gaussian with $FWHM=20\arcsec$, which
 effectively smooths the output images from $FWHM\approx50\arcsec$ to
@@ -610,6 +611,7 @@ cases in which the dominant continuum can unambiguously be assigned a
 foreground or background position.
 
 \subsection{W51 B}
+\label{sec:w51b}
 The W51 B filament is rich in molecular gas, but has relatively weak
 \formaldehyde absorption.  The absorption models are inconsistent with
 the molecular gas being in front of the continuum emission.
@@ -743,6 +745,7 @@ feature and the IRDC.  This intriguing feature will likely be difficult to
 study in detail because the dusty, molecular gas feature lies in front of it.
 
 \subsection{Der Maus: G49.4-0.3}
+\label{sec:maus}
 
 \subsection{Infrared Dark Cloud G49.47-0.27}
 The cloud to the north of W51 Main/IRS2 appears as a dark feature in Spitzer
@@ -784,36 +787,118 @@ between multiple clouds hints that its great mass and star-forming potential
 was triggered by this cloud-cloud collision.
 
 
-\subsection{Model Fitting}
+\section{Molecular Gas and \formaldehyde modeling}
+\label{sec:h2co}
 
-Describe fitting models to absorption lines (NOT to tau)
+Figure \ref{fig:peakoptdepth} shows the most important observed properties of
+the \formaldehyde lines.  The figures show the peak observed optical depth
+$\tau_{obs} = -\log(T_{MB}/T_{continuum})$ in each line along with the ratio of
+the \oneone to the \twotwo optical depth.  They are masked to show significan
+pixels determined by:
+\begin{enumerate}
+    \item Selecting all voxels with $S/N > 2$ and with at least 7 (of 26
+        possible) neighbors also having $S/N > 2$
+    \item Selecting all voxels with $>=10$ neighbors having $S/N > 2$
+    \item Growing the included mask region by 1 pixel in all directions
+    \item Selecting all voxels with $>=5$ neighbors already selected
+    \item When used to mask 2D images, the selection is then collapsed such
+        that any pixel containing at least one voxel along the line of sight is
+        included
+\end{enumerate}
+This approach effectively includes all significant pixels and all reliably
+detected regions within the data cube, though the number of neighbors used at
+each step and the selected growth size are somewhat arbitrary and could be
+modified with little effect.
 
-A local cloud at $v_{lsr}\sim5 \kms$ is detected in \formaldehyde \oneone
-across most of the cloud and not detected at \twotwo, with
-$\tau_{\oneone}/\tau_{\twotwo} \gtrsim 3$, implying a very low column
-$N_{\formaldehyde}\sim10^{11.5}$ or $N_{\hh} \sim 10^{20.5}$.  The cloud is
-seen in \thirteenco as a very weak, diffuse feature, and in HI absorption as a
-narrow (self)-absorption feature.
+Figure \ref{fig:peakoptdepth} contains two ratio maps.  The first shows the
+observed optical depth ratio, while the second shows the `true' optical depth
+ratio assuming an excitation temperature for each line, $T_{ex}(\oneone) = 1.0$
+K and $T_{ex}(\twotwo) = 1.5$ K.  These excitation temperatures are
+representative of those expected for most of the modeled parameter space in
+which absorption is expected.  Fitting of individual lines-of-sight confirm
+that good fits can be achieved using these assumed temperatures.
+Figure \ref{fig:ratiovsdens} can be applied to Figure \ref{fig:peakoptdepth}d
+with reasonable accuracy, while applying it to Figure \ref{fig:peakoptdepth}c
+would yield incorrect results.
+
+However, there are some clear outliers within the map: the clouds at G49.0-0.3
+and G49.4-0.2 both show very low \oneone/\twotwo ratios over a broad area.  As
+discussed in Sections \ref{sec:w51b} and \ref{sec:maus}, these two regions have
+\hii regions in the foreground of the molecular gas.  The ratios displayed in
+Figure \ref{fig:peakoptdepth} are therefore computed with an incorrect
+background assumed.
+
+The region 49.47-0.42 also appears to have a very low ratio.  In this region,
+there are two deep lines of \formaldehyde \oneone, both indicating absorption
+against an \hii region.  Curiously, toward this region, the deeper \twotwo line
+corresponds to the shallower \oneone line, so the ratio
+is nonphysical.  However, when comparing the optical depth of the two line components
+directly, the deeper \twotwo component remains peculiar: the simple RADEX LVG
+models cannot accomodate this deeper \twotwo line with any combination of
+density, temperature, column density, and ortho-to-para ratio.
+
+\FigureFourPDF
+{figures/peak_observed_opticaldepth_11}
+{figures/peak_observed_opticaldepth_22}
+{figures/peak_observed_opticaldepth_ratio}
+{figures/peak_observed_opticaldepth_ratio_tex}
+{Plots of the peak \emph{observed} optical depth $\tau_{obs} =
+-\log(T_{MB}/T_{continuum})$ in the (a) \oneone and (b) \twotwo lines and (c)
+their ratio, \oneone / \twotwo.  Figure (d) shows the `true' optical depth ratio
+assuming $T_{ex}(\oneone) = 1.0$ K and $T_{ex}(\twotwo) = 1.5$ K; these are
+reasonable and representative excitation temperatures but they are not fits to
+the data.
+The data are masked with a filter described in Section \ref{sec:h2co} and
+cover the range $75 > V_{LSR} > 40$ \kms; see Figures \ref{fig:lowerpeakoptdepth}
+and \ref{fig:upperpeakoptdepth} for individual velocity components.
+In general, lower (redder) ratios in figures (c) and (d) indicate higher
+densities, however in the filament at 49.0-0.3, the low ratio is due to the
+geometry in which $T_{continuum}$ is in the \emph{foreground} of the molecular
+gas.}
+{fig:peakoptdepth}
 
 
-We fit the \formaldehyde models on a pixel-by-pixel basis.  Nearly all pixels
-with significant detections include two blended velocity components.
+\FigureFourPDF
+{figures/lowerpeak_observed_opticaldepth_11}
+{figures/lowerpeak_observed_opticaldepth_22}
+{figures/lowerpeak_observed_opticaldepth_ratio}
+{figures/lowerpeak_observed_opticaldepth_ratio_tex}
+{Same as Figure \ref{fig:peakoptdepth}, but limited to $65 > V_{LSR} > 40$ \kms.}
+{fig:lowerpeakoptdepth}
+
+\FigureFourPDF
+{figures/upperpeak_observed_opticaldepth_11}
+{figures/upperpeak_observed_opticaldepth_22}
+{figures/upperpeak_observed_opticaldepth_ratio}
+{figures/upperpeak_observed_opticaldepth_ratio_tex}
+{Same as Figure \ref{fig:peakoptdepth}, but limited to $75 > V_{LSR} > 65$ \kms.}
+{fig:upperpeakoptdepth}
+
+% Describe fitting models to absorption lines (NOT to tau)
+% 
+% A local cloud at $v_{lsr}\sim5 \kms$ is detected in \formaldehyde \oneone
+% across most of the cloud and not detected at \twotwo, with
+% $\tau_{\oneone}/\tau_{\twotwo} \gtrsim 3$, implying a very low column
+% $N_{\formaldehyde}\sim10^{11.5}$ or $N_{\hh} \sim 10^{20.5}$.  The cloud is
+% seen in \thirteenco as a very weak, diffuse feature, and in HI absorption as a
+% narrow (self)-absorption feature.
+
+\subsection{Pixel Fitting}
+We fit the data with \formaldehyde models on a pixel-by-pixel basis.  Nearly
+all pixels with significant detections include two blended velocity components.
 Two-component fits are never particularly stable, so it was necessary to
-restrict the parameters being fitted, and even then the results aren't
-perfectly reliable.  Despite those caveats, there are some reliable fits,
-particularly towards the `core' of W51 Main / W51 IRS 2.  There are two
-high-density components with $n\sim10^5-10^{5.5}$ \percc at different
-velocities evident in Figure \ref{fig:w51h2cofits}.  The southern component,
-centered on W51 Main, has $v_{LSR}\sim56-59$.  The northern component, a strip
-going through IRS 2 and towards the west, peaks around $v_{LSR}\sim68-69$ \kms.
-A 10 \kms difference between two extremely dense components, both which are
-necessarily in the foreground of the HII region, is shocking (probably, anyway,
-unless the sound speed is very high).
+restrict the parameters being fitted.
+
+The model fitting provides a complementary view to the optical depth ratio maps
+shown in Figure \ref{fig:peakoptdepth}.  Regions of lower signal to noise
+appear scattered in Figure \ref{fig:w51h2cofits}, but each pixel contains
+information about the velocity, velocity width, column (\perkms \perpc), and
+density.
 
 
 \FigureTwo{figures/W51_H2CO_2parfittry10_v1_densityvelocity.pdf}
           {figures/W51_H2CO_2parfittry10_v2_densityvelocity.pdf}
-{Density and velocity fits to the W51 Arecibo and GBT \formaldehyde 
+{Density and velocity fits to the \formaldehyde 
 data cubes.  The left figure shows velocity components restricted
 to have central $V_{LSR} < 65$ \kms, while the right figure shows
 velocity components with $V_{LSR} > 65$ \kms.  
@@ -822,15 +907,13 @@ velocity components with $V_{LSR} > 65$ \kms.
 %(68\% confidence) or $n<10^{4.3}$ (99.7\% confidence).
 }
 {fig:w51h2cofits}{1}
-% 
-% There is a large area where \oneone was detected, but \twotwo was not.  Our
-% sensitivity allows us to place a modest upper limit on the gas density, with
-% $3-\sigma$ upper limits $\lesssim10^{4.3}$ \percc (but the most likely
-% densities are $10^2 < n < 10^4$ \percc).  Figure \ref{fig:w51MCMCcompare} shows
-% a particular model for a spectrum that is especially unconstrained.  The
-% \oneone/\twotwo optical depth ratio in this object is $\sim10-20$, indicating that
-% the volume density must be low.
-% 
+
+\section{Conclusion}
+We have presented maps of the \formaldehyde \oneone and \twotwo and H77$\alpha$
+and H111$\alpha$ lines covering the W51 star forming complex.
+
+
+ 
 % \FigureTwo{figures/MCMC_DensColplot_67_64.png}{figures/spec67_64_bestfit_MCMC.png}
 % {Plots demonstrating upper limit fits.  The left plot shows the allowed
 % parameter space from MCMC sampling of the data given the RADEX model.  The

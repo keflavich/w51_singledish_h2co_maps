@@ -182,6 +182,8 @@ for fn in filelist+filelist2:
                               negative_mean_cut=-1)
 
 makecube.runscript(cubename_lores_supersampled)
-makecube.make_flats(cubename_lores_supersampled,vrange=[45,75],noisevrange=[-15,30])
-makecube.make_taucube(cubename_lores_supersampled,cubename_lores_supersampled+"_continuum.fits",
+makecube.make_flats(cubename_lores_supersampled, vrange=[45,75],
+                    noisevrange=[-15,30])
+makecube.make_taucube(cubename_lores_supersampled,
+                      cubename_lores_supersampled+"_continuum.fits",
                       etamb=0.886, linefreq=linefreq*u.Hz, tex=0)
