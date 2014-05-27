@@ -1,6 +1,6 @@
 from astropy.io import fits
 import numpy as np
-from gbtpy import makecube
+from sdpy import makecube
 
 """
 H107, 108 are affected by the missing sampler on day 1
@@ -12,5 +12,5 @@ halpha_6cm_cube = np.mean([fits.getdata(fn % i) for i in (110,112)],axis=0)
 # use 111's header as an average of 110/112
 halpha_6cm_hdr = fits.getheader(fn % 111)
 halpha_6cm_hdu = fits.PrimaryHDU(halpha_6cm_cube, halpha_6cm_hdr)
-halpha_6cm_hdu.writeto('W51_Halpha_6cm_cube_supersampled_sub.fits')
-makecube.make_flats('W51_Halpha_6cm_cube_supersampled',vrange=[45,75],noisevrange=[-15,30])
+halpha_6cm_hdu.writeto('W51_Halpha_6cm_cube_supersampled_sub.fits',clobber=True)
+makecube.make_flats('W51_Halpha_6cm_cube_supersampled',vrange=[35,85],noisevrange=[-15,30])

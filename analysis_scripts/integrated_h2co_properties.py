@@ -10,6 +10,12 @@ TCMB = 2.7315
 h2co11 = SpectralCube.read(dpath('W51_H2CO11_cube_supersampled_sub.fits'))
 h2co22 = SpectralCube.read(dpath('W51_H2CO22_pyproc_cube_lores_supersampled_sub.fits'))
 
+cont11 = fits.getdata(dpath('W51_H2CO11_cube_supersampled_continuum.fits')) + TCMB
+cont22 = fits.getdata(dpath('W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')) + TCMB
+cont11[cont11<TCMB] = TCMB
+cont22[cont22<TCMB] = TCMB
+
+
 for label,vrange in (("",[40,75]), ("lower",[40,65]), ("upper",[65,75])):
     print "Working on {0} velocity range: {1}".format(label,vrange)
     vrange = vrange*u.km/u.s
@@ -63,11 +69,6 @@ for label,vrange in (("",[40,75]), ("lower",[40,65]), ("upper",[65,75])):
 
     h2co11peak = h2co11slab.with_mask(boolean_maskslab).min(axis=0)
     h2co22peak = h2co22slab.with_mask(boolean_maskslab).min(axis=0)
-
-    cont11 = fits.getdata(dpath('W51_H2CO11_cube_supersampled_continuum.fits')) + TCMB
-    cont22 = fits.getdata(dpath('W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')) + TCMB
-    cont11[cont11<TCMB] = TCMB
-    cont22[cont22<TCMB] = TCMB
 
     depth11 = -np.log((h2co11peak+cont11) / cont11)
     depth22 = -np.log((h2co22peak+cont22) / cont22)

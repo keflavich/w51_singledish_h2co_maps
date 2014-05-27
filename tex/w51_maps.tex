@@ -293,6 +293,7 @@ $L/C(H77\alpha)\sim0.06$ and $L/C(H112\alpha)\sim0.03$; in both cases there is
 little evidence for deviation from a linear relationship.
 
 \subsubsection{Comparison of the RRL and continuum data}
+\label{sec:rrlvscont}
 Radio recombination lines are generally observed to be well-correlated with the
 corresponding radio continuum, particularly at low frequencies.  At 5 and 15
 GHz, the population level departure coefficients are close to 1, $b_n > 0.95$
@@ -610,6 +611,15 @@ While this possibility adds uncertainty to the measurements, there are some
 cases in which the dominant continuum can unambiguously be assigned a
 foreground or background position.
 
+%\FigureSVG{figures/geometry_diagram.pdf_tex}
+%{A sketched diagram of the W51 region}
+%{fig:geosketch}{6cm}
+\Figure{figures/geometry_diagram.png}
+{A sketched diagram of the W51 region as viewed from the Galactic north pole,
+with the observer looking up the page from the bottom (i.e., W51C is the 
+front-most labeled object along our line-of-sight).}
+{fig:geosketch}{0.5}{0}
+
 \subsection{W51 B}
 \label{sec:w51b}
 The W51 B filament is rich in molecular gas, but has relatively weak
@@ -828,14 +838,37 @@ discussed in Sections \ref{sec:w51b} and \ref{sec:maus}, these two regions have
 Figure \ref{fig:peakoptdepth} are therefore computed with an incorrect
 background assumed.
 
-The region 49.47-0.42 also appears to have a very low ratio.  In this region,
+The region G49.47-0.42 also appears to have a very low ratio.  In this region,
 there are two deep lines of \formaldehyde \oneone, both indicating absorption
 against an \hii region.  Curiously, toward this region, the deeper \twotwo line
 corresponds to the shallower \oneone line, so the ratio
-is nonphysical.  However, when comparing the optical depth of the two line components
-directly, the deeper \twotwo component remains peculiar: the simple RADEX LVG
-models cannot accomodate this deeper \twotwo line with any combination of
-density, temperature, column density, and ortho-to-para ratio.
+is nonphysical.  However, when comparing the optical depth of the two line
+components directly (Figure \ref{fig:lowerpeakoptdepth}), the deeper \twotwo
+component remains peculiar: the simple RADEX LVG models cannot accomodate this
+deeper \twotwo line with any combination of density, temperature, column
+density, and ortho-to-para ratio.  There are a few possible explanations for 
+this difficulty:
+\begin{enumerate}
+    \item The \twotwo line is overestimated because of calibration issues
+    \item There is a significant emission component affecting the \oneone
+        line, making it appear weaker (shallower) than it really is
+    \item Multiple density and/or velocity components are present
+    \item Multiple continuum sources exist along the line of sight, one
+        optically thin dominating the 6 cm emission and the other optically
+        thick, dominating the 2 cm emission.
+\end{enumerate}
+Option (1) is implausible, since the corresponding line at high velocity (68
+\kms) shows no peculiarities.  Option (2) is possible, though extant VLA
+observations seem to rule it out, and there is a very narrow range of parameter
+space in which \oneone emission would occur simultaneous with \twotwo
+absorption, especially given the bright ($\sim22$ K) background at 6 cm.  After
+testing many potential combinations of parameters, we have ruled out option
+(3).  Option (4) is seemingly possible, although the required spectral index
+of the 6 cm source is $\alpha\sim -2$, which is a much steeper inverse spectral
+index than is ever observed elsewhere.  Option (4) points to the possibility
+that there is some systematic error in the continuum of perhaps the 6 cm data,
+there is no hint of such an issue in the RRL comparison in Section
+\ref{sec:rrlvscont}.
 
 \FigureFourPDF
 {figures/peak_observed_opticaldepth_11}
@@ -848,13 +881,12 @@ their ratio, \oneone / \twotwo.  Figure (d) shows the `true' optical depth ratio
 assuming $T_{ex}(\oneone) = 1.0$ K and $T_{ex}(\twotwo) = 1.5$ K; these are
 reasonable and representative excitation temperatures but they are not fits to
 the data.
-The data are masked with a filter described in Section \ref{sec:h2co} and
-cover the range $75 > V_{LSR} > 40$ \kms; see Figures \ref{fig:lowerpeakoptdepth}
-and \ref{fig:upperpeakoptdepth} for individual velocity components.
-In general, lower (redder) ratios in figures (c) and (d) indicate higher
-densities, however in the filament at 49.0-0.3, the low ratio is due to the
-geometry in which $T_{continuum}$ is in the \emph{foreground} of the molecular
-gas.}
+The data are masked with a filter described in Section \ref{sec:h2co} and cover
+the range $75 > V_{LSR} > 40$ \kms; see Figures \ref{fig:lowerpeakoptdepth} and
+\ref{fig:upperpeakoptdepth} for individual velocity components.  In general,
+lower (redder) ratios in figures (c) and (d) indicate higher densities, however
+in the filament at 49.0-0.3, the low ratio is due to the geometry in which
+$T_{continuum}$ is in the \emph{foreground} of the molecular gas.}
 {fig:peakoptdepth}
 
 

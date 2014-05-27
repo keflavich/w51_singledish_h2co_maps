@@ -43,7 +43,11 @@ hdr['BUNIT'] = 'K km/s'
 hdu.data = cube1.parcube[0] * np.sqrt(2*np.pi)*cube1.parcube[2,:,:]
 hdu.writeto('H77a_integral.fits',clobber=True)
 
-cube2 = pyspeckit.Cube(dpath+'W51_h110alpha_cube_supersampled_sub.fits')
+# Old version:
+#cube2 = pyspeckit.Cube(dpath+'W51_h110alpha_cube_supersampled_sub.fits')
+# New version, with sqrt(2) better noise:
+# (includes H110, H112a)
+cube2 = pyspeckit.Cube(dpath+'W51_Halpha_6cm_cube_supersampled_sub.fits')
 
 cube2.xarr.refX_units='GHz'
 cube2.xarr.refX = 4.87416

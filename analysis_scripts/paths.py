@@ -9,3 +9,9 @@ def dpath(x, datapath=datapath):
     Shortcut function
     """
     return os.path.join(datapath, x)
+
+def dpath2(x, datapath=datapath_w51):
+    """
+    Shortcut function
+    """
+    return os.path.join(datapath, x)
