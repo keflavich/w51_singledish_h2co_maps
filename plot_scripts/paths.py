@@ -2,6 +2,7 @@ import os
 datapath = '/Users/adam/work/h2co/maps/W51/'
 datapath_w51 = '/Users/adam/work/w51/'
 figurepath = '/Users/adam/work/h2co/maps/paper/figures/'
+figurepath = '/Users/adam/work/w51_singledish_maps/tex/figures/'
 regionpath = '/Users/adam/work/w51_singledish_maps/regions/'
 
 def dpath(x, datapath=datapath):

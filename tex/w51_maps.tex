@@ -1,5 +1,7 @@
 \input{preface}
 
+\input{authors}
+
 % Somewhere in here:
 % need a shoutout to "Overheard on Astro-PH"
 %
@@ -12,11 +14,11 @@ the W51 star forming complex acquired with Arecibo and the Green Bank Telescope
 at $\sim50\arcsec$ resolution.
 We perform a detailed analysis of the data and data processing with an emphasis on
 ensuring the reliability of the data.
-The data set is made public...
+The data set has been made public \todo{if someone is willing to host}
 
 
 \section{Introduction}
-To do.
+\todo{To do.  To-do items are coded in red.}
 
 Massive star clusters are among the most visually outstanding features in the
 night sky.  In other galaxies, they are useful probes of the star formation history
@@ -94,6 +96,7 @@ and tuned to avoid over-predicting the background.
 {An example of the \formaldehyde line masking procedure for building an Off
 spectrum.  The line-containing regions for each polarization are shown in cyan
 and purple, with the interpolated replacement in red and green.
+\todo{Replace this with a nicer version}
 }{fig:h2comask}{0.4}{0}
 
 The maps were made by computing an output grid in Galactic coordinates with
@@ -370,15 +373,16 @@ process.  We define an ``observer's optical depth''
 \begin{equation}
     \tau_{obs} = -\log\left[\frac{T_{mb}}{T_{bg}}\right]
 \end{equation}
-as opposed to the `true' optical depth
+as opposed to the `true' optical depth, which is modeled in radiative transfer
+calculations
 \begin{equation}
     \tau = -\log\left[\frac{T_{mb}-T_{ex}}{T_{bg}-T_{ex}}\right]
 \end{equation}
-The approximation $\tau_{obs}$ is valid for $T_{ex} << T_{bg}$, which is true when an
-\hii region is the backlight but generally not when the CMB is.  Displaying the
-data on this scale makes regions of similar gas surface density appear the
-same, rather than being enhanced where there are backlights.  The noise is
-correspondingly suppressed where backlighting sources are present.
+The approximation $\tau_{obs} = \tau$ is valid for $T_{ex} << T_{bg}$, which is
+true when an \hii region is the backlight but generally not when the CMB is.
+Displaying the data on this scale makes regions of similar gas surface density
+appear the same, rather than being enhanced where there are backlights.  The
+noise is correspondingly suppressed where backlighting sources are present.
 %We will examine the effects
 %of using $\tau_{obs}$, i.e. assuming $T_{ex} = 0$, in Section \ref{sec:}.
 
@@ -419,9 +423,7 @@ ratio.
 {Histograms of the optical depth data cubes.  In panels (a) and (b),
 a Gaussian distribution with width equal to the median absolute deviation
 is shown for reference; the noise is not well described by a single gaussian
-distribution.  In panel (c), the distribution of the ratios is shown.
-Values of the ratio $\gtrsim15$ are nonphysical, but these are only observed
-in a small fraction of the pixels}
+distribution.  In panel (c), the distribution of the ratio is shown.}
 {fig:datahistograms}{0.4}{0}
 
 
@@ -436,15 +438,19 @@ relative to \hh are generally assumed \citep{Mangum1993a, Ginsburg2011a,
 Ginsburg2013a, Ao2013a} and found to be consistent with the observations.
 
 % ~/work/h2co/codes/ratio_to_dens_plots.py
-\Figure{figures/tau_ratio_vs_density_thinlimit_t20_sigma1.pdf}
+% ~/repos/h2co_modeling/examples/plot_line_brightness.py
+\Figure{figures/tau_ratio_vs_density_varybackground_vary_sigma.pdf}
 {The optical depth ratio as a function of \hh density.  The ratio is shown for
-a range of \formaldehyde abundances as indicated in the legend.
-The gas temperature is assumed to be 20 K, and the \formaldehyde lines
-are assumed to both be optically thin.  The gas is assumed to have a
-lognormal density distribution with width $\sigma=1.0$ \citep[see ][ for
-details]{Ginsburg2013a}, so the X-axis indicates the volume-averaged
-mean \hh density.  This width is typical for turbulence with Mach numbers
-$\mathcal{M}\sim1-4$ \citep{Federrath2008a}.}
+$\Xform=10^{-9}$ with two different pairs of background temperature.
+The first plot shows both lines in absorption against the CMB, while the second
+shows their value for absorption against a bright source with a flat spectral
+index, $\alpha\sim0.1$.
+The gas temperature is assumed to be 20 K.  The gas is assumed to have a
+lognormal density distribution with width $\sigma_s$ \citep[see ][ for
+details]{Ginsburg2013a}, so the X-axis indicates the volume-averaged mean \hh
+density.  A width $\sigma\sim1$ is typical for turbulence with Mach numbers
+$\mathcal{M}\sim1-4$ \citep{Federrath2008a}.  $\sigma=0.01$ is used to
+approximate a delta function.}
 {fig:ratiovsdens}{0.4}{0}
 
 The curves for converting the optical depth ratio to a density are shown in
@@ -462,6 +468,7 @@ does not account for the excitation temperature of the molecule.  The curves in
 Figure \ref{fig:ratiovsdens} cannot be blindly applied to the observed optical
 depth cubes.
 \todo{[This means I may remove this section entirely]}
+
 
 %This is all wrong because it assumes T_ex = 0, which is false.
 % The upper limit on the observed optical depth ratio indicates a first concern
@@ -626,6 +633,15 @@ by their coordinates and velocity components as well}}
 \subsection{Kinematic Maps}
 \todo{Add maps of peak-velocity-per-pixel, separated into components if
 possible}
+
+\FigureTwo
+{figures/H2CO11_central_velocity}
+{figures/H110a_central_velocity}
+{(left) Velocity of the peak \formaldehyde \oneone signal (deepest absorption) at
+1 \kms resolution
+(right) Velocity of the peak H110$\alpha$ emission as derived from gaussian fits
+to each spectrum.}
+{fig:kinematics}{1}
 
 \subsection{W51 B}
 \label{sec:w51b}
@@ -807,14 +823,16 @@ As noted in \citet{Carpenter1998a}, its velocity ($v_{LSR}\sim 50\kms$ XXX)
 may indicate that the cloud is unassociated with the W51 Main GMC.
 
 
-\section{A scenario fitting the W51 region}
+\section{A formation scenario for the W51 region}
 The W51 cloud complex has been discussed as both a collection of unrelated
 clouds and a tight complex of interacting clouds \citep{Carpenter1998a,
 Kang2010a}.  The \formaldehyde data presented here support the idea that the 68
 \kms cloud is a coherent entity and that it is interacting with other clouds
 associated with W51 A.  The presence of W51 Main at the interaction point
 between multiple clouds hints that its great mass and star-forming potential
-was triggered by this cloud-cloud collision.
+was triggered by this cloud-cloud collision.  It is likely that both observed
+clouds were pre-existing features in a larger, possibly atomic, cloud that
+underwent stretching upon interaction with a spiral arm.
 
 
 \section{Molecular Gas and \formaldehyde modeling}
@@ -823,7 +841,7 @@ was triggered by this cloud-cloud collision.
 Figure \ref{fig:peakoptdepth} shows the most important observed properties of
 the \formaldehyde lines.  The figures show the peak observed optical depth
 $\tau_{obs} = -\log(T_{MB}/T_{continuum})$ in each line along with the ratio of
-the \oneone to the \twotwo optical depth.  They are masked to show significan
+the \oneone to the \twotwo optical depth.  They are masked to show significant
 pixels determined by:
 \begin{enumerate}
     \item Selecting all voxels with $S/N > 2$ and with at least 7 (of 26
@@ -851,13 +869,15 @@ Figure \ref{fig:ratiovsdens} can be applied to Figure \ref{fig:peakoptdepth}d
 with reasonable accuracy, while applying it to Figure \ref{fig:peakoptdepth}c
 would yield incorrect results.
 
-However, there are some clear outliers within the map: the clouds at G49.0-0.3
+However, there are some clear outliers within the map: the clouds at G48.9-0.3
 and G49.4-0.2 both show very low \oneone/\twotwo ratios over a broad area.  As
 discussed in Sections \ref{sec:w51b} and \ref{sec:maus}, these two regions have
 \hii regions in the foreground of the molecular gas.  The ratios displayed in
 Figure \ref{fig:peakoptdepth} are therefore computed with an incorrect
 background assumed.
 
+\subsubsection{High density gas in G49.5-0.4?}
+\label{sec:g495}
 The region G49.47-0.42 also appears to have a very low ratio.  In this region,
 there are two deep lines of \formaldehyde \oneone, both indicating absorption
 against an \hii region.  Curiously, toward this region, the deeper \twotwo line
@@ -926,6 +946,30 @@ $T_{continuum}$ is in the \emph{foreground} of the molecular gas.}
 {Same as Figure \ref{fig:peakoptdepth}, but limited to $75 > V_{LSR} > 62$ \kms.}
 {fig:upperpeakoptdepth}
 
+\todo{Despite everything, I made density maps.  About 10 times with different
+values.  The net lesson is almost always the same.}
+
+\FigureThreePDF
+{figures/W51_H2CO_logdensity_textbg_max_ratio_sigma0.5}
+{figures/W51_H2CO_logdensity_textbg_mid_ratio_sigma0.5}
+{figures/W51_H2CO_logdensity_textbg_min_ratio_sigma0.5}
+{Density maps of the W51 cloud complex.  The density maps are created by
+mapping the (a) maximum (b) median (c) minimum observed optical depth ratio to
+density using the RADEX models with the measured background temperature.  The
+models used assume $\Xform = 10^{-9}$ and $\sigma_s = 0.5$; a range of model
+choices is valid but they all yield systematic shifts.  These figures show that
+a moderate-density component ($n(\hh)\sim3000$ \percc) is present in at least
+one spectral bin at each position, while some regions have peak densities
+exceeding $n>10^6$ \percc.
+We accounted for the relative line-of-sight location of the continuum sources
+by setting the background to 2.73 K within the G48.9-0.3 and G49.4-0.2 regions.
+We did not attempt to correct the continuum in locations where the continuum
+source is between two clouds.
+The apparently high peak density of the G49.5-0.4 region is discussed in greater
+detail in \ref{sec:g495}.
+}
+{fig:densitymaps}
+
 % Describe fitting models to absorption lines (NOT to tau)
 % 
 % A local cloud at $v_{lsr}\sim5 \kms$ is detected in \formaldehyde \oneone
@@ -935,30 +979,32 @@ $T_{continuum}$ is in the \emph{foreground} of the molecular gas.}
 % seen in \thirteenco as a very weak, diffuse feature, and in HI absorption as a
 % narrow (self)-absorption feature.
 
-\subsection{Pixel Fitting}
-We fit the data with \formaldehyde models on a pixel-by-pixel basis.  Nearly
-all pixels with significant detections include two blended velocity components.
-Two-component fits are never particularly stable, so it was necessary to
-restrict the parameters being fitted.
-
-The model fitting provides a complementary view to the optical depth ratio maps
-shown in Figure \ref{fig:peakoptdepth}.  Regions of lower signal to noise
-appear scattered in Figure \ref{fig:w51h2cofits}, but each pixel contains
-information about the velocity, velocity width, column (\perkms \perpc), and
-density.
-
-
-\FigureTwo{figures/W51_H2CO_2parfittry10_v1_densityvelocity.pdf}
-          {figures/W51_H2CO_2parfittry10_v2_densityvelocity.pdf}
-{Density and velocity fits to the \formaldehyde 
-data cubes.  The left figure shows velocity components restricted
-to have central $V_{LSR} < 65$ \kms, while the right figure shows
-velocity components with $V_{LSR} > 65$ \kms.  
-%The yellow regions in the top panel correspond to \oneone
-%detections and \twotwo nondetections, indicating upper limits $n<10^{3.8}$
-%(68\% confidence) or $n<10^{4.3}$ (99.7\% confidence).
-}
-{fig:w51h2cofits}{1}
+%% Pixel fitting doesn't look as good as the above approaches.  Let's stick with
+%% them.
+% \subsection{Pixel Fitting}
+% We fit the data with \formaldehyde models on a pixel-by-pixel basis.  Nearly
+% all pixels with significant detections include two blended velocity components.
+% Two-component fits are never particularly stable, so it was necessary to
+% restrict the parameters being fitted.
+% 
+% The model fitting provides a complementary view to the optical depth ratio maps
+% shown in Figure \ref{fig:peakoptdepth}.  Regions of lower signal to noise
+% appear scattered in Figure \ref{fig:w51h2cofits}, but each pixel contains
+% information about the velocity, velocity width, column (\perkms \perpc), and
+% density.
+% 
+% 
+% \FigureTwo{figures/W51_H2CO_2parfittry10_v1_densityvelocity.pdf}
+%           {figures/W51_H2CO_2parfittry10_v2_densityvelocity.pdf}
+% {Density and velocity fits to the \formaldehyde 
+% data cubes.  The left figure shows velocity components restricted
+% to have central $V_{LSR} < 65$ \kms, while the right figure shows
+% velocity components with $V_{LSR} > 65$ \kms.  
+% %The yellow regions in the top panel correspond to \oneone
+% %detections and \twotwo nondetections, indicating upper limits $n<10^{3.8}$
+% %(68\% confidence) or $n<10^{4.3}$ (99.7\% confidence).
+% }
+% {fig:w51h2cofits}{1}
 
 \section{Conclusion}
 We have presented maps of the \formaldehyde \oneone and \twotwo and H77$\alpha$

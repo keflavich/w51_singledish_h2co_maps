@@ -173,4 +173,23 @@ for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
         F.colorbar._colorbar_axes.set_ylabel(labels[param[:-1]])
         savefig('W51_H2CO_2parfittry10_{0}.png'.format(param),bbox_inches='tight')
 
+densfiles = ['W51_H2CO_logdensity_textbg_max_ratio_sigma0.5.fits',
+             'W51_H2CO_logdensity_textbg_mid_ratio_sigma0.5.fits',
+             'W51_H2CO_logdensity_textbg_min_ratio_sigma0.5.fits',
+             ]
+
+cmhot_r = mpl.cm.gist_stern
+cmhot_r.set_bad('white')
+cmhot_r.set_under('black')
+cmhot_r.set_over('white')
+
+for fn in densfiles:
+    fig = pl.figure(6,figsize=(12,12))
+    fig.clf()
+    F = FITSFigure(p1(fn),convention='calabretta',figure=fig)
+    F.show_colorscale(cmap=cmhot, vmin=2.5, vmax=7)
+    F.recenter(**zoomargs)
+    F.colorbar._colorbar_axes.set_ylabel(labels['dens'])
+    savefig(fn.replace("fits","png"), bbox_inches='tight')
+
 pl.show()

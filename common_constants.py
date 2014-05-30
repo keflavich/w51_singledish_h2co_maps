@@ -27,6 +27,7 @@ def rrl(n,dn=1,amu=1.007825):    # compute Radio Recomb Line feqs in GHz
     nu = 3.289842e6*(1-5.48593e-4/amu)*(1/float(n)**2 - 1/float(n+dn)**2)
     return nu * u.GHz
 
+zoomargs = dict(x=49.27, y=-0.32, width=0.9, height=0.4)
 
 __cache__ = {}
 
