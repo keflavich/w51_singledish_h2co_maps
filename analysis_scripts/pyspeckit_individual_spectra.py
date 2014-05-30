@@ -381,12 +381,47 @@ def w51main(table=None):
 def maus(table=None):
     if table is None:
         table = initialize_table()
-    return do_indiv_fits("/Users/adam/work/w51/maus_spectral_apertures.reg",
-                         'spectralfits/spectralfits_maus',
-                         ncomp=2,
-                         vguesses=[68,50],
-                         tableprefix="maus_",
-                         table=table)
+
+    limits, limited = modelpars()
+    limits[12] = (40, 80)
+    limits[13] = (1,3)
+    limits[5] = (1,3)
+    limited[5] = (True,True)
+    limited[13] = (True,True)
+
+    ncomp = [2,2,2,2,2,2]
+    # front2nd means "continuum in front of 2nd component?"
+    # front2nd[3] is sketchy, 5 is uncertain
+    front2nd = [True, False, True, False, True, True]
+
+    outpfx = 'spectralfits/spectralfits_maus'
+
+    spectra = do_indiv_fits("/Users/adam/work/w51/maus_spectral_apertures.reg",
+                            outpfx,
+                            ncomp=ncomp,
+                            limits=limits,
+                            limited=limited,
+                            vguesses=[64,50],
+                            tableprefix="maus_",
+                            table=table)
+
+
+    for ii,sp in enumerate(spectra):
+
+        if front2nd[ii]:
+            dofit(sp, sp.header['CONT11'], sp.header['CONT22'],
+                  vguesses=[68,50],
+                  limits=limits,
+                  limited=limited,
+                  c11b=2.7315, c22b=2.7315,
+                  ncomp=ncomp[ii])
+
+            plotitem(sp, ii, dolegend=True)
+
+            pl.figure(sp.plotter.figure.number)
+            pl.savefig(outpfx+'_aperture_%s_%s_legend.pdf' % (sp.specname,'both'),
+                       bbox_extra_artists=[sp.specfit.fitleg])
+
 
 def middlechunk(table=None):
     if table is None:

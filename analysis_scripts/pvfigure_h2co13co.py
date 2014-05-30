@@ -80,7 +80,7 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
 
     # the -0.5 is just to force the colors to the high-end
     con = ax.contour(hdus[0].data, levels=[-0.5,0.025,0.05,0.1,0.2,0.4])
-    fig11.savefig(os.path.join(paths.figurepath, "filaments_H2CO_13CO_pvslice.pdf"))
+    fig11.savefig(os.path.join(paths.figurepath, color+"filaments_H2CO_13CO_pvslice.pdf"))
     for cc in ax.collections:
         cc.set_visible(False)
 
@@ -110,7 +110,8 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
         pvhdu, npts, velo, dv = pvs[cfn]
         hdus.append(pvhdu)
 
-        F = aplpy.FITSFigure(pvhdu, subplot=[0.1, 0.05+(0.9-0.3*(ii+1)), 0.88, 0.3], figure=fig)
+        F = aplpy.FITSFigure(pvhdu, subplot=[0.1, 0.05+(0.9-0.3*(ii+1)), 0.88,
+                                             0.3], figure=fig)
         F.show_grayscale(invert=True)
 
         F.recenter(width/2, 65000, width=width, height=30000)
@@ -118,10 +119,26 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
         ffs.append(F)
     ffs[2].show_contour(hdus[0])
 
+    # change labels AFTER overplotting contours
+    for F in ffs:
+        F._wcs.wcs.cunit[1] = u.km/u.s
+        F._wcs.wcs.cdelt[1] = F._wcs.wcs.cdelt[1]/1000.
+        F._wcs.wcs.crval[1] = F._wcs.wcs.crval[1]/1000.
+
+    ffs[0].hide_xtick_labels()
+    ffs[1].hide_xtick_labels()
+    ffs[0].axis_labels.hide_x()
+    ffs[1].axis_labels.hide_x()
+    ffs[0].axis_labels.hide_y()
+    ffs[1].axis_labels.set_ytext('$V_{LSR}$ km $\mathrm{s}^{-1}$')
+    ffs[2].axis_labels.hide_y()
+
     F.save(os.path.join(paths.figurepath, color+"_wide_PV_h2co11_22_13co.pdf"))
 
+    return ffs
 
-pvplots(pvs, color='cyan', width=0.85)
+
+ffs = pvplots(pvs, color='cyan', width=0.85)
 pvplots(colorpvs['purple'], color='purple', extranumber=-2, width=0.45)
 
 

@@ -40,13 +40,21 @@ nfinpix = np.isfinite(ratio).max(axis=0).sum()
 nokpix = (np.isfinite(sn11)*np.isfinite(sn22)).max(axis=0).sum()
 print "Unfiltered pixels ",nfinpix," of ", nokpix," or ",nfinpix/float(nokpix)*100,"%"
 
+ratioF = fits.open(datapath+'W51_H2CO11_taucube_supersampled.fits')
+
+cont11 = fits.getdata(datapath+'W51_H2CO11_cube_supersampled_continuum.fits') + TCMB
+cont22 = fits.getdata(datapath+'W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits') + TCMB
+cont11[cont11<TCMB] = TCMB
+cont22[cont22<TCMB] = TCMB
+
+
 modelpath = '/Users/adam/work/h2co/radex/troscompt_April2013_linearXH2CO/'
 stm = SmoothtauModels(modelpath+'1-1_2-2_XH2CO=1e-9_troscompt.dat')
 
 abund = -9
 temperature = 20
 opr = 0.1
-sigma = 1.0
+sigma = 0.1
 #tau1,tau2,dens,col = stm.select_data(abund)
 trot1,trot2,tex1,tex2,tau1,tau2,dens,col = stm.select_data(abundance=abund,
                                                            opr=opr,
@@ -57,44 +65,73 @@ tau,vtau,vtau_ratio = stm.generate_tau_functions(abundance=abund, opr=opr,
 tauratio = vtau_ratio(dens, line1=tau1, line2=tau2, tex1=tex1, tex2=tex2,
                       sigma=sigma, opr=opr, temperature=temperature)
 
-ok = np.arange(tauratio.size) > np.argmax(tauratio)
+tline,vtline,vtline_ratio,tline1,tline2 = stm.generate_tline_functions(abundance=abund,
+                                                                       opr=opr,
+                                                                       temperature=temperature)
 
-def ratio_to_dens(ratio):
-    inds = np.argsort(tauratio[ok])
-    return np.interp(ratio, tauratio[ok][inds], dens[ok][inds], np.nan, np.nan)
 
-dcube = ratio_to_dens(ratio)
-
-ratioF = fits.open(datapath+'W51_H2CO11_taucube_supersampled.fits')
-ratioF[0].data = dcube
-ratioF[0].header['BUNIT'] = 'log volume density'
-ratioF.writeto(datapath+'W51_H2CO11_to_22_logdensity_supersampled.fits',clobber=True)
-
-cont11 = fits.getdata(datapath+'W51_H2CO11_cube_supersampled_continuum.fits') + TCMB
-cont22 = fits.getdata(datapath+'W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits') + TCMB
-cont11[cont11<TCMB] = TCMB
-cont22[cont22<TCMB] = TCMB
+def get_inflection_point(x, w=2, threshold=0.01):
+    """
+    Return the valid range in pixels
+    """
+    from astropy.convolution import convolve, Gaussian1DKernel
+    sm = convolve(x, Gaussian1DKernel(w), boundary='extend')
+    pos = np.diff(sm) > threshold
+    # Find the first point at which the slope is positive
+    # (this is very near the 0/0 point)
+    pospt = np.argmax(pos)
+    if np.count_nonzero(pos) == 0:
+        # implies there were no inflection points found
+        return 0,x.size
+    elif pospt == 0:
+        # find first *negative* inflection point
+        negpt = np.argmin(pos)
+        pos[:negpt] = False
+        pospt = np.argmax(pos)
+        return negpt,pospt
+    else:
+        return 0,pospt
 
 """
 Build up "grids" of tex/tau for given backgrounds that can then be ratio'd
 This is more efficient that computing a fresh tauratio array each iteration
-"""
-kwargs = dict(sigma=sigma, opr=opr, temperature=temperature)
-tbg1grid = np.hstack([np.linspace(TCMB,100,100),np.logspace(2,np.log10(350),15)[1:]])
-tau1grid = [vtau(dens, line=tau1, tex=tex1, tbg=tbg1, **kwargs)
-            for tbg1 in ProgressBar(tbg1grid)]
-tbg2grid = np.linspace(TCMB,40,100)
-tau2grid = [vtau(dens, line=tau2, tex=tex2, tbg=tbg2, **kwargs)
-            for tbg2 in ProgressBar(tbg2grid)]
 
-def get_tau_ratio(c1,c2,pos=True):
-    # find nearest match
+5/28/2014:
+We are now computing OBSERVED tau
+"""
+# CACHING:
+if not ('tau1grid' in locals() and 'tau2grid' in locals()):
+    kwargs = dict(sigma=sigma, opr=opr, temperature=temperature)
+    tbg1grid = np.hstack([np.linspace(TCMB,100,100),np.logspace(2,np.log10(350),15)[1:]])
+    tau1grid = [vtline(dens, line=tau1, tex=tex1, tbg=tbg1, obs_tau=True, **kwargs)
+                for tbg1 in ProgressBar(tbg1grid)]
+    tbg2grid = np.linspace(TCMB,40,100)
+    tau2grid = [vtau(dens, line=tau2, tex=tex2, tbg=tbg2, obs_tau=True, **kwargs)
+                for tbg2 in ProgressBar(tbg2grid)]
+
+okdens = (dens < 7) & (dens > 1)
+
+def get_tau_ratio(c1,c2,pos=True,ok=okdens):
+    # find nearest match in the grid
     ind1 = np.argmin(np.abs(tbg1grid-c1))
     ind2 = np.argmin(np.abs(tbg2grid-c2))
     # only absorption observed, therefore force models...
     if pos:
-        ok = (tau1grid[ind1] > 0) & (tau2grid[ind2] > 0) * (dens < 7)
-    return tau1grid[ind1]/tau2grid[ind2] * ok
+        okpos = okdens & (tau1grid[ind1] > 0) & (tau2grid[ind2] > 0) 
+    else:
+        okpos = okdens & True
+    ratio = tau1grid[ind1]/tau2grid[ind2]
+    # inflection point is only measured on the "OK" part of the ratio data
+    negpt,pospt = get_inflection_point(ratio[okpos])
+    # therefore we modify the OK part by deselecting everything, then selecting
+    # the parts that are good
+    first_ind = np.argmax(okpos)
+    ok[first_ind+negpt:first_ind+pospt] = True
+
+    if np.count_nonzero(ok) == 0:
+        import ipdb; ipdb.set_trace()
+
+    return ratio * ok, ok
 
 def ratio_to_dens_slow(ratio, c11, c22):
     """
@@ -113,20 +150,15 @@ def ratio_to_dens_slow(ratio, c11, c22):
 
     # set up a grid...
 
-    pb = ProgressBar(np.isfinite(c11*c22).sum())
-    #pb.start()
-    count = 0
+    pb = ProgressBar((c11.size))
     for ii,(r,c1,c2) in enumerate(zip(rrs, c11.flat, c22.flat)):
         #print r.shape,c1,c2
         if np.isfinite(c1) and np.isfinite(c2):
-            tauratio = get_tau_ratio(c1,c2)
-
-            ok = (dens < 7) & (tauratio < 25)
+            tauratio, ok = get_tau_ratio(c1,c2)
 
             inds = np.argsort(tauratio[ok])
             outc[:,ii] = np.interp(r, tauratio[ok][inds], dens[ok][inds], np.nan, np.nan)
-            count += 1
-        pb.update(count)
+        pb.update()
     #pb.finish()
 
     return outc.reshape(ratio.shape)
@@ -142,14 +174,33 @@ ratioF.writeto(datapath+'W51_H2CO11_to_22_logdensity_supersampled_textbg_sigma%0
 
 
 
-densc = fits.getdata(datapath+'W51_H2CO11_to_22_logdensity_supersampled.fits')
-header = fits.getheader(datapath+'W51_H2CO11_cube_supersampled_continuum.fits')
-dens_peak = np.nanmax(densc,axis=0)
-dens_peakf = fits.PrimaryHDU(data=dens_peak,header=flatten_header(header))
-dens_peakf.writeto(datapath+'W51_H2CO_logdensity_peak.fits',clobber=True)
-
 densc = fits.getdata(datapath+'W51_H2CO11_to_22_logdensity_supersampled_textbg_sigma%0.1f.fits' % sigma)
 header = fits.getheader(datapath+'W51_H2CO11_cube_supersampled_continuum.fits')
 dens_peak = np.nanmax(densc,axis=0)
 dens_peakf = fits.PrimaryHDU(data=dens_peak, header=flatten_header(header))
 dens_peakf.writeto(datapath+'W51_H2CO_logdensity_textbg_peak.fits',clobber=True)
+
+d_rmaxprojection = ratio_to_dens_slow(ratio.max(axis=0), cont11, cont22)
+d_rminprojection = ratio_to_dens_slow(ratio.min(axis=0), cont11, cont22)
+
+dens_rmaxf = fits.PrimaryHDU(data=d_rmaxprojection, header=flatten_header(header))
+dens_rmaxf.writeto(datapath+'W51_H2CO_logdensity_textbg_max_ratio.fits',clobber=True)
+dens_rminf = fits.PrimaryHDU(data=d_rminprojection, header=flatten_header(header))
+dens_rminf.writeto(datapath+'W51_H2CO_logdensity_textbg_min_ratio.fits',clobber=True)
+
+# OBSOLETE ok = np.arange(tauratio.size) > np.argmax(tauratio)
+# OBSOLETE 
+# OBSOLETE def ratio_to_dens(ratio):
+# OBSOLETE     inds = np.argsort(tauratio[ok])
+# OBSOLETE     return np.interp(ratio, tauratio[ok][inds], dens[ok][inds], np.nan, np.nan)
+# OBSOLETE 
+# OBSOLETE dcube = ratio_to_dens(ratio)
+# ratioF[0].data = dcube
+# ratioF[0].header['BUNIT'] = 'log volume density'
+# ratioF.writeto(datapath+'W51_H2CO11_to_22_logdensity_supersampled.fits',clobber=True)
+#
+# densc = fits.getdata(datapath+'W51_H2CO11_to_22_logdensity_supersampled.fits')
+# header = fits.getheader(datapath+'W51_H2CO11_cube_supersampled_continuum.fits')
+# dens_peak = np.nanmax(densc,axis=0)
+# dens_peakf = fits.PrimaryHDU(data=dens_peak,header=flatten_header(header))
+# dens_peakf.writeto(datapath+'W51_H2CO_logdensity_peak.fits',clobber=True)

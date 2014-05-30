@@ -16,7 +16,7 @@ cont11[cont11<TCMB] = TCMB
 cont22[cont22<TCMB] = TCMB
 
 
-for label,vrange in (("",[40,75]), ("lower",[40,65]), ("upper",[65,75])):
+for label,vrange in (("",[40,75]), ("lower",[40,62]), ("upper",[62,75])):
     print "Working on {0} velocity range: {1}".format(label,vrange)
     vrange = vrange*u.km/u.s
     h2co11slab = h2co11.spectral_slab(*vrange)
