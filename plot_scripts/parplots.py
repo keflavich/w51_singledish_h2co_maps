@@ -62,6 +62,7 @@ for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
     cmhot.set_over('black')
 
     cmjet = mpl.cm.jet
+    cmjet = mpl.cm.RdYlBu
     cmjet.set_bad('white')
     cmjet.set_under('white')
     cmjet.set_over('black')
@@ -155,7 +156,9 @@ for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
 
 
     labels = {'dens':'log$_{10}$(n(H$_2$) cm$^{-3}$)',
+              'lindens':'n(H$_2$) [cm$^{-3}]$',
               'velocity':'Velocity ($V_{LSR}$ km s$^{-1}$)',
+              'ratio':r'Ratio $\tau_{obs} 1-1 / \tau_{obs} 2-2$',
               'width':'Line Width (km s$^{-1}$)',
               'column':'log$_{10}$(N(H$_2$) cm$^{-2}$)'}
     cmaps = {'dens':cmhot,
@@ -173,23 +176,41 @@ for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
         F.colorbar._colorbar_axes.set_ylabel(labels[param[:-1]])
         savefig('W51_H2CO_2parfittry10_{0}.png'.format(param),bbox_inches='tight')
 
-densfiles = ['W51_H2CO_logdensity_textbg_max_ratio_sigma0.5.fits',
-             'W51_H2CO_logdensity_textbg_mid_ratio_sigma0.5.fits',
-             'W51_H2CO_logdensity_textbg_min_ratio_sigma0.5.fits',
-             ]
-
-cmhot_r = mpl.cm.gist_stern
-cmhot_r.set_bad('white')
-cmhot_r.set_under('black')
-cmhot_r.set_over('white')
-
-for fn in densfiles:
+rfiles = ['W51_H2CO_max_ratio.fits',
+          'W51_H2CO_mid_ratio.fits',
+          'W51_H2CO_min_ratio.fits',
+          ]
+for fn in rfiles:
     fig = pl.figure(6,figsize=(12,12))
     fig.clf()
-    F = FITSFigure(p1(fn),convention='calabretta',figure=fig)
-    F.show_colorscale(cmap=cmhot, vmin=2.5, vmax=7)
+    hdu = fits.open(p1(fn))[0]
+    F = FITSFigure(hdu,convention='calabretta',figure=fig)
+    F.show_colorscale(cmap=cmhot, vmin=0, vmax=30)
     F.recenter(**zoomargs)
-    F.colorbar._colorbar_axes.set_ylabel(labels['dens'])
+    F.colorbar._colorbar_axes.set_ylabel(labels['ratio'])
     savefig(fn.replace("fits","png"), bbox_inches='tight')
+
+
+for sigma in (0.1,0.5,1.0):
+    densfiles = ['W51_H2CO_logdensity_textbg_max_ratio_sigma{0:0.1f}.fits'.format(sigma),
+                 'W51_H2CO_logdensity_textbg_mid_ratio_sigma{0:0.1f}.fits'.format(sigma),
+                 'W51_H2CO_logdensity_textbg_min_ratio_sigma{0:0.1f}.fits'.format(sigma),
+                 ]
+
+    cmhot = mpl.cm.cubehelix
+    cmhot.set_bad('white')
+    cmhot.set_under('black')
+    cmhot.set_over('white')
+
+    for fn in densfiles:
+        fig = pl.figure(6,figsize=(12,12))
+        fig.clf()
+        hdu = fits.open(p1(fn))[0]
+        hdu.data = 10**hdu.data
+        F = FITSFigure(hdu,convention='calabretta',figure=fig)
+        F.show_colorscale(cmap=cmhot, vmin=10**2.5, vmax=10**4.5)
+        F.recenter(**zoomargs)
+        F.colorbar._colorbar_axes.set_ylabel(labels['lindens'])
+        savefig(fn.replace("fits","png"), bbox_inches='tight')
 
 pl.show()

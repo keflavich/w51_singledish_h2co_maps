@@ -5,7 +5,7 @@ from common_constants import zoomargs
 
 dpath = datapath
 
-cm = pl.cm.jet
+cm = pl.cm.RdYlBu
 cm.set_bad('w')
 cm.set_under('w')
 cm.set_over('w')

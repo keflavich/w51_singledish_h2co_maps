@@ -161,6 +161,12 @@ region is fainter at 2 cm.  The signal-to-noise ratio in the continuum peaks at
 $\sim 400$.
 
 \subsection{Continuum Images}
+Our observations comprise the highest resolution wide-area maps of the W51
+region in the 6 cm and 2 cm continuum that preserve large angular scale
+structures.  They can be used to provide the zero-spacing for future and extant
+VLA observations and are essential for the density measurements we describe
+later.  We therefore carefully verify the quality and calibration of the
+continuum data.
 
 While the noise is nominally quite low, there are significant systematic
 effects visible in the continuum maps.  The continuum zero-point of each GBT
@@ -178,12 +184,12 @@ each scan but with added robustness against noise-generated false minima.  In
 the eastmost and westmost blocks, this strategy was very effective, as there
 are clearly areas in each scan that see no continuum.  However, in the central
 block, this approach resulted in a vertical negative filament that almost
-certainly represents a local minimum.  This negative filament has values
-$\gtrsim-0.08$ K.  Given the excellent agreement between the three
-independently observed blocks in their overlap regions, it is clear that the
-continuum is reliable above $\gtrsim0.5$ K, which is the entire regime in which
-it is a significant contributor to the total background emission (including the
-CMB).
+certainly represents a local minimum that should be positive.  This negative
+filament has values $\gtrsim-0.08$ K.  Given the excellent agreement between
+the three independently observed blocks in the overlap regions between these
+blocks, it is clear that the continuum is reliable above $\gtrsim0.5$ K, which
+is the entire regime in which it is a significant contributor to the total
+background emission (at lower levels, the CMB is dominant).
 
 \FigureTwoAA{figures/continuum_11.pdf}
             {figures/continuum_22.pdf}
@@ -199,9 +205,10 @@ size of 6.6\arcmin.  We compared our GBT continuum observations to theirs in
 order to determine whether a significant DC component is missing from our data.
 Because the GPA used $10\deg$ long scans in Galactic latitude, it should fully
 recover all diffuse Galactic Plane emission.  In the released brightness temperature
-maps, brightness down to a scale of $1.5\deg$ is recovered.  However, because the
-5\arcmin steps between scans is larger than the FWHM of the 14.35 GHz beam,
-point source fluxes in the GPA are underestimated by 19\%.
+maps, brightness down to a scale of $1.5\deg$ is recovered.  However, because
+the GPA data undersampled the sky (its 5\arcmin steps between scans were larger
+than the FWHM of the 14.35 GHz beam), point source fluxes in the GPA are
+underestimated by 19\% and flux on small angular scales may be unreliable.
 
 % this analysis is all done in /Users/adam/work/h2co/maps/W51/ipython_log_2014-01-07.py
 % then in contcompare_dc_2cm.py
@@ -266,11 +273,11 @@ line.
 In order to compare the Green Bank and Arecibo continuum data, we converted
 the brightness temperature maps to Janskys assuming a beam FWHM of 50\arcsec
 for both surveys and central frequencies of 4.8 and 14.5 GHz for Arecibo and
-Green Bank respectively, however in this section they are referred to as $S_{5
-GHz}$ and $S_{15 GHz}$ for brevity.
+Green Bank respectively.  In this section, the target frequencies are referred
+to as $S_{5 GHz}$ and $S_{15 GHz}$ for brevity.
 
 The data are well-correlated, with $S_{5 GHz} \sim 1.1 S_{15 GHz}$ (Figure
-\ref{fig:gbtaocompare}), consistent with a spectral index $\alpha_\nu=-0.1$
+\ref{fig:gbtaocontcompare}), consistent with a spectral index $\alpha_\nu=-0.1$
 typical of optically thin brehmsstrahlung.
 However, in Figure \ref{fig:contrrlcompare}a, a great deal of structure in the
 $S_{15 GHz}/S_{5 GHz}$ ratio is evident in the vicinity of W51 Main: the ratio
@@ -306,7 +313,9 @@ While radio recombination lines are purely thermal in nature, the large-scale
 continuum may include a contribution from synchrotron emission.  The
 morphological similarity between the 90 cm and 4 m images presented by
 \citet{Brogan2013a} and our 6 and 2 cm data hint that synchrotron emission
-could be significant.
+could be significant.  However, the high degree of correlation between the 2
+and 6 cm described below suggest that synchrotron `contamination' is minor at both
+wavelengths.
 
 Figure \ref{fig:gbtaocontcompare} shows a comparison between the integrated RRL
 surface brightness and radio continuum at both 2 and 6 cm.  The figure shows
@@ -930,6 +939,7 @@ $T_{continuum}$ is in the \emph{foreground} of the molecular gas.}
 {fig:peakoptdepth}
 
 
+% plot_scripts/opticaldepth_plots.py
 \FigureFourPDF
 {figures/lowerpeak_observed_opticaldepth_11}
 {figures/lowerpeak_observed_opticaldepth_22}
@@ -938,6 +948,7 @@ $T_{continuum}$ is in the \emph{foreground} of the molecular gas.}
 {Same as Figure \ref{fig:peakoptdepth}, but limited to $62 > V_{LSR} > 40$ \kms.}
 {fig:lowerpeakoptdepth}
 
+% plot_scripts/opticaldepth_plots.py
 \FigureFourPDF
 {figures/upperpeak_observed_opticaldepth_11}
 {figures/upperpeak_observed_opticaldepth_22}
@@ -949,6 +960,7 @@ $T_{continuum}$ is in the \emph{foreground} of the molecular gas.}
 \todo{Despite everything, I made density maps.  About 10 times with different
 values.  The net lesson is almost always the same.}
 
+% plot_scripts/parplots.py
 \FigureThreePDF
 {figures/W51_H2CO_logdensity_textbg_max_ratio_sigma0.5}
 {figures/W51_H2CO_logdensity_textbg_mid_ratio_sigma0.5}

@@ -39,11 +39,11 @@ h77c = fits.getdata(h77cname) * ktojy77 / etamb_77
 h77c.value[h77c == 0] = np.nan
 h77h = fits.getheader(h77cname)
 
-integrated_threshold111 = 0.2 * ktojy111
-integrated_threshold77 = 0.03 * ktojy77
-h77lc = h77a/h77c * (h77a > integrated_threshold77)
-h112lc = h112a/h112c * (h112a > integrated_threshold111)
-rrlmask = (h77a > integrated_threshold77) * (h112a > integrated_threshold111)
+amplitude_threshold111 = 0.2 * ktojy111
+amplitude_threshold77 = 0.03 * ktojy77
+h77lc = h77a/h77c * (h77a > amplitude_threshold77)
+h112lc = h112a/h112c * (h112a > amplitude_threshold111)
+rrlmask = (h77a > amplitude_threshold77) * (h112a > amplitude_threshold111)
 h77th112 = h77a/h112a * rrlmask
 c2cmtc6cm = (h77c/h112c * rrlmask)
 c2cmtc6cm.value[c2cmtc6cm <= 0] = np.nan
@@ -83,6 +83,8 @@ titles = {'h77lc':r'H77$\alpha$ Line/Continuum',
           'h77th112':r'H77$\alpha$ / H112$\alpha$',
           'c2cmtc6cm':r'$S_{15 GHz}/S_{5 GHz}$'}
 
+cmap = pl.cm.jet
+
 for ii,img in enumerate('h77te,h112te,h77lc,h112lc,h77th112,c2cmtc6cm'.split(',')):
     name = img
     img = locals()[name].value
@@ -92,7 +94,7 @@ for ii,img in enumerate('h77te,h112te,h77lc,h112lc,h77th112,c2cmtc6cm'.split(','
     F = aplpy.FITSFigure(hdu, figure=pl.figure(ii))
     vmax = [vmaxes[k] for k in vmaxes if k in name][0]
     vmin = [vmins[k] for k in vmins if k in name][0]
-    F.show_colorscale(vmin=vmin,vmax=vmax)
+    F.show_colorscale(vmin=vmin,vmax=vmax,cmap=cmap)
     F.recenter(49.235,-0.303,width=0.952,height=0.433)
     F.add_colorbar()
     F._ax1.set_title(titles[name])

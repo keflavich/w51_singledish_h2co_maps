@@ -1,4 +1,5 @@
 import aplpy
+import matplotlib
 
 def FITSFigure(name, convention='calabretta', xcen=49.27, ycen=-0.32, width=0.9,
                height=0.4, **kwargs):
@@ -7,7 +8,7 @@ def FITSFigure(name, convention='calabretta', xcen=49.27, ycen=-0.32, width=0.9,
     F.set_tick_labels_xformat('dd.d')
     F.set_tick_labels_yformat('dd.d')
 
-    F.show_colorscale()
+    F.show_colorscale(cmap=matplotlib.cm.afmhot_r)
     F.recenter(xcen,ycen,width=width,height=height)
     try:
         F.add_colorbar()

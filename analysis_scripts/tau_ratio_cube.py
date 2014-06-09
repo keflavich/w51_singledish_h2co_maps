@@ -57,24 +57,38 @@ cont11[contfrontmask] = TCMB
 cont22[contfrontmask] = TCMB
 
 
-def get_inflection_point(x, w=2, threshold=0.01):
+def get_extrema(x, w=2, threshold=0.01):
     """
-    Return the valid range in pixels
+    Return the valid range in pixels.
+
+    This function tries to find the first local maximum and minimum and select
+    the range between those.  It can run into trouble if the first/last pixel
+    are the min/max; most of the code is dedicated to these corner cases
     """
     from astropy.convolution import convolve, Gaussian1DKernel
     sm = convolve(x, Gaussian1DKernel(w), boundary='extend')
     pos = np.diff(sm) > threshold
+
+    # force first point to match second point
+    # smoothing can affect edges
+    if pos[0] != pos[1]:
+        pos[0] = pos[1]
+    if pos[0] != pos[2]:
+        pos[:2] = pos[2]
+
     # Find the first point at which the slope is positive
     # (this is very near the 0/0 point)
     pospt = np.argmax(pos)
-    if np.count_nonzero(pos) == 0:
-        # implies there were no inflection points found
+    if np.count_nonzero(pos) < 5+4:
+        # implies there were no extrema found
         return 0,x.size
     elif pospt == 0:
-        # find first *negative* inflection point
+        # find first *negative* extremum
         negpt = np.argmin(pos)
         pos[:negpt] = False
         pospt = np.argmax(pos)
+        if pospt < negpt:
+            pospt = pos.size - 1
         return negpt,pospt
     else:
         return 0,pospt
@@ -111,16 +125,18 @@ for sigma in (0.1,0.5,1.0):
     # CACHING:
     #if not ('tau1grid' in locals() and 'tau2grid' in locals()):
     kwargs = dict(sigma=sigma, opr=opr, temperature=temperature)
-    tbg1grid = np.hstack([np.linspace(TCMB,100,100),np.logspace(2,np.log10(350),15)[1:]])
-    tau1grid = [vtline(dens, line=tau1, tex=tex1, tbg=tbg1, obs_tau=True, **kwargs)
+    tbg1grid = np.hstack([np.linspace(TCMB,15,100),
+                          np.logspace(np.log10(15),np.log10(450),15)[1:]])
+    tau1grid = [vtline(dens, lvg_tau=tau1, tex=tex1, tbg=tbg1, obs_tau=True, **kwargs)
                 for tbg1 in ProgressBar(tbg1grid)]
-    tbg2grid = np.linspace(TCMB,40,100)
-    tau2grid = [vtline(dens, line=tau2, tex=tex2, tbg=tbg2, obs_tau=True, **kwargs)
+    tbg2grid = np.logspace(np.log10(TCMB),np.log10(45),100)
+    tau2grid = [vtline(dens, lvg_tau=tau2, tex=tex2, tbg=tbg2, obs_tau=True, **kwargs)
                 for tbg2 in ProgressBar(tbg2grid)]
 
-    okdens = (dens < 7) & (dens > 1)
+    okdens = (dens < 7) & (dens > 2)
 
-    def get_tau_ratio(c1,c2,pos=True,okdens=okdens):
+    def get_tau_ratio(c1,c2,pos=True,
+                      okdens=(dens < 7) & (dens > 2)):
         # find nearest match in the grid
         ind1 = np.argmin(np.abs(tbg1grid-c1))
         ind2 = np.argmin(np.abs(tbg2grid-c2))
@@ -128,14 +144,15 @@ for sigma in (0.1,0.5,1.0):
         if pos:
             okpos = okdens & (tau1grid[ind1] > 0) & (tau2grid[ind2] > 0) 
         else:
+            raise Exception("Why are you accepting non-positive optical depth ratios?")
             okpos = okdens & True
         ratio = tau1grid[ind1]/tau2grid[ind2]
-        # inflection point is only measured on the "OK" part of the ratio data
-        negpt,pospt = get_inflection_point(ratio[okpos])
+        # extrema are only measured on the "OK" part of the ratio data
+        negpt,pospt = get_extrema(ratio[okpos])
         # therefore we modify the OK part by deselecting everything, then selecting
         # the parts that are good
         first_ind = np.argmax(okpos)
-        ok = okpos * True
+        ok = np.zeros(ratio.size, dtype='bool')
         ok[first_ind+negpt:first_ind+pospt] = True
 
         if np.count_nonzero(ok) < 3:
@@ -182,20 +199,22 @@ for sigma in (0.1,0.5,1.0):
                    clobber=True)
 
 
+    nfin = np.isfinite(ratio).sum(axis=0)
+    ratio[:,nfin < 2] = np.nan
 
+    from scipy.stats import nanmedian
+    rmax = np.nanmax(ratio, axis=0)[None,:,:]
+    rmin = np.nanmin(ratio, axis=0)[None,:,:]
+    rmid = nanmedian(ratio, axis=0)[None,:,:]
 
     densc = fits.getdata(datapath+'W51_H2CO11_to_22_logdensity_supersampled_textbg_sigma%0.1f.fits' % sigma)
     dens_peak = np.nanmax(densc,axis=0)
     dens_peakf = fits.PrimaryHDU(data=dens_peak, header=flatten_header(header))
     dens_peakf.writeto(datapath+'W51_H2CO_logdensity_textbg_peak.fits',clobber=True)
 
-    nfin = np.isfinite(ratio).sum(axis=0)
-    ratio[:,nfin < 2] = np.nan
-
-    d_rmaxprojection = ratio_to_dens_slow(np.nanmax(ratio, axis=0)[None,:,:], cont11, cont22)
-    d_rminprojection = ratio_to_dens_slow(np.nanmin(ratio, axis=0)[None,:,:], cont11, cont22)
-    from scipy.stats import nanmedian
-    d_rmidprojection = ratio_to_dens_slow(nanmedian(ratio, axis=0)[None,:,:], cont11, cont22)
+    d_rmaxprojection = ratio_to_dens_slow(rmax, cont11, cont22)
+    d_rminprojection = ratio_to_dens_slow(rmin, cont11, cont22)
+    d_rmidprojection = ratio_to_dens_slow(rmid, cont11, cont22)
 
     dens_rmaxf = fits.PrimaryHDU(data=d_rmaxprojection, header=flatten_header(header))
     dens_rmaxf.writeto(datapath+'W51_H2CO_logdensity_textbg_max_ratio_sigma%0.1f.fits' % sigma,clobber=True)
@@ -203,6 +222,13 @@ for sigma in (0.1,0.5,1.0):
     dens_rminf.writeto(datapath+'W51_H2CO_logdensity_textbg_min_ratio_sigma%0.1f.fits' % sigma,clobber=True)
     dens_rmidf = fits.PrimaryHDU(data=d_rmidprojection, header=flatten_header(header))
     dens_rmidf.writeto(datapath+'W51_H2CO_logdensity_textbg_mid_ratio_sigma%0.1f.fits' % sigma,clobber=True)
+
+    dens_rmaxf = fits.PrimaryHDU(data=rmax, header=flatten_header(header))
+    dens_rmaxf.writeto(datapath+'W51_H2CO_max_ratio.fits',clobber=True)
+    dens_rminf = fits.PrimaryHDU(data=rmin, header=flatten_header(header))
+    dens_rminf.writeto(datapath+'W51_H2CO_min_ratio.fits',clobber=True)
+    dens_rmidf = fits.PrimaryHDU(data=rmid, header=flatten_header(header))
+    dens_rmidf.writeto(datapath+'W51_H2CO_mid_ratio.fits',clobber=True)
 
     # OBSOLETE ok = np.arange(tauratio.size) > np.argmax(tauratio)
     # OBSOLETE 
