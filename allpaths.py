@@ -7,6 +7,7 @@ analysis_figurepath = os.path.join(source_root, 'figures/')
 figurepath = os.path.join(source_root, 'tex/figures/')
 datapath_spectra = os.path.join(datapath, 'spectralfits/')
 regionpath = os.path.join(source_root, 'regions/')
+modelpath = os.path.join(source_root, 'models/')
 
 def dpath(x, datapath=datapath):
     """
@@ -31,3 +32,6 @@ def fpath(x, figurepath=figurepath):
 
 def afpath(x, figurepath=analysis_figurepath):
     return os.path.join(figurepath, x)
+
+def mpath(x, modelpath=modelpath):
+    return os.path.join(modelpath, x)

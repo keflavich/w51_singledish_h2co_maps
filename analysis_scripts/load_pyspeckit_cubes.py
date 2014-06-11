@@ -4,7 +4,7 @@ from pyspeckit.wrappers import fith2co
 from astropy.io import fits
 import numpy as np
 import pyregion
-from paths import datapath,dpath,rpath
+from paths import datapath,dpath,rpath,mpath
 from common_constants import TCMB
 #cube1 = pyspeckit.Cube('W51_H2CO11_cube_sub.fits')        / 0.51 # eta_mb = 0.51 for arecibo @ c-band according to outergal paper
 #cube2 = pyspeckit.Cube('W51_H2CO22_pyproc_cube_sess22_sub.fits') / 0.886 # from both outergal and pilot
@@ -38,7 +38,7 @@ else:
 #both.units = 'Optical Depth $\\tau$'
 #both.header['BUNIT'] = 'Optical Depth $\\tau$'
 # need continua now
-cont11filename = dpath('W51/W51_H2CO11_cube_supersampled_continuum.fits')
+cont11filename = dpath('W51_H2CO11_cube_supersampled_continuum.fits')
 cont22filename = dpath('W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')
 cont11 = fits.getdata(cont11filename) + TCMB
 cont22 = fits.getdata(cont22filename) + TCMB
@@ -46,19 +46,19 @@ cont11[cont11<TCMB] = TCMB
 cont22[cont22<TCMB] = TCMB
 
 contfrontregions = pyregion.open(rpath('continuum_in_the_front.reg'))
-header = fits.getheader(datapath+'W51_H2CO11_cube_supersampled_continuum.fits')
+header = fits.getheader(cont11filename)
 contfrontmask = contfrontregions.get_mask(fits.PrimaryHDU(data=cont11,header=header))
 cont11[contfrontmask] = TCMB
 cont22[contfrontmask] = TCMB
 
 
-path_to_data = "/Users/adam/work/h2co/radex/troscompt_grid_March2012"
+#path_to_data = "/Users/adam/work/h2co/radex/troscompt_grid_March2012"
 
-texgrid1 = fits.getdata(path_to_data+'/1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tex1.fits')
-taugrid1 = fits.getdata(path_to_data+'/1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tau1.fits')
-texgrid2 = fits.getdata(path_to_data+'/1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tex2.fits')
-taugrid2 = fits.getdata(path_to_data+'/1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tau2.fits')
-hdr    = fits.getheader(path_to_data+'/1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tau2.fits')
+texgrid1 = fits.getdata(mpath('1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tex1.fits'))
+taugrid1 = fits.getdata(mpath('1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tau1.fits'))
+texgrid2 = fits.getdata(mpath('1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tex2.fits'))
+taugrid2 = fits.getdata(mpath('1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tau2.fits'))
+hdr    = fits.getheader(mpath('1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tau2.fits'))
 # # this deserves a lot of explanation:
 # # models.formaldehyde.formaldehyde_radex is the MODEL that we are going to fit
 # # models.model.SpectralModel is a wrapper to deal with parinfo, multiple peaks,

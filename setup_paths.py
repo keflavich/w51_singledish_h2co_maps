@@ -12,8 +12,9 @@ def mkdir_p(path):
         else:
             raise
 
-from allpaths import datapath, datapath_w51, analysis_figurepath, figurepath, datapath_spectra, regionpath
+from allpaths import (datapath, datapath_w51, analysis_figurepath, figurepath,
+                      datapath_spectra, regionpath, modelpath)
 
 for path in (datapath, datapath_w51, analysis_figurepath, figurepath,
-             datapath_spectra, regionpath):
+             datapath_spectra, regionpath, modelpath):
     mkdir_p(path)
