@@ -5,6 +5,7 @@ from astropy.io import fits
 import numpy as np
 import pyregion
 from paths import datapath,dpath,rpath
+from common_constants import TCMB
 #cube1 = pyspeckit.Cube('W51_H2CO11_cube_sub.fits')        / 0.51 # eta_mb = 0.51 for arecibo @ c-band according to outergal paper
 #cube2 = pyspeckit.Cube('W51_H2CO22_pyproc_cube_sess22_sub.fits') / 0.886 # from both outergal and pilot
 
@@ -37,10 +38,10 @@ else:
 #both.header['BUNIT'] = 'Optical Depth $\\tau$'
 # need continua now
 cont11filename = '/Users/adam/work/h2co/maps/W51/W51_H2CO11_cube_supersampled_continuum.fits'
-cont11 = fits.getdata(cont11filename) + 2.73
-cont22 = fits.getdata('/Users/adam/work/h2co/maps/W51/W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits') + 2.73
-cont11[cont11<2.73] = 2.73
-cont22[cont22<2.73] = 2.73
+cont11 = fits.getdata(cont11filename) + TCMB
+cont22 = fits.getdata('/Users/adam/work/h2co/maps/W51/W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits') + TCMB
+cont11[cont11<TCMB] = TCMB
+cont22[cont22<TCMB] = TCMB
 
 contfrontregions = pyregion.open(rpath('continuum_in_the_front.reg'))
 header = fits.getheader(datapath+'W51_H2CO11_cube_supersampled_continuum.fits')
