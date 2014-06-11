@@ -3,6 +3,7 @@ from pyspeckit.spectrum import models
 from pyspeckit.wrappers import fith2co
 from astropy.io import fits
 import numpy as np
+import pyregion
 from paths import datapath,dpath,rpath
 #cube1 = pyspeckit.Cube('W51_H2CO11_cube_sub.fits')        / 0.51 # eta_mb = 0.51 for arecibo @ c-band according to outergal paper
 #cube2 = pyspeckit.Cube('W51_H2CO22_pyproc_cube_sess22_sub.fits') / 0.886 # from both outergal and pilot
