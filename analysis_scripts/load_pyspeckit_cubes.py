@@ -3,10 +3,15 @@ from pyspeckit.spectrum import models
 from pyspeckit.wrappers import fith2co
 from astropy.io import fits
 import numpy as np
+from paths import datapath,dpath,rpath
 #cube1 = pyspeckit.Cube('W51_H2CO11_cube_sub.fits')        / 0.51 # eta_mb = 0.51 for arecibo @ c-band according to outergal paper
 #cube2 = pyspeckit.Cube('W51_H2CO22_pyproc_cube_sess22_sub.fits') / 0.886 # from both outergal and pilot
 
-print "TO DO: fix (hold in place) abundance"
+# this is no longer a relevant todo item
+# the abundance is degenerate with the line-of-sight length scale / velocity
+# dispersion.
+# those can vary.
+#print "TO DO: fix (hold in place) abundance"
 
 
 #etamb already accounted for
@@ -32,6 +37,10 @@ cont22 = fits.getdata('/Users/adam/work/h2co/maps/W51/W51_H2CO22_pyproc_cube_lor
 cont11[cont11<2.73] = 2.73
 cont22[cont22<2.73] = 2.73
 
+contfrontregions = pyregion.open(rpath('continuum_in_the_front.reg'))
+contfrontmask = contfrontregions.get_mask(fits.PrimaryHDU(data=cont11,header=header))
+cont11[contfrontmask] = TCMB
+cont22[contfrontmask] = TCMB
 
 
 path_to_data = "/Users/adam/work/h2co/radex/troscompt_grid_March2012"
