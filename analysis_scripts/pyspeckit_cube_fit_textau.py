@@ -9,6 +9,7 @@ from astropy.io import fits
 import os
 import numpy as np
 import types
+import paths
 
 #sp = both.get_spectrum(14,31)
 #sp.specfit(fittype='formaldehyde_radex',guesses=[4,13,-20,1],multifit=True,quiet=False,verbose=True,negamp=True)
@@ -27,7 +28,7 @@ both.plot_spectrum(x,y, errstyle='fill', residfignum=5)
 doextra=False
 
 # Added 5/23/2014
-mask = fits.getdata('mask_h2co_signal.fits')
+mask = fits.getdata(paths.dpath('mask_h2co_signal.fits'))
 both.maskmap = mask
 
 twopar = True
@@ -64,6 +65,11 @@ if True:
             # correct the continuum in the right-side filament
             guesses[np.array([6,7,14,15]),89:114,196:240] = 2.73
 
+            parlimits = [(1,8), (11,16), (-3,np.log10(3.0)), (5,55), (0,0),
+                         (0,0), (2.73,0), (2.73,0)]*2
+            parlimited = [(T,T), (T,T), (T,T), (T,T), (F,F), (T,F), (T,F),
+                          (T,F)]*2
+
             both.fiteach(guesses=guesses,
                          absorption=True,
                          integral=False,
@@ -71,8 +77,8 @@ if True:
                          multicore=4,
                          signal_cut=4,
                          fixed=[F,F,T,T,F,F,T,T]*2,
-                         parlimited=[(T,T), (T,T), (T,T), (T,T), (F,F), (T,F), (T,F), (T,F)]*2,
-                         parlimits=[(1,8), (11,16), (-3,np.log10(3.0)), (5,55), (0,0), (0,0), (2.73,0), (2.73,0)]*2,
+                         parlimited=parlimited,
+                         parlimits=parlimits,
                          start_from_point=[x,y])
         else:
             guesses = np.empty((8,) + cont11.shape)
