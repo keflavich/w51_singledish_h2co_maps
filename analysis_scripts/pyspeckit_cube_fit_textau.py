@@ -16,6 +16,7 @@ plot=False
 #sp = both.get_spectrum(14,31)
 #sp.specfit(fittype='formaldehyde_radex',guesses=[4,13,-20,1],multifit=True,quiet=False,verbose=True,negamp=True)
 x,y = 88,77
+both.set_spectrum(x,y)
 if plot:
     both.plot_spectrum(x,y)
 both.specfit(fittype='formaldehyde_radex',guesses=[4,13,-3,20,65,1,
