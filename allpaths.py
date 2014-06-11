@@ -28,5 +28,5 @@ def rpath(x, datapath=regionpath):
 def fpath(x, figurepath=figurepath):
     return os.path.join(figurepath, x)
 
-def afpath(x, figurepath=afigurepath):
+def afpath(x, figurepath=analysis_figurepath):
     return os.path.join(figurepath, x)
