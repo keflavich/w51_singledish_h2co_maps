@@ -43,6 +43,7 @@ cont11[cont11<2.73] = 2.73
 cont22[cont22<2.73] = 2.73
 
 contfrontregions = pyregion.open(rpath('continuum_in_the_front.reg'))
+header = fits.getheader(datapath+'W51_H2CO11_cube_supersampled_continuum.fits')
 contfrontmask = contfrontregions.get_mask(fits.PrimaryHDU(data=cont11,header=header))
 cont11[contfrontmask] = TCMB
 cont22[contfrontmask] = TCMB
