@@ -1,11 +1,12 @@
 import os
 root = os.path.expanduser('~/work/')
-datapath = os.path.join(root, 'h2co/maps/W51/')
 datapath_w51 = os.path.join(root, 'w51/')
-analysis_figurepath = os.path.join(root, 'w51_singledish_maps/figures/')
-figurepath = os.path.join(root, 'w51_singledish_maps/tex/figures/')
+datapath = os.path.join(datapath_w51, 'h2co_singledish')
+source_root = os.path.join(root,'w51_singledish_maps')
+analysis_figurepath = os.path.join(source_root, 'figures/')
+figurepath = os.path.join(source_root, 'tex/figures/')
 datapath_spectra = os.path.join(datapath, 'spectralfits')
-regionpath = os.path.join(root, 'w51_singledish_maps/regions/')
+regionpath = os.path.join(source_root, 'regions/')
 
 def dpath(x, datapath=datapath):
     """
