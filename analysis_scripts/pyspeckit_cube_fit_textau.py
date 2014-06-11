@@ -53,7 +53,7 @@ if True:
     # try9 includes tbackground with corrected velocities
     # try10 includes tbackground and tries two independent pars.  Scary.
     # try11 includes tbackground and tries two independent pars.  It is pre-masked. 5/23/2014
-    parcubefilename = outcube = 'W51_taucube_fit_parcube_try11.fits'
+    parcubefilename = outcube = paths.dpath('W51_taucube_fit_parcube_try11.fits')
     # parcube is messed?
     refit=not os.path.exists(outcube)
     #refit=True
@@ -79,7 +79,7 @@ if True:
                          absorption=True,
                          integral=False,
                          fittype='formaldehyde_radex',
-                         multicore=4,
+                         multicore=16,
                          signal_cut=4,
                          fixed=[F,F,T,T,F,F,T,T]*2,
                          parlimited=parlimited,
