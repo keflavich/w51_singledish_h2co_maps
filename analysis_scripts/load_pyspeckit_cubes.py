@@ -13,6 +13,7 @@ from paths import datapath,dpath,rpath
 # those can vary.
 #print "TO DO: fix (hold in place) abundance"
 
+plot=False
 
 #etamb already accounted for
 h2co11filename = '/Users/adam/work/h2co/maps/W51/W51_H2CO11_cube_supersampled_sub.fits'
@@ -27,7 +28,10 @@ cube2.xarr.refX = 14.48847881
 E2 = cube2.cube[cube2.xarr.as_unit('km/s') < 0].std(axis=0)
 cube2.errorcube = np.repeat(np.reshape(E2,(1,)+E2.shape),cube2.shape[0],axis=0)
 both = pyspeckit.CubeStack([cube1,cube2])
-both.mapplot()
+if plot:
+    both.mapplot()
+else:
+    both.mapplot.makeplane()
 #both.units = 'Optical Depth $\\tau$'
 #both.header['BUNIT'] = 'Optical Depth $\\tau$'
 # need continua now

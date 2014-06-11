@@ -11,10 +11,13 @@ import numpy as np
 import types
 import paths
 
+plot=False
+
 #sp = both.get_spectrum(14,31)
 #sp.specfit(fittype='formaldehyde_radex',guesses=[4,13,-20,1],multifit=True,quiet=False,verbose=True,negamp=True)
 x,y = 88,77
-both.plot_spectrum(x,y)
+if plot:
+    both.plot_spectrum(x,y)
 both.specfit(fittype='formaldehyde_radex',guesses=[4,13,-3,20,65,1,
                                                    cont11[y,x],
                                                    cont22[y,x]]*2,
@@ -22,7 +25,8 @@ both.specfit(fittype='formaldehyde_radex',guesses=[4,13,-3,20,65,1,
              multifit=True,quiet=False,verbose=True,
              use_window_limits=False,
              fit_plotted_area=False)
-both.plot_spectrum(x,y, errstyle='fill', residfignum=5)
+if plot:
+    both.plot_spectrum(x,y, errstyle='fill', residfignum=5)
 #both.specfit.add_sliders()
 
 doextra=False
@@ -121,7 +125,8 @@ if True:
         # alternative
         # both.load_model_fit('W51_scaled_parcube.fits',4,fittype='formaldehyde_radex_tau',_temp_fit_loc=(15,30))
         #
-    both.mapplot(estimator=0, vmin=3, vmax=6)
+    if plot:
+        both.mapplot(estimator=0, vmin=3, vmax=6)
 
     # Individual spectra stuff - not set up for W51 yet
     # sp1 = pyspeckit.Spectrum('G173.47+2.44_h2co.fits',wcstype='D') / 0.51
@@ -165,7 +170,8 @@ if True:
         both.plot_spectrum(53,46)
         pylab.savefig("W51_bestfit_spec53_49_W51e2.png")
 
-        both.mapplot(estimator=0,vmin=2)
+        if plot:
+            both.mapplot(estimator=0,vmin=2)
 
         # Analyze the low-velocity cloud
         err = cube1.cube[cube1.xarr < 0,:,:].std(axis=0)
