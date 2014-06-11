@@ -1,6 +1,9 @@
 import os, errno
 
 def mkdir_p(path):
+    """
+    http://stackoverflow.com/a/600612/814354
+    """
     try:
         os.makedirs(path)
     except OSError as exc: # Python >2.5
