@@ -1,5 +1,9 @@
+"""
+Requires rgb_wcs branch of aplpy June 10, 2014
+"""
 from astropy.io import fits
 import aplpy
+from aplpy_figure_maker import FITSFigure
 import PIL
 import matplotlib.colors as mc
 import numpy as np
@@ -8,13 +12,14 @@ from astropy import wcs
 from agpy.cubes import flatten_header
 from astropy import units as u
 import matplotlib
+import pyregion
+import re
+from paths import datapath_w51 as datapath
+from paths import figurepath as figpath
+import paths
 
-matplotlib.rc('text', usetex=True)
-matplotlib.rcParams['text.latex.preamble'] = [r'\boldmath']
-
-
-datapath = '/Users/adam/work/w51/'
-figpath = '/Users/adam/work/w51/'
+#matplotlib.rc('text', usetex=True)
+#matplotlib.rcParams['text.latex.preamble'] = [r'\boldmath']
 
 h2co11 = fits.open(datapath+'W51_H2CO11_taucube.fits')
 co32 = fits.open(datapath+'w51_bieging_13co32.fits')
@@ -53,19 +58,44 @@ WCS = wcs.WCS(hdr)
 pl.close(1)
 fig = pl.figure(1,figsize=(15,10))
 fig.clf()
-F = aplpy.FITSFigure(datapath+'v2.0_ds2_l050_13pca_map20_reproject.fits', figure=fig, convention='calabretta')
+F = FITSFigure(datapath+'v2.0_ds2_l050_13pca_map20_reproject.fits', figure=fig,
+               convention='calabretta', colorbar=False, color=False)
+
+H = fits.Header()
+H.fromTxtFile('/Volumes/128gbdisk/w51/pngs/hdr4096.hdr')
+hwcs = wcs.WCS(H)
+F.show_rgb('/Volumes/128gbdisk/w51/pngs/W51_4096sq_WISE_bolo_mosaic_rotated_blackbg.png',wcs=hwcs)
+
+#F.show_regions(paths.rpath('large_scale_regions.reg'))
+regions = pyregion.open(paths.rpath('large_scale_regions.reg'))
+text = re.compile("text={([^}]*)}")
+for reg in regions:
+    t = text.search(reg.comment).groups()[0]
+    F.add_label(reg.coord_list[0], reg.coord_list[1], t, color='white', size=16, weight='bold')
+F.save(paths.fpath('W51_wisecolor_largescale_labeled.pdf'))
+F.show_rgb(paths.dpath("make_pretty_picture/W51_modified.png",paths.datapath_w51),
+           wcs=hwcs)
+F.save(paths.fpath('W51_wisecolor_modified_largescale_labeled.pdf'))
+for L in F._layers.keys():
+    if L in F._layers:
+        F.remove_layer(L)
+
+F.show_regions(paths.rpath('image_region_labels.reg'))
+F.save(paths.fpath('W51_wisecolor_labeled_detail.pdf'))
+F.recenter(49.436,-0.365,0.21)
+F.save(paths.fpath('W51_wisecolor_zoom_W51Main.pdf'))
+F.recenter(49.05,-0.33,0.20)
+F.save(paths.fpath('W51_wisecolor_zoom_W51B.pdf'))
+
 #F.show_grayscale()
 #F.show_rgb('temp.png',wcs=WCS)
 F.set_auto_refresh(False)
 F.recenter(49.436,-0.365,0.2)
 
-H = fits.Header()
-H.fromTxtFile('/Volumes/128gbdisk/w51/pngs/hdr4096.hdr')
-F.show_rgb('/Volumes/128gbdisk/w51/pngs/W51_4096sq_WISE_bolo_mosaic_rotated_blackbg.png',wcs=wcs.WCS(H))
-
 F.recenter(49.2743,-0.3439,width=1,height=0.45)
 F.set_tick_labels_xformat('dd.d')
 F.set_tick_labels_yformat('dd.d')
+
 
 dens = fits.getdata(datapath+'h2co_singledish/W51_H2CO11_to_22_logdensity_supersampled.fits')
 header = fits.getheader(datapath+'h2co_singledish/W51_H2CO11_cube_supersampled_continuum.fits')
@@ -103,7 +133,10 @@ F.refresh()
 # Abort trap: 6
 #F.save(figpath+'w51_wisecolor_densityoverlay.pdf')
 F.save(figpath+'w51_wisecolor_densityoverlay.png')
-for L in F._layers.keys(): F.remove_layer(L)
+for L in F._layers.keys():
+    if L in F._layers:
+        F.remove_layer(L)
+
 
 
 #F.show_contour(fits.PrimaryHDU(h2co_45to55, hdr), levels=[0.15], colors=['b'])
@@ -141,8 +174,9 @@ F.save(figpath+'w51_wisecolor_nooverlay_vlazoomregion.png')
 
 for L in F._layers.keys(): F.remove_layer(L)
 F.recenter(49.48,-0.38,0.05)
-F.scalebar_set_length(((10*u.pc)/(5.1*u.kpc)*u.radian).to(u.deg).value)
+slength = ((10*u.pc)/(5.1*u.kpc)*u.radian).to(u.deg).value
+F.scalebar.set_length(slength)
 F.save(figpath+'w51_wisecolor_zoomW51Main.png')
 F.refresh()
-F.show_regions('w51main_spectral_apertures.reg')
+F.show_regions(paths.rpath('w51main_spectral_apertures.reg'))
 F.save(figpath+'w51_wisecolor_zoomW51Main_spectralapertures.png')

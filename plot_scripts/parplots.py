@@ -165,13 +165,23 @@ for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
              'velocity':cmjet,
              'width':cmjet,
              'column':cmhot,}
+    limits = {'dens':[2,6],
+              'velocity1':[52,66],
+              'velocity2':[65,75],
+             }
 
     for parnum, param in [(0,'dens1'),(1,'column1'),(4,'velocity1'),(5,'width1'),
                           (8,'dens2'),(9,'column2'),(12,'velocity2'),(13,'width2')]:
         fig = pl.figure(5,figsize=(12,12))
         pl.clf()
         F = FITSFigure(parcubefile,convention='calabretta',slices=[parnum],figure=fig)
-        F.show_colorscale(cmap=cmaps[param[:-1]])
+        if param in limits:
+            vmin,vmax = limits[param]
+        elif param[:-1] in limits:
+            vmin,vmax = limits[param[:-1]]
+        else:
+            vmin,vmax = None,None
+        F.show_colorscale(cmap=cmaps[param[:-1]],vmin=vmin,vmax=vmax)
         F.recenter(**zoomargs)
         F.colorbar._colorbar_axes.set_ylabel(labels[param[:-1]])
         savefig('W51_H2CO_2parfittry10_{0}.png'.format(param),bbox_inches='tight')

@@ -2,10 +2,12 @@ import aplpy_figure_maker
 import pylab as pl
 from paths import figurepath,datapath
 from common_constants import zoomargs
+from velo_cmap import VeloCmap
 
 dpath = datapath
 
-cm = pl.cm.RdYlBu
+cm = pl.cm.bwr
+cm = VeloCmap
 cm.set_bad('w')
 cm.set_under('w')
 cm.set_over('w')
@@ -23,5 +25,5 @@ for rrl in (77,110):
     F.colorbar.set_axis_label_rotation(270)
     F.colorbar.set_axis_label_pad(30)
     F.recenter(**zoomargs)
-    F.show_colorscale(vmin=45,vmax=77,cmap=cm)
-    F.save(figurepath+'H%ia_central_velocity.pdf' % rrl)
+    F.show_colorscale(vmin=45,vmax=72,cmap=cm)
+    F.save(figurepath+'H%ia_central_velocity.pdf' % rrl, dpi=72)
