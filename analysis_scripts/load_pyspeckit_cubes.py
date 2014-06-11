@@ -18,9 +18,10 @@ from common_constants import TCMB
 plot=False
 
 #etamb already accounted for
-h2co11filename = '/Users/adam/work/h2co/maps/W51/W51_H2CO11_cube_supersampled_sub.fits'
+h2co11filename = dpath('W51_H2CO11_cube_supersampled_sub.fits')
+h2co22filename = dpath('W51_H2CO22_pyproc_cube_lores_supersampled_sub.fits')
 cube1 = pyspeckit.Cube(h2co11filename)
-cube2 = pyspeckit.Cube('/Users/adam/work/h2co/maps/W51/W51_H2CO22_pyproc_cube_lores_supersampled_sub.fits')
+cube2 = pyspeckit.Cube(h2co22filename)
 cube1.xarr.refX_units='GHz'
 cube1.xarr.refX = 4.829659400
 E1 = cube1.cube[cube1.xarr.as_unit('km/s') < 0].std(axis=0)
@@ -37,9 +38,10 @@ else:
 #both.units = 'Optical Depth $\\tau$'
 #both.header['BUNIT'] = 'Optical Depth $\\tau$'
 # need continua now
-cont11filename = '/Users/adam/work/h2co/maps/W51/W51_H2CO11_cube_supersampled_continuum.fits'
+cont11filename = dpath('W51/W51_H2CO11_cube_supersampled_continuum.fits')
+cont22filename = dpath('W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')
 cont11 = fits.getdata(cont11filename) + TCMB
-cont22 = fits.getdata('/Users/adam/work/h2co/maps/W51/W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits') + TCMB
+cont22 = fits.getdata(cont22filename) + TCMB
 cont11[cont11<TCMB] = TCMB
 cont22[cont22<TCMB] = TCMB
 
