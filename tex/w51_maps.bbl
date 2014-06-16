@@ -1,4 +1,4 @@
-\begin{thebibliography}{37}
+\begin{thebibliography}{42}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{{Aguirre} {et~al.}(2011){Aguirre}, {Ginsburg}, {Dunham}, {Drosback},
@@ -21,10 +21,19 @@
   {Windhorst}}]{Beccari2010a}
 {Beccari}, G. {et~al.} 2010, \apj, 720, 1108
 
+\bibitem[{{Bieging} {et~al.}(2010){Bieging}, {Peters}, \&
+  {Kang}}]{Bieging2010a}
+{Bieging}, J.~H., {Peters}, W.~L., \& {Kang}, M. 2010, \apjs, 191, 232
+
 \bibitem[{{Bressert} {et~al.}(2012){Bressert}, {Ginsburg}, {Bally},
   {Battersby}, {Longmore}, \& {Testi}}]{Bressert2012a}
 {Bressert}, E., {Ginsburg}, A., {Bally}, J., {Battersby}, C., {Longmore}, S.,
   \& {Testi}, L. 2012, \apjl, 758, L28
+
+\bibitem[{{Brogan} {et~al.}(2000){Brogan}, {Frail}, {Goss}, \&
+  {Troland}}]{Brogan2000a}
+{Brogan}, C.~L., {Frail}, D.~A., {Goss}, W.~M., \& {Troland}, T.~H. 2000, \apj,
+  537, 875
 
 \bibitem[{{Brogan} {et~al.}(2013){Brogan}, {Goss}, {Hunter}, {Richards},
   {Chandler}, {Lazendic}, {Koo}, {Hoffman}, \& {Claussen}}]{Brogan2013a}
@@ -54,9 +63,8 @@
   Moffat, ed. L.~{Drissen}, C.~{Rubert}, N.~{St-Louis}, \& A.~F.~J. {Moffat},
   383
 
-\bibitem[{{Federrath} {et~al.}(2008){Federrath}, {Klessen}, \&
-  {Schmidt}}]{Federrath2008a}
-{Federrath}, C., {Klessen}, R.~S., \& {Schmidt}, W. 2008, \apjl, 688, L79
+\bibitem[{{De Buizer} \& {Vacca}(2010)}]{De-Buizer2010a}
+{De Buizer}, J.~M. \& {Vacca}, W.~D. 2010, \aj, 140, 196
 
 \bibitem[{{Ginsburg} {et~al.}(2012){Ginsburg}, {Bressert}, {Bally}, \&
   {Battersby}}]{Ginsburg2012a}
@@ -81,6 +89,9 @@
 \bibitem[{{Kang} {et~al.}(2009){Kang}, {Bieging}, {Povich}, \&
   {Lee}}]{Kang2009a}
 {Kang}, M., {Bieging}, J.~H., {Povich}, M.~S., \& {Lee}, Y. 2009, \apj, 706, 83
+
+\bibitem[{{Koo} {et~al.}(1995){Koo}, {Kim}, \& {Seward}}]{Koo1995a}
+{Koo}, B.-C., {Kim}, K.-T., \& {Seward}, F.~D. 1995, \apj, 447, 211
 
 \bibitem[{{Koo} \& {Moon}(1997{\natexlab{a}})}]{Koo1997c}
 {Koo}, B.-C. \& {Moon}, D.-S. 1997{\natexlab{a}}, \apj, 475, 194
@@ -128,8 +139,18 @@
 \bibitem[{{Parker} \& {Dale}(2013)}]{Parker2013a}
 {Parker}, R.~J. \& {Dale}, J.~E. 2013
 
+\bibitem[{{Parsons} {et~al.}(2012){Parsons}, {Thompson}, {Clark}, \&
+  {Chrysostomou}}]{Parsons2012a}
+{Parsons}, H., {Thompson}, M.~A., {Clark}, J.~S., \& {Chrysostomou}, A. 2012,
+  \mnras, 424, 1658
+
 \bibitem[{{Rogers} \& {Pittard}(2013)}]{Rogers2013a}
 {Rogers}, H. \& {Pittard}, J.~M. 2013, \mnras, 431, 1337
+
+\bibitem[{{Sato} {et~al.}(2010){Sato}, {Reid}, {Brunthaler}, \&
+  {Menten}}]{Sato2010a}
+{Sato}, M., {Reid}, M.~J., {Brunthaler}, A., \& {Menten}, K.~M. 2010, \apj,
+  720, 1055
 
 \bibitem[{{Sun} {et~al.}(2007){Sun}, {Han}, {Reich}, {Reich}, {Shi},
   {Wielebinski}, \& {F{\"u}rst}}]{Sun2007a}

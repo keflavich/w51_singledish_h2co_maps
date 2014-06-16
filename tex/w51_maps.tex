@@ -14,7 +14,12 @@ the W51 star forming complex acquired with Arecibo and the Green Bank Telescope
 at $\sim50\arcsec$ resolution.
 We perform a detailed analysis of the data and data processing with an emphasis on
 ensuring the reliability of the data.
-The data set has been made public \todo{if someone is willing to host}
+The data set has been made public \todo{if someone is willing to host. This may be CfA dataverse.}
+
+We present an analysis of the three-dimensional structure of the W51 region,
+determining the relative line-of-sight positions of molecular and ionized gas.
+
+We present maps of the local volume density of the molecular gas.
 
 
 \section{Introduction}
@@ -45,6 +50,15 @@ formation on any scale are clearly turbulent.  However, there is no evidence
 whether these initial conditions differ in any qualitative way from turbulence
 in local, low-mass star-forming regions.
 
+The W51 cloud complex (Figure \ref{fig:w51large}) is located at $\ell\sim49,
+b\sim-0.3$, very near the Galactic midplane at a distance of 5.1 kpc
+\citep{Sato2010a}.  It is a well-known and thoroughly studied collection of
+clouds massing $M>10^6 \msun$
+\citep{Carpenter1998a,Bieging2010a,Kang2010a,Parsons2012a}.  The radio-bright
+regions are generally known as W51 A to the east, W51 B to the west, and W51 C
+for the southern component, known to trace a supernova remnant
+\citep{Koo1995a,Brogan2000a,Brogan2013a}.
+
 \Figure{figures/W51_wisecolor_modified_largescale_labeled.pdf}
 {A color composite of the W51 region with major regions, W51 A, B, and C,
 labeled.  The blue, green, and red colors are WISE bands 1, 3, and 4 (3.4, 12,
@@ -53,6 +67,7 @@ Bolocam 1.1 mm Galactic Plane Survey data \citep{Aguirre2011a,Ginsburg2013a}.
 Finally, the faint whitish haze filling in most of the image is from a 90 cm
 VLA image by \citet{Brogan2013a}, which primarily traces the W51 C supernova remnant.}
 {fig:w51large}{0.5}{0}
+
 
 
 \section{Observations \& Data Reduction}
@@ -647,6 +662,10 @@ foreground or background position.
 {A sketched diagram of the W51 region as viewed from the Galactic north pole,
 with the observer looking up the page from the bottom (i.e., W51C is the 
 front-most labeled object along our line-of-sight).
+There are a few significant differences between this and Figure 29 of \citet{Kang2010a},
+particularly the relative geometry of the cloud and the \hii regions in W51 B.
+We also show a good deal more detail, revealing that there are \hii regions on both front
+and back of many clouds.
 \todo{This figure needs to be kept up to date with text changes, and interaction
 between the cloud components should be shown more clearly.  Clouds need to be labeled
 by their coordinates and velocity components as well}}
@@ -761,22 +780,27 @@ $\ell=49.393 b=-0.357$ to $\ell=49.207 b=-0.338$.
 The \hii region G49.20-0.35 is clearly behind the IRDC, though there are strong
 morphological hints that it is interacting with and truncated by the cloud.
 
-\Figure{figures/filaments_H2CO_13CO_pvslice.pdf}
-{A position-velocity slice of the 68 \kms cloud, which includes an infrared dark
-cloud and the interaction region with the W51C supernova remnant.
+\FigureTwo
+{figures/filament_extraction_region_on_HiGal.pdf}
+{figures/cyan_wide_PV_h2co11_22_13co.pdf}
+{(left) A column density map fitted from the Herschel Hi-Gal data with two filament extraction regions superposed
+in cyan and red-blue
+(right) A position-velocity slice of the 68 \kms cloud, shown in cyan in the
+left figure, which includes an infrared dark cloud and the interaction region
+with the W51C supernova remnant.
 (top) \formaldehyde \oneone observed optical depth
 (middle) \formaldehyde \twotwo observed optical depth
 (bottom) \thirteenco 1-0 emission from the GRS with \formaldehyde \oneone
 contours superposed.  The weakness of the \formaldehyde absorption on the right
 half of the cloud corroborates the geometry inferred from comparison of the \oneone
 and \twotwo lines in Figure \ref{fig:h2cofrontbackmodel}.}
-{fig:filament_pvslice}{0.5}{0}
+{fig:filament_pvslice}{1}%{0}
 
 \subsubsection{G49.27-0.34}
 % digging_in_to_G49.27-0.34.py
 The \uchii region G49.27-0.34, which was considered a candidate extended green
 object (EGO) and subsequently rejected for lack of \hh emission
-\citep{deBuizer2010a,Lee2013a}, exhibits a second velocity component at $\sim68
+\citep{De-Buizer2010a,Lee2013a}, exhibits a second velocity component at $\sim68
 \kms$, slightly but clearly redshifted of the rest of the IRDC.  Its mass is
 $\sim2\ee{3} \msun$ based on the BGPS flux and using the assumptions outlined
 in \citet{Aguirre2011a}, suggesting that the high velocity could be due to
@@ -866,6 +890,12 @@ Because the cloud is continuous with the W51 Main region in velocity and is
 infrared-dark, it is most likely at the same distance as W51 Main and
 associated indirectly with the massive cluster forming region.
 
+\Figure
+{figures/purple_wide_PV_h2co11_22_13co.pdf}
+{\todo{Position-velocity diagrams of the G49.47 IRDC and the southern filament thing}
+See Figure \ref{fig:filament_pvslice} for the extracted region.}
+{fig:northsouthpv}{0.5}{0}
+
 \subsection{HII region G49.37-0.30, AKA W51 West}
 W51 West is a busy and luminous \hii region; it is the second-brightest radio
 and millimeter continuum source in our survey after the W51 Main/IRS2 region.
@@ -907,6 +937,22 @@ index than is ever observed elsewhere.  Option (4) points to the possibility
 that there is some systematic error in the continuum of perhaps the 6 cm data,
 there is no hint of such an issue in the RRL comparison in Section
 \ref{sec:rrlvscont}.
+
+\subsubsection{W51 Main \& W51 IRS 2}
+The W51 Main and IRS 2 spectra show that both have ionized gas components at
+$v_{LSR}\sim 55$ \kms.  This velocity approximately coincides with the peak of
+the \thirteenco emission.
+
+The \formaldehyde spectra are deepest at 68 \kms, but they are too deep to be
+entirely behind the \hii regions.  This indicates that the 55 \kms ionized gas
+must be embedded within the molecular cloud, with molecular gas on \emph{both}
+sides of the ionized gas along the line of sight.
+
+Because these are well-studied regions, the low spatial resolution
+\formaldehyde spectra we present here add little new information about the gas
+kinematics.  However, all of the velocity components observed in the W51 region
+are apparently kinematically connected to the W51 clusters.
+
 
 \section{Molecular Gas and \formaldehyde modeling}
 \label{sec:h2co}
@@ -987,6 +1033,17 @@ $T_{continuum}$ is in the \emph{foreground} of the molecular gas.}
 {figures/upperpeak_observed_opticaldepth_ratio_tex}
 {Same as Figure \ref{fig:peakoptdepth}, but limited to $75 > V_{LSR} > 62$ \kms.}
 {fig:upperpeakoptdepth}
+
+\subsection{Density Maps}
+\todo{Density maps have proved very difficult to make in any sort of robust and
+sensible way; they are frequently systematically wrong in different ways.  I
+think I have arrived at a reasonable compromise approach that will take a few
+days to complete, though.}
+
+\todo{The plan is to take the peak density map and use contours at a few different
+levels (probably 5000, 10000, 20000, 50000 \percc, approximately) and calculate the
+total mass (from Herschel) within each contour.  We will then be able to present
+the `dense gas mass fraction' of the whole W51 region.}
 
 % \todo{Despite everything, I made density maps.  About 10 times with different
 % values.  The net lesson is almost always the same.}
@@ -1075,7 +1132,27 @@ of the individual stellar sub-clusters may be able to provide this and should
 be undertaken.  Maser parallax observations of different zones may also provide
 differential distance estimates.
 
+\section{Discussion}
+The W51 cloud complex includes a full range of star forming conditions.  In the
+west, W51 B, there is an older generation of stars including at least one supernova
+remnant.  In the east, there is a pair of forming, still-embedded massive clusters.
+We have described the geometry of these regions and features of the cloud structures,
+now we will speculate on the broader implications of these observations.
 
+The gas in the W51 B region, while clearly affected by the expanding W51 C
+supernova, is less dense than most of the gas in the W51 A region.  The
+supernova feedback is, if anything, destructive; a `collect-and-collapse'
+scenario does not fit the observed gas structure.  Stellar feedback in the W51
+region is therefore destructive, though so far not severely so.
+
+The proximity of the 68 \kms filamentary `high velocity stream' and the W51
+Main protocluster and their relative line-of-sight positions have been
+presented as evidence for a cloud-cloud collision \citep{Kang2010a}.  Examination of
+the \formaldehyde line ratios has shown that the protocluster is embedded in the $\sim55$ \kms
+molecular cloud.  The high density of the 68 \kms cloud at this position indicates that it is
+likely interacting...
+
+\todo{Is the W51 filament like Nessie?  Too coherent over large scales, flattened in the midplane?}
 
 \section{Conclusion}
 We have presented maps of the \formaldehyde \oneone and \twotwo and H77$\alpha$

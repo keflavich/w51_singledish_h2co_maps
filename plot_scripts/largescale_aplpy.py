@@ -72,20 +72,20 @@ text = re.compile("text={([^}]*)}")
 for reg in regions:
     t = text.search(reg.comment).groups()[0]
     F.add_label(reg.coord_list[0], reg.coord_list[1], t, color='white', size=16, weight='bold')
-F.save(paths.fpath('W51_wisecolor_largescale_labeled.pdf'))
+F.save(paths.fpath('W51_wisecolor_largescale_labeled.pdf'), dpi=72)
 F.show_rgb(paths.dpath("make_pretty_picture/W51_modified.png",paths.datapath_w51),
            wcs=hwcs)
-F.save(paths.fpath('W51_wisecolor_modified_largescale_labeled.pdf'))
+F.save(paths.fpath('W51_wisecolor_modified_largescale_labeled.pdf'), dpi=72)
 for L in F._layers.keys():
     if L in F._layers:
         F.remove_layer(L)
 
 F.show_regions(paths.rpath('image_region_labels.reg'))
-F.save(paths.fpath('W51_wisecolor_labeled_detail.pdf'))
+F.save(paths.fpath('W51_wisecolor_labeled_detail.pdf'), dpi=72)
 F.recenter(49.436,-0.365,0.21)
-F.save(paths.fpath('W51_wisecolor_zoom_W51Main.pdf'))
+F.save(paths.fpath('W51_wisecolor_zoom_W51Main.pdf'), dpi=72)
 F.recenter(49.05,-0.33,0.20)
-F.save(paths.fpath('W51_wisecolor_zoom_W51B.pdf'))
+F.save(paths.fpath('W51_wisecolor_zoom_W51B.pdf'), dpi=72)
 
 #F.show_grayscale()
 #F.show_rgb('temp.png',wcs=WCS)
@@ -132,7 +132,7 @@ F.refresh()
 # *** set a breakpoint in malloc_error_break to debug
 # Abort trap: 6
 #F.save(figpath+'w51_wisecolor_densityoverlay.pdf')
-F.save(figpath+'w51_wisecolor_densityoverlay.png')
+F.save(figpath+'w51_wisecolor_densityoverlay.png', dpi=72)
 for L in F._layers.keys():
     if L in F._layers:
         F.remove_layer(L)

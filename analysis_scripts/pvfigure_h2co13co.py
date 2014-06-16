@@ -24,13 +24,16 @@ if 'colorpvs' in locals():
 else:
     from pvdiagrams import get_pvs
     import pyregion
-    pvs = {}
-    endpoints_wcs = pyregion.open('pvendpoints.reg')
-    color = 'cyan'
-    coords = np.array([s.coord_list for s in endpoints_wcs if s.attr[1]['color'] == color])
-    endpoints = coordinates.Galactic(coords[:,0],coords[:,1], unit=(u.deg,u.deg))
-    for cubefn in cubefiles:
-        pvs[cubefn] = get_pvs(cubefn, endpoints)
+    endpoints_wcs = pyregion.open(paths.rpath('pvendpoints.reg'))
+    colorpvs = {}
+    for color in ['cyan', 'purple']:
+        pvs = {}
+        coords = np.array([s.coord_list for s in endpoints_wcs if
+                           s.attr[1]['color'] == color])
+        endpoints = coordinates.Galactic(coords[:,0],coords[:,1], unit=(u.deg,u.deg))
+        for cubefn in cubefiles:
+            pvs[cubefn] = get_pvs(cubefn, endpoints)
+        colorpvs[color] = pvs
 
 def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
     fig11 = pl.figure(11+extranumber)
@@ -80,7 +83,7 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
 
     # the -0.5 is just to force the colors to the high-end
     con = ax.contour(hdus[0].data, levels=[-0.5,0.025,0.05,0.1,0.2,0.4])
-    fig11.savefig(os.path.join(paths.figurepath, color+"filaments_H2CO_13CO_pvslice.pdf"))
+    fig11.savefig(os.path.join(paths.figurepath, color+"_filaments_H2CO_13CO_pvslice.pdf"))
     for cc in ax.collections:
         cc.set_visible(False)
 
@@ -138,8 +141,8 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
     return ffs
 
 
-ffs = pvplots(pvs, color='cyan', width=0.85)
-pvplots(colorpvs['purple'], color='purple', extranumber=-2, width=0.45)
+ffsc = pvplots(colorpvs['cyan'], color='cyan', width=0.85)
+ffsp = pvplots(colorpvs['purple'], color='purple', extranumber=-2, width=0.45)
 
 
 
