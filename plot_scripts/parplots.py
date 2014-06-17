@@ -200,7 +200,6 @@ for fn in rfiles:
     F.colorbar._colorbar_axes.set_ylabel(labels['ratio'])
     savefig(fn.replace("fits","png"), bbox_inches='tight')
 
-
 for sigma in (0.1,0.5,1.0):
     densfiles = ['W51_H2CO_logdensity_textbg_max_ratio_sigma{0:0.1f}.fits'.format(sigma),
                  'W51_H2CO_logdensity_textbg_mid_ratio_sigma{0:0.1f}.fits'.format(sigma),

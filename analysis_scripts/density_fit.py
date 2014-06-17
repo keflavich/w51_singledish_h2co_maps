@@ -120,13 +120,14 @@ for cc,(i1,i2) in zip(cubenames,cubetargets):
                           header=flatheader)
     hdu.writeto(dpath("H2CO_ParameterFits_{0}_min.fits".format(cc)), clobber=True)
 
-wtdmeandens = (cubes['bestdens'] * cubes['bestcol']).sum(axis=0) / cubes['bestcol'].sum(axis=0)
+wtdmeandens = ((np.nansum(cubes['bestdens'] * cubes['bestcol'],axis=0)) 
+               / np.nansum(cubes['bestcol'],axis=0))
 hdu = fits.PrimaryHDU(data=wtdmeandens,
                       header=flatheader)
 hdu.writeto(dpath("H2CO_ParameterFits_weighted_mean_density.fits"), clobber=True)
 
-masked_wtdmeandens = ((cubes['bestdens'] * cubes['bestcol'] * (cubes['bestchi2'] < 1)).sum(axis=0)
-               / (cubes['bestcol'] * (cubes['bestchi2'] < 1))).sum(axis=0)
+masked_wtdmeandens = (np.nansum(cubes['bestdens'] * cubes['bestcol'] * (cubes['bestchi2'] < 1), axis=0)
+                      / np.nansum(cubes['bestcol'] * (cubes['bestchi2'] < 1), axis=0))
 hdu = fits.PrimaryHDU(data=masked_wtdmeandens,
                       header=flatheader)
 hdu.writeto(dpath("H2CO_ParameterFits_weighted_mean_density_chi2masked.fits"), clobber=True)
