@@ -57,6 +57,11 @@ cont11[contfrontmask] = TCMB
 cont22[contfrontmask] = TCMB
 
 
+
+
+
+
+
 def get_extrema(x, w=2, threshold=0.01):
     """
     Return the valid range in pixels.

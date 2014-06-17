@@ -149,7 +149,7 @@ ffsp = pvplots(colorpvs['purple'], color='purple', extranumber=-2, width=0.45)
 
 bgps = fits.open(os.path.join(paths.datapath_w51, 'v2.0_ds2_l050_13pca_map20.fits'))[0]
 bgps_wcs = WCS(bgps.header)
-column = fits.open(os.path.join(paths.datapath_w51, 'higalsedfit_70to500_l048_beta1.75N.fits'))[0]
+column = fits.open(os.path.join(paths.datapath_w51, 'HIGAL_W51_mosaic_fit_160to500_N.fits'))[0]
 column_wcs = WCS(column.header)
 
 fig13 = pl.figure(13)
