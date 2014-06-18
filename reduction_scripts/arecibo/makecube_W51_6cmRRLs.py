@@ -2,6 +2,7 @@
 import os
 import re
 from agpy import readcol
+from astropy import log
 
 from sdpy import makecube
 
@@ -9,7 +10,7 @@ bsgs = readcol('arecibo_bsg_freqref.txt',skipafter=1,asRecArray=True)
 
 for line in bsgs:
     bsg = line['bsg']
-    linefreq = line['restfreq']
+    linefreq = line['restfreq']*1e6
     linename = line['linename']
     if linefreq == 0:
         continue
@@ -27,13 +28,15 @@ for line in bsgs:
     cd3 = 1.0
     naxis3 = int((velocityrange[1]-velocityrange[0]) / cd3)
     # Updated June 18, 2014 to use smaller pixels for more useful comparison to other data
-    makecube.generate_header(49.209553,-0.277137,naxis1=308,naxis2=205,pixsize=15,naxis3=int(naxis3),cd3=cd3,crval3=50.0,clobber=True)
+    makecube.generate_header(49.209553, -0.277137, naxis1=308, naxis2=205,
+                             pixsize=15, naxis3=int(naxis3), cd3=cd3,
+                             crval3=50.0, clobber=True)
     cubename = '/Users/adam/work/h2co/maps/w51/W51_%slpha_cube' % linename
     makecube.make_blank_images(cubename,clobber=True)
 
     for date in ('0910','0911','0912','0915',):
         fn = '/Users/adam/observations/arecibo/2012{date}/W51_{line}_spectra_{date}.fits'.format(line=linename,date=date)
-        print fn, velocityrange, linename, linefreq
+        log.info(" ".join( fn, velocityrange, linename, linefreq ))
         if os.path.exists(fn):
             try:
                 makecube.add_file_to_cube(fn,
@@ -41,6 +44,7 @@ for line in bsgs:
                                           nhits=cubename+'_nhits.fits',
                                           velocityrange=velocityrange,
                                           excludefitrange=[vmin,vmax], 
+                                          progressbar=True,
                                           linefreq=linefreq)
             except Exception as ex:
                 print ex
@@ -97,6 +101,7 @@ for line in bsgs:
                                           velocityrange=velocityrange,
                                           excludefitrange=[vmin,vmax],
                                           linefreq=linefreq,
+                                          progressbar=True,
                                           chmod=True) # security risk, but too many files!
             except Exception as ex:
                 print ex
@@ -155,6 +160,7 @@ for line in bsgs:
                                           velocityrange=velocityrange,
                                           excludefitrange=[vmin,vmax],
                                           do_runscript=True,
+                                          progressbar=True,
                                           linefreq=linefreq, # MAY NEED TO BE MHZ?!  (June 2014)
                                           chmod=True) # security risk, but too many files!
             except Exception as ex:
