@@ -2,7 +2,7 @@
 import os
 from agpy import readcol
 
-from gbtpy import makecube
+from sdpy import makecube
 
 bsgs = readcol('arecibo_bsg_freqref.txt',skipafter=1,asRecArray=True)
 
