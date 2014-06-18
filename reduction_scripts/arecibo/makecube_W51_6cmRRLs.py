@@ -45,6 +45,8 @@ for line in bsgs:
                                       velocityrange=velocityrange,
                                       excludefitrange=[vmin,vmax], 
                                       progressbar=True,
+                                      add_with_kernel=True,
+                                      kernel_fwhm=20./3600.,
                                       linefreq=linefreq)
     #    f = pyfits.open(fn)
     #

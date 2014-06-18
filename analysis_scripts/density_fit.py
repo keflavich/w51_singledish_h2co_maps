@@ -52,7 +52,7 @@ def fit_a_pixel(args):
     pargrid2 = (cont2*np.exp(-taugrid2) + (1-np.exp(-taugrid2))*texgrid2)
 
     match, indbest, chi2 = grid_2p_getmatch(tline1+cont1, etline1, pargrid1,
-                                                tline2+cont2, etline2, pargrid2)
+                                            tline2+cont2, etline2, pargrid2)
 
     chi2best = chi2.flat[indbest]
     chi2_all = chi2[match]
@@ -97,11 +97,11 @@ cubenames = ['bestdens','bestcol','besttemp','bestopr','bestchi2',
              'maxdens','maxcol','maxtemp','maxopr','maxchi2',
              'meandens','meancol','meantemp','meanopr','meanchi2',
              'stddens','stdcol','stdtemp','stdopr','stdchi2']
-cubetargets = [ (0,0), (0,1), (0,2), (0,3),
-                (1,0), (1,1), (1,2), (1,3),
-                (2,0), (2,1), (2,2), (2,3),
-                (3,0), (3,1), (3,2), (3,3),
-                (4,0), (4,1), (4,2), (4,3)]
+cubetargets = [ (0,0), (0,1), (0,2), (0,3), (0,4), 
+                (1,0), (1,1), (1,2), (1,3), (1,4),
+                (2,0), (2,1), (2,2), (2,3), (2,4),
+                (3,0), (3,1), (3,2), (3,3), (3,4),
+                (4,0), (4,1), (4,2), (4,3), (4,4),]
 
 cubes = {c: np.empty(h2co11.shape)+np.nan for c in cubenames}
 

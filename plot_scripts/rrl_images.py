@@ -25,5 +25,5 @@ for rrl in (77,110):
     F.colorbar.set_axis_label_rotation(270)
     F.colorbar.set_axis_label_pad(30)
     F.recenter(**zoomargs)
-    F.show_colorscale(vmin=45,vmax=72,cmap=cm)
+    F.show_colorscale(vmin=45,vmax=75,cmap=cm)
     F.save(figurepath+'H%ia_central_velocity.pdf' % rrl, dpi=72)

@@ -61,7 +61,7 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
         vmin = np.percentile(pvhdu.data[np.isfinite(pvhdu.data)], 10)
         vmax = np.percentile(pvhdu.data[np.isfinite(pvhdu.data)], 99.95)
         ax.imshow(pvhdu.data, cmap=cm, vmin=vmin, vmax=vmax, norm=asinh_norm.AsinhNorm())
-        ax.set_ylim(*wcs.wcs_world2pix([0,0],[40e3,80e3],0)[1])
+        ax.set_ylim(*wcs.wcs_world2pix([0,0],[35e3,80e3],0)[1])
         #ax.set_yticklabels(ax.get_yticks()/1e3)
 
         if ii<2:
@@ -117,7 +117,7 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
                                              0.3], figure=fig)
         F.show_grayscale(invert=True)
 
-        F.recenter(width/2, 65000, width=width, height=30000)
+        F.recenter(width/2, 60000, width=width, height=35000)
 
         ffs.append(F)
     ffs[2].show_contour(hdus[0])

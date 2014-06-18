@@ -1,4 +1,4 @@
-\begin{thebibliography}{42}
+\begin{thebibliography}{43}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{{Aguirre} {et~al.}(2011){Aguirre}, {Ginsburg}, {Dunham}, {Drosback},
@@ -166,6 +166,9 @@
   {Wielebinski}, {Wang}, \& {M{\"u}ller}}]{Sun2011b}
 {Sun}, X.~H., {Reich}, W., {Han}, J.~L., {Reich}, P., {Wielebinski}, R.,
   {Wang}, C., \& {M{\"u}ller}, P. 2011{\natexlab{b}}, \aap, 527, A74
+
+\bibitem[{{Tian} \& {Leahy}(2013)}]{Tian2013a}
+{Tian}, W.~W. \& {Leahy}, D.~A. 2013, \apjl, 769, L17
 
 \bibitem[{{van der Tak} {et~al.}(2007){van der Tak}, {Black}, {Sch{\"o}ier},
   {Jansen}, \& {van Dishoeck}}]{van-Der-Tak2007a}

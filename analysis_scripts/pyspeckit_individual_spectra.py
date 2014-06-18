@@ -11,7 +11,9 @@ from pyspeckit.wrappers import fith2co
 import numpy as np
 import pylab as pl
 import os
-from paths import datapath,datapath_w51,figurepath,datapath_spectra
+from paths import datapath,datapath_w51,figurepath,datapath_spectra,dpath
+
+pl.rcParams['font.size'] = 18
 
 regfiledict = {"/Users/adam/work/w51/dense_filament_spectral_apertures.reg":
                'spectralfits/spectralfits_70kmscloud',
@@ -350,10 +352,24 @@ def filaments_right(table=None):
     if table is None:
         table = initialize_table()
     ncomp = [1,1,1,2,2,1,1,2]
-    return do_indiv_fits("/Users/adam/work/w51/dense_filament_spectral_apertures.reg",
-                         'spectralfits/spectralfits_70kmscloud', ncomp=ncomp,
+    outpfx = 'spectralfits/spectralfits_70kmscloud'
+    spectra = do_indiv_fits("/Users/adam/work/w51/dense_filament_spectral_apertures.reg",
+                         outpfx, ncomp=ncomp,
                          tableprefix="filamentsright_",
                          table=table)
+
+    dofit(spectra[-1], spectra[-1].header['CONT11'], spectra[-1].header['CONT22'], vguesses=[64, 56], ncomp=2)
+    plotitem(spectra[-1], 0, dolegend=True)
+    pl.figure(spectra[-1].plotter.figure.number)
+    pl.savefig(os.path.join(datapath, outpfx+'_aperture_%s_%s_legend.pdf' % (spectra[-1].specname,'back')),
+               bbox_extra_artists=[spectra[-1].specfit.fitleg])
+    dofit(spectra[-1], 2.73, 2.73, vguesses=[64, 56], ncomp=2)
+    plotitem(spectra[-1], 0, dolegend=True)
+    pl.figure(spectra[-1].plotter.figure.number)
+    pl.savefig(os.path.join(datapath, outpfx+'_aperture_%s_%s_legend.pdf' % (spectra[-1].specname,'front')),
+               bbox_extra_artists=[spectra[-1].specfit.fitleg])
+
+    return spectra
 
 def filaments_left(table=None):
     if table is None:
@@ -367,7 +383,7 @@ def filaments_left(table=None):
     dofit(spectra[0], spectra[0].header['CONT11'], spectra[0].header['CONT22'], vguesses=[64, 68], ncomp=2)
     plotitem(spectra[0], 0, dolegend=True)
     pl.figure(spectra[0].plotter.figure.number)
-    pl.savefig(outpfx+'_aperture_%s_%s_legend.pdf' % (spectra[0].specname,'back'),
+    pl.savefig(os.path.join(datapath, outpfx+'_aperture_%s_%s_legend.pdf' % (spectra[0].specname,'back')),
                bbox_extra_artists=[spectra[0].specfit.fitleg])
 
     return spectra
@@ -788,7 +804,9 @@ def do_rrlspectra():
     order = ['H77$\\alpha$', 'H110$\\alpha$']
 
     pl.close(1)
+    pl.close(2)
     fig = pl.figure(1, figsize=(12,8))
+    fig2 = pl.figure(2, figsize=(12,8))
 
     colors = ['k','r','g','b','m','#11AAAA']
 
@@ -802,6 +820,7 @@ def do_rrlspectra():
                        for c in order]
 
             fig.clf()
+            fig2.clf()
 
             for ii,(hline,sp) in enumerate(spectra):
                 sp.xarr.convert_to_unit('km/s')
@@ -814,18 +833,35 @@ def do_rrlspectra():
                 pars[2] /= 5
                 sp.plotter(figure=fig, xmin=40, xmax=80, color=colors[ii], clear=False,
                            label=hline)
+                ax1 = sp.plotter.axis
+
+                sp.plotter(figure=fig2, xmin=00, xmax=120, color=colors[ii], clear=False,
+                           label=hline, linewidth=2)
+                ax2 = sp.plotter.axis
+                sp.specfit.plot_fit(composite_fit_color=colors[ii+2], annotate=False)
+                box = ax2.get_position()
+                ax2.set_position([box.x0, box.y0, box.width * 0.9, box.height])
+                sp.specfit.annotate(bbox_to_anchor=(1.01,0.95) if '110' in hline else (1.01, 0.75), loc='upper left',
+                                    fontsize=14)
+                sp.plotter.axis.set_ylabel("$T_A^*$ (K)")
+                fig2.savefig(dpath(regfiledict[regfn]+"_wideplot_RRL_aperture_%s.pdf" % sp.specname),
+                             bbox_extra_artists=[sp.specfit.fitleg])
+
                 fakespec = pyspeckit.Spectrum(xarr=sp.xarr,
                                               data=sp.specfit.get_model_frompars(sp.xarr,
                                                                                  pars),
                                               header=sp.header)
-                fakespec.plotter(axis=sp.plotter.axis, xmin=40, xmax=80,
+                fakespec.plotter(axis=ax1, xmin=40, xmax=80,
                                  color=colors[ii], clear=False,
                                  linestyle='steps--')
                 rrlid = 'H77a' if '77' in hline else '110'
-                sp.write(regfiledict[regfn]+"_RRL%s_aperture_%s.fits" % (rrlid,sp.specname))
+                sp.write(dpath(regfiledict[regfn]+"_RRL%s_aperture_%s.fits" % (rrlid,sp.specname)))
 
             sp.plotter.axis.set_ylabel("$T_A^*$ (K)")
-            sp.plotter.savefig(regfiledict[regfn]+"_RRL_aperture_%s.pdf" % sp.specname)
+            sp.plotter.savefig(dpath(regfiledict[regfn]+"_RRL_aperture_%s.pdf" % sp.specname))
+
+            #import ipdb; ipdb.set_trace()
+
 
 def do_HIspectra():
     hcubes = load_HIcubes()

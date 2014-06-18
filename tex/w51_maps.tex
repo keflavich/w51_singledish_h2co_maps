@@ -73,6 +73,7 @@ VLA image by \citet{Brogan2013a}, which primarily traces the W51 C supernova rem
 \section{Observations \& Data Reduction}
 
 (observations paragraph)
+\subsection{GBT 2 cm}
 The W51 survey was performed in September 2011 and 2012.  The GBT data were
 taken as part of program AGBT10B/019; the raw data are available from the NRAO
 archive\url{https://archive.nrao.edu/}.  The data presented in this paper
@@ -80,17 +81,9 @@ include sessions 10, 11, 14, 16, 17, 20, 21, and 22; the other sessions from
 this project include maps of outer galaxy regions and a single-pointing survey
 of Galactic plane sources that will be presented in another paper. 
 
-The Arecibo data were taken as part of project A2705 over the course of 4
-nights, September 10, 11, 12, and 15 2012.  On the first night, September 10
-2012, a significant fraction of the data was lost due to an internal instrument
-error within the Mock spectrometer, which resulted in a loss of the
-high-resolution component of the \formaldehyde data for that night.  As a
-result, we have focused our study on the lower-resolution ($\sim1 \kms$) data.
-
-Data were taken in on-the-fly mode with the GBT Ku-band dual-beam system and
-the Arecibo C-band receiver.  On the GBT, cross-hatched north-south and
-east-west maps were created in Galactic coordinates, while at Arecibo only
-east-west maps were taken.
+Data were taken in on-the-fly mode with the GBT Ku-band dual-beam system.
+Cross-hatched north-south and east-west maps were created in Galactic
+coordinates. 
 
 The data was reduced using custom-made scripts based off of both GBTIDL's
 mapping routines (cite Langston?) and Phil Perillat's AOIDL routines.  The code
@@ -98,13 +91,30 @@ is available at \url{https://github.com/keflavich/sdpy}.  The data reduction
 workflow, along with a summary of the code, is presented in the Appendix.
 
 The individual spectral were calibrated using a noise calibration diode as
-usual.  For the GBT data, the first and last scans of each observation were
-used as off positions, and the background level to be subtracted off of the
-continuum was determined by linearly interpolating between these scans.
+usual.  The first and last scans of each observation were used as off
+positions, and the background level to be subtracted off of the continuum was
+determined by linearly interpolating between these scans.
 
 The GBT data infrequently exhibited major data artifacts; a key phase of the
 reduction process was excising bad observations, which were usually isolated to
 a single component of the backend.
+
+The Green Bank data have a main beam efficiency $\eta_{MB} = 0.886$, or a gain
+of 1.98 K/Jy assuming a 51 \arcsec beam \citep[see][for additional
+discussion]{Mangum2013a}.  The GBT data were also corrected for atmospheric
+opacity with a typical zenith optical depth $\tau_{z}\approx0.02$, so this
+correction was never more than $\sim5\%$.
+
+\subsection{Arecibo 6 cm}
+The Arecibo data were taken as part of project A2705 over the course of 4
+nights, September 10, 11, 12, and 15 2012.  On the first night, September 10
+2012, a significant fraction of the data was lost due to an internal instrument
+error within the Mock spectrometer, which resulted in a loss of the
+high-resolution component of the \formaldehyde data for that night.  As a
+result, we have focused our study on the lower-resolution ($\sim1 \kms$) data.
+
+The fields were observed with east-west maps using the C-band receiver.  No
+crosshatching was performed with Arecibo.
 
 The Arecibo data reduction process for W51
 presented unique challenges: at C-band, the entire region surveyed contains
@@ -122,6 +132,12 @@ and purple, with the interpolated replacement in red and green.
 \todo{Replace this with a nicer version}
 }{fig:h2comask}{0.4}{0}
 
+The Arecibo data were corrected to main beam brightness temperature $T_{MB}$
+using a main-beam efficiency $\eta_{MB} = 0.491544 + 0.00580397 za -
+0.000341992 za^2$, which is a fit to 5 years worth of calibration data acquired
+at Arecibo and assembled by Phil Perrilat.
+
+\subsection{Mapmaking}
 The maps were made by computing an output grid in Galactic coordinates with
 15\arcsec pixels and adding each spectrum to the appropriate pixel\footnote{We
 use the term `pixel' to refer to a square data element projected on the sky
@@ -144,16 +160,6 @@ be taken, but did not acquire the high-resolution data} and the GBT at 0.25
 150 \kms with 1 \kms resolution.  To achieve this, they were first smoothed by
 a gaussian with $FWHM=1 \kms$ then downsampled appropriately.
 
-The Arecibo data were corrected to main beam brightness temperature $T_{MB}$
-using a main-beam efficiency $\eta_{MB} = 0.491544 + 0.00580397 za -
-0.000341992 za^2$, which is a fit to 5 years worth of calibration data acquired
-at Arecibo and assembled by Phil Perrilat.
-
-The Green Bank data have a main beam efficiency $\eta_{MB} = 0.886$, or a gain
-of 1.98 K/Jy assuming a 51 \arcsec beam \citep[see][for additional
-discussion]{Mangum2013a}.  The GBT data were also corrected for atmospheric
-opacity with a typical zenith optical depth $\tau_{z}\approx0.02$, so this
-correction was never more than $\sim5\%$.
 
 \section{The Data}
 
@@ -633,7 +639,7 @@ radiative transfer approach to model.
 % e.g. supernovae or cloud collisions.  Instead, the high-density ridge provides
 % evidence for a spiral density wave triggering the high densities.
 
-\section{Structure of the Molecular Clod [sic]}
+\section{Structure of the Molecular Cloud}
 The \formaldehyde observations reveal two essential features of the W51 GMC:
 its density structure and its line-of-sight geometry.
 
@@ -743,15 +749,15 @@ that they are also behind the W51 C supernova remnant.
 \subsection{The edge of W51 C}
 W51 C is a supernova remnant that spatially overlaps with the W51 B star
 forming region.  \citet{Brogan2013a} argue that the supernova remnant must be
-in front of the \hii region G49.2-0.3 because the \hii-region has not absorbed
-all of the 4m nonthermal emission.  The G49.1-0.4, G49.0-0.3, and G48.9-0.3
+in front of the \hii region G49.20-0.35 because the \hii-region has not absorbed
+all of the 4m (74 MHz) nonthermal emission.  The G49.1-0.4, G49.0-0.3, and G48.9-0.3
 regions, however, show 4m absorption signatures and may be in the foreground.
 There are clumps aligned along the 68 \kms filamentary cloud with very high CO
-and HI velocities \citep{Koo1997b,Koo1997c,Brogan2013a}, indicating that the
+and \hi velocities \citep{Koo1997b,Koo1997c,Brogan2013a}, indicating that the
 SNR is interacting with the molecular gas.
 
 The clumps at $\sim68$ \kms are either lower density ($n<1.5\ee{4}$ \percc) and in the
-background of the HII region or high density ($n>1.5\ee{5}$ \percc), low-column
+background of the \hii region or high density ($n>1.5\ee{5}$ \percc), low-column
 density and in the foreground.  The $62$ \kms clumps have densities a few times
 higher, $n\sim4\ee{4}$ \percc, and are clearly in the foreground of the
 continuum emission because their absorption depths are $\sim2.5$ K, which
@@ -766,15 +772,42 @@ geometry can be readily confirmed by looking for molecular absorption at much
 lower frequencies where the SN synchrotron emission dominates over the \hii
 region free-free emission, i.e. the 335 and 71 MHz \para lines.
 
-This result is contrary to the claim of \citet{Tian2013a}
-
-G49.10-0.40 (called G49.10-0.38 in \citet{Tian2013a}) has strong \formaldehyde absorption
-but very little \thirteenco emission
-
 \Figure{figures/spectralfits_63kmscloud_aperture_ap3_both_legend.pdf}
-{The spectrum extracted from G49.119-0.277, showing a model in which the continuum
-is \emph{behind} the 63 \kms component but in front of the 68 \kms component.}
+{The spectrum extracted from G49.119-0.277 in a 55\arcsec radius aperture,
+showing a model in which the continuum is \emph{behind} the 63 \kms component
+but in front of the 68 \kms component.}
 {fig:contbetween63kms}{0.5}{0}
+
+\subsubsection{G49.20-0.35 and G49.1-0.4}
+\citet{Tian2013a} focus on the \hii regions G49.20-0.35 and G49.10-0.40 (called
+G49.10-0.38 in their work) to determine the relative geometry
+of the W51 C SNR and the W51 B \hii/star-forming region.  They observe that the
+high-velocity \hi is not detected toward either of these sources, indicating
+that the \hii regions must be behind the high-velocity \hi features.
+
+We detect \formaldehyde at $\sim54$ and $\sim66$ \kms toward G49.10-0.40, consistent
+with it being behind the molecular cloud complex.  It also has an extreme RRL
+velocity, $V_{lsr} \approx 72\kms$, the most redshifted seen in the entire W51
+region (see Figures \ref{fig:kinematics} and \ref{fig:hiirrlspec}).
+
+G49.20-0.35 is also clearly behind the molecular cloud, as evidenced both by
+\formaldehyde absorption depth and the IRDC absorption in the foreground.
+
+Because both \hii regions are extremely redshifted, they are most likely
+associated with the W51 B cloud complex.  The Galactic rotation curve doesn't
+allow for velocities red of $\sim60$ \kms, and almost none of the molecular gas
+exceeds $\sim70$ \kms even on the wings.  The \hii regions are therefore
+probably shooting out the back side of the molecular cloud, perhaps
+accelerating ionized gas from the $\sim 66$ \kms component further to the red.
+
+\FigureTwo
+{figures/spectralfits_70kmscloudLeft_wideplot_RRL_aperture_G49.20-0.35.pdf}
+{figures/spectralfits_70kmscloud_wideplot_RRL_aperture_G49.1-0.4.pdf}
+{Fitted H110$\alpha$ (red) and H77$\alpha$ (black) spectra extracted from
+55\arcsec apertures centered on G49.20-0.35 (left) and G49.1-0.4 (right).
+The best-fit gaussian parameters are shown in the legends, with the lower
+legend corresponding to H77$\alpha$.}
+{fig:hiirrlspec}{1}
 
 \subsection{The 66 \kms IRDC}
 Between W51 A and W51 B, there is a component of the 68 \kms cloud that is
@@ -907,41 +940,42 @@ and millimeter continuum source in our survey after the W51 Main/IRS2 region.
 As noted in \citet{Carpenter1998a}, its velocity ($v_{LSR}\sim 50\kms$ XXX) 
 may indicate that the cloud is unassociated with the W51 Main GMC.
 
-\subsubsection{High density gas in G49.5-0.4?}
-\label{sec:g495}
-\todo{This section is too detailed and irrelevant unless I can draw conclusions.
-These paragraphs are ``working notes'' and will be removed.}
-The region G49.47-0.42 also appears to have a very low ratio.  In this region,
-there are two deep lines of \formaldehyde \oneone, both indicating absorption
-against an \hii region.  Curiously, toward this region, the deeper \twotwo line
-corresponds to the shallower \oneone line, so the ratio
-is nonphysical.  However, when comparing the optical depth of the two line
-components directly (Figure \ref{fig:lowerpeakoptdepth}), the deeper \twotwo
-component remains peculiar: the simple RADEX LVG models cannot accomodate this
-deeper \twotwo line with any combination of density, temperature, column
-density, and ortho-to-para ratio.  There are a few possible explanations for 
-this difficulty:
-\begin{enumerate}
-    \item The \twotwo line is overestimated because of calibration issues
-    \item There is a significant emission component affecting the \oneone
-        line, making it appear weaker (shallower) than it really is
-    \item Multiple density and/or velocity components are present
-    \item Multiple continuum sources exist along the line of sight, one
-        optically thin dominating the 6 cm emission and the other optically
-        thick, dominating the 2 cm emission.
-\end{enumerate}
-Option (1) is implausible, since the corresponding line at high velocity (68
-\kms) shows no peculiarities.  Option (2) is possible, though extant VLA
-observations seem to rule it out, and there is a very narrow range of parameter
-space in which \oneone emission would occur simultaneous with \twotwo
-absorption, especially given the bright ($\sim22$ K) background at 6 cm.  After
-testing many potential combinations of parameters, we have ruled out option
-(3).  Option (4) is seemingly possible, although the required spectral index
-of the 6 cm source is $\alpha\sim -2$, which is a much steeper inverse spectral
-index than is ever observed elsewhere.  Option (4) points to the possibility
-that there is some systematic error in the continuum of perhaps the 6 cm data,
-there is no hint of such an issue in the RRL comparison in Section
-\ref{sec:rrlvscont}.
+% \subsubsection{High density gas in G49.5-0.4?}
+% \label{sec:g495}
+% \todo{This section is too detailed and irrelevant unless I can draw conclusions.
+% These paragraphs are ``working notes'' and will be removed.}
+% The region G49.47-0.42 also appears to have a very low ratio.  In this region,
+% there are two deep lines of \formaldehyde \oneone, both indicating absorption
+% against an \hii region.  Curiously, toward this region, the deeper \twotwo line
+% corresponds to the shallower \oneone line, so the ratio
+% is nonphysical.  However, when comparing the optical depth of the two line
+% components directly (Figure \ref{fig:lowerpeakoptdepth}), the deeper \twotwo
+% component remains peculiar: the simple RADEX LVG models cannot accomodate this
+% deeper \twotwo line with any combination of density, temperature, column
+% density, and ortho-to-para ratio.  There are a few possible explanations for 
+% this difficulty:
+% \begin{enumerate}
+%     \item The \twotwo line is overestimated because of calibration issues
+%     \item There is a significant emission component affecting the \oneone
+%         line, making it appear weaker (shallower) than it really is
+%     \item Multiple density and/or velocity components are present
+%     \item Multiple continuum sources exist along the line of sight, one
+%         optically thin dominating the 6 cm emission and the other optically
+%         thick, dominating the 2 cm emission.
+% \end{enumerate}
+% Option (1) is implausible, since the corresponding line at high velocity (68
+% \kms) shows no peculiarities.  Option (2) is possible, though extant VLA
+% observations seem to rule it out, and there is a very narrow range of parameter
+% space in which \oneone emission would occur simultaneous with \twotwo
+% absorption, especially given the bright ($\sim22$ K) background at 6 cm.  After
+% testing many potential combinations of parameters, we have ruled out option
+% (3).  Option (4) is seemingly possible, although the required spectral index
+% of the 6 cm source is $\alpha\sim -2$, which is a much steeper inverse spectral
+% index than is ever observed elsewhere.  Option (4) points to the possibility
+% that there is some systematic error in the continuum of perhaps the 6 cm data,
+% there is no hint of such an issue in the RRL comparison in Section
+% \ref{sec:rrlvscont}.
+
 
 \subsubsection{W51 Main \& W51 IRS 2}
 The W51 Main and IRS 2 spectra show that both have ionized gas components at
@@ -957,6 +991,13 @@ Because these are well-studied regions, the low spatial resolution
 \formaldehyde spectra we present here add little new information about the gas
 kinematics.  However, all of the velocity components observed in the W51 region
 are apparently kinematically connected to the W51 clusters.
+
+\section{The 40 \kms clouds}
+There are clouds observed at 40 \kms that show only weak \formaldehyde
+absorption spread across nearly the entire region.  These molecular clouds are
+behind nearly all of the \hii regions in the W51 complex.  There are 40 \kms
+clouds clearly seen in \hi absorption \citep{Stil2006a} that are not associated
+with these molecular clouds.
 
 
 \section{Molecular Gas and \formaldehyde modeling}
@@ -1049,6 +1090,8 @@ days to complete, though.}
 levels (probably 5000, 10000, 20000, 50000 \percc, approximately) and calculate the
 total mass (from Herschel) within each contour.  We will then be able to present
 the `dense gas mass fraction' of the whole W51 region.}
+
+%\Figure{}
 
 % \todo{Despite everything, I made density maps.  About 10 times with different
 % values.  The net lesson is almost always the same.}

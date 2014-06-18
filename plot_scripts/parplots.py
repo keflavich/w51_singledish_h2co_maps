@@ -62,7 +62,7 @@ for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
     cmhot.set_over('black')
 
     cmjet = mpl.cm.jet
-    cmjet = mpl.cm.RdYlBu
+    cmjet = mpl.cm.RdYlBu_r
     cmjet.set_bad('white')
     cmjet.set_under('white')
     cmjet.set_over('black')
