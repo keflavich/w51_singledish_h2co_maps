@@ -3,6 +3,7 @@ import os
 import re
 from agpy import readcol
 from astropy import log
+from astropy import units as u
 
 from sdpy import makecube
 
@@ -90,7 +91,7 @@ for line in bsgs:
 
     for date in ('0910','0911','0912','0915',):
         fn = '/Users/adam/observations/arecibo/2012{date}/W51_{line}_spectra_{date}.fits'.format(line=linename,date=date)
-        print fn, velocityrange, linename, linefreq
+        log.info(" ".join([str(x) for x in (fn, velocityrange, linename, linefreq)]))
         if os.path.exists(fn):
             try:
                 makecube.add_file_to_cube(fn,
