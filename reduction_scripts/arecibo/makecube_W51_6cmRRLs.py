@@ -39,17 +39,13 @@ for line in bsgs:
         fn = '/Users/adam/observations/arecibo/2012{date}/W51_{line}_spectra_{date}.fits'.format(line=linename,date=date)
         log.info(" ".join([str(x) for x in (fn, velocityrange, linename, linefreq)]))
         if os.path.exists(fn):
-            try:
-                makecube.add_file_to_cube(fn,
-                                          cubename+'.fits',
-                                          nhits=cubename+'_nhits.fits',
-                                          velocityrange=velocityrange,
-                                          excludefitrange=[vmin,vmax], 
-                                          progressbar=True,
-                                          linefreq=linefreq)
-            except Exception as ex:
-                print ex
-                raise ex
+            makecube.add_file_to_cube(fn,
+                                      cubename+'.fits',
+                                      nhits=cubename+'_nhits.fits',
+                                      velocityrange=velocityrange,
+                                      excludefitrange=[vmin,vmax], 
+                                      progressbar=True,
+                                      linefreq=linefreq)
     #    f = pyfits.open(fn)
     #
     #    fixed=False
@@ -93,21 +89,16 @@ for line in bsgs:
         fn = '/Users/adam/observations/arecibo/2012{date}/W51_{line}_spectra_{date}.fits'.format(line=linename,date=date)
         log.info(" ".join([str(x) for x in (fn, velocityrange, linename, linefreq)]))
         if os.path.exists(fn):
-            try:
-                makecube.add_file_to_cube(fn,
-                                          cubename+'.fits',
-                                          add_with_kernel=True,
-                                          kernel_fwhm=20./3600.,
-                                          nhits=cubename+'_nhits.fits',
-                                          velocityrange=velocityrange,
-                                          excludefitrange=[vmin,vmax],
-                                          linefreq=linefreq,
-                                          progressbar=True,
-                                          chmod=True) # security risk, but too many files!
-            except Exception as ex:
-                print "EXCEPTION WAS RAISED: "
-                print ex
-                raise ex
+            makecube.add_file_to_cube(fn,
+                                      cubename+'.fits',
+                                      add_with_kernel=True,
+                                      kernel_fwhm=20./3600.,
+                                      nhits=cubename+'_nhits.fits',
+                                      velocityrange=velocityrange,
+                                      excludefitrange=[vmin,vmax],
+                                      linefreq=linefreq,
+                                      progressbar=True,
+                                      chmod=True) # security risk, but too many files!
     #    f = pyfits.open(fn)
     #
     #    fixed=False
@@ -153,21 +144,17 @@ for line in bsgs:
         fn = '/Users/adam/observations/arecibo/2012{date}/W51_{line}_spectra_{date}.fits'.format(line=linename,date=date)
         print fn, velocityrange, linename, linefreq
         if os.path.exists(fn):
-            try:
-                makecube.add_file_to_cube(fn,
-                                          cubename+'.fits',
-                                          add_with_kernel=True,
-                                          kernel_fwhm=20./3600.,
-                                          nhits=cubename+'_nhits.fits',
-                                          velocityrange=velocityrange,
-                                          excludefitrange=[vmin,vmax],
-                                          do_runscript=True,
-                                          progressbar=True,
-                                          linefreq=linefreq, # MAY NEED TO BE MHZ?!  (June 2014)
-                                          chmod=True) # security risk, but too many files!
-            except Exception as ex:
-                print ex
-                raise ex
+            makecube.add_file_to_cube(fn,
+                                      cubename+'.fits',
+                                      add_with_kernel=True,
+                                      kernel_fwhm=20./3600.,
+                                      nhits=cubename+'_nhits.fits',
+                                      velocityrange=velocityrange,
+                                      excludefitrange=[vmin,vmax],
+                                      do_runscript=True,
+                                      progressbar=True,
+                                      linefreq=linefreq, # MAY NEED TO BE MHZ?!  (June 2014)
+                                      chmod=True) # security risk, but too many files!
     #    f = pyfits.open(fn)
     #
     #    fixed=False
