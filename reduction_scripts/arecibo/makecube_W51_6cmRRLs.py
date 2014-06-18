@@ -10,7 +10,7 @@ bsgs = readcol('arecibo_bsg_freqref.txt',skipafter=1,asRecArray=True)
 
 for line in bsgs:
     bsg = line['bsg']
-    linefreq = line['restfreq']*1e6
+    linefreq = line['restfreq']*u.MHz
     linename = line['linename']
     if linefreq == 0:
         continue
@@ -36,7 +36,7 @@ for line in bsgs:
 
     for date in ('0910','0911','0912','0915',):
         fn = '/Users/adam/observations/arecibo/2012{date}/W51_{line}_spectra_{date}.fits'.format(line=linename,date=date)
-        log.info(" ".join( fn, velocityrange, linename, linefreq ))
+        log.info(" ".join([str(x) for x in (fn, velocityrange, linename, linefreq)]))
         if os.path.exists(fn):
             try:
                 makecube.add_file_to_cube(fn,
@@ -139,7 +139,7 @@ for line in bsgs:
                    106: 5.44648,}
 
     transition = int(re.findall('[0-9]+', linename)[0])
-    linefreq = helium_freq[transition]*1e9
+    linefreq = helium_freq[transition] * u.GHz
     linename = 'he{0}a'.format(transition)
 
     makecube.generate_header(49.209553,-0.277137,naxis1=308,naxis2=205,pixsize=15,naxis3=int(naxis3),cd3=cd3,crval3=crval3,clobber=True,
