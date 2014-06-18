@@ -49,7 +49,7 @@ for line in bsgs:
                                           linefreq=linefreq)
             except Exception as ex:
                 print ex
-                continue
+                raise ex
     #    f = pyfits.open(fn)
     #
     #    fixed=False
