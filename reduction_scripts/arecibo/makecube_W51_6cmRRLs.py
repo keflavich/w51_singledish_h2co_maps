@@ -105,8 +105,9 @@ for line in bsgs:
                                           progressbar=True,
                                           chmod=True) # security risk, but too many files!
             except Exception as ex:
+                print "EXCEPTION WAS RAISED: "
                 print ex
-                continue
+                raise ex
     #    f = pyfits.open(fn)
     #
     #    fixed=False
@@ -166,7 +167,7 @@ for line in bsgs:
                                           chmod=True) # security risk, but too many files!
             except Exception as ex:
                 print ex
-                continue
+                raise ex
     #    f = pyfits.open(fn)
     #
     #    fixed=False
