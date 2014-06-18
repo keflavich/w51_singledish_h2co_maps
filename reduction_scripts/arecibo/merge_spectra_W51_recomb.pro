@@ -1,3 +1,6 @@
+; Before running this:
+; .r reduce_session
+; .r reduce_map
 ; created Thurs, Sep 26, 2013
 ; see arecibo_bsg_freqref.txt
 

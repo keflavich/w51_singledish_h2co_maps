@@ -2,12 +2,12 @@ import aplpy_figure_maker
 import pylab as pl
 from paths import figurepath,datapath
 from common_constants import zoomargs
-from velo_cmap import VeloCmap
+from velo_cmap import VeloCmap_r
 
 dpath = datapath
 
 cm = pl.cm.bwr
-cm = VeloCmap
+cm = VeloCmap_r
 cm.set_bad('w')
 cm.set_under('w')
 cm.set_over('w')

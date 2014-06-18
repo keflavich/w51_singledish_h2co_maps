@@ -23,11 +23,21 @@ cdict = {'red':   ((0.0, 1.0,1.0,),
                    (0.6, 0.7,0.7,),
                    (1.0, 1.0,1.0,)),
         }
+cdict_r = {'red': cdict['blue'],
+           'green': cdict['green'],
+           'blue': cdict['red'],
+           'alpha': cdict['alpha']}
+
 
 VeloCmap = colors.LinearSegmentedColormap('VeloCmap',cdict,256)
 VeloCmap.set_bad('w')
 VeloCmap.set_under('w')
 VeloCmap.set_over('w')
+
+VeloCmap_r = colors.LinearSegmentedColormap('VeloCmap_r',cdict_r,256)
+VeloCmap_r.set_bad('w')
+VeloCmap_r.set_under('w')
+VeloCmap_r.set_over('w')
 
 if __name__ == "__main__":
     gradient = np.linspace(0, 1, 256)

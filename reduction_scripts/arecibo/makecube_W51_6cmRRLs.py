@@ -12,7 +12,7 @@ bsgs = readcol('arecibo_bsg_freqref.txt',skipafter=1,asRecArray=True)
 for line in bsgs:
     bsg = line['bsg']
     linefreq = line['restfreq']*u.MHz
-    linename = line['linename']
+    linename_ha = linename = line['linename']
     if linefreq == 0:
         continue
     # debug
@@ -141,8 +141,8 @@ for line in bsgs:
     makecube.make_blank_images(cubename,clobber=True)
 
     for date in ('0910','0911','0912','0915',):
-        fn = '/Users/adam/observations/arecibo/2012{date}/W51_{line}_spectra_{date}.fits'.format(line=linename,date=date)
-        print fn, velocityrange, linename, linefreq
+        fn = '/Users/adam/observations/arecibo/2012{date}/W51_{line}_spectra_{date}.fits'.format(line=linename_ha,date=date)
+        log.info(" ".join([str(x) for x in (fn, velocityrange, linename, linefreq)]))
         if os.path.exists(fn):
             makecube.add_file_to_cube(fn,
                                       cubename+'.fits',
@@ -155,6 +155,8 @@ for line in bsgs:
                                       progressbar=True,
                                       linefreq=linefreq, # MAY NEED TO BE MHZ?!  (June 2014)
                                       chmod=True) # security risk, but too many files!
+        else:
+            log.info("File {0} does not exist".format(fn))
     #    f = pyfits.open(fn)
     #
     #    fixed=False
