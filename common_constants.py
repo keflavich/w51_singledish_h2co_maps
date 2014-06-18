@@ -29,6 +29,8 @@ def rrl(n,dn=1,amu=1.007825):    # compute Radio Recomb Line feqs in GHz
 
 zoomargs = dict(x=49.27, y=-0.32, width=0.9, height=0.4)
 
+distance = 5.1*u.kpc
+
 __cache__ = {}
 
 def get_cached(name):

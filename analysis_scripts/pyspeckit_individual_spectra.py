@@ -118,7 +118,7 @@ def initialize_table():
                  'radius'] +
                 [x for y in zip(parnames, ['e'+p for p in parnames]) for x in y])
     dtypes = ['S20',np.int,'S5','S5'] + [np.float]*(7+len(parnames)*2)
-    table = astropy.table.Table(names=colnames, dtypes=dtypes)
+    table = astropy.table.Table(names=colnames, dtype=dtypes)
     return table
 
 def add_parinfo_to_table(table, parinfo, chi2, dof, opt_chi2, opt_red_chi2, ra,
@@ -216,14 +216,18 @@ def do_indiv_fits(regfilename, outpfx, ncomp=1, dobaseline=False, table=None,
             sp.plotter.autorefresh=False
             plotitem(sp, ii)
 
-            sp.plotter.savefig(outpfx+'_aperture_%s_%s.pdf' % (name,cont))
+            sp.plotter.savefig(os.path.join(datapath,
+                                            outpfx+'_aperture_%s_%s.pdf' %
+                                            (name,cont)))
 
             plotitem(sp, ii, dolegend=True)
 
             # seriously, something aint'n't right here
             pl.figure(sp.plotter.figure.number)
-            pl.savefig(outpfx+'_aperture_%s_%s_legend.pdf' % (name,cont),
-                       bbox_extra_artists=[sp.specfit.fitleg])
+            pl.savefig(os.path.join(datapath,
+                                    outpfx+'_aperture_%s_%s_legend.pdf' %
+                                    (name,cont)),
+                                    bbox_extra_artists=[sp.specfit.fitleg])
 
             # for writing to file, select the best-fit
             chi2[cont] = sp.specfit.chi2
@@ -262,7 +266,7 @@ def do_indiv_fits(regfilename, outpfx, ncomp=1, dobaseline=False, table=None,
                 sp.specfit.parinfo = parinfo[best]
                 sp.specfit.chi2 = chi2[best]
 
-            sp.write(outpfx+"_aperture_%s.fits" % name)
+            sp.write(os.path.join(datapath,outpfx+"_aperture_%s.fits" % name))
 
     table.write(os.path.join(datapath_spectra,
                              tableprefix+"spectralfit_table.ipac"),
@@ -345,7 +349,7 @@ def dofit(sp, c11, c22, ncomp, fixed=np.array([F,F,T,T,F,F,T,T]*2),
 def filaments_right(table=None):
     if table is None:
         table = initialize_table()
-    ncomp = [1,1,1,2,2,1,1]
+    ncomp = [1,1,1,2,2,1,1,2]
     return do_indiv_fits("/Users/adam/work/w51/dense_filament_spectral_apertures.reg",
                          'spectralfits/spectralfits_70kmscloud', ncomp=ncomp,
                          tableprefix="filamentsright_",
@@ -860,11 +864,11 @@ def do_all3spectra():
     Horder = ['H77$\\alpha$', 'H110$\\alpha$']
     cocubes = load_cocubes()
     COorder = ['$^{13}$CO 1-0',
-               '$^{13}$CO 2-1',
-               '$^{13}$CO 3-2',
-               '$^{12}$CO 3-2',
+               #'$^{13}$CO 2-1',
+               #'$^{13}$CO 3-2',
+               #'$^{12}$CO 3-2',
                '$^{12}$CO 1-0',
-               '$^{12}$CO 2-1',
+               #'$^{12}$CO 2-1',
                ]
     for c in both.cubelist:
         c.xarr.convert_to_unit('km/s')
@@ -919,7 +923,8 @@ def do_all3spectra():
             subplots[1].set_title("")
             subplots[2].set_title("")
             sp.plotter.axis.set_ylabel("$T_A^*$ (K)")
-            sp.plotter.savefig(regfiledict[regfn]+"_allthree_aperture_%s.pdf" % sp.specname)
+            sp.plotter.savefig(os.path.join(datapath,
+                                            regfiledict[regfn]+"_allthree_aperture_%s.pdf" % sp.specname))
 
 def do_all():
     do_all_h2co()
