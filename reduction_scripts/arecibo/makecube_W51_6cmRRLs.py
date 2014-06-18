@@ -135,7 +135,7 @@ for line in bsgs:
 
     transition = int(re.findall('[0-9]+', linename)[0])
     linefreq = helium_freq[transition]*1e9
-    linename = 'he{0}'.format(transition)
+    linename = 'he{0}a'.format(transition)
 
     makecube.generate_header(49.209553,-0.277137,naxis1=308,naxis2=205,pixsize=15,naxis3=int(naxis3),cd3=cd3,crval3=crval3,clobber=True,
                              restfreq=linefreq)
@@ -154,6 +154,7 @@ for line in bsgs:
                                           nhits=cubename+'_nhits.fits',
                                           velocityrange=velocityrange,
                                           excludefitrange=[vmin,vmax],
+                                          do_runscript=True,
                                           linefreq=linefreq, # MAY NEED TO BE MHZ?!  (June 2014)
                                           chmod=True) # security risk, but too many files!
             except Exception as ex:
