@@ -31,6 +31,9 @@ zoomargs = dict(x=49.27, y=-0.32, width=0.9, height=0.4)
 
 distance = 5.1*u.kpc
 
+vrange1 = [40,62]*u.km/u.s
+vrange2 = [62,75]*u.km/u.s
+
 __cache__ = {}
 
 def get_cached(name):

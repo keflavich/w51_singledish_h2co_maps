@@ -1,6 +1,13 @@
 \input{preface}
 
+\title{W51 at 2 and 6 cm}
 \input{authors}
+%\begin{centering} 
+%    \today
+%\end{centering}
+
+
+
 
 % Somewhere in here:
 % need a shoutout to "Overheard on Astro-PH"
@@ -20,6 +27,7 @@ We present an analysis of the three-dimensional structure of the W51 region,
 determining the relative line-of-sight positions of molecular and ionized gas.
 
 We present maps of the local volume density of the molecular gas.
+\footnote{Compiled on \today\ at \currenttime}
 
 
 \section{Introduction}
@@ -465,16 +473,23 @@ distribution.  In panel (c), the distribution of the ratio is shown.}
 {fig:datahistograms}{0.4}{0}
 
 
-\subsection{Converting optical depth ratios to volume densities}
+\subsection{Converting observed line ratios to volume densities}
 \label{sec:ratiotodepth}
-\todo{[May be removed]}
-The \formaldehyde optical depth ratio can be directly transformed into a volume
-density of hydrogen $n(\hh)$ by assuming a fixed abundance of \formaldehyde
-relative to \hh and a fixed geometry such that volume and column density are
-proportional.  Precise measurements of the \formaldehyde abundance are not
-generally available, but typical values of $X_{\ortho} = 10^{-10}-10^{-8}$
-relative to \hh are generally assumed \citep{Mangum1993a, Ginsburg2011a,
-Ginsburg2013a, Ao2013a} and found to be consistent with the observations.
+% \todo{[May be removed]}
+The \formaldehyde line ratio can be directly transformed into a volume
+density of hydrogen $n(\hh)$ using large velocity gradient model grids.
+The column density of \ortho, the ortho-to-para-ratio of \hh, and the gas
+temperature are the three main `nuisance parameters' that can be marginalized
+over.
+
+The column density is degenerate the velocity gradient in LVG models.  The \hh
+column density is degenerate with this gradient \emph{and} the abundance of
+\ortho.  Precise measurements of the \formaldehyde abundance are not generally
+available, but typical values of $X_{\ortho} = 10^{-10}-10^{-8}$ relative to
+\hh are generally assumed \citep{Mangum1993a, Ginsburg2011a, Ginsburg2013a,
+Ao2013a} and found to be consistent with the observations.  Nonetheless, little
+is known about local variations in \ortho abundance, except that it freezes out
+in cold, dense cores \citep{Young2004a}.
 
 % ~/work/h2co/codes/ratio_to_dens_plots.py
 % ~/repos/h2co_modeling/examples/plot_line_brightness.py
@@ -492,24 +507,30 @@ Ginsburg2013a, Ao2013a} and found to be consistent with the observations.
 % approximate a delta function.}
 % {fig:ratiovsdens}{0.4}{0}
 
-The curves for converting the optical depth ratio to a density are shown in
-Figure \ref{fig:ratiovsdens}.  These curves are generated using RADEX LVG models
+%The curves for converting the optical depth ratio to a density are shown in
+%Figure \ref{fig:ratiovsdens}.  
+The model grids were generated using RADEX LVG models
 \citep[python wrapper \url{https://github.com/keflavich/pyradex/}; original
 code][]{van-Der-Tak2007a}.  They assume a velocity gradient of 1 \kms \perpc.
-The curves cover the range of plausible \formaldehyde abundances
-\citep{Mangum1993a}.  While there are multiple densities corresponding to a
-given ratio for $r>8$, we ignore densities $n(\hh)<10^2$ \percc as gas at these
-extremely low densities provide negligible optical depth per particle and
-therefore should not be detected.
+\citet{Ginsburg2011a} and \citet{Ginsburg2013a} discussed the effect of a local
+gas density distribution on the molecular excitation, but due to the complexity
+involved in accounting for these effects, we ignore them here.
 
-Figure \ref{fig:ratiovsdens} shows three curves that are computed using a
-lognormal volume density distribution with width $\sigma_{\ln \rho}$.  The
-radiative transfer models are computed assuming that each density component
-can be treated separately, e.g. as if they were overlapping slabs of constant
-density along the line of sight.  This approach can only be applied if the
-slabs are optically thin; if radiative coupling effects become significant, the
-feedback between the different density components requires a complete 3D
-radiative transfer approach to model.
+
+%The curves cover the range of plausible \formaldehyde abundances
+%\citep{Mangum1993a}.  While there are multiple densities corresponding to a
+%given ratio for $r>8$, we ignore densities $n(\hh)<10^2$ \percc as gas at these
+%extremely low densities provide negligible optical depth per particle and
+%therefore should not be detected.
+
+%Figure \ref{fig:ratiovsdens} shows three curves that are computed using a
+%lognormal volume density distribution with width $\sigma_{\ln \rho}$.  The
+%radiative transfer models are computed assuming that each density component
+%can be treated separately, e.g. as if they were overlapping slabs of constant
+%density along the line of sight.  This approach can only be applied if the
+%slabs are optically thin; if radiative coupling effects become significant, the
+%feedback between the different density components requires a complete 3D
+%radiative transfer approach to model.
 
 
 
@@ -1081,17 +1102,37 @@ $T_{continuum}$ is in the \emph{foreground} of the molecular gas.}
 {fig:upperpeakoptdepth}
 
 \subsection{Density Maps}
-\todo{Density maps have proved very difficult to make in any sort of robust and
-sensible way; they are frequently systematically wrong in different ways.  I
-think I have arrived at a reasonable compromise approach that will take a few
-days to complete, though.}
+We computed the density using the $\chi^2$ minimization technique from
+\citet{Ginsburg2011a}.  We adopt the `best' model fit to the line ratio in each
+voxel as the point in the full 4D parameter space where $\chi^2$ is minimized.
+We have therefore not enforced any constraints on the column density,
+temperature, or ortho-to-para ratio when fitting.
 
-\todo{The plan is to take the peak density map and use contours at a few different
-levels (probably 5000, 10000, 20000, 50000 \percc, approximately) and calculate the
-total mass (from Herschel) within each contour.  We will then be able to present
-the `dense gas mass fraction' of the whole W51 region.}
+The column-weighted volume-density along each line of sight is shown in Figures
+\ref{fig:wtdmeandens} and \ref{fig:wtdmeandensvrange}.  The former shows the
+weighted density over all voxels and the latter shows the weighted density over
+the two velocity ranges previously discussed.
 
-%\Figure{}
+The overall picture is of a central proto-cluster region with most of the gas
+mass at a density $n\sim10^6$ \percc within a diameter of $\sim3$ pc, surrounded
+by a rich cloud in which most of the mass is at a density $\sim10^5$ \percc out
+to a diameter $d\sim14$ pc.
+
+
+% parplots_chi2gridfit.py
+\Figure
+{figures/H2CO_ParameterFitPlot_weighted_mean_bestfit_density_linear.pdf}
+{Map of the column-weighted volume density along the line of sight averaged
+over all velocities.}
+{fig:wtdmeandens}{0.5}{0}
+
+% parplots_chi2gridfit.py
+\FigureTwoAA
+{figures/H2CO_ParameterFitPlot_weighted_mean_bestfit_density_v40.0to62.0_linear.pdf}
+{figures/H2CO_ParameterFitPlot_weighted_mean_bestfit_density_v62.0to75.0_linear.pdf}
+{Map of the column-weighted volume density along the line of sight, split into 
+the (a) 40-62 \kms component and (b) the 62 to 75 \kms component.}
+{fig:wtdmeandensvrange}{1}{6.5in}
 
 % \todo{Despite everything, I made density maps.  About 10 times with different
 % values.  The net lesson is almost always the same.}
