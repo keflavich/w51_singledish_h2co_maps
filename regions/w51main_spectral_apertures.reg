@@ -6,7 +6,7 @@ circle(49.475552,-0.36182389,26") # color=black text={IRS2IRDC}
 circle(49.490697,-0.36943028,26") # color=black text={IRS2}
 circle(49.457478,-0.31703972,52") # color=black text={NorthIRDC1}
 circle(49.467409,-0.28895944,52") # color=black text={NorthIRDC2}
-circle(49.468436,-0.25848389,52") # color=black text={NorthIRDC3}
+circle(49.466547,-0.25533435,72") # color=black text={G49.47-0.26}
 circle(49.455765,-0.378675,52") # color=black text={leftestfilament1}
 circle(49.425972,-0.37456833,52") # color=black text={leftestfilament2}
 circle(49.39892,-0.36327333,52") # color=black text={leftestfilament3}

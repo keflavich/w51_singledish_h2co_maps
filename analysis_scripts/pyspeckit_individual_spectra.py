@@ -11,19 +11,19 @@ from pyspeckit.wrappers import fith2co
 import numpy as np
 import pylab as pl
 import os
-from paths import datapath,datapath_w51,figurepath,datapath_spectra,dpath
+from paths import datapath,datapath_w51,figurepath,datapath_spectra,dpath,rpath,analysis_path
 
 pl.rcParams['font.size'] = 18
 
-regfiledict = {"/Users/adam/work/w51/dense_filament_spectral_apertures.reg":
+regfiledict = {rpath("dense_filament_spectral_apertures.reg"):
                'spectralfits/spectralfits_70kmscloud',
-               "/Users/adam/work/w51/filament_leftside_spectral_apertures.reg":
+               rpath("filament_leftside_spectral_apertures.reg"):
                'spectralfits/spectralfits_70kmscloudLeft',
-               "/Users/adam/work/w51/w51main_spectral_apertures.reg":
+               rpath("w51main_spectral_apertures.reg"):
                'spectralfits/spectralfits_w51main',
-               "/Users/adam/work/w51/maus_spectral_apertures.reg":
+               rpath("maus_spectral_apertures.reg"):
                'spectralfits/spectralfits_maus',
-               "/Users/adam/work/w51/middlechunk_spectral_apertures.reg":
+               rpath("middlechunk_spectral_apertures.reg"):
                'spectralfits/spectralfits_63kmscloud'}
 
 
@@ -353,7 +353,7 @@ def filaments_right(table=None):
         table = initialize_table()
     ncomp = [1,1,1,2,2,1,1,2]
     outpfx = 'spectralfits/spectralfits_70kmscloud'
-    spectra = do_indiv_fits("/Users/adam/work/w51/dense_filament_spectral_apertures.reg",
+    spectra = do_indiv_fits(rpath("dense_filament_spectral_apertures.reg"),
                          outpfx, ncomp=ncomp,
                          tableprefix="filamentsright_",
                          table=table)
@@ -376,7 +376,7 @@ def filaments_left(table=None):
         table = initialize_table()
     ncomp = [2,2,2,2,1,2,1]
     outpfx = 'spectralfits/spectralfits_70kmscloudLeft'
-    spectra = do_indiv_fits("/Users/adam/work/w51/filament_leftside_spectral_apertures.reg",
+    spectra = do_indiv_fits(rpath("filament_leftside_spectral_apertures.reg"),
                             outpfx, ncomp=ncomp,
                             tableprefix="filamentsleft_",
                             table=table)
@@ -392,7 +392,7 @@ def filaments_left(table=None):
 def w51main(table=None):
     if table is None:
         table = initialize_table()
-    return do_indiv_fits("/Users/adam/work/w51/w51main_spectral_apertures.reg",
+    return do_indiv_fits(rpath("w51main_spectral_apertures.reg"),
                          'spectralfits/spectralfits_w51main',
                          ncomp=2,
                          tableprefix="w51main_",
@@ -416,7 +416,7 @@ def maus(table=None):
 
     outpfx = 'spectralfits/spectralfits_maus'
 
-    spectra = do_indiv_fits("/Users/adam/work/w51/maus_spectral_apertures.reg",
+    spectra = do_indiv_fits(rpath("maus_spectral_apertures.reg"),
                             outpfx,
                             ncomp=ncomp,
                             limits=limits,
@@ -439,7 +439,7 @@ def maus(table=None):
             plotitem(sp, ii, dolegend=True)
 
             pl.figure(sp.plotter.figure.number)
-            pl.savefig(outpfx+'_aperture_%s_%s_legend.pdf' % (sp.specname,'both'),
+            pl.savefig(os.path.join(datapath,outpfx+'_aperture_%s_%s_legend.pdf' % (sp.specname,'both')),
                        bbox_extra_artists=[sp.specfit.fitleg])
 
 
@@ -449,7 +449,7 @@ def middlechunk(table=None):
     ncomp = [2,2,1,1,1,1,1]
     ncomp = [2,2,2,2,1,1,2] # in 3,4,7, second comp is at 70 kms
     outpfx = 'spectralfits/spectralfits_63kmscloud'
-    spectra = do_indiv_fits("/Users/adam/work/w51/middlechunk_spectral_apertures.reg",
+    spectra = do_indiv_fits(rpath("middlechunk_spectral_apertures.reg"),
                             outpfx,
                             ncomp=ncomp,
                             tableprefix="middlechunk_",
@@ -586,7 +586,7 @@ def paperfigure_filament_demonstrate_frontback(fixedTO=True):
     """
     fixedTO: fixed temerature/orthopara
     """
-    with mpl.rc_context(fname='/Users/adam/.matplotlib/pubfiguresrc'):
+    with mpl.rc_context(fname=os.path.join(analysis_path,'../plot_scripts/pubfiguresrc')):
         sp = pyspeckit.Spectrum('spectralfits/spectralfits_70kmscloud_aperture_ap6.fits')
         from load_pyspeckit_cubes import formaldehyde_radex_fitter
         sp.Registry.add_fitter('formaldehyde_radex',formaldehyde_radex_fitter,8,multisingle='multi')
@@ -700,14 +700,13 @@ class LoadCOCubes:
 
     def __call__(self):
 
-        datapath = '/Users/adam/work/w51/'
         if not hasattr(self,'co1332'):
-            self.co1210 = pyspeckit.Cube(datapath+'w51_12co10_carpenter_rightaxes.fits')
-            self.co1332 = pyspeckit.Cube(datapath+'13co_final_cube_c.fits')
-            self.co1232 = pyspeckit.Cube(datapath+'12co_final_cube_c.fits')
-            self.co1321 = pyspeckit.Cube(datapath+'w51_bieging_13co32.fits')
-            self.co1221 = pyspeckit.Cube(datapath+'w51_bieging_12co32.fits')
-            self.co1310 = pyspeckit.Cube(datapath+'grs-50-cube_supersampledh2cogrid.fits')
+            self.co1210 = pyspeckit.Cube(datapath_w51+'w51_12co10_carpenter_rightaxes.fits')
+            self.co1332 = pyspeckit.Cube(datapath_w51+'13co_final_cube_c.fits')
+            self.co1232 = pyspeckit.Cube(datapath_w51+'12co_final_cube_c.fits')
+            self.co1321 = pyspeckit.Cube(datapath_w51+'w51_bieging_13co32.fits')
+            self.co1221 = pyspeckit.Cube(datapath_w51+'w51_bieging_12co32.fits')
+            self.co1310 = pyspeckit.Cube(datapath_w51+'grs-50-cube_supersampledh2cogrid.fits')
 
         cocubes = {'$^{12}$CO 1-0': self.co1210,
                    '$^{13}$CO 1-0': self.co1310,
@@ -727,7 +726,6 @@ load_cocubes = LoadCOCubes()
 class LoadRRLCubes:
     def __call__(self):
 
-        datapath = '/Users/adam/work/h2co/maps/W51/'
         if not hasattr(self,'h77a'):
             self.h77a = pyspeckit.Cube(datapath+'W51_h77a_pyproc_cube_supersampled_sub.fits')
             self.h110a = pyspeckit.Cube(datapath+'W51_h110alpha_cube_supersampled_sub.fits')

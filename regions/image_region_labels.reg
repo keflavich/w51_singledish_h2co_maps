@@ -17,7 +17,7 @@ point(48.920754,-0.28050574) # point=cross color=white font="times 10 bold roman
 point(49.131,-0.4671) # point=cross color=white font="times 10 bold roman" text={W51 C SNR}
 point(49.110382,-0.28929798) # point=cross color=white font="times 10 bold roman" text={IRDC 49.11-00.29}
 point(49.069166,-0.32780711) # point=cross color=white font="times 10 bold roman" text={IRDC 49.07-00.33}
-point(49.3437,-0.3356) # point=cross color=white font="times 10 bold roman" text={IRAS 19209+1418}
+point(49.3437,-0.3356) # point=cross color=white font="times 10 bold roman" text={G49.34-0.34}
 point(49.370758,-0.35052786) # point=cross color=white font="times 10 bold roman" text={IRDC 49.37-0.35}
 point(49.5528,-0.3303) # point=cross color=white font="times 10 bold roman" text={W51 I}
 point(49.5861,-0.3529) # point=cross color=white font="times 10 bold roman" text={[OMN2000] LS1}
@@ -27,6 +27,7 @@ point(49.59395,-0.45761016) # point=cross color=white font="times 10 bold roman"
 point(49.461063,-0.35486261) # point=cross color=black font="times 10 bold roman" text={HII 49.46-0.35}
 point(49.564723,-0.27366307) # point=cross color=white font="times 10 bold roman" text={BGPS 49.561-00.276}
 point(49.402376,-0.2186188) # point=cross color=white font="times 10 bold roman" text={BGPS 49.402-00.214}
+point(49.466547,-0.25533435) # point=cross color=white text={HII 49.47-0.26}
 line(49.265214,-0.27859357,49.366141,-0.300715) # line=0 1 color=white font="times 10 bold roman" text={HII 49.37-0.30}
 line(49.42337,-0.307255,49.484369,-0.29491247) # line=1 0 color=white font="times 10 bold roman" text={HII 049.42-00.31}
 line(49.253918,-0.31223415,49.2667,-0.3367) # line=0 1 color=white font="times 10 bold roman" text={EGO 49.27-0.34}

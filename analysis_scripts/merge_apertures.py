@@ -1,4 +1,5 @@
 import pyregion
+import paths
 
 apregfiles = ['dense_filament_spectral_apertures.reg',
               'maus_spectral_apertures.reg',
@@ -6,6 +7,8 @@ apregfiles = ['dense_filament_spectral_apertures.reg',
               'middlechunk_spectral_apertures.reg',
               'w51main_spectral_apertures.reg', ]
 
-regions = pyregion.ShapeList(reduce(pyregion.ShapeList.__add__, [pyregion.open(r) for r in apregfiles]))
+regions = pyregion.ShapeList(reduce(pyregion.ShapeList.__add__,
+                                    [pyregion.open(paths.rpath(r))
+                                     for r in apregfiles]))
 
-regions.write('merged_spectral_apertures.reg')
+regions.write(paths.rpath('merged_spectral_apertures.reg'))

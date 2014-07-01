@@ -8,6 +8,7 @@ figurepath = os.path.join(source_root, 'tex/figures/')
 datapath_spectra = os.path.join(datapath, 'spectralfits/')
 regionpath = os.path.join(source_root, 'regions/')
 modelpath = os.path.join(source_root, 'models/')
+analysis_path = os.path.realpath(__file__)
 
 def dpath(x, datapath=datapath):
     """
