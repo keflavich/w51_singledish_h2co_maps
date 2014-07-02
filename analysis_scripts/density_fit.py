@@ -1,10 +1,8 @@
-from load_pyspeckit_cubes import (both, T, F, cont11, cont22, h2co11filename,
-                                  cube1, cube2, texgrid1,  taugrid1,  texgrid2,
-                                  taugrid2,  hdr)
 from paths import datapath,dpath,rpath
 from astropy.convolution import convolve
 from astropy.io import fits
 from astropy import wcs
+import pyregion
 import numpy as np
 
 from astropy.utils.console import ProgressBar
@@ -12,6 +10,11 @@ import itertools
 from pyspeckit import parallel_map
 
 from h2co_modeling.grid_fitter import grid_2p_getmatch
+
+from load_pyspeckit_cubes import (both, T, F, cont11, cont22, h2co11filename,
+                                  cube1, cube2, texgrid1,  taugrid1,  texgrid2,
+                                  taugrid2,  hdr)
+from common_constants import TCMB
 
 ### copied from tau_ratio_cube
 h2co11 = fits.getdata(dpath('W51_H2CO11_taucube_supersampled.fits'))
@@ -34,6 +37,12 @@ ratio[(nneighbors<7) + (True-np.isfinite(nneighbors))] = np.nan
 includemask[(nneighbors<7) + (True-np.isfinite(nneighbors))] = False
 ###
 
+header = fits.getheader(datapath+'W51_H2CO11_cube_supersampled_continuum.fits')
+contfrontregions = pyregion.open(rpath('continuum_in_the_front.reg'))
+contfrontmask = contfrontregions.get_mask(fits.PrimaryHDU(data=cont11,header=header))
+cont11[contfrontmask] = TCMB
+cont22[contfrontmask] = TCMB
+
 # copied from pyspeckit.spectrum.models.formaldehyde
 winds,zinds,yinds,xinds = np.indices(taugrid1.shape)
 densityarr = (xinds+hdr['CRPIX1']-1)*hdr['CD1_1']+hdr['CRVAL1'] # log density
@@ -50,6 +59,7 @@ def fit_a_pixel(args):
 
     pargrid1 = (cont1*np.exp(-taugrid1) + (1-np.exp(-taugrid1))*texgrid1)
     pargrid2 = (cont2*np.exp(-taugrid2) + (1-np.exp(-taugrid2))*texgrid2)
+    #spec = (1.0-np.exp(-np.array(tau_nu_cumul)))*(Tex-Tbackground)
 
     match, indbest, chi2 = grid_2p_getmatch(tline1+cont1, etline1, pargrid1,
                                             tline2+cont2, etline2, pargrid2)

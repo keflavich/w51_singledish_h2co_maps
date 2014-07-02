@@ -21,7 +21,7 @@ the W51 star forming complex acquired with Arecibo and the Green Bank Telescope
 at $\sim50\arcsec$ resolution.
 We perform a detailed analysis of the data and data processing with an emphasis on
 ensuring the reliability of the data.
-The data set has been made public \todo{if someone is willing to host. This may be CfA dataverse.}
+The data set has been made public at \todo{location}.
 
 We present an analysis of the three-dimensional structure of the W51 region,
 determining the relative line-of-sight positions of molecular and ionized gas.
@@ -59,9 +59,12 @@ whether these initial conditions differ in any qualitative way from turbulence
 in local, low-mass star-forming regions.
 
 The W51 cloud complex (Figure \ref{fig:w51large}) is located at $\ell\sim49,
-b\sim-0.3$, very near the Galactic midplane at a distance of 5.1 kpc
-\citep{Sato2010a}.  It is a well-known and thoroughly studied collection of
-clouds massing $M>10^6 \msun$
+b\sim-0.3$, very near the Galactic midplane\footnote{The midplane at $d=5.1$
+kpc is offset approximately -0.22 to -0.33 degrees from $b=0$ depending on our
+solar system's height above the midplane, $Z_\sol = 20$ pc or 30 pc,
+respectively \citep{Reed2006a,Joshi2007a}.} at a distance of 5.1 kpc
+\citep{Sato2010a}.  It is a well-known and
+thoroughly studied collection of clouds massing $M>10^6 \msun$
 \citep{Carpenter1998a,Bieging2010a,Kang2010a,Parsons2012a}.  The radio-bright
 regions are generally known as W51 A to the east, W51 B to the west, and W51 C
 for the southern component, known to trace a supernova remnant
@@ -80,11 +83,10 @@ VLA image by \citet{Brogan2013a}, which primarily traces the W51 C supernova rem
 
 \section{Observations \& Data Reduction}
 
-(observations paragraph)
 \subsection{GBT 2 cm}
 The W51 survey was performed in September 2011 and 2012.  The GBT data were
 taken as part of program AGBT10B/019; the raw data are available from the NRAO
-archive\url{https://archive.nrao.edu/}.  The data presented in this paper
+archive (\url{https://archive.nrao.edu/}).  The data presented in this paper
 include sessions 10, 11, 14, 16, 17, 20, 21, and 22; the other sessions from
 this project include maps of outer galaxy regions and a single-pointing survey
 of Galactic plane sources that will be presented in another paper. 
@@ -94,9 +96,12 @@ Cross-hatched north-south and east-west maps were created in Galactic
 coordinates. 
 
 The data was reduced using custom-made scripts based off of both GBTIDL's
-mapping routines (cite Langston?) and Phil Perillat's AOIDL routines.  The code
-is available at \url{https://github.com/keflavich/sdpy}.  The data reduction
-workflow, along with a summary of the code, is presented in the Appendix.
+mapping routines by Glen Langston
+(\url{https://safe.nrao.edu/wiki/bin/view/Kbandfpa/KfpaPipelineHowTo}) and Phil
+Perillat's AOIDL routines.  The code is available at
+\url{https://github.com/keflavich/sdpy}.  The data reduction code and workflow
+is included in a corresponding git repository:
+\url{https://github.com/keflavich/w51_singledish_h2co_maps}.
 
 The individual spectral were calibrated using a noise calibration diode as
 usual.  The first and last scans of each observation were used as off
@@ -119,7 +124,7 @@ nights, September 10, 11, 12, and 15 2012.  On the first night, September 10
 2012, a significant fraction of the data was lost due to an internal instrument
 error within the Mock spectrometer, which resulted in a loss of the
 high-resolution component of the \formaldehyde data for that night.  As a
-result, we have focused our study on the lower-resolution ($\sim1 \kms$) data.
+result, we have focused our study on the lower-resolution ($\sim1$ \kms) data.
 
 The fields were observed with east-west maps using the C-band receiver.  No
 crosshatching was performed with Arecibo.
@@ -141,9 +146,10 @@ and purple, with the interpolated replacement in red and green.
 }{fig:h2comask}{0.4}{0}
 
 The Arecibo data were corrected to main beam brightness temperature $T_{MB}$
-using a main-beam efficiency $\eta_{MB} = 0.491544 + 0.00580397 za -
-0.000341992 za^2$, which is a fit to 5 years worth of calibration data acquired
-at Arecibo and assembled by Phil Perrilat.
+using a main-beam efficiency as a function of zenith angle ($za$): $$\eta_{MB}(za) =
+0.491544 + 0.00580397 za - 0.000341992 za^2$$
+This is a fit to 5 years worth of calibration data acquired at Arecibo and
+assembled by Phil Perrilat.
 
 \subsection{Mapmaking}
 The maps were made by computing an output grid in Galactic coordinates with
@@ -156,26 +162,26 @@ velocity}.  In order
 to avoid empty pixels and maximize the signal-to-noise, the spectra were added
 to the grid with a weight set from a gaussian with $FWHM=20\arcsec$, which
 effectively smooths the output images from $FWHM\approx50\arcsec$ to
-$\approx54\arcsec$.  
+$\approx54\arcsec$.  See \citet{Mangum2007a} for more detail on the on-the-fly
+mapping technique used here.
 
-The Arecibo data were taken at a spectral resolution of 0.68 \kms\footnote{For
+The Arecibo data were taken at a spectral resolution\footnote{For
 most of the map area, data is available at much higher $\lesssim0.2$ \kms
 resolution, but the signal-to-noise at this resolution is relatively poor, no
 linewidths were observed to be that narrow, and most importantly, one Arecibo
-data set suffered from a malfunction that allowed data at 1 \kms resolution to
-be taken, but did not acquire the high-resolution data} and the GBT at 0.25
-\kms resolution.  The spectra were regridded onto a velocity grid from $-50$ to
-150 \kms with 1 \kms resolution.  To achieve this, they were first smoothed by
-a gaussian with $FWHM=1 \kms$ then downsampled appropriately.
+data set suffered from a malfunction that allowed data at 0.68 \kms resolution
+to be taken, but not the corresponding 0.2 \kms data.} of 0.68 \kms and the GBT
+at 0.25 \kms resolution.  The spectra were regridded onto a velocity grid from
+$-50$ to 150 \kms with 1 \kms resolution.  To achieve this, they were first
+smoothed by a gaussian with $FWHM=1$ \kms then downsampled appropriately.
 
 
 \section{The Data}
 
 The main products of the mapping data are PPV cubes in the two \formaldehyde
 lines, the integrated continuum in the 2 and 6 cm bands, and optical depth data
-cubes.  In this section we will describe these data and the systematic errors
-associated with them.  In Section \ref{sec:ratiodenscubes} we will examine
-ratio maps and cubes and describe the errors associated with them.
+cubes.  In this section we describe these data and the systematic errors
+associated with them.  
 
 \subsection{PPV cubes}
 The PPV cubes were created with units of brightness temperature.  The Arecibo
@@ -256,18 +262,20 @@ images using a cross-correlation technique.
 The GBT and Arecibo data match to within 4\arcsec, while the GPA data showed
 a 4\arcmin offset in longitude and 1\arcmin in latitude.  We then resampled
 the GPA image onto the GBT grid using cubic spline interpolation, then smoothed
-both data sets to 9.5\arcmin to account for image artifacts (particularly
-vertical streaking) in the GPA data.
+both data sets to 9.5\arcmin.  There are image artifacts (particularly
+vertical streaking) in the GPA data that are diminished by this large
+smoothing kernel.
 
-We compared the surface brightness in the GPA and GBT data, and found that
-the GPA data was $\sim0.2$ K brighter than the GBT in the diffuse portion of
-the W51 Main region; the offset is not consistent with a purely multiplicative
-offset (Figure \ref{fig:2cmcompare}).  The GBT observed the W51 Main peak to be moderately brighter,
-which is likely a result of the sparse sampling in the GPA.  The morphological
-agreement between the maps is imperfect, perhaps in part because of the small
-area mapped in our GBT data, though there also appears to be vertical (along a
-line of constant longitude) stretching of the W51 main source in the unsmoothed
-GPA data that is not consistent with the GBT observations.
+We compared the surface brightness in the GPA and GBT data, and found that the
+GPA data was $\sim0.2$ K brighter than the GBT in the diffuse portion of the
+W51 Main region; the offset is not consistent with a purely multiplicative
+offset (Figure \ref{fig:2cmcompare}).  The GBT observed the W51 Main peak to be
+moderately brighter, which is likely a result of the sparse sampling in the
+GPA.  The morphological agreement between the maps is imperfect, perhaps in
+part because of the small area mapped in our GBT data, though there also
+appears to be vertical (along a line of constant longitude) stretching of the
+W51 main source in the unsmoothed GPA data that is not consistent with the GBT
+observations.
 
 \Figure{figures/comparison_to_gpa.pdf}
 {Comparison between the GBT and NRAO 300 ft \citep{Langston2000a} data.
@@ -367,6 +375,13 @@ mean $T_e\sim7000-8000$ K.  There is only a little structure in the $T_e$ maps,
 with a hint of higher temperatures around G49.1-0.4, coincident with the W51C
 supernova remnant.
 
+\subsection{Carbon and Helium RRLs}
+Helium RRLs were prevalent and reasonably well-correlated with the hydrogen
+RRLs, but we did not examine them in detail.  He77$\alpha$ is detected at much
+higher signal-to-noise than than He107-112$\alpha$.  There were no clear
+detections of C77$\alpha$ or C107-112$\alpha$, though there is a possible
+C77$\alpha$ signal at G49.366-0.304 with $v_{lsr} \approx 55$ \kms and a
+possible detection toward W51 Main along the wing of the He77$\alpha$ line.
 
 
 \Figure{figures/continuum_rrl_comparisongrid.pdf}
@@ -417,12 +432,12 @@ We added a fixed background of 2.73 K to the reduced images to account for the
 CMB, which is absent from the images due to the background-subtraction
 process.  We define an ``observer's optical depth''
 \begin{equation}
-    \tau_{obs} = -\log\left[\frac{T_{mb}}{T_{bg}}\right]
+    \tau_{obs} = -\ln\left[\frac{T_{mb}}{T_{bg}}\right]
 \end{equation}
 as opposed to the `true' optical depth, which is modeled in radiative transfer
 calculations
 \begin{equation}
-    \tau = -\log\left[\frac{T_{mb}-T_{ex}}{T_{bg}-T_{ex}}\right]
+    \tau = -\ln\left[\frac{T_{mb}-T_{ex}}{T_{bg}-T_{ex}}\right]
 \end{equation}
 The approximation $\tau_{obs} = \tau$ is valid for $T_{ex} << T_{bg}$, which is
 true when an \hii region is the backlight but generally not when the CMB is.
@@ -476,20 +491,20 @@ distribution.  In panel (c), the distribution of the ratio is shown.}
 \subsection{Converting observed line ratios to volume densities}
 \label{sec:models}
 % \todo{[May be removed]}
-The \formaldehyde line ratio can be directly transformed into a volume
+The \formaldehyde line ratio can be transformed into a volume
 density of hydrogen $n(\hh)$ using large velocity gradient model grids.
 The column density of \ortho, the ortho-to-para-ratio of \hh, and the gas
 temperature are the three main `nuisance parameters' that can be marginalized
 over.
 
-The column density is degenerate the velocity gradient in LVG models.  The \hh
-column density is degenerate with this gradient \emph{and} the abundance of
-\ortho.  Precise measurements of the \formaldehyde abundance are not generally
-available, but typical values of $X_{\ortho} = 10^{-10}-10^{-8}$ relative to
-\hh are generally assumed \citep{Mangum1993a, Ginsburg2011a, Ginsburg2013a,
-Ao2013a} and found to be consistent with the observations.  Nonetheless, little
-is known about local variations in \ortho abundance, except that it freezes out
-in cold, dense cores \citep{Young2004a}.
+The \ortho column density is degenerate with the velocity gradient in LVG
+models.  The \hh column density is degenerate with this gradient \emph{and} the
+abundance of \ortho.  Precise measurements of the \formaldehyde abundance are
+not generally available, but typical values of $X_{\ortho} = 10^{-10}-10^{-8}$
+relative to \hh are generally assumed \citep{Mangum1993a, Ginsburg2011a,
+Ginsburg2013a, Ao2013a} and found to be consistent with the observations.
+Nonetheless, little is known about local variations in \ortho abundance, except
+that it freezes out in cold, dense cores \citep{Young2004a}.
 
 % ~/work/h2co/codes/ratio_to_dens_plots.py
 % ~/repos/h2co_modeling/examples/plot_line_brightness.py
@@ -745,34 +760,57 @@ $T_{continuum}$ is in the \emph{foreground} of the molecular gas.}
 {fig:upperpeakoptdepth}
 
 \subsection{Density Maps}
+\label{sec:densmaps}
 We computed the density using the $\chi^2$ minimization technique from
-\citet{Ginsburg2011a}.  We adopt the `best' model fit to the line ratio in each
-voxel as the point in the full 4D parameter space where $\chi^2$ is minimized.
+\citet{Ginsburg2011a}.  We measure $\chi^2$ over the full 4D parameter space (density, column density, temperature,
+and ortho-to-para ratio)
+\begin{equation}
+    \label{eqn:chi2}
+    \chi^2 =  \left( \frac{T_B(\oneone)-T_{model}(\oneone)}{\sigma(T_B,\oneone)}\right)^2 +
+              \left( \frac{T_B(\twotwo)-T_{model}(\twotwo)}{\sigma(T_B,\twotwo)}\right)^2
+\end{equation}
 We have therefore not enforced any constraints on the column density,
 temperature, or ortho-to-para ratio when fitting.
+The best-fit value of each of these parameters is taken to be the mean of those
+parameters over the range $\chi^2 - \chi^2_{min} < 1$.
 
-The column-weighted volume-density along each line of sight is shown in Figures
-\ref{fig:wtdmeandens} and \ref{fig:wtdmeandensvrange}.  The former shows the
-weighted density over all voxels and the latter shows the weighted density over
-the two velocity ranges previously discussed.
+The temperatures returned from the fitting process are, as expected, purely
+noise: the \formaldehyde \oneone/\twotwo ratio provides virtually no constraint
+on the gas temperature and therefore leaving it as a free parameter has no
+effect on the fitted density.  Similarly, the ortho-to-para ratio of \hh is
+unconstrained in our data.  In principle, the \hh OPR has some effect on
+\formaldehyde excitation, but in the regime we have modeled and obseved, no
+effect is apparent.
+
+
+The \ortho-column-weighted volume-density along each line of sight is shown in
+Figures \ref{fig:wtdmeandens} and \ref{fig:wtdmeandensvrange}.  The former
+shows the weighted density over all voxels and the latter shows the weighted
+density over the two velocity ranges previously discussed.  These projections
+include no information about the errors in the individual fits, which are
+available from Equation \ref{eqn:chi2}, but by weighting by column density, we
+have effectively selected the highest signal-to-noise points; the statistical
+errors are therefore negligible relative to the systematic in these maps.
+
+
 
 The overall picture is of a central proto-cluster region with most of the gas
-mass at a density $n\sim10^6$ \percc within a diameter of $\sim3$ pc, surrounded
-by a rich cloud in which most of the mass is at a density $\sim10^5$ \percc out
+mass at a density $n\sim10^{5.5}$ \percc within a diameter of $\sim3$ pc, surrounded
+by a rich cloud in which most of the mass is at a density $\sim10^4$ \percc out
 to a diameter $d\sim14$ pc.
 
 
 % parplots_chi2gridfit.py
 \Figure
-{figures/H2CO_ParameterFitPlot_weighted_mean_bestfit_density_linear.pdf}
+{figures/H2CO_ParameterFitPlot_weighted_mean_meanfit_density_mean_linear.pdf}
 {Map of the column-weighted volume density along the line of sight averaged
 over all velocities.}
 {fig:wtdmeandens}{0.5}{0}
 
 % parplots_chi2gridfit.py
 \FigureTwoAA
-{figures/H2CO_ParameterFitPlot_weighted_mean_bestfit_density_v40.0to62.0_linear.pdf}
-{figures/H2CO_ParameterFitPlot_weighted_mean_bestfit_density_v62.0to75.0_linear.pdf}
+{figures/H2CO_ParameterFitPlot_weighted_mean_meanfit_density_v40.0to62.0_mean_linear.pdf}
+{figures/H2CO_ParameterFitPlot_weighted_mean_meanfit_density_v62.0to75.0_mean_linear.pdf}
 {Map of the column-weighted volume density along the line of sight, split into 
 the (a) 40-62 \kms component and (b) the 62 to 75 \kms component.}
 {fig:wtdmeandensvrange}{1}{6.5in}
@@ -928,12 +966,12 @@ that the \hii regions must be behind the high-velocity \hi features.
 We detect \formaldehyde \oneone at $\sim58$ and $\sim63$ \kms toward
 G49.10-0.40, with line ratios that are consistent with the \hii region being
 behind the molecular cloud complex.  It also has an extreme RRL velocity,
-$v_{110$\alpha$} \approx 72\kms$, the most redshifted seen in the entire W51 region
+$v_{110\alpha} \approx 72\kms$, the most redshifted seen in the entire W51 region
 (see Figures \ref{fig:kinematics} and \ref{fig:hiirrlspec}).
 
 G49.20-0.35 is also clearly behind the molecular cloud, as evidenced both by
 \formaldehyde absorption depth and the IRDC absorption in the foreground.
-It has an RRL velocity $v_{110$\alpha$} \approx 70$ \kms.
+It has an RRL velocity $v_{110\alpha} \approx 70$ \kms.
 
 Because both \hii regions are extremely redshifted, they are most likely
 associated with the W51 B cloud complex, contrary to the interpretation by
@@ -1035,10 +1073,10 @@ study in detail because the dusty, molecular gas feature lies in front of it.
 \subsection{G49.4-0.3}
 \label{sec:maus}
 The collection of \hii regions around G49.4-0.3 vaguely resembles a cartoon
-mouse.  The molecular gas in this region is separated into two distinct
-components, one at 51 \kms and the other at 64 \kms.  The 64 \kms component is
-in the foreground, while the 51 \kms is in the background of most of the \hii
-regions.  
+mouse.  As noted in \citet{Carpenter1998a}, the molecular gas in this region is
+separated into two distinct components, one at 51 \kms and the other at 64
+\kms.  The 64 \kms component is in the foreground, while the 51 \kms is in the
+background of most of the \hii regions.  
 
 Both cloud components are in the foreground of the central \hii regions at
 G49.36-0.31, the `eyes' of the mouse.  The density of the 51 \kms component is
@@ -1092,11 +1130,11 @@ associated indirectly with the massive cluster forming region.
 See Figure \ref{fig:filament_pvslice} for the extracted region.}
 {fig:northsouthpv}{0.5}{0}
 
-\subsection{HII region G49.37-0.30, AKA W51 West}
-W51 West is a busy and luminous \hii region; it is the second-brightest radio
-and millimeter continuum source in our survey after the W51 Main/IRS2 region.
-As noted in \citet{Carpenter1998a}, its velocity ($v_{LSR}\sim 50\kms$ XXX) 
-may indicate that the cloud is unassociated with the W51 Main GMC.
+%\subsection{HII region G49.37-0.30, AKA W51 West}
+%W51 West is a busy and luminous \hii region; it is the second-brightest radio
+%and millimeter continuum source in our survey after the W51 Main/IRS2 region.
+%As noted in \citet{Carpenter1998a}, its velocity ($v_{LSR}\sim 50\kms$ XXX) 
+%may indicate that the cloud is unassociated with the W51 Main GMC.
 
 % \subsubsection{High density gas in G49.5-0.4?}
 % \label{sec:g495}
@@ -1135,27 +1173,30 @@ may indicate that the cloud is unassociated with the W51 Main GMC.
 % \ref{sec:rrlvscont}.
 
 
-\subsubsection{W51 Main \& W51 IRS 2}
+\subsection{W51 Main \& W51 IRS 2}
 The W51 Main and IRS 2 spectra show that both have ionized gas components at
 $v_{LSR}\sim 55$ \kms.  This velocity approximately coincides with the peak of
 the \thirteenco emission.
 
-The \formaldehyde spectra are deepest at 68 \kms, but they are too deep to be
-entirely behind the \hii regions.  This indicates that the 55 \kms ionized gas
-must be embedded within the molecular cloud, with molecular gas on \emph{both}
-sides of the ionized gas along the line of sight.
+The \formaldehyde \oneone spectra are deepest at $\sim68$ \kms, while the
+\twotwo have depths approximately equal between the $\sim58$ \kms and $\sim 68
+\kms$ components.  The 55-60 \kms components are too deep to be entirely behind
+the \hii regions.  This indicates that the 55 \kms ionized gas must be embedded
+within the molecular cloud, with molecular gas on \emph{both} sides of the
+ionized gas along the line of sight.
 
 Because these are well-studied regions, the low spatial resolution
 \formaldehyde spectra we present here add little new information about the gas
 kinematics.  However, all of the velocity components observed in the W51 region
 are apparently kinematically connected to the W51 clusters.
 
-\section{The 40 \kms clouds}
+\subsection{The 40 \kms clouds}
 There are clouds observed at 40 \kms that show only weak \formaldehyde
 absorption spread across nearly the entire region.  These molecular clouds are
-behind nearly all of the \hii regions in the W51 complex.  There are 40 \kms
-clouds clearly seen in \hi absorption \citep{Stil2006a} that are not associated
-with these molecular clouds.
+behind nearly all of the \hii regions in the W51 complex.  There are additional
+40 \kms clouds clearly seen in \hi absorption \citep{Stil2006a} that are not
+associated with these molecular clouds, but instead represent a foreground
+population of neutral atomic medium clouds.
 
 
 
@@ -1229,7 +1270,7 @@ associated with W51 A.  The presence of W51 Main at the interaction point
 between multiple clouds hints that its great mass and star-forming potential
 was triggered by this cloud-cloud collision.  It is likely that both observed
 clouds were pre-existing features in a larger, possibly atomic, cloud that
-underwent stretching upon interaction with a spiral arm.
+underwent stretching and squeezing upon interaction with a spiral arm.
 
 %Alternatively, the W51 complex could trace a `spur' from a spiral arm.  In
 %other galaxies, e.g. M51, spurs are frequently seen to be richly star-forming,
@@ -1261,16 +1302,36 @@ region is therefore destructive, though so far not severely so.
 
 The proximity of the 68 \kms filamentary `high velocity stream' and the W51
 Main protocluster and their relative line-of-sight positions have been
-presented as evidence for a cloud-cloud collision \citep{Kang2010a}.  Examination of
-the \formaldehyde line ratios has shown that the protocluster is embedded in the $\sim55$ \kms
-molecular cloud.  The high density of the 68 \kms cloud at this position indicates that it is
-likely interacting...
+presented as evidence for a cloud-cloud collision \citep{Kang2010a}.
+Examination of the \formaldehyde line ratios has shown that the protocluster is
+embedded in the $\sim55$ \kms molecular cloud.  
 
-\todo{Is the W51 filament like Nessie?  Too coherent over large scales, flattened in the midplane?}
+%\todo{Is the W51 filament like Nessie?  Too coherent over large scales, flattened in the midplane?}
 
 \section{Conclusion}
 We have presented maps of the \formaldehyde \oneone and \twotwo and H77$\alpha$
-and H111$\alpha$ lines covering the W51 star forming complex.
+and H110$\alpha$ lines covering the W51 star forming complex.  The continuum
+data were compared with previous lower-resolution observations of the region,
+resulting yielding a consistent calibration.
+
+The recombination lines have been used in conjunction with the continuum to
+estimate electron temperatures, with a consistent mean $T_e\sim7500$ K.
+
+The \formaldehyde \oneone/\twotwo line ratio was used to measure gas volume
+densities.  While systematic uncertainties in the modeling remain, the
+\formaldehyde nonetheless yields a consistent picture of the W51 star forming
+region in which the central W51 Main proto-cluster is filled with gas of a mean
+density at least an order of magnitude greater than the rest of the cloud.
+
+The \formaldehyde lines and their ratios have also been used to constrain the
+geometry of the W51 GMC and the associated \hii regions.  The Galactic face-on
+view of W51 is presented in more detail than has previously been possible.
+
+The data are made available in FITS cubes and images.  The entire reduction and
+analysis process and all associated code and scripts are made available via a
+git repository hosted on github:
+\url{https://github.com/keflavich/w51_singledish_h2co_maps}, \todo{with a snapshot of the 
+publication version available as a tarball from figshare \url{}}.
 
 
 
@@ -1304,34 +1365,39 @@ and H111$\alpha$ lines covering the W51 star forming complex.
 We thank Xiaohui Sun for providing the Urumqi 6 cm Stokes I image prior to its
 availability on the survey website.
 
-\appendix
-\section{A complete record of the data}
-In the interest of reproducibility, we include a complete code suite detailing
-all of the steps from raw data to final reduced product.  If one acquires all
-of the raw data from both Arecibo and GBT, the data and derivative products
-from this publication can all be reproduced in their entirety.
+\textbf{Code Packages Used}:
 
-The Arecibo data was processed using code based on the aoIDL package by Phil
-Perillat.  The \texttt{accum\_map} routine performs the standard on-off reduction
-steps and stores the resulting time-series of spectra in a FITS file.  The
-\texttt{make\_off} routine creates an `off' spectrum by averaging selected
-(ideally emission-free) scans, smoothing them, and interpolating across
-regions of the spectrum with lines or electronic artifacts.  The data were then
-gridded into map cubes using the \texttt{makecube} routines in \texttt{sdpy}.
-
-The GBT data was processed using exclusively custom-made scripts stored in
-\texttt{sdpy}.  The KFPA pipeline
-(\url{https://safe.nrao.edu/wiki/bin/view/Kbandfpa/ObserverGuide}) is a useful
-alternative, but at the time these data were taken, it was not quite mature
-enough for use with our Ku-band data.  The custom-made scripts also provided
-needed flexibility for comparing the GBT and Arecibo data.
-
-
-Dependencies:
 \begin{itemize}
+    \item The GBT KFPA Pipeline \url{https://safe.nrao.edu/wiki/bin/view/Kbandfpa/ObserverGuide}
     \item aoIDL \url{http://www.naic.edu/~phil/download/aoIdl.tar.gz}
     \item sdpy \url{https://github.com/keflavich/sdpy}
+    \item aplpy \url{http://aplpy.github.io}
+    \item image-registration \url{http://image-registration.rtfd.org}
 \end{itemize}
+
+%\appendix
+%\section{A complete record of the data}
+%In the interest of reproducibility, we include a complete code suite detailing
+%all of the steps from raw data to final reduced product.  If one acquires all
+%of the raw data from both Arecibo and GBT, the data and derivative products
+%from this publication can all be reproduced in their entirety.
+%
+%The Arecibo data was processed using code based on the aoIDL package by Phil
+%Perillat.  The \texttt{accum\_map} routine performs the standard on-off reduction
+%steps and stores the resulting time-series of spectra in a FITS file.  The
+%\texttt{make\_off} routine creates an `off' spectrum by averaging selected
+%(ideally emission-free) scans, smoothing them, and interpolating across
+%regions of the spectrum with lines or electronic artifacts.  The data were then
+%gridded into map cubes using the \texttt{makecube} routines in \texttt{sdpy}.
+%
+%The GBT data was processed using exclusively custom-made scripts stored in
+%\texttt{sdpy}.  The KFPA pipeline
+%(\url{https://safe.nrao.edu/wiki/bin/view/Kbandfpa/ObserverGuide}) is a useful
+%alternative, but at the time these data were taken, it was not quite mature
+%enough for use with our Ku-band data.  The custom-made scripts also provided
+%needed flexibility for comparing the GBT and Arecibo data.
+
+
 
 
 \input{solobib}

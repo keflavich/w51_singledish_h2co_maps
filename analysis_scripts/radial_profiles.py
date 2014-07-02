@@ -14,7 +14,7 @@ pl.mpl.rc_file('/Users/adam/work/w51_singledish_maps/plot_scripts/ggplotrc')
 
 center = coordinates.Galactic(49.4904*u.deg, -0.3765*u.deg)
 
-h2co_densfile = paths.dpath("H2CO_ParameterFits_weighted_mean_density_chi2masked.fits")
+h2co_densfile = paths.dpath("H2CO_ParameterFits_weighted_mean_mean_density_chi2masked.fits")
 column_image = FITS_tools.hcongrid.hcongrid_hdu(fits.open(paths.dpath2('HIGAL_W51_mosaic_fit_160to500_N.fits'))[0],
                                                 fits.getheader(h2co_densfile))
 w = wcs.WCS(column_image.header)
