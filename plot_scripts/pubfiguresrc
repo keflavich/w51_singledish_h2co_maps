@@ -45,7 +45,7 @@ interactive  : True      # see http://matplotlib.sourceforge.net/interactive.htm
 ### LINES
 # See http://matplotlib.sourceforge.net/matplotlib.lines.html for more
 # information on line properties.
-#lines.linewidth   : 1.0     # line width in points
+lines.linewidth   : 2.0     # line width in points
 #lines.linestyle   : -       # solid line
 #lines.color       : blue
 #lines.marker      : None    # the default marker
@@ -55,7 +55,7 @@ interactive  : True      # see http://matplotlib.sourceforge.net/interactive.htm
 #lines.dash_capstyle : butt          # butt|round|projecting
 #lines.solid_joinstyle : miter       # miter|round|bevel
 #lines.solid_capstyle : projecting   # butt|round|projecting
-#lines.antialiased : True         # render lines in antialised (no jaggies)
+lines.antialiased : True         # render lines in antialised (no jaggies)
 
 ### PATCHES
 # Patches are graphical objects that fill 2D space, like polygons or
@@ -103,7 +103,8 @@ interactive  : True      # see http://matplotlib.sourceforge.net/interactive.htm
 # 12pt is the standard value.
 #
 #font.family         : sans-serif
-font.family         : Bitstream Vera Sans
+font.family          : Helvetica
+#font.family         : Bitstream Vera Sans
 #font.style          : normal
 #font.variant        : normal
 #font.weight         : medium
@@ -163,14 +164,22 @@ font.size           : 20.0
 #axes.edgecolor      : black   # axes edge color
 #axes.linewidth      : 1.0     # edge linewidth
 #axes.grid           : False   # display grid or not
-#axes.titlesize      : 14      # fontsize of the axes title
-#axes.labelsize      : 12      # fontsize of the x any y labels
+axes.titlesize      : 24      # fontsize of the axes title
+axes.labelsize      : 22      # fontsize of the x any y labels
 #axes.labelcolor     : black
-#axes.axisbelow      : False   # whether axis gridlines and ticks are below
+axes.axisbelow      : True   # whether axis gridlines and ticks are below
                               # the axes elements (lines, text, etc)
 #axes.formatter.limits : -7, 7 # use scientific notation if log10
                                # of the axis range is smaller than the
                                # first or larger than the second
+axes.color_cycle    : 338ADD, 9A44B6, A60628, 467821, CF4457, 188487, E24A33
+                      # E24A33 : orange
+                      # 7A4446 : purple
+                      # 348ABD : blue
+                      # 188487 : turquoise
+                      # A60628 : red
+                      # CF4457 : pink
+                      # 467821 : green
 
 #polaraxes.grid      : True    # display grid on polar axes
 

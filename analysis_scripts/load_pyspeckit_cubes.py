@@ -6,6 +6,7 @@ import numpy as np
 import pyregion
 from paths import datapath,dpath,rpath,mpath
 from common_constants import TCMB
+from h2co_modeling.grid_fitter import grid_2p_getmatch
 #cube1 = pyspeckit.Cube('W51_H2CO11_cube_sub.fits')        / 0.51 # eta_mb = 0.51 for arecibo @ c-band according to outergal paper
 #cube2 = pyspeckit.Cube('W51_H2CO22_pyproc_cube_sess22_sub.fits') / 0.886 # from both outergal and pilot
 
@@ -87,3 +88,43 @@ both.Registry.add_fitter('formaldehyde_radex',formaldehyde_radex_fitter,8,multis
 both.plot_special = fith2co.plotter_override
 both.plot_special_kwargs = {'vrange':[30,90],'fignum':3,'reset_xlimits':True}
 
+
+# copied from pyspeckit.spectrum.models.formaldehyde
+winds,zinds,yinds,xinds = np.indices(taugrid1.shape)
+densityarr = (xinds+hdr['CRPIX1']-1)*hdr['CD1_1']+hdr['CRVAL1'] # log density
+columnarr  = (yinds+hdr['CRPIX2']-1)*hdr['CD2_2']+hdr['CRVAL2'] # log column
+temparr    = (zinds+hdr['CRPIX3']-1)*hdr['CDELT3']+hdr['CRVAL3'] # temperature
+oprarr     = (winds+hdr['CRPIX4']-1)*hdr['CDELT4']+hdr['CRVAL4'] # log ortho/para ratio
+
+def fit_a_pixel(args):
+    if len(args) == 6:
+        tline1, etline1, cont1, tline2, etline2, cont2 = args
+    elif len(args) == 7:
+        tline1, etline1, cont1, tline2, etline2, cont2, pb = args
+        pb.update()
+
+    pargrid1 = (cont1*np.exp(-taugrid1) + (1-np.exp(-taugrid1))*texgrid1)
+    pargrid2 = (cont2*np.exp(-taugrid2) + (1-np.exp(-taugrid2))*texgrid2)
+    #spec = (1.0-np.exp(-np.array(tau_nu_cumul)))*(Tex-Tbackground)
+
+    match, indbest, chi2 = grid_2p_getmatch(tline1+cont1, etline1, pargrid1,
+                                            tline2+cont2, etline2, pargrid2)
+
+    chi2best = chi2.flat[indbest]
+    chi2_all = chi2[match]
+    dens_best = densityarr.flat[indbest]
+    dens_all = densityarr[match]
+    col_best = columnarr.flat[indbest]
+    col_all = columnarr[match]
+    temp_best = temparr.flat[indbest]
+    temp_all = temparr[match]
+    opr_best = oprarr.flat[indbest]
+    opr_all = oprarr[match]
+
+    best = (dens_best, col_best, temp_best, opr_best, chi2best)
+    mins = map(min, (dens_all, col_all, temp_all, opr_all, chi2_all))
+    maxs = map(max, (dens_all, col_all, temp_all, opr_all, chi2_all))
+    mean = map(np.mean, (dens_all, col_all, temp_all, opr_all, chi2_all))
+    std = map(np.std, (dens_all, col_all, temp_all, opr_all, chi2_all))
+
+    return best,mins,maxs,mean,std,chi2best

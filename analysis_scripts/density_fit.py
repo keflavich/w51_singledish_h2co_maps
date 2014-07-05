@@ -13,10 +13,13 @@ from h2co_modeling.grid_fitter import grid_2p_getmatch
 
 from load_pyspeckit_cubes import (both, T, F, cont11, cont22, h2co11filename,
                                   cube1, cube2, texgrid1,  taugrid1,  texgrid2,
-                                  taugrid2,  hdr)
+                                  taugrid2,  hdr, fit_a_pixel)
 from common_constants import TCMB
 
 ### copied from tau_ratio_cube
+# These are not used for fitting, only for masking!
+# The absorption lines themselves (from cube1,cube2 above) are used for the
+# fitting
 h2co11 = fits.getdata(dpath('W51_H2CO11_taucube_supersampled.fits'))
 h2co22 = fits.getdata(dpath('W51_H2CO22_pyproc_taucube_lores_supersampled.fits'))
 
@@ -35,53 +38,9 @@ filt[1,1,1] = 0
 nneighbors = convolve(np.isfinite(ratio), filt)
 ratio[(nneighbors<7) + (True-np.isfinite(nneighbors))] = np.nan
 includemask[(nneighbors<7) + (True-np.isfinite(nneighbors))] = False
+# End masking
 ###
 
-header = fits.getheader(datapath+'W51_H2CO11_cube_supersampled_continuum.fits')
-contfrontregions = pyregion.open(rpath('continuum_in_the_front.reg'))
-contfrontmask = contfrontregions.get_mask(fits.PrimaryHDU(data=cont11,header=header))
-cont11[contfrontmask] = TCMB
-cont22[contfrontmask] = TCMB
-
-# copied from pyspeckit.spectrum.models.formaldehyde
-winds,zinds,yinds,xinds = np.indices(taugrid1.shape)
-densityarr = (xinds+hdr['CRPIX1']-1)*hdr['CD1_1']+hdr['CRVAL1'] # log density
-columnarr  = (yinds+hdr['CRPIX2']-1)*hdr['CD2_2']+hdr['CRVAL2'] # log column
-temparr    = (zinds+hdr['CRPIX3']-1)*hdr['CDELT3']+hdr['CRVAL3'] # temperature
-oprarr     = (winds+hdr['CRPIX4']-1)*hdr['CDELT4']+hdr['CRVAL4'] # log ortho/para ratio
-
-def fit_a_pixel(args):
-    if len(args) == 6:
-        tline1, etline1, cont1, tline2, etline2, cont2 = args
-    elif len(args) == 7:
-        tline1, etline1, cont1, tline2, etline2, cont2, pb = args
-        pb.update()
-
-    pargrid1 = (cont1*np.exp(-taugrid1) + (1-np.exp(-taugrid1))*texgrid1)
-    pargrid2 = (cont2*np.exp(-taugrid2) + (1-np.exp(-taugrid2))*texgrid2)
-    #spec = (1.0-np.exp(-np.array(tau_nu_cumul)))*(Tex-Tbackground)
-
-    match, indbest, chi2 = grid_2p_getmatch(tline1+cont1, etline1, pargrid1,
-                                            tline2+cont2, etline2, pargrid2)
-
-    chi2best = chi2.flat[indbest]
-    chi2_all = chi2[match]
-    dens_best = densityarr.flat[indbest]
-    dens_all = densityarr[match]
-    col_best = columnarr.flat[indbest]
-    col_all = columnarr[match]
-    temp_best = temparr.flat[indbest]
-    temp_all = temparr[match]
-    opr_best = oprarr.flat[indbest]
-    opr_all = oprarr[match]
-
-    best = (dens_best, col_best, temp_best, opr_best, chi2best)
-    mins = map(min, (dens_all, col_all, temp_all, opr_all, chi2_all))
-    maxs = map(max, (dens_all, col_all, temp_all, opr_all, chi2_all))
-    mean = map(np.mean, (dens_all, col_all, temp_all, opr_all, chi2_all))
-    std = map(np.std, (dens_all, col_all, temp_all, opr_all, chi2_all))
-
-    return best,mins,maxs,mean,std,chi2best
 
 
 data_iterator = [np.array(cube1.cube[includemask]),

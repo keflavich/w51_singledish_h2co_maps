@@ -1,4 +1,5 @@
 from astropy import units as u
+from astropy import coordinates
 from astropy.io import fits
 from paths import datapath,datapath_w51,figurepath
 
@@ -33,6 +34,9 @@ distance = 5.1*u.kpc
 
 vrange1 = [40,62]*u.km/u.s
 vrange2 = [62,75]*u.km/u.s
+
+# The center for radial profiles
+center = coordinates.Galactic(49.4904*u.deg, -0.3765*u.deg)
 
 __cache__ = {}
 
