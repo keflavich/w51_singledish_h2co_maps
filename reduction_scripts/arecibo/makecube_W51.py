@@ -16,7 +16,7 @@ import os
 #from agpy import readcol,asinh_norm
 
 import sys
-from gbtpy import makecube
+from sdpy import makecube
 
 def fix_TDIM_in_header(fn):
     """

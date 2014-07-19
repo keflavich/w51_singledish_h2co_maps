@@ -3,7 +3,7 @@ import astropy.io.fits as fits
 import numpy as np
 import os
 
-from gbtpy import makecube
+from sdpy import makecube
 
 def fix_TDIM_in_header(fn):
     """
