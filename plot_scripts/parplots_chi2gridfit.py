@@ -7,6 +7,7 @@ import matplotlib as mpl
 
 from aplpy_figure_maker import FITSFigure
 from astropy.io import fits
+from astropy import units as u
 from paths import datapath, datapath_w51, figurepath
 import paths
 
@@ -58,6 +59,24 @@ def makefig(hdu, ii, name, vmax_lin=100):
 
     return F1,F2
 
+def plot_denscol(denscube, colcube, center, radius, alpha=0.3, vmin=43, vmax=76,
+                 **kwargs):
+    region_mask = BooleanArrayMask((((denscube.spatial_coordinate_map[0] - center[1])**2 + 
+                                     (denscube.spatial_coordinate_map[1] - center[0])**2)**0.5 < radius)[None,:,:]
+                                   * np.ones(denscube.spectral_axis.shape,dtype='bool')[:,None,None],
+                                   wcs=denscube.wcs)
+    whmask = np.where(denscube.with_mask(region_mask).get_mask_array())[0]
+    velocities = denscube.with_mask(region_mask).spectral_axis[whmask].to(u.km/u.s)
+    pl.clf()
+    pl.scatter(colcube.with_mask(region_mask).flattened().value,
+               denscube.with_mask(region_mask).flattened().value,
+               c=velocities.value, edgecolor='none', alpha=alpha,
+               vmin=vmin, vmax=vmax, **kwargs)
+
+    pl.xlabel("log $N$(o-H$_2$CO)/(km s$^{-1}$ pc $^{-1}$)")
+    pl.ylabel("log $n$(H$_2$)")
+    cb = pl.colorbar()
+    cb.set_label('Velocity (km s$^{-1}$)')
 
 
 chi2levels = {'best':0.1, 'mean':1.0}
@@ -90,6 +109,9 @@ for meastype in ('best','mean'):
                                          mask=okmask)
     wtdmeandens = np.log10(denscol.sum(axis=0) / colcube_lin.sum(axis=0))
 
+    mindens_std = denscube.with_mask(goodmask_std).min(axis=0)
+    mindens_chi2 = denscube.with_mask(goodmask).min(axis=0)
+
     hdu1 = fits.PrimaryHDU(data=wtdmeandens.value,
                            header=flathead)
     hdu1.writeto(paths.dpath("H2CO_ParameterFits_weighted_mean_{0}_density.fits".format(meastype)), clobber=True)
@@ -104,6 +126,21 @@ for meastype in ('best','mean'):
                            header=flathead)
     hdu5.writeto(paths.dpath("H2CO_ParameterFits_weighted_mean_{0}_density_stdmasked.fits".format(meastype)), clobber=True)
 
+    hdu6 = fits.PrimaryHDU(data=mindens_std.value,
+                           header=flathead)
+    hdu6.writeto(paths.dpath("H2CO_ParameterFits_min_{0}_density_stdmasked.fits".format(meastype)), clobber=True)
+
+    pl.figure(0)
+    plot_denscol(denscube.with_mask(goodmask_std).spectral_slab(43*u.km/u.s,62*u.km/u.s),
+                 colcube.with_mask(goodmask_std).spectral_slab(43*u.km/u.s,62*u.km/u.s),
+                 center=(49.5,-0.4)*u.deg, radius=6*u.arcmin, vmax=62,
+                 s=20 if meastype=='mean' else 50)
+    pl.savefig(paths.fpath('H2CO_ParameterFits_ColumnVsDensity_{0}_43to62kms_W51Main.pdf'.format(meastype)))
+    plot_denscol(denscube.with_mask(goodmask_std).spectral_slab(62*u.km/u.s,76*u.km/u.s),
+                 colcube.with_mask(goodmask_std).spectral_slab(62*u.km/u.s,76*u.km/u.s),
+                 center=(49.5,-0.4)*u.deg, radius=6*u.arcmin, vmax=76, vmin=62,
+                 s=20 if meastype=='mean' else 50)
+    pl.savefig(paths.fpath('H2CO_ParameterFits_ColumnVsDensity_{0}_62to76kms_W51Main.pdf'.format(meastype)))
 
     cmhot = mpl.cm.gist_stern
     #cmhot = mpl.cm.cubehelix
@@ -124,6 +161,7 @@ for meastype in ('best','mean'):
     makefig(hdu3, 2, name='bestfit_max_density')
     makefig(hdu4, 3, name='meanmatch_max_density')
     makefig(hdu5, 4, name='stdmasked_weighted_mean_{0}fit_density'.format(meastype))
+    makefig(hdu6, 5, name='stdmasked_min_{0}fit_density'.format(meastype))
 
     for ii,vrange in enumerate((vrange1,vrange2)):
         wtdmeandens = np.log10(denscol.spectral_slab(*vrange).sum(axis=0)/colcube_lin.spectral_slab(*vrange).sum(axis=0))
@@ -144,3 +182,9 @@ for meastype in ('best','mean'):
         F1,F2 = makefig(hdu1, 5+2*ii, name='weighted_mean_{2}fit_density_v{0}to{1}'.format(vrange[0].value, vrange[1].value, meastype), vmax_lin=100)
         F1,F2 = makefig(hdu2, 6+2*ii, name='masked_weighted_mean_{2}fit_density_v{0}to{1}'.format(vrange[0].value, vrange[1].value, meastype), vmax_lin=100)
         F1,F2 = makefig(hdu3, 7+2*ii, name='stdmasked_weighted_mean_{2}fit_density_v{0}to{1}'.format(vrange[0].value, vrange[1].value, meastype), vmax_lin=100)
+
+        mindens_std = denscube.with_mask(goodmask_std).spectral_slab(*vrange).min(axis=0)
+        hdu4 = fits.PrimaryHDU(data=mindens_std.value,
+                               header=flathead)
+        hdu4.writeto(paths.dpath("H2CO_ParameterFits_min_{2}_density_stdmasked_v{0}to{1}.fits".format(vrange[0].value, vrange[1].value, meastype)), clobber=True)
+        F1,F2 = makefig(hdu4, 8+2*ii, name='stdmasked_min_{2}fit_density_v{0}to{1}'.format(vrange[0].value, vrange[1].value, meastype), vmax_lin=100)

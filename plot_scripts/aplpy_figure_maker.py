@@ -1,11 +1,15 @@
 import aplpy
 import matplotlib
+from astropy import units as u
 
 def FITSFigure(name, convention='calabretta', xcen=49.27, ycen=-0.32, width=0.9,
                height=0.4, colorbar=True, color=True, grid=True,
                cmap=matplotlib.cm.afmhot_r, im_zorder=20, 
-               transparent_nan=True, **kwargs):
+               scalebar=True, transparent_nan=True, **kwargs):
     F = aplpy.FITSFigure(name, convention=convention, **kwargs)
+
+    refresh = F._parameters.auto_refresh
+    F.set_autorefresh(False)
 
     F.set_tick_labels_xformat('dd.d')
     F.set_tick_labels_yformat('dd.d')
@@ -33,5 +37,15 @@ def FITSFigure(name, convention='calabretta', xcen=49.27, ycen=-0.32, width=0.9,
     F.image.set_zorder(im_zorder)
 
     F.recenter(xcen,ycen,width=width,height=height)
+
+    if scalebar:
+        F.add_scalebar(((10*u.pc)/(5.1*u.kpc)*u.radian).to(u.deg).value)
+        F.scalebar.set_label("10 pc")
+        F.scalebar.set_font_size(18)
+        F.scalebar.set_font_weight('bold')
+        F.scalebar.set_color((0.8,0.3,0.01,0.9))
+        F.scalebar.set_linewidth(3)
+
+    F.set_autorefresh(refresh)
 
     return F

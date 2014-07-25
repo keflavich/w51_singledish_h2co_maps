@@ -27,8 +27,18 @@ x,y = w2.wcs_world2pix([center.l.deg], [center.b.deg], 0)
 data = dens_image.data
 mask = np.isfinite(data)
 data[~mask] = 0
-result = radialprofile.azimuthalAverage(data, center=(x,y), return_nr=True, mask=mask)
+result = radialprofile.azimuthalAverage(data, center=(x,y), return_nr=True, mask=mask, interpnan=True)
 h2co_nr, h2co_centers, h2co_rprof = result
+h2co_ok = np.isfinite(h2co_rprof)
+#h2co_nr = h2co_nr[h2co_ok]
+#h2co_centers = h2co_centers[h2co_ok]
+#h2co_rprof = h2co_rprof[h2co_ok]
+
+h2co_mindensfile = paths.dpath("H2CO_ParameterFits_min_mean_density_stdmasked.fits")
+mindens_image = fits.open(h2co_mindensfile)[0]
+mindata = np.nan_to_num(mindens_image.data)
+result = radialprofile.azimuthalAverage(mindata, center=(x,y), return_nr=True, mask=mask, interpnan=True)
+minh2co_nr, minh2co_centers, minh2co_rprof = result
 
 
 x,y = w.wcs_world2pix([center.l.deg], [center.b.deg], 0)
@@ -49,12 +59,13 @@ rprof_all = rprof_all*u.cm**-2
 rprof = rprof*u.cm**-2
 h2co_distprof = h2co_centers*(h2co_pixsize*distance).to(u.pc,u.dimensionless_angles())
 h2co_rprof = h2co_rprof*u.cm**-3
+minh2co_rprof = minh2co_rprof*u.cm**-3
 
 muh2 = 2.8 # AMU per particle
 radOK = (distprof < 25*u.pc) & (distprof > (pixsize*distance).to(u.pc, u.dimensionless_angles()))
 massprof = (rprof*constants.m_p*muh2*nr*(pixsize*distance)**2).to(u.M_sun, u.dimensionless_angles())
 massprof_all = (rprof_all*constants.m_p*muh2*nr_all*(pixsize*distance)**2).to(u.M_sun, u.dimensionless_angles())
-mean_rprof = np.cumsum(rprof) / np.cumsum(nr)
+mean_rprof = np.cumsum(np.nan_to_num(rprof.value)) / np.cumsum(nr) * u.cm**-2
 
 # Truncate profiles
 distprof,massprof = distprof[radOK], massprof[radOK]
@@ -143,7 +154,7 @@ ax1.set_ylabel("Shell-averaged $n(H_2)$")
 ax1.legend(loc='lower left', fontsize=18)
 
 # What is the cumulative density profile of formaldehyde if we assume the gas is volume-filling?
-h2co_dens_filling = (10**h2co_rprof.value).cumsum() / h2co_nr.cumsum()
+h2co_dens_filling = (h2co_nr*10**h2co_rprof.value).cumsum() / h2co_nr.cumsum()
 
 ax2 = pl.subplot(2,1,2, sharex=ax1)
 ax2.semilogy(distprof.value, dens_profile.value)
@@ -165,6 +176,8 @@ pl.setp([a.get_xticklabels() for a in fig.axes[:-1]], visible=False)
 pl.savefig(paths.fpath("HiGal_RadialProfile_VolumeDensity.pdf"))
 ax2.semilogy(h2co_distprof.value, h2co_dens_filling, color=h2co_line.get_color())
 pl.savefig(paths.fpath("HiGal_RadialProfile_VolumeDensity_h2cofilling.pdf"))
+h2co_line2, = ax1.semilogy(h2co_distprof.value, 10**minh2co_rprof.value)#, label='H$_2$CO')
+pl.savefig(paths.fpath("HiGal_RadialProfile_VolumeDensity_h2cofilling_withmins.pdf"))
 
 
 

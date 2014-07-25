@@ -103,8 +103,8 @@ lines.antialiased : True         # render lines in antialised (no jaggies)
 # 12pt is the standard value.
 #
 #font.family         : sans-serif
-font.family          : Helvetica
-#font.family         : Bitstream Vera Sans
+#font.family          : Helvetica
+font.family         : Bitstream Vera Sans
 #font.style          : normal
 #font.variant        : normal
 #font.weight         : medium

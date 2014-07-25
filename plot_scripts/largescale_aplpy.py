@@ -4,6 +4,7 @@ Requires rgb_wcs branch of aplpy June 10, 2014
 from astropy.io import fits
 import aplpy
 from aplpy_figure_maker import FITSFigure
+from aplpy import FITSFigure
 import PIL
 import matplotlib.colors as mc
 import numpy as np
@@ -17,9 +18,12 @@ import re
 from paths import datapath_w51 as datapath
 from paths import figurepath as figpath
 import paths
+import os
 
 #matplotlib.rc('text', usetex=True)
 #matplotlib.rcParams['text.latex.preamble'] = [r'\boldmath']
+pl.mpl.rc_file(os.path.join(paths.source_root, 'plot_scripts/pubfiguresrc'))
+
 
 h2co11 = fits.open(datapath+'W51_H2CO11_taucube.fits')
 co32 = fits.open(datapath+'w51_bieging_13co32.fits')
@@ -58,8 +62,9 @@ WCS = wcs.WCS(hdr)
 pl.close(1)
 fig = pl.figure(1,figsize=(15,10))
 fig.clf()
-F = FITSFigure(datapath+'v2.0_ds2_l050_13pca_map20_reproject.fits', figure=fig,
-               convention='calabretta', colorbar=False, color=False)
+F = aplpy.FITSFigure(datapath+'v2.0_ds2_l050_13pca_map20_reproject.fits',
+                     figure=fig, convention='calabretta', colorbar=False,
+                     color=False)
 
 H = fits.Header()
 H.fromTxtFile('/Volumes/128gbdisk/w51/pngs/hdr4096.hdr')
@@ -72,6 +77,9 @@ text = re.compile("text={([^}]*)}")
 for reg in regions:
     t = text.search(reg.comment).groups()[0]
     F.add_label(reg.coord_list[0], reg.coord_list[1], t, color='white', size=16, weight='bold')
+F.set_tick_labels_xformat('dd.d')
+F.set_tick_labels_yformat('dd.d')
+F.recenter(49.27, -0.32, width=0.9, height=0.4)
 F.save(paths.fpath('W51_wisecolor_largescale_labeled.pdf'), dpi=72)
 F.show_rgb(paths.dpath("make_pretty_picture/W51_modified.png",paths.datapath_w51),
            wcs=hwcs)
@@ -80,12 +88,15 @@ for L in F._layers.keys():
     if L in F._layers:
         F.remove_layer(L)
 
+F.set_tick_labels_xformat('dd.d')
+F.set_tick_labels_yformat('dd.d')
 F.show_regions(paths.rpath('image_region_labels.reg'))
 F.save(paths.fpath('W51_wisecolor_labeled_detail.pdf'), dpi=72)
 F.recenter(49.436,-0.365,0.21)
 F.save(paths.fpath('W51_wisecolor_zoom_W51Main.pdf'), dpi=72)
 F.recenter(49.05,-0.33,0.20)
 F.save(paths.fpath('W51_wisecolor_zoom_W51B.pdf'), dpi=72)
+
 
 #F.show_grayscale()
 #F.show_rgb('temp.png',wcs=WCS)

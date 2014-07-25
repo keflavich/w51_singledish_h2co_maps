@@ -5,7 +5,7 @@ from astropy.io import fits
 import numpy as np
 import pyregion
 from paths import datapath,dpath,rpath,mpath
-from common_constants import TCMB
+from common_constants import TCMB, etamb_gbt
 from h2co_modeling.grid_fitter import grid_2p_getmatch
 #cube1 = pyspeckit.Cube('W51_H2CO11_cube_sub.fits')        / 0.51 # eta_mb = 0.51 for arecibo @ c-band according to outergal paper
 #cube2 = pyspeckit.Cube('W51_H2CO22_pyproc_cube_sess22_sub.fits') / 0.886 # from both outergal and pilot
@@ -19,10 +19,17 @@ from h2co_modeling.grid_fitter import grid_2p_getmatch
 plot=False
 
 #etamb already accounted for
+# July 6: Really?  Is it?  I'm pretty damned sure it's not.  Jackass.
+# etamb is dealt with in the reduction script for H2CO 1-1 in
+# reduce_map.pro:accum_map.
+# For 2-2, it is never touched: it is only ever mentioned in make_taucube
+# The problem is that I made the transition from tau->sub without checking this...
+# even though it's obviously indicated in the post-import lines above
 h2co11filename = dpath('W51_H2CO11_cube_supersampled_sub.fits')
 h2co22filename = dpath('W51_H2CO22_pyproc_cube_lores_supersampled_sub.fits')
 cube1 = pyspeckit.Cube(h2co11filename)
 cube2 = pyspeckit.Cube(h2co22filename)
+cube2.data /= etamb_gbt # etamb scaling *crucial* for 2-2!
 cube1.xarr.refX_units='GHz'
 cube1.xarr.refX = 4.829659400
 E1 = cube1.cube[cube1.xarr.as_unit('km/s') < 0].std(axis=0)
@@ -42,7 +49,7 @@ else:
 cont11filename = dpath('W51_H2CO11_cube_supersampled_continuum.fits')
 cont22filename = dpath('W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')
 cont11 = fits.getdata(cont11filename) + TCMB
-cont22 = fits.getdata(cont22filename) + TCMB
+cont22 = fits.getdata(cont22filename) / etamb_gbt + TCMB
 cont11[cont11<TCMB] = TCMB
 cont22[cont22<TCMB] = TCMB
 

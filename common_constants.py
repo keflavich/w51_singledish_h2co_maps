@@ -15,7 +15,7 @@ h2co22freq = 14.48848 * u.GHz
 TCMB = 2.7315
 
 # etamb_111 = 0.51 # ALREADY ACCOUNTED FOR!
-etamb_77 = 0.886
+etamb_gbt = etamb_77 = 0.886
 
 tau11cubefn = 'W51_H2CO11_taucube_supersampled.fits'
 tau22cubefn = "W51_H2CO22_pyproc_taucube_lores_supersampled.fits"

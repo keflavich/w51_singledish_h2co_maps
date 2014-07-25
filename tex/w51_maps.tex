@@ -1,11 +1,11 @@
 \input{preface}
 
-\title{W51 at 2 and 6 cm}
+\title{The W51 GMC in 3D: The DGMF}
+% NEED A BETTER TITLE...
 \input{authors}
 %\begin{centering} 
 %    \today
 %\end{centering}
-
 
 
 
@@ -16,17 +16,35 @@
 % aren't going to be that exciting
 
 \section{Abstract}
-We present new 2 cm and 6 cm maps of \formaldehyde and the radio continuum in
-the W51 star forming complex acquired with Arecibo and the Green Bank Telescope
-at $\sim50\arcsec$ resolution.
+We present new 2 cm and 6 cm maps of \formaldehyde, radio recombination lines,
+and the radio continuum in the W51 star forming complex acquired with Arecibo
+and the Green Bank Telescope at $\sim50\arcsec$ resolution.
 We perform a detailed analysis of the data and data processing with an emphasis on
 ensuring the reliability of the data.
 The data set has been made public at \todo{location}.
 
 We present an analysis of the three-dimensional structure of the W51 region,
 determining the relative line-of-sight positions of molecular and ionized gas.
+We show evidence that the W51 C supernova remnant is interacting with the W51 B
+molecular filament.
+We argue that the W51 A and B star-forming regions are physically associated and
+interacting, supporting the idea that the W51 A cluster formation was triggered
+by cloud-cloud collision.
 
-We present maps of the local volume density of the molecular gas.
+We measure gas densities using the \formaldehyde densitometer, finding largely
+consistent mass-weighted volume densities $n\gtrsim10^4$ \percc throughout the
+W51 GMC, with higher density $n\gtrsim10^5$ \percc gas associated with the
+proto-clusters.  We present continuous measurements of the dense gas mass
+fraction over the range $10^4$ $\percc< n(\hh) < 10^6$ \percc.
+
+We did not detect \emph{any} \formaldehyde emission throughout the W51 GMC; all
+gas dense enough to emit under normal conditions is in front of bright
+continuum sources.  This nondetection implies that the \formaldehyde emission
+detected in other galaxies, e.g. Arp 220, comes from high-density gas that is
+not directly affiliated with forming massive stars, i.e. the entire ISM of
+these galaxies is very dense.
+
+
 \footnote{Compiled on \today\ at \currenttime}
 
 
@@ -47,8 +65,10 @@ or an extended generation of stars should form prior to gas expulsion because
 the gas will remain gravitationally bound \citep{Bressert2012a}.   Feedback from
 and within young massive clusters is an active field of numerical study
 \citep{Rogers2013a,Dale2013a,Dale2012a,Dale2008a,Dale2005a,Parker2013a,Myers2014a,Krumholz2014a}
-%While
-%only 5-35\% of all stars form in bound clusters \citep{Kruijssen2012a},
+While
+only 5-35\% of all stars form in bound clusters \citep{Kruijssen2012a},
+these clusters form the basis of our understanding of stars and stellar evolution
+[citation needed], and understanding their formation is therefore crucial.
 
 The results of cluster formation may be decided before the first stars are
 formed.  The starless initial conditions of massive clusters have not yet been
@@ -58,13 +78,15 @@ formation on any scale are clearly turbulent.  However, there is no evidence
 whether these initial conditions differ in any qualitative way from turbulence
 in local, low-mass star-forming regions.
 
-The W51 cloud complex (Figure \ref{fig:w51large}) is located at $\ell\sim49,
-b\sim-0.3$, very near the Galactic midplane\footnote{The midplane at $d=5.1$
-kpc is offset approximately -0.22 to -0.33 degrees from $b=0$ depending on our
-solar system's height above the midplane, $Z_\sol = 20$ pc or 30 pc,
-respectively \citep{Reed2006a,Joshi2007a}.} at a distance of 5.1 kpc
-\citep{Sato2010a}.  It is a well-known and
-thoroughly studied collection of clouds massing $M>10^6 \msun$
+\subsection{W51}
+The W51 cloud complex (Figure \ref{fig:w51large}), containing the two W51
+massive proto-cluster candidates from \citep{Ginsburg2012a}, is located at
+$\ell\sim49, b\sim-0.3$, very near the Galactic midplane\footnote{The midplane
+at $d=5.1$ kpc is offset approximately -0.22 to -0.33 degrees from $b=0$
+depending on our solar system's height above the midplane, $Z_\odot = 20$ pc or
+30 pc, respectively \citep{Reed2006a,Joshi2007a}.} at a distance of 5.1 kpc
+\citep{Sato2010a}.  It is a well-known and thoroughly studied collection of
+clouds massing $M>10^6 \msun$
 \citep{Carpenter1998a,Bieging2010a,Kang2010a,Parsons2012a}.  The radio-bright
 regions are generally known as W51 A to the east, W51 B to the west, and W51 C
 for the southern component, known to trace a supernova remnant
@@ -76,8 +98,28 @@ labeled.  The blue, green, and red colors are WISE bands 1, 3, and 4 (3.4, 12,
 and 22 \um) respectively.  The yellow-orange semitransparent layer is from the
 Bolocam 1.1 mm Galactic Plane Survey data \citep{Aguirre2011a,Ginsburg2013a}.
 Finally, the faint whitish haze filling in most of the image is from a 90 cm
-VLA image by \citet{Brogan2013a}, which primarily traces the W51 C supernova remnant.}
+VLA image by \citet{Brogan2013a}, which primarily traces the W51 C supernova
+remnant.}
 {fig:w51large}{0.5}{0}
+
+
+\subsection{Formaldehyde}
+Formaldehyde (\formaldehyde) has been recognized as a useful probe of physical
+conditions in the molecular interstellar medium for decades
+\citep{Mangum1993a}.  The centimeter lines, \formaldehyde \oneone (6.2 cm,
+4.82966 GHz) and \twotwo (2.1 cm, 14.48848 GHz), have a peculiar excitation
+process in which collisions overpopulate the lower of the two $K_c$ rotational
+states.  Because the \oneone and \twotwo level pairs populate differently
+depending on the volume density of the colliding partner (generally \hh), their
+ratio is sensitive to the local gas volume density.
+
+\formaldehyde \oneone has been observed in the W51 main region with the VLA
+\citep{Martin-Pintado1985a} and Westerbork \citep{Arnal1985a}, and this data
+was used to gain some early constraints on the geometry of the region
+\citep[e.g.][]{Carpenter1998a}.  \citet{Henkel1980a} presented observations of
+the \oneone and \twotwo lines, and \citet{Martin-Pintado1985b} presented
+single-dish mapping observations of the \formaldehyde \twotwo line toward the
+W51 Main region, but both treated the region as a single-density structure.
 
 
 
@@ -371,9 +413,10 @@ We use the line-to-continuum ratio in both bands to measure the electron
 temperature using Equation 14.58 of \citet{Wilson2009a}, which assumes a
 plane-parallel, optically-thin emission region with lines formed in local
 thermodynamic equilibrium.  The two lines yield consistent measurements, with
-mean $T_e\sim7000-8000$ K.  There is only a little structure in the $T_e$ maps,
-with a hint of higher temperatures around G49.1-0.4, coincident with the W51C
-supernova remnant.
+mean $T_e\sim7000-8000$ K; these measurements are consistent with smaller-scale
+measurements using the VLA with H92$\alpha$ \citep{Mehringer1994a}.  There is
+only a little structure in the $T_e$ maps, with a hint of higher temperatures
+around G49.1-0.4, coincident with the W51C supernova remnant.
 
 \subsection{Carbon and Helium RRLs}
 Helium RRLs were prevalent and reasonably well-correlated with the hydrogen
@@ -674,6 +717,9 @@ involved in accounting for these effects, we ignore them here.
 % entirely implausible that this structure is caused by any local phenomenon,
 % e.g. supernovae or cloud collisions.  Instead, the high-density ridge provides
 % evidence for a spiral density wave triggering the high densities.
+
+\subsection{A note on nondetections}
+\todo{H$_2$ $^{13}$CO was not detected.}
 
 \section{Structure of the Molecular Cloud}
 The \formaldehyde observations reveal two essential features of the W51 GMC:
@@ -1000,6 +1046,7 @@ $\ell=49.393$, $b=-0.357$ to $\ell=49.207$, $b=-0.338$.
 The \hii region G49.20-0.35 is clearly behind the IRDC, though there are strong
 morphological hints that it is interacting with and truncated by the cloud.
 
+% analysis_scripts/pvfigure_h2co13co.py
 \FigureTwo
 {figures/filament_extraction_region_on_HiGal.pdf}
 {figures/cyan_wide_PV_h2co11_22_13co.pdf}
@@ -1307,6 +1354,118 @@ Examination of the \formaldehyde line ratios has shown that the protocluster is
 embedded in the $\sim55$ \kms molecular cloud.  
 
 %\todo{Is the W51 filament like Nessie?  Too coherent over large scales, flattened in the midplane?}
+
+\subsection{Gas density and its relation to star formation}
+The lowest density readily observed in our survey of W51 is $n\sim10^4$ \percc.
+Lower densities can be detected with \formaldehyde observations but require
+greater depth, especially in the \twotwo line.
+
+In \citet{Ginsburg2013b}, we measured the \formaldehyde line ratio to high
+precision in a low-density, turbulent, non-star-forming GMC.  While the mean
+density of this cloud was of order $n\sim10^2$ \percc, the mass-weighted
+density as probed by \formaldehyde was $n\approx5\ee{3}$ \percc.  The density
+measurements in the W51 cloud exceed this value for the majority of the
+detections significant in both \oneone and \twotwo, indicating that there is a
+much higher fraction of high-density gas in this star-forming cloud than in the
+quiescent GMC in front of W49.
+
+\subsubsection{Dense Gas Mass Fractions}
+Because the \formaldehyde densitometer yields a mass-weighted measurement of
+the gas volume density, it is difficult to connect directly to the total gas
+mass, which is the quantity of interest when determining bulk properties like
+star forming efficiency.  However, because the \formaldehyde and CO trace the
+same gas, the \formaldehyde-derived density can be applied to the total mass
+measured by CO.  We assume that each \thirteenco PPV `voxel' has a mass
+proportional to its integrated intensity and a density given by the $n(\hh)$
+delivered from the \formaldehyde densitometer.
+
+The `dense gas mass fraction' (DGMF) is an oft-quoted measurement used to argue
+about the speed of the star formation process, the existence of density
+threshold, and turbulent properties of the ISM \citep[e.g. Fig. 5
+of][]{Krumholz2007a,Battistia2014a,Kainulainen2013a,Juneau2009a,Muraoka2009a,Hopkins2013e}.
+However, these fractions are most often quoted as mass of gas at a \emph{single}
+density divided by the total mass.  We present an improvement on these measurements,
+showing the continuous distribution of the dense gas mass fraction.
+
+Figure \ref{fig:dgmf} shows the result of using our \formaldehyde PPV density
+cubes to measure the DGMF from \thirteenco.  We use a range of density
+thresholds from $\sim10^3$ to $\sim10^4$ \percc.  At each density, we identify
+all pixels in the \thirteenco PPV cube above this threshold and sum those.  We
+then divide by the total integrated \thirteenco brightness to get the mass
+fraction. 
+
+Figure \ref{fig:dgmf_regions} shows the same results, but for two individual
+regions: the W51 Main proto-cluster and the W51 B region.  Within about 10 pc
+of W51 Main, around half of the mass is at density $n>10^4$ \percc.  By
+contrast, the rest of the molecular cloud shows a consistent fraction
+$f\sim10\%$ with $n>10^4$ \percc.
+
+
+\Figure{figures/FractionOfMassAboveDensity_All}
+{The `dense gas mass fraction' as a function of volume density $n(\hh)$ \percc.
+The $y$-axis shows the sum of \thirteenco pixels from the GRS cube with
+\formaldehyde-derived density above the value shown on the $x$-axis divided by
+the total.  Both values are computed over the velocity range $40 \kms < v_{LSR}
+< 75 \kms$.  The blue shaded region shows the extent of plausible model fits at
+each density: effectively, this is the $\sim1-\sigma$ error region.  The
+vertical line at $n=10^4$ \percc indicates the approximate completeness limit.
+The horizontal line shows the fraction of \thirteenco flux detected at
+$>2\sigma$ in both the \oneone and \twotwo lines: it represents the upper limit
+of what could have been detected if, e.g., all \formaldehyde detections were
+toward regions with $n>10^4$ \percc.  The failure to converge to a fraction
+$f\rightarrow f_{max}$ indicates that there are some real detections of
+low-density gas.}
+{fig:dgmf}{0.5}{0}
+
+\FigureTwo
+{figures/FractionOfMassAboveDensity_W51Main}
+{figures/FractionOfMassAboveDensity_W51B}
+{Same as Figure \ref{fig:dgmf}, but for two individual regions: W51 Main
+(left), the region $49.4\arcdeg < \ell < 49.6\arcdeg$, $-0.5\arcdeg < b <
+-0.3\arcdeg$, and W51 B (right) with $\ell < 49.4\arcdeg$.  }
+{fig:dgmf_regions}{1}
+
+\subsubsection{Dense Gas Fraction assumptions \& caveats}
+
+This analysis relies on the \thirteenco being optically thing and thermally
+excited, both of which are generally good assumptions for the majority of the
+mass.  The molecular cloud probably includes no more than $\sim20\%$ of its mass
+in CO-dark gas \citep{Pineda2013a,Langer2013a,Smith2014b}, which adds little to
+the overall uncertainty.
+
+In Section \ref{sec:densmaps}, we discussed the various caveats and issues
+related to \formaldehyde density fitting.  To account for the full range of
+errors in that analysis, we have plotted the DGMF calculated using the minimum
+and maximum values of the \formaldehyde-derived density consistent with the
+data at the $1-\sigma$ level in Figure \ref{fig:dgmf} and
+\ref{fig:dgmf_regions}.
+
+
+\subsection{Implications for extragalactic observations of \formaldehyde}
+Although W51 is one of the most massive and active GMCs in the galaxy,
+containing 7\% of the present-day massive star formation galaxy-wide
+\citep{Urquhart2014a}, its gas mass is predominantly at a moderate density,
+$n\sim5\ee{4}$ \percc.  There were \emph{no detections} of \formaldehyde
+emission on the $\sim1.25$ pc (50\arcsec) scales observed.
+
+By contrast, in extragalactic observations of starburst galaxies, there have
+been detections of emission on $\sim100$ pc scales.  \citet{Mangum2013a} report
+detections of \formaldehyde \oneone emission in NGC 3079, IC 860, IR
+15107+0724, and Arp 220 on $\sim10$ kpc scales.  The implied local column
+densities from their analysis are modest, but the densities are extreme: their
+observations imply that the local-scale \emph{chemical} conditions are
+comparable to W51, but the densities are different.
+
+The only location in which densities $n\gtrsim5\ee{5}$ (comparable to $n_{Arp
+220}$, etc.) are observed in W51 are in the central W51 Main region.  We don't
+observe absorption because of the extremely bright continuum background source.
+It is therefore not possible to explain the \formaldehyde-emission galaxies by
+constructing them from collections of UCHII regions; such a galaxy would be
+continuum-bright and show only \formaldehyde absorption.  Instead, they must be
+assembled from huge quantities of high-density, non-star-forming gas.
+This result is in contradiction to the idea that Giant \hii Regions are the
+`building blocks' of starburst galaxies \citep[e.g.][]{Miura2014a}.  
+
 
 \section{Conclusion}
 We have presented maps of the \formaldehyde \oneone and \twotwo and H77$\alpha$
