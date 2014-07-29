@@ -338,8 +338,7 @@ showing brightness temperature units in K.  The red contours in both figures
 show the region observed by Green Bank; flux outside of those boundaries is
 extrapolated.  The green contours show the region where $T_B$(GBT)$>T_B$(300 ft).
 (bottom) Plot of the GBT vs the 300 ft surface brightness measurements.
-The large red dots show the region within the red contours, while the small
-blue dots show the extrapolated points.  
+The large red dots show the region within the red contours.  
 }
 {fig:2cmcompare}{0.5}{0}
 
@@ -347,9 +346,15 @@ blue dots show the extrapolated points.
 We compare the 6 cm continuum to the Urumqi 25m data from \citet{Sun2007a} and
 \citet{Sun2011a}.  Figure \ref{fig:6cmcompare} shows the comparison of the
 Urumqi data and the Arecibo continuum data smoothed to 9.5\arcmin resolution.
-The agreement \todo{was excellent in a previous version, and now shows the 
-Arecibo data yielding too-bright emission by a factor $\sim1.4$, which hints
-that maybe there's a double-$\eta_{MB}$ correction happening?  This is very bad.}
+The Arecibo data appears to be systematically brighter than the Urumqi data
+by about 40\%.  This systematic offset is worrisome for spectral index
+measurements, but should have little effect on the \formaldehyde analysis.
+\todo{This offset appeared upon reanalysis in July 2014.  It definitely, 100\%
+certainly, did not exist the last time I ran the \emph{exact} same analysis
+on the same data with the same code.  I cannot track down this offset but it
+will probably keep me awake at nights for months.  The increase from before
+is about 25\%, which one will note is nowhere near $1/\eta_{MB}=2$, so
+I really have no explanation.}
 
 
 \Figure{figures/comparison_to_urumqi_6cm.pdf}
@@ -361,9 +366,7 @@ showing brightness temperature units in K.  The red contours in both figures
 show the region observed by Arecibo; flux outside of those boundaries is
 extrapolated.
 (bottom) Plot of the Arecibo vs the Urumqi surface brightness measurements.
-The large red dots show the region within the red contours, while the small
-blue dots show the extrapolated points.  The dashed gray line is the one-to-one
-line.
+The large red dots show the region within the red contours.
 }
 {fig:6cmcompare}{0.5}{0}
 
@@ -372,16 +375,24 @@ line.
 In order to compare the Green Bank and Arecibo continuum data, we converted
 the brightness temperature maps to Janskys assuming a beam FWHM of 50\arcsec
 for both surveys and central frequencies of 4.8 and 14.5 GHz for Arecibo and
-Green Bank respectively.  In this section, the target frequencies are referred
+Green Bank respectively.  Measured beam widths for both telescopes were
+$\sim49-54\arcsec$, so the relative error from assuming the same beam size
+should be $\lessim10\%$.
+In this section, the target frequencies are referred
 to as $S_{5 GHz}$ and $S_{15 GHz}$ for brevity.
 
-The data are well-correlated, with $S_{5 GHz} \sim 1.1 S_{15 GHz}$ (Figure
-\ref{fig:gbtaocontcompare}), consistent with a spectral index $\alpha_\nu=-0.1$
-typical of optically thin brehmsstrahlung.
-However, in Figure \ref{fig:contrrlcompare}a, a great deal of structure in the
-$S_{15 GHz}/S_{5 GHz}$ ratio is evident in the vicinity of W51 Main: the ratio
-is higher towards the continuum peaks, indicating that the peaks have higher
-free-free optical depths than their envelopes.
+The data are well-correlated, with $S_{5 GHz} \sim 1.4 S_{15 GHz}$ ($S_{15 GHz}
+\sim 0.7 S_{5 GHz}$; Figure \ref{fig:gbtaocontcompare}), consistent with a
+spectral index $\alpha_\nu=-0.3$
+slightly steeper than usually observed for optically thin brehmsstrahlung and
+consistent with there being some contribution from synchrotron emission.  The
+lower-brightness regions have a lower $S_{15 GHz}/S_{5 GHz}$, indicating that
+these regions are more affected by synchrotron.  In Figure
+\ref{fig:contrrlcompare}a, a great deal of structure in the $S_{15 GHz}/S_{5
+GHz}$ ratio is evident in the vicinity of W51 Main: the ratio is higher towards
+the continuum peaks, indicating that the peaks have higher free-free optical
+depths, or lower relative contributions from synchrotron emission, than their
+envelopes.
 
 We additionally compare the radio recombination lines observed simultaneously
 with the continuum and \formaldehyde.  Hydrogen RRLs are often extremely
@@ -395,10 +406,10 @@ range 20 to 100 \kms, which includes all H$\alpha$ emission but no He$\alpha$.
 
 % TODO: re-create h112alpha cube: likely problem with bg subtraction at 20 km/s
 % Done!
-The ratios between the X and Y axis in each plot in Figure
-\ref{fig:contrrlcompare} are fitted using a total least squares approach with
+The ratios between the $x$ and $y$ axis in each plot in Figure
+\ref{fig:gbtaocontcompare} are fitted using a total least squares approach with
 uniform errors for each data point.   The line-to-continuum ratio is
-$L/C(H77\alpha)\sim0.06$ and $L/C(H112\alpha)\sim0.03$; in both cases there is
+$L/C(H77\alpha)\sim0.15$ and $L/C(H112\alpha)\sim0.04$; in both cases there is
 little evidence for deviation from a linear relationship.
 
 \subsubsection{Comparison of the RRL and continuum data}
@@ -428,11 +439,16 @@ which yield a measurement of the line-to-continuum ratio.
 We use the line-to-continuum ratio in both bands to measure the electron
 temperature using Equation 14.58 of \citet{Wilson2009a}, which assumes a
 plane-parallel, optically-thin emission region with lines formed in local
-thermodynamic equilibrium.  The two lines yield consistent measurements, with
-mean $T_e\sim7000-8000$ K; these measurements are consistent with smaller-scale
+thermodynamic equilibrium (the $*$ in $T_e^*$ is meant to indicate these three
+assumptions are made).  The two lines yield consistent measurements, with mean
+$T_e^*\sim7000-8000$ K; these measurements are consistent with smaller-scale
 measurements using the VLA with H92$\alpha$ \citep{Mehringer1994a}.  There is
-only a little structure in the $T_e$ maps, with a hint of higher temperatures
-around G49.1-0.4, coincident with the W51C supernova remnant.
+only a little structure in the $T_e^*$ maps, with a hint of higher temperatures
+around G49.1-0.4, coincident with the W51C supernova remnant.  Other structures
+are most likely due to the limited S/N.
+
+Finally, we fit a single-component Gaussian to each pixel to produce velocity
+maps.  These are discussed in Section \ref{sec:kinematics}.
 
 \subsection{Carbon and Helium RRLs}
 Helium RRLs were prevalent and reasonably well-correlated with the hydrogen
@@ -441,6 +457,8 @@ higher signal-to-noise than than He107-112$\alpha$.  There were no clear
 detections of C77$\alpha$ or C107-112$\alpha$, though there is a possible
 C77$\alpha$ signal at G49.366-0.304 with $v_{lsr} \approx 55$ \kms and a
 possible detection toward W51 Main along the wing of the He77$\alpha$ line.
+The He77$\alpha$ line detections are associated with regions of high $H_n\alpha$
+but not regions of different $T_e^*$.
 
 
 \Figure{figures/continuum_rrl_comparisongrid.pdf}
@@ -469,16 +487,20 @@ the ratio is 9.
 }
 {fig:contrrlcompare}
 
-\FigureThreePDF
+\FigureFourPDF
 {figures/ratiomap_cont_h112te}
 {figures/ratiomap_cont_h77te}
 {figures/electron_temperature_77vs111}
+{figures/ratiomap_cont_h77te_HeContours}
 {(a) The H112$\alpha$ electron temperature map showing $T_e^*$ in K. 
 (b) The H77$\alpha$ electron temperature map showing $T_e^*$ in K.
 (c) The measured electron temperature in the 6 cm vs the 2 cm band at each spatial
 pixel with significant detected RRL emission.  The contours show regions of
 increasing pixel density.  The $x$ marks the median and the $+$ marks the mean
 over all valid pixels.
+(d) Same as (b), but with integrated He77$\alpha$ contours at levels [0.0125,
+0.025, 0.05, 0.1, 0.15, 0.2] K \kms overlaid.  The contours on the right side
+($\ell<49$) most likely trace noise, since the noise in that region is higher.
 }
 {fig:tevste}%{0.5}{0}
 \clearpage
@@ -531,7 +553,8 @@ number-of-neighbors filter (i.e., a $3\times3$ kernel with all values of unity
 except the center pixel) and removed all pixels with fewer than 7 neighbors
 with detections.  After filtering, 35039 voxels were left, or $\sim 1\%$ of the
 total (though this fraction is arbitrary, since the number of spectral pixels
-is determined by the gridding).  These are located in 5822 pixels, or 33\% of
+is determined by the gridding; i.e. we could have included a larger velocity
+range in the output cube).  These are located in 5822 pixels, or 33\% of
 the 17718 pixels valid in both data sets.
 
 Histograms of the data are shown in Figure \ref{fig:datahistograms}.  They
@@ -539,6 +562,12 @@ illustrate the non-Gaussian nature of the noise.  The ratio distribution, in
 particular, appears to follow a power-law distribution with a cutoff at low
 ratio.
 
+Note that there is hyperfine structure in the \oneone lines, but the maximum
+offset is 1.15 \kms, and that hyperfine line is expected to be 1/6th of the
+total.  For the purpose of these bulk comparisons on the large observed scales,
+it is safe to ignore the hyperfine structure.
+
+% plot_scripts/tau_histograms.py
 \Figure{figures/cube_histograms_tau_and_ratio}
 {Histograms of the optical depth data cubes.  In panels (a) and (b),
 a Gaussian distribution with width equal to the median absolute deviation
@@ -735,7 +764,11 @@ involved in accounting for these effects, we ignore them here.
 % evidence for a spiral density wave triggering the high densities.
 
 \subsection{A note on nondetections}
-\todo{H$_2$ $^{13}$CO was not detected.}
+H$_2$ $^{13}$CO was not detected anywhere in the W51 complex in either the
+\oneone or \twotwo lines.  The peak signal-to-noise in the \oneone cube was
+180, so we report a $3-\sigma$ upper limit on the \formaldehyde/H$_2$ $^{13}$CO
+ratio $R>60$, which is consistent with solar values of the $^{12}C$/$^{13}C$
+ratio.
 
 \section{Structure of the Molecular Cloud}
 The \formaldehyde observations reveal two essential features of the W51 GMC:
@@ -922,6 +955,7 @@ view of our Galaxy.}
 
 
 \subsection{Kinematic Maps}
+\label{sec:kinematics}
 Maps showing the overall kinematics of the region are shown in Figures
 \ref{fig:kinematics} and \ref{fig:h2cokinematics}.  Figure \ref{fig:kinematics}
 shows the velocity at peak absorption of the \formaldehyde \oneone line and the
@@ -952,14 +986,19 @@ v_{LSR} < 66$ \kms (left) and $66 < v_{LSR} < 75$ \kms (right).  The regions
 that appear noisy have ambiguous multi-component decompositions.}
 {fig:h2cokinematics}{1}{6.5in}
 
-\subsection{W51 B}
+\subsection{Geometry of Individual Regions}
+\subsubsection{The W51 B Filament}
 \label{sec:w51b}
-The W51 B filament is rich in molecular gas, but has relatively weak
-\formaldehyde absorption.  The absorption models are inconsistent with
-the molecular gas being in front of the continuum emission.
-Figure \ref{fig:h2cofrontbackmodel} shows an example model fit with the
-continuum assumed to be in front and in back, illustrating that the best-fit
-model parameters with continuum in the back do not reproduce the data.
+The W51 B filament, labeled as the 66 \kms cloud in Figure \ref{fig:geosketch},
+exhibits bright CO emission but has relatively weak \formaldehyde absorption.
+The absorption models are inconsistent with the molecular gas being in front of
+the continuum emission, so Figure \ref{fig:geosketch} shows the continuum sources
+in front of the cloud at lower $\ell$.  Figure \ref{fig:h2cofrontbackmodel}
+shows an example model fit with the continuum assumed to be in front and in
+back, illustrating that the best-fit model parameters with continuum in the
+back do not reproduce the data.
+The relative positioning of the molecular gas behind the \hii regions suggests
+that the molecular gas is also behind the W51 C supernova remnant.
 
 % pyspeckit_individual_fits
 % paperfigure_filament_demonstrate_frontback(fixedTO=True):
@@ -981,10 +1020,8 @@ only over the pixels where the model is greater than the local RMS.}
 % with the lowest mean density corresponding to the highest column density toward
 % the center.
 
-The relative positioning of the molecular gas behind the \hii regions suggests
-that they are also behind the W51 C supernova remnant.
 
-\subsection{The edge of W51 C}
+\subsubsection{The edge of W51 C}
 W51 C is a supernova remnant that spatially overlaps with the W51 B star
 forming region.  \citet{Brogan2013a} argue that the supernova remnant must be
 in front of the \hii region G49.20-0.35 because the \hii-region has not absorbed
@@ -1053,7 +1090,7 @@ The best-fit Gaussian parameters are shown in the legends, with the lower
 legend corresponding to H77$\alpha$.}
 {fig:hiirrlspec}{1}
 
-\subsection{The 66 \kms IRDC}
+\subsubsection{The 66 \kms IRDC}
 Between W51 A and W51 B, there is a component of the 68 \kms cloud that is
 filamentary and in the foreground of all of the free-free emission.
 This cloud component is evident as an IRDC in the Spitzer GLIMPSE images from
@@ -1499,7 +1536,7 @@ data were compared with previous lower-resolution observations of the region,
 resulting yielding a consistent calibration.
 
 The recombination lines have been used in conjunction with the continuum to
-estimate electron temperatures, with a consistent mean $T_e\sim7500$ K.
+estimate electron temperatures, with a consistent mean $T_e^*\sim7500$ K.
 
 The \formaldehyde \oneone/\twotwo line ratio was used to measure gas volume
 densities.  While systematic uncertainties in the modeling remain, the

@@ -11,7 +11,7 @@ import astropy.units as u
 import common_constants
 aobeam,gbbeam = common_constants.beams()
 from common_constants import h2co11freq,h2co22freq,etamb_77,rrl
-from paths import datapath
+from paths import datapath,fpath
 
 pl.mpl.rcParams['axes.color_cycle'] = ["#"+x for x in "348ABD, 7A68A6, A60628, 467821, CF4457, 188487, E24A33".split(", ")]
 
@@ -38,6 +38,11 @@ h77cname = os.path.join(datapath,'W51_h77a_pyproc_cube_supersampled_continuum.fi
 h77c = fits.getdata(h77cname) * ktojy77 / etamb_77
 h77c.value[h77c == 0] = np.nan
 h77h = fits.getheader(h77cname)
+
+he77a_name = os.path.join(datapath,'W51_he77a_pyproc_integrated_supersampled.fits')
+he77a = fits.getdata(he77a_name)
+he112a_name = os.path.join(datapath,'W51_healpha_6cm_integrated_supersampled.fits')
+he112a = fits.getdata(he112a_name)
 
 amplitude_threshold111 = 0.2 * ktojy111
 amplitude_threshold77 = 0.03 * ktojy77
@@ -102,8 +107,11 @@ for ii,img in enumerate('h77te,h112te,h77lc,h112lc,h77th112,c2cmtc6cm'.split(','
     F.set_tick_labels_yformat('dd.d')
     #F.set_tick_xspacing(0.3)
     figs.append(F)
-    F.save('/Users/adam/work/h2co/maps/paper/figures/ratiomap_cont_%s.pdf' % name)
-    F.save('/Users/adam/work/h2co/maps/paper/figures/ratiomap_cont_%s.png' % name)
+    F.save(fpath('ratiomap_cont_%s.pdf' % name))
+    F.save(fpath('ratiomap_cont_%s.png' % name))
+    F.show_contour(he77a_name, convention='calabretta', levels=[0.0125, 0.025, 0.05,0.1,0.15,0.2],
+                   colors='w', linewidth=0.5)
+    F.save(fpath('ratiomap_cont_%s_HeContours.pdf' % name))
 
 pl.figure(ii+1)
 pl.clf()
@@ -138,7 +146,7 @@ pl.plot(h77te_mean, h112te_mean, 'k+')
 ax.set_xlabel(r"$T_e(\mathrm{H}77\alpha)$")
 ax.set_ylabel(r"$T_e(\mathrm{H}112\alpha)$")
 ax.axis([0,2e4,0,2e4])
-pl.savefig('/Users/adam/work/h2co/maps/paper/figures/electron_temperature_77vs111.pdf')
+pl.savefig(fpath('electron_temperature_77vs111.pdf'))
 
 
 keys = [
@@ -235,5 +243,5 @@ mp.grid[mp.axis_number(1,2)].set_visible(False)
 mp.grid[mp.axis_number(0,1)].set_visible(False)
 mp.grid[mp.axis_number(2,1)].set_xticks(mp.grid[mp.axis_number(2,1)].get_xticks()[:-1])
 
-pl.savefig('/Users/adam/work/h2co/maps/paper/figures/continuum_rrl_comparisongrid.pdf')
+pl.savefig(fpath('continuum_rrl_comparisongrid.pdf'))
 pl.show()
