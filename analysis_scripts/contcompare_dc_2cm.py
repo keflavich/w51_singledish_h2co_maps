@@ -3,23 +3,26 @@ import numpy as np
 import FITS_tools
 from astropy.io import fits
 from astropy import units as u
-from agpy import smooth
+from fft_psd_tools import smooth
+from image_tools import downsample
 import mpl_plot_templates
 import aplpy
 import image_registration
+import paths
 
-twotwofn = 'W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits'
-dcfn = 'langston_14ghz_gpa-bk1.fit' # has already been corrected
-im1,im2 = FITS_tools.match_images.match_fits(twotwofn,dcfn,use_montage=False)
+twotwofn = paths.dpath('W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')
+# has already been corrected for etamb
+dcfn = paths.dpath('langston_14ghz_gpa-bk1.fit')
+im_lang,im_gbt = FITS_tools.match_images.match_fits(dcfn,twotwofn,use_montage=False)
 etamb_twotwo = 0.886
 
 downsample_factor = 5
 
-ac = im1 / etamb_twotwo #fits.getdata(twotwofn)
+ac = im_gbt / etamb_twotwo #fits.getdata(twotwofn)
 # unknown whether Langston images need etamb correction!  I couldn't tell from
 # examining the data OR from reading the website
 # T_MB per beam?  Probably.
-dc = im2 #fits.getdata(dcfn).squeeze()
+dc = im_lang #fits.getdata(dcfn).squeeze()
 ac_hdr = fits.getheader(twotwofn)
 dc_hdr = FITS_tools.strip_headers.flatten_header(fits.getheader(dcfn))
 
@@ -51,7 +54,7 @@ okimg = np.isfinite(ac).astype('float')
 #resampled_ac = FITS_tools.hcongrid.hcongrid(sm_ac, ac_hdr, dc_hdr)
 #resampled_ok = FITS_tools.hcongrid.hcongrid(okimg, ac_hdr, dc_hdr)
 resampled_ac = sm_ac
-resampled_ok = okimg[::downsample_factor,::downsample_factor]
+resampled_ok = downsample(okimg, downsample_factor)
 
 #xok = (np.isfinite(resampled_ac) * (resampled_ac != 0)).max(axis=0)
 #yok = (np.isfinite(resampled_ac) * (resampled_ac != 0)).max(axis=1)
@@ -86,8 +89,10 @@ sp2 = pl.subplot(2,2,2)
 sp2b = sp2.bbox._bbox._points[0].tolist() + (sp2.bbox._bbox._points[1]-sp2.bbox._bbox._points[0]).tolist()
 pl.clf()
 F1 = aplpy.FITSFigure(dc_hdu, convention='calabretta', subplot=sp1b, figure=fig)
+F1.set_auto_refresh(False)
 F1._ax1.set_title("NRAO 300ft")
 F2 = aplpy.FITSFigure(ac_hdu, convention='calabretta', subplot=sp2b, figure=fig)
+F2.set_auto_refresh(False)
 F2._ax1.set_title("Green Bank")
 for F in (F1,F2):
     F.show_grayscale(vmin=0.0, vmax=1.5, stretch='log', vmid=-0.1, invert=True)
@@ -101,21 +106,25 @@ F1.remove_colorbar() # hack to preserve figure size
 F2.axis_labels.hide_y()
 F2.tick_labels.hide_y()
 F2.colorbar.set_ticks([0.05,0.1,0.25,0.5,1])
+F2.colorbar._colorbar.set_label("$T_{MB}$ (K)",rotation=270, labelpad=20)
 
 pl.subplot(2,1,2)
 ok = np.isfinite(cropped_ac) # dc is all "ok"
 pl.plot(np.linspace(0,1.5),np.linspace(0,1.5)*1.0,'k--',linewidth=2,alpha=0.5,label=r'$y=x$')
 pl.plot(np.linspace(0,1.5),np.linspace(0,1.5)*0.8,'k:' ,linewidth=2,alpha=0.5,label=r'$y=0.8 x$')
 pl.plot(np.linspace(0,1.5),np.linspace(0,1.5)*0.6,'k-.',linewidth=2,alpha=0.5,label=r'$y=0.6 x$')
-pl.plot(cropped_dc[ok],cropped_ac[ok],',')
+#pl.plot(cropped_dc[ok],cropped_ac[ok],',')
 #pl.plot(cropped_dc[gpa_gt.astype('bool')],cropped_ac[gpa_gt.astype('bool')],',',color='g',alpha=0.5)
 pl.plot(cropped_dc[cropped_rsok],cropped_ac[cropped_rsok],'.',color='r')
 #pl.plot(cropped_dc[cropped_rsok*gpa_gt.astype('bool')],cropped_ac[cropped_rsok*gpa_gt.astype('bool')],'.',color='g',alpha=0.5)
 #mpl_plot_templates.adaptive_param_plot(cropped_dc[ok],cropped_ac[ok],bins=30,threshold=10,fill=True)
-pl.xlabel(r'$T_B(K)$ NRAO 300ft')
+pl.xlabel(r'$T_B(K)$ NRAO 300ft', labelpad=15)
 pl.ylabel(r'$T_B(K)$ Green Bank')
 pl.axis([0,1.5,0,1.5])
 pl.legend(loc='upper left',fontsize=18)
-pl.savefig('/Users/adam/work/h2co/maps/paper/figures/comparison_to_gpa.pdf')
+
+F1.refresh()
+F2.refresh()
+pl.savefig(paths.fpath('comparison_to_gpa.pdf'))
 
 pl.show()

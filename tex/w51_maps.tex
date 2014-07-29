@@ -21,7 +21,7 @@ and the radio continuum in the W51 star forming complex acquired with Arecibo
 and the Green Bank Telescope at $\sim50\arcsec$ resolution.
 We perform a detailed analysis of the data and data processing with an emphasis on
 ensuring the reliability of the data.
-The data set has been made public at \todo{location}.
+The data set has been made public at \url{http://dx.doi.org/10.7910/DVN/26818}.
 
 We present an analysis of the three-dimensional structure of the W51 region,
 determining the relative line-of-sight positions of molecular and ionized gas.
@@ -157,8 +157,13 @@ a single component of the backend.
 The Green Bank data have a main beam efficiency $\eta_{MB} = 0.886$, or a gain
 of 1.98 K/Jy assuming a 51 \arcsec beam \citep[see][for additional
 discussion]{Mangum2013a}.  The GBT data were also corrected for atmospheric
-opacity with a typical zenith optical depth $\tau_{z}\approx0.02$, so this
+opacity using Ron Maddalena's
+\texttt{getForecastValues}\footnote{\url{http://www.gb.nrao.edu/~rmaddale/Weather/}}
+with a typical zenith optical depth $\tau_{z}\approx0.02$, so this
 correction was never more than $\sim5\%$.
+
+Typical noise levels were $\sim10-20$ mK per 1 \kms channel; the levels vary
+across the map.  See Section \ref{sec:ppvcubes} for details.
 
 \subsection{Arecibo 6 cm}
 The Arecibo data were taken as part of project A2705 over the course of 4
@@ -177,21 +182,25 @@ continuum emission, so no truly suitable `off' position was found within the
 survey data.  Similarly, \formaldehyde is ubiquitous across the region, so it
 was necessary to `mask out' the absorption lines when building an off position.
 This was done by interpolating across the line-containing region with a
-polynomial fit (Figure \ref{fig:h2comask}).  The fits were inspected interactively
+polynomial fit.  The fits were inspected interactively
 and tuned to avoid over-predicting the background.
 
-\Figure{figures/a2705.20120915.b0s1g0.00000_offspectra.png}
-{An example of the \formaldehyde line masking procedure for building an Off
-spectrum.  The line-containing regions for each polarization are shown in cyan
-and purple, with the interpolated replacement in red and green.
-\todo{Replace this with a nicer version}
-}{fig:h2comask}{0.4}{0}
+%  (Figure \ref{fig:h2comask})
+% \Figure{figures/a2705.20120915.b0s1g0.00000_offspectra.png}
+% {An example of the \formaldehyde line masking procedure for building an Off
+% spectrum.  The line-containing regions for each polarization are shown in cyan
+% and purple, with the interpolated replacement in red and green.
+% \todo{Replace this with a nicer version}
+% }{fig:h2comask}{0.4}{0}
 
 The Arecibo data were corrected to main beam brightness temperature $T_{MB}$
-using a main-beam efficiency as a function of zenith angle ($za$): $$\eta_{MB}(za) =
-0.491544 + 0.00580397 za - 0.000341992 za^2$$
+using a main-beam efficiency as a function of zenith angle in degrees ($za$):
+$$\eta_{MB}(za) = 0.491544 + 0.00580397 za - 0.000341992 za^2$$
 This is a fit to 5 years worth of calibration data acquired at Arecibo and
 assembled by Phil Perrilat.
+
+Typical noise levels were $\sim50$ mK per 1 \kms channel.  See Section
+\ref{sec:ppvcubes} for details.
 
 \subsection{Mapmaking}
 The maps were made by computing an output grid in Galactic coordinates with
@@ -202,7 +211,7 @@ with axes in Galactic coordinates.  The term `voxel'\todo{, short for
 element, with two axes in galactic coordinates and a third in frequency or
 velocity}.  In order
 to avoid empty pixels and maximize the signal-to-noise, the spectra were added
-to the grid with a weight set from a gaussian with $FWHM=20\arcsec$, which
+to the grid with a weight set from a Gaussian with $FWHM=20\arcsec$, which
 effectively smooths the output images from $FWHM\approx50\arcsec$ to
 $\approx54\arcsec$.  See \citet{Mangum2007a} for more detail on the on-the-fly
 mapping technique used here.
@@ -215,7 +224,7 @@ data set suffered from a malfunction that allowed data at 0.68 \kms resolution
 to be taken, but not the corresponding 0.2 \kms data.} of 0.68 \kms and the GBT
 at 0.25 \kms resolution.  The spectra were regridded onto a velocity grid from
 $-50$ to 150 \kms with 1 \kms resolution.  To achieve this, they were first
-smoothed by a gaussian with $FWHM=1$ \kms then downsampled appropriately.
+smoothed by a Gaussian with $FWHM=1$ \kms then downsampled appropriately.
 
 
 \section{The Data}
@@ -226,6 +235,7 @@ cubes.  In this section we describe these data and the systematic errors
 associated with them.  
 
 \subsection{PPV cubes}
+\label{sec:ppvcubes}
 The PPV cubes were created with units of brightness temperature.  The Arecibo
 cubes have contributions from 15-20 independent spectra in each pixel, though
 this hit rate varies in a systematic striped pattern parallel to the Galactic
@@ -241,7 +251,7 @@ overall noise levels are much more patchy.  Additionally, the nights with
 better weather yielded a lower noise level.  The noise ranges from $\sim7$ mK
 in the W51 Main region to $\sim 20$ mK in the westmost region.  As with the
 Arecibo data, the \hii region adds noise, but the peak noise towards an \hii
-region is only $\sim 20$ mK.  This difference is becuase the diffuse \hii
+region is only $\sim 20$ mK.  This difference is because the diffuse \hii
 region is fainter at 2 cm.  The signal-to-noise ratio in the continuum peaks at
 $\sim 400$.
 
@@ -261,20 +271,20 @@ start and end of the observations.  In general, these are good assumptions, but
 they leave in systematic offsets of up to $\lesssim-0.15$ K in the maps, most
 likely because there is a $\sim0.15$ K mostly uniform background.
 
-The Arecibo data appear to have smaller systematic offsets, but they are
-somewhat more visually pronounced because there is much more diffuse emission
-at 6 cm.  The continuum level in the Arecibo data was set to be the 10th
-percentile value of each scan, which is effectively the minimum value across
-each scan but with added robustness against noise-generated false minima.  In
-the eastmost and westmost blocks, this strategy was very effective, as there
-are clearly areas in each scan that see no continuum.  However, in the central
-block, this approach resulted in a vertical negative filament that almost
-certainly represents a local minimum that should be positive.  This negative
-filament has values $\gtrsim-0.08$ K.  Given the excellent agreement between
-the three independently observed blocks in the overlap regions between these
-blocks, it is clear that the continuum is reliable above $\gtrsim0.5$ K, which
-is the entire regime in which it is a significant contributor to the total
-background emission (at lower levels, the CMB is dominant).
+The Arecibo data appear to have smaller systematic offsets, but they are more
+visually pronounced because there is much more diffuse emission
+at 6 cm.  The continuum zero-point level in the Arecibo data was set to be the
+10th percentile value of each scan, which is effectively the minimum value
+across each scan but with added robustness against noise-generated false
+minima.  In the eastmost and westmost blocks, this strategy was very effective,
+as there are clearly areas in each scan that see no continuum.  However, in the
+central block, this approach resulted in a vertical negative filament that
+almost certainly represents a local minimum that should be positive.  This
+negative filament has values $\gtrsim-0.08$ K.  Given the excellent agreement
+between the three independently observed blocks in the overlap regions between
+these blocks, it is clear that the continuum is reliable above $\gtrsim0.5$ K,
+which is the entire regime in which it is a significant contributor to the
+total background emission (at lower levels, the CMB is dominant).
 
 \FigureTwoAA{figures/continuum_11.pdf}
             {figures/continuum_22.pdf}
@@ -337,7 +347,9 @@ blue dots show the extrapolated points.
 We compare the 6 cm continuum to the Urumqi 25m data from \citet{Sun2007a} and
 \citet{Sun2011a}.  Figure \ref{fig:6cmcompare} shows the comparison of the
 Urumqi data and the Arecibo continuum data smoothed to 9.5\arcmin resolution.
-The agreement is excellent.
+The agreement \todo{was excellent in a previous version, and now shows the 
+Arecibo data yielding too-bright emission by a factor $\sim1.4$, which hints
+that maybe there's a double-$\eta_{MB}$ correction happening?  This is very bad.}
 
 
 \Figure{figures/comparison_to_urumqi_6cm.pdf}
@@ -398,14 +410,18 @@ GHz, the population level departure coefficients are close to 1, $b_n > 0.95$
 
 While radio recombination lines are purely thermal in nature, the large-scale
 continuum may include a contribution from synchrotron emission.  The
-morphological similarity between the 90 cm and 4 m images presented by
-\citet{Brogan2013a} and our 6 and 2 cm data hint that synchrotron emission
-could be significant.  However, the high degree of correlation between the 2
-and 6 cm described below suggest that synchrotron `contamination' is minor at both
-wavelengths.
+morphological similarity between the 90 cm and 4 m (meter - i.e., 74 MHz)
+images presented by \citet{Brogan2013a} and our 6 and 2 cm data hint that
+synchrotron emission could be significant.  However, the high degree of
+correlation between the 2 and 6 cm described below suggest that synchrotron
+`contamination' is minor at both wavelengths.
 
 Figure \ref{fig:gbtaocontcompare} shows a comparison between the integrated RRL
-surface brightness and radio continuum at both 2 and 6 cm.  The figure shows
+surface brightness and radio continuum at both 2 and 6 cm\footnote{The H107,
+108, 109, and 111$\alpha$ data were affected by missing (corrupted) data in one
+segment of the map.  H107 and 108$\alpha$ were also affected by RFI.  We
+therefore used the average of the H110 and H112$\alpha$ lines for the 6 cm line
+ananylsis.}.  The figure shows
 the total least squares best-fit slopes to the data assuming uniform error,
 which yield a measurement of the line-to-continuum ratio.
 
@@ -519,14 +535,14 @@ is determined by the gridding).  These are located in 5822 pixels, or 33\% of
 the 17718 pixels valid in both data sets.
 
 Histograms of the data are shown in Figure \ref{fig:datahistograms}.  They
-illustrate the non-gaussian nature of the noise.  The ratio distribution, in
+illustrate the non-Gaussian nature of the noise.  The ratio distribution, in
 particular, appears to follow a power-law distribution with a cutoff at low
 ratio.
 
 \Figure{figures/cube_histograms_tau_and_ratio}
 {Histograms of the optical depth data cubes.  In panels (a) and (b),
 a Gaussian distribution with width equal to the median absolute deviation
-is shown for reference; the noise is not well described by a single gaussian
+is shown for reference; the noise is not well described by a single Gaussian
 distribution.  In panel (c), the distribution of the ratio is shown.}
 {fig:datahistograms}{0.4}{0}
 
@@ -923,7 +939,7 @@ at each position.
 {figures/H110a_central_velocity}
 {(left) Velocity of the peak \formaldehyde \oneone signal (deepest absorption) at
 1 \kms resolution
-(right) Velocity of the peak H110$\alpha$ emission as derived from gaussian fits
+(right) Velocity of the peak H110$\alpha$ emission as derived from Gaussian fits
 to each spectrum.}
 {fig:kinematics}{1}{6.5in}
 
@@ -1033,7 +1049,7 @@ further to the red.
 {figures/spectralfits_70kmscloud_wideplot_RRL_aperture_G49.1-0.4.pdf}
 {Fitted H110$\alpha$ (red) and H77$\alpha$ (black) spectra extracted from
 55\arcsec apertures centered on G49.20-0.35 (left) and G49.1-0.4 (right).
-The best-fit gaussian parameters are shown in the legends, with the lower
+The best-fit Gaussian parameters are shown in the legends, with the lower
 legend corresponding to H77$\alpha$.}
 {fig:hiirrlspec}{1}
 
@@ -1424,6 +1440,15 @@ low-density gas.}
 (left), the region $49.4\arcdeg < \ell < 49.6\arcdeg$, $-0.5\arcdeg < b <
 -0.3\arcdeg$, and W51 B (right) with $\ell < 49.4\arcdeg$.  }
 {fig:dgmf_regions}{1}
+
+\FigureTwoAA
+{figures/DGMF_5e4_Contours_on_13CO.pdf}
+{figures/DGMF_1e4_Contours_on_13CO.pdf}
+{Contours of the dense gas mass fraction using two different thresholds
+overlaid on the integrated \thirteenco map.  The regions with fraction $f>0.5$
+should be rapidly forming stars.  \todo{Unclosed contours should probably be
+ignored or removed.}}
+{fig:dgmf_contours}{1.0}{6.5in}
 
 \subsubsection{Dense Gas Fraction assumptions \& caveats}
 

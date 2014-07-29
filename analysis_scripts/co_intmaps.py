@@ -5,6 +5,8 @@ import numpy as np
 import paths
 from astropy import units as u
 from astropy.table import Table,Column
+from astropy.io import fits
+import copy
 
 cube13 = spectral_cube.SpectralCube.read(paths.dpath2('grs_48and50_cube.fits'))
 
@@ -32,6 +34,8 @@ denscube_min = spectral_cube.SpectralCube.read(paths.dpath("H2CO_ParameterFits_m
 denscube_max = spectral_cube.SpectralCube.read(paths.dpath("H2CO_ParameterFits_maxdens.fits"))
 high5e4dens = denscube_mean > np.log10(5e4)
 high1e4dens = denscube_mean > np.log10(1e4)
+high5e3dens = denscube_mean > np.log10(5e3)
+high1e3dens = denscube_mean > np.log10(1e3)
 
 # WCSes are offset: HACK!
 cube13ss._wcs = stdcube.wcs
@@ -62,8 +66,19 @@ high5e4dens_co_slab3_mom0 = high5e4dens_co_slab3.moment0()
 high1e4dens_co = cube13ss.with_mask(high1e4dens)
 high1e4dens_co_slab3 = high1e4dens_co.spectral_slab(vrange1[0],vrange2[1])
 high1e4dens_co_slab3_mom0 = high1e4dens_co_slab3.moment0()
-dgmf1e4 = high1e4dens_co_slab3_mom0/cube13ss_slab3_mom0
-dgmf5e4 = high5e4dens_co_slab3_mom0/cube13ss_slab3_mom0
+
+high5e3dens_co = cube13ss.with_mask(high5e3dens)
+high5e3dens_co_slab3 = high5e3dens_co.spectral_slab(vrange1[0],vrange2[1])
+high5e3dens_co_slab3_mom0 = high5e3dens_co_slab3.moment0()
+
+high1e3dens_co = cube13ss.with_mask(high1e3dens)
+high1e3dens_co_slab3 = high1e3dens_co.spectral_slab(vrange1[0],vrange2[1])
+high1e3dens_co_slab3_mom0 = high1e3dens_co_slab3.moment0()
+
+dgmf1e4 = fits.PrimaryHDU(data=(high1e4dens_co_slab3_mom0/cube13ss_slab3_mom0).value, header=high1e4dens_co_slab3_mom0.hdu.header)
+dgmf5e4 = fits.PrimaryHDU(data=(high5e4dens_co_slab3_mom0/cube13ss_slab3_mom0).value, header=high5e4dens_co_slab3_mom0.hdu.header)
+dgmf5e3 = fits.PrimaryHDU(data=(high5e3dens_co_slab3_mom0/cube13ss_slab3_mom0).value, header=high5e3dens_co_slab3_mom0.hdu.header)
+dgmf1e3 = fits.PrimaryHDU(data=(high1e3dens_co_slab3_mom0/cube13ss_slab3_mom0).value, header=high1e3dens_co_slab3_mom0.hdu.header)
 
 # Purely detection-based thresholding
 h2co11 = SpectralCube.read(paths.dpath('W51_H2CO11_cube_supersampled_sub.fits'))
@@ -138,6 +153,7 @@ for region in region_slices:
 
 if __name__ == "__main__":
     from aplpy_figure_maker import FITSFigure
+    import aplpy
     import pylab as pl
     fig = pl.figure(1, figsize=(12,12))
     fig.clf()
@@ -174,15 +190,30 @@ if __name__ == "__main__":
         pl.ylim(0, pk_frac*1.05)
         pl.savefig(paths.fpath("FractionOfMassAboveDensity_{0}.pdf".format(region.replace(" ",""))))
 
+    def show_con(dgmf, fignum=3, label="$f(n>10^4$ cm$^{-3})$"):
+        figN = pl.figure(fignum)
+        figN.clf()
+        gray = copy.copy(pl.cm.gray)
+        gray.set_bad('black')
+        gray.set_under('black')
+        FF = FITSFigure(cube13ss_slab3_masked_mom0.hdu, figure=figN, colorbar=False,
+                        cmap=gray, transparent_nan=False)
+        #FF = FITSFigure(dgmf1e4, figure=fig4)
+        #FF.show_grayscale()
+        FF.show_contour(dgmf, levels=[0.1,0.3,0.5,0.7,0.9], zorder=1000, smooth=1)
+        FF.add_colorbar()
+        cax = FF.colorbar._colorbar_axes
+        cax.collections[0].set_visible(False)
+        FF.colorbar = pl.colorbar(FF._layers['contour_set_1'], cax=cax)
+        FF.colorbar.set_label("Dense Fraction", rotation=270, labelpad=30)
+        FF._ax1.set_title(label)
+        #FF.scalebar._scalebar.set_zorder(40)
+        #FF.refresh()
+        return FF
 
-    fig3 = pl.figure(3)
-    fig3.clf()
-    F5 = FITSFigure(dgmf1e4.hdu, figure=fig3)
-    F5.show_grayscale()
-    F5._ax1.set_title("$f(n>10^4)$ cm$^{-3}$")
-
-    fig4 = pl.figure(4)
-    fig4.clf()
-    F6 = FITSFigure(dgmf5e4.hdu, figure=fig4)
-    F6.show_grayscale()
-    F6._ax1.set_title("$f(n>5\\times10^4)$ cm$^{-3}$")
+    F5 = show_con(dgmf5e4, 3, "$f(n>5\\times10^4$ cm$^{-3})$")
+    F5.save(paths.fpath('DGMF_5e4_Contours_on_13CO.pdf'))
+    F6 = show_con(dgmf1e4, 4, "$f(n>1\\times10^4$ cm$^{-3})$")
+    F6.save(paths.fpath('DGMF_1e4_Contours_on_13CO.pdf'))
+    F7 = show_con(dgmf5e3, 5, "$f(n>5\\times10^3$ cm$^{-3})$")
+    F8 = show_con(dgmf1e3, 6, "$f(n>1\\times10^3$ cm$^{-3})$")

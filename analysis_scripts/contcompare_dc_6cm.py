@@ -3,22 +3,28 @@ import numpy as np
 import FITS_tools
 from astropy.io import fits
 from astropy import units as u
-from agpy import smooth
+from astropy import wcs
+from fft_psd_tools import smooth
 import mpl_plot_templates
 import aplpy
+import paths
 
-oneonefn = 'W51_H2CO11_cube_supersampled_continuum.fits'
-dcfn = 'w51.iuq.fits'
+pl.matplotlib.rc_file(paths.rcfilepath)
+pl.rcParams['font.size'] = 18
+
+oneonefn = paths.dpath('W51_H2CO11_cube_supersampled_continuum.fits')
+dcfn = paths.dpath('w51.iuq.fits')
 
 ac = fits.getdata(oneonefn)
 dc = fits.getdata(dcfn,ext=1) / 1e3 # mK -> K
 ac_hdr = fits.getheader(oneonefn)
+ac_wcs = wcs.WCS(ac_hdr)
 dc_hdr = FITS_tools.strip_headers.flatten_header(fits.getheader(dcfn,ext=1))
 
 r_dc = 9.5 * u.arcmin
 r_ao = 50*u.arcsec
 r_sm = ((r_dc**2-r_ao**2)**0.5).to(u.deg)
-pixsize = abs(ac_hdr['CD1_1'])
+pixsize = ((ac_wcs.wcs.get_cdelt() * ac_wcs.wcs.get_pc().diagonal())**2).sum()**0.5
 fwhm = np.sqrt(8*np.log(2))
 
 sm_ac = smooth(ac, r_sm.value / pixsize / fwhm, interpolate_nan=True)
@@ -47,15 +53,18 @@ crop_hdr['CRPIX2'] -= croprange_y[0]
 ac_hdu = fits.PrimaryHDU(cropped_ac, crop_hdr)
 dc_hdu = fits.PrimaryHDU(cropped_dc, crop_hdr)
 
-fig = pl.figure(1)
+pl.close(1)
+fig = pl.figure(1, figsize=(12,9))
 sp1 = pl.subplot(2,2,1)
 sp1b = sp1.bbox._bbox._points[0].tolist() + (sp1.bbox._bbox._points[1]-sp1.bbox._bbox._points[0]).tolist()
 sp2 = pl.subplot(2,2,2)
 sp2b = sp2.bbox._bbox._points[0].tolist() + (sp2.bbox._bbox._points[1]-sp2.bbox._bbox._points[0]).tolist()
 pl.clf()
 F1 = aplpy.FITSFigure(dc_hdu, convention='calabretta', subplot=sp1b, figure=fig)
+F1.set_auto_refresh(False)
 F1._ax1.set_title("Urumqi 25m")
 F2 = aplpy.FITSFigure(ac_hdu, convention='calabretta', subplot=sp2b, figure=fig)
+F2.set_auto_refresh(False)
 F2._ax1.set_title("Arecibo")
 for F in (F1,F2):
     F.show_grayscale(vmin=0.0, vmax=20, stretch='log', vmid=-0.5, invert=True)
@@ -68,17 +77,26 @@ F1.remove_colorbar() # hack to preserve figure size
 F2.axis_labels.hide_y()
 F2.tick_labels.hide_y()
 F2.colorbar.set_ticks([0.1,0.5,1,2.5,5,10,20])
+F2.colorbar._colorbar.set_label("$T_{MB}$ (K)",rotation=270, labelpad=20)
 
 
 pl.subplot(2,1,2)
 ok = np.isfinite(cropped_ac) # dc is all "ok"
-pl.plot(np.linspace(0,20),np.linspace(0,20),'k--',linewidth=2,alpha=0.5)
-pl.plot(cropped_dc[ok],cropped_ac[ok],',')
+pl.plot(np.linspace(0,20),np.linspace(0,20),'k--',linewidth=2,alpha=0.5, label=r'$y=x$')
+pl.plot(np.linspace(0,20),np.linspace(0,20)*1.2,'k:' ,
+        linewidth=2,alpha=0.5,label=r'$y=1.2 x$')
+pl.plot(np.linspace(0,20),np.linspace(0,20)*1.4,'k-.' ,
+        linewidth=2,alpha=0.5,label=r'$y=1.4 x$')
+#pl.plot(cropped_dc[ok],cropped_ac[ok],',')
 pl.plot(cropped_dc[np.round(cropped_rsok).astype('bool')],cropped_ac[np.round(cropped_rsok).astype('bool')],'.',color='r')
 #mpl_plot_templates.adaptive_param_plot(cropped_dc[ok],cropped_ac[ok],bins=30,threshold=10,fill=True)
-pl.xlabel(r'$T_B(K)$ Urumqi')
+pl.xlabel(r'$T_B(K)$ Urumqi', labelpad=15)
 pl.ylabel(r'$T_B(K)$ Arecibo')
 pl.axis([0,20,0,20])
-pl.savefig('/Users/adam/work/h2co/maps/paper/figures/comparison_to_urumqi_6cm.pdf')
+pl.legend(loc='upper left',fontsize=18)
+
+F1.refresh()
+F2.refresh()
+pl.savefig(paths.fpath('comparison_to_urumqi_6cm.pdf'))
 
 pl.show()

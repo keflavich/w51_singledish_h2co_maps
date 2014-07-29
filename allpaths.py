@@ -8,7 +8,11 @@ figurepath = os.path.join(source_root, 'tex/figures/')
 datapath_spectra = os.path.join(datapath, 'spectralfits/')
 regionpath = os.path.join(source_root, 'regions/')
 modelpath = os.path.join(source_root, 'models/')
-analysis_path = os.path.realpath(__file__)
+analysis_path = os.path.split(os.path.realpath(__file__))[0]
+rcfilepath = os.path.join(analysis_path, 'plot_scripts/pubfiguresrc')
+if not os.path.exists(rcfilepath):
+    # probably means we're in a subdirectory
+    rcfilepath = os.path.join(analysis_path, '../plot_scripts/pubfiguresrc')
 
 def dpath(x, datapath=datapath):
     """

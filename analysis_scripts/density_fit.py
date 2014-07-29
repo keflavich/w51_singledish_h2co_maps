@@ -41,6 +41,18 @@ includemask[(nneighbors<7) + (True-np.isfinite(nneighbors))] = False
 # End masking
 ###
 
+###
+# Create a new tau ratio cube
+ratioF = fits.open(datapath+'W51_H2CO11_to_22_tau_ratio_supersampled.fits')
+tau_ratio_fgbg11 = -np.log((cont11+cube1.cube)/(cont11))
+tau_ratio_fgbg22 = -np.log((cont22+cube2.cube)/(cont22))
+newratio = np.array(tau_ratio_fgbg11/tau_ratio_fgbg22)
+newratio[~includemask] = np.nan
+ratioF[0].data = newratio
+ratioF.writeto(datapath+'W51_H2CO11_to_22_tau_ratio_supersampled_fgbg.fits', clobber=True)
+###
+
+
 
 
 data_iterator = [np.array(cube1.cube[includemask]),
