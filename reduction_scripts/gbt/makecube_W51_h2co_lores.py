@@ -100,48 +100,6 @@ filelist2=[
     # neg stripes "Session22_74to105_C29_F2.fits",
 ]
 
-if False: # old cube, don't care any more
-    cubename_lores = '/Users/adam/work/h2co/maps/w51/W51_H2CO22_pyproc_cube_lores'
-    velocityrange=[-50,150]
-    cd3 = 1.0
-    #cd3 = 1.0 # Arecibo is limited to 0.64 because one of the receivers went bad at hi-res mode once
-    #naxis3 = int(np.ceil((velocityrange[1]-velocityrange[0])/cd3))+4 # +4 is BAD!  don't do that.
-    naxis3 = int((velocityrange[1]-velocityrange[0]) / cd3) + 1 # +1 is good: include -50
-    crval3 = 50.0
-    # dumb debug stuff
-    vels = crval3+cd3*(np.arange(naxis3)+1-naxis3/2-1)
-    # this will probably cause an error but I must insist..
-    #if velocityrange[0]<=vels.min() or velocityrange[1]>=vels.max():
-    #    raise ValueError("Add more points.  Something's going to be out of range for stupid star stupid link")
-    makecube.generate_header(49.209553, -0.277137, naxis1=192, naxis2=128,
-                             pixsize=24, naxis3=naxis3, cd3=cd3, crval3=crval3,
-                             clobber=True, restfreq=linefreq, author='Adam Ginsburg')
-    makecube.make_blank_images(cubename_lores,clobber=True)
-
-
-    for fn in filelist+filelist2:
-        print "Adding file %s" % fn
-        fullfn = '/Users/adam/observations/gbt/W51map/'+fn
-        d = pyfits.getdata(fullfn)
-        pl.clf()
-        pl.imshow(d['DATA'],norm=asinh_norm.AsinhNorm())
-        pl.savefig(fullfn.replace(".fits","_data.png"))
-        pl.clf()
-        dsub = d['DATA']-np.median(d['DATA'],axis=1)[:,None]
-        pl.imshow(dsub)
-        pl.savefig(fullfn.replace(".fits","_data_subbed.png"))
-        makecube.add_file_to_cube(fullfn,
-                                  cubename_lores+".fits",
-                                  nhits=cubename_lores+"_nhits.fits",
-                                  diagnostic_plot_name=fullfn.replace('.fits','_data_scrubbed.png'),
-                                  velocityrange=velocityrange,excludefitrange=[40,75],noisecut=np.inf)
-                                  # more aggressive noisecut
-
-    makecube.runscript(cubename_lores)
-    makecube.make_flats(cubename_lores,vrange=[45,75],noisevrange=[-15,30])
-    makecube.make_taucube(cubename_lores, cubename_lores+"_continuum.fits",
-                          etamb=0.886, linefreq=linefreq*u.Hz, tex=0)
-
 
 cubename_lores_supersampled = '/Users/adam/work/h2co/maps/w51/W51_H2CO22_pyproc_cube_lores_supersampled'
 velocityrange=[-50,150]
@@ -181,6 +139,9 @@ for fn in filelist+filelist2:
                               diagnostic_plot_name=fullfn.replace('.fits','_data_scrubbed.png'),
                               velocityrange=velocityrange,excludefitrange=[40,75],noisecut=np.inf,
                               continuum_prefix=cubename_lores_supersampled+fn.replace(".fits",''),
+                              progressbar=True,
+                              chmod=True,
+                              linefreq=linefreq,
                               negative_mean_cut=-1)
 
 makecube.runscript(cubename_lores_supersampled)
