@@ -56,6 +56,46 @@ These scripts can be run in any order.
 
    Compute various properties (optical depth integral, ratio) of the H2CO maps
 
+ * luminosity.py
+
+   Determine W51's total luminosity from HiGal SED fits.  WARNING: the SED fits
+   interpolate across NaNs!
+
+ * merge_apertures.py
+
+   Support script.  Merges region files.
+
+ * merge_mips_msx.py
+
+   Support script.  Fill in missing MIPS data with MSX data.  Not used, but
+   could be useful to others.
+
+ * pyspeckit_RRL_cube_fit.py
+
+   Single-component fits to each line of sight in the RRL cubes
+
+ * pyspeckit_cube_fit_justlineprops.py
+
+   Multi-component H2CO 1-1 fits to each line of sight.  Used to create
+   velocity maps.
+
+ * pyspeckit_cube_fit_textau.py
+
+   Single-component formaldehyde fitting of physical parameters to both lines
+   simultaneously.  Requires load_pyspeckit_cubes.py.
+
+Figure-Making Scripts
+---------------------
+
+Most figure-making scripts are in the ``plot_scripts`` directory, but some live
+here also.
+
+ * pvdiagrams.py
+ * pvfigure_h2co13co.py
+
+   Scripts to make PV diagrams with various cuts.
+
+
 Ordered Scripts
 ---------------
 
@@ -70,16 +110,6 @@ Ordered Scripts
    Use aperture extraction to create individual spectra for a number of regions
    of interest.
 
- * luminosity.py
- * merge_apertures.py
- * merge_mips_msx.py
- * pvdiagrams.py
- * pvfigure_h2co13co.py
- * pyspeckit_RRL_cube_fit.py
- * pyspeckit_cube_fit.py
- * pyspeckit_cube_fit_absorption.py
- * pyspeckit_cube_fit_justlineprops.py
- * pyspeckit_cube_fit_textau.py
  * pyspeckit_individual_spectra.py
  * pyspeckit_model.py
  * radial_profiles.py
@@ -103,3 +133,15 @@ Throwaway Scripts
 TBDeleted
 
  * continumm_dendro.py
+
+   An attempt to dendrogram the W51 column density map.  Not used in this
+   project.
+
+ * pyspeckit_cube_fit_absorption.py
+
+   A failed attempt to directly fit the absorption lines.  The idea behind this
+   attempt was moved into another file.
+
+ * pyspeckit_cube_fit.py
+
+   The original fitter; other tools branched from this one.
