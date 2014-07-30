@@ -3,6 +3,7 @@ import numpy as np
 import FITS_tools
 from astropy.io import fits
 from astropy import units as u
+from astropy.utils.data import download_file
 from fft_psd_tools import smooth
 from image_tools import downsample
 import mpl_plot_templates
@@ -13,6 +14,9 @@ import paths
 twotwofn = paths.dpath('W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')
 # has already been corrected for etamb
 dcfn = paths.dpath('langston_14ghz_gpa-bk1.fit')
+if not os.path.exists(dcfn):
+    dlpath = download_file('http://www.gb.nrao.edu/~glangsto/GPA/gpa-bk1.fit', cache=True)
+    os.path.symlink(dlpath, dcfn)
 im_lang,im_gbt = FITS_tools.match_images.match_fits(dcfn,twotwofn,use_montage=False)
 etamb_twotwo = 0.886
 

@@ -7,8 +7,16 @@ from astropy import units as u
 from astropy.table import Table,Column
 from astropy.io import fits
 import copy
+import os
+import warnings
 
-cube13 = spectral_cube.SpectralCube.read(paths.dpath2('grs_48and50_cube.fits'))
+grsfilepath = paths.dpath2('grs_48and50_cube.fits')
+grsSSfilepath = paths.dpath2('grs_48and50_cube_supersampledh2cogrid.fits')
+if not (os.path.exists(grsfilepath) and os.path.exists(grsSSfilepath)):
+    warnings.warn("{0} not found.  Running reduction/stitch_grs_cubes.py")
+    execfile(os.path.join(paths.source_root,'reduction/stitch_grs_cubes.py'))
+
+cube13 = spectral_cube.SpectralCube.read(grsfilepath)
 
 cube13_slab1 = cube13.spectral_slab(vrange1[0],vrange1[1])
 cube13_slab2 = cube13.spectral_slab(vrange2[0],vrange2[1])
@@ -22,7 +30,7 @@ cube13_slab1_masked_mom0 = cube13_slab1.with_mask(snmask1).moment0()
 cube13_slab2_masked_mom0 = cube13_slab2.with_mask(snmask2).moment0()
 cube13_slab3_masked_mom0 = cube13_slab3.with_mask(snmask3).moment0()
 
-cube13ss = spectral_cube.SpectralCube.read(paths.dpath2('grs_48and50_cube_supersampledh2cogrid.fits'))
+cube13ss = spectral_cube.SpectralCube.read(grsSSfilepath)
 
 # Try masking based on stddev: uncertainty of 1 order of magnitude isn't super interesting...
 stdcube = spectral_cube.SpectralCube.read(paths.dpath("H2CO_ParameterFits_stddens.fits"))

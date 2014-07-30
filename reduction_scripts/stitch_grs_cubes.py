@@ -10,6 +10,8 @@ from astropy import wcs
 
 url = 'http://grunt.bu.edu/grs-stitch/source/grs-{0}-cube.fits'
 files = {lon:download_file(url.format(lon), cache=True)
+         if not os.path.exists(os.path.split(url.format(lon))[1])
+         else os.path.abspath(os.path.split(url.format(lon))[1])
          for lon in (48,49,50)}
 for lon,fn in files.items():
     outfn = os.path.split(url.format(lon))[1]
@@ -56,8 +58,8 @@ addnan = lambda x,y: np.add(np.nan_to_num(x),np.nan_to_num(y),dtype='float')
 add = lambda x,y: np.add(x,y,dtype='float')
 stacked.data = reduce(addnan, (r1.data, r2.data, r3.data))/reduce(add, [(r1.data != 0), (r2.data != 0), (r3.data != 0)])
 stacked.header = outheader
-stacked.writeto('grs_48and50_cube.fits', clobber=True)
+stacked.writeto(paths.dpath2('grs_48and50_cube.fits'), clobber=True)
 
-outhead2 = fits.getheader('/Users/adam/work/w51/h2co_singledish/W51_H2CO11_cube_supersampled.fits')
+outhead2 = fits.getheader(paths.dpath('W51_H2CO11_cube_supersampled.fits'))
 stacked_reproj = FITS_tools.cube_regrid.regrid_cube_hdu(stacked, outhead2, order=1)
-stacked_reproj.writeto('grs_48and50_cube_supersampledh2cogrid.fits', clobber=True)
+stacked_reproj.writeto(paths.dpath2('grs_48and50_cube_supersampledh2cogrid.fits'), clobber=True)

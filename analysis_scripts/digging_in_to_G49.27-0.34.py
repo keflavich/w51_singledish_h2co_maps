@@ -5,6 +5,7 @@ from astropy import constants
 #from astroquery.splatalogue import Splatalogue
 from astroquery.vizier import Vizier
 from astroquery.simbad import Simbad
+from pyspeckit_individual_fits import load_rrlcubes
 
 src = Simbad.query_region(coordinates.Galactic(49.2676*u.deg, -0.3372*u.deg), radius=5*u.arcsec)
 viz = Vizier.query_region(coordinates.Galactic(49.2676*u.deg, -0.3372*u.deg), radius=5*u.arcsec)
@@ -43,7 +44,6 @@ print "Mass and virial line width of G49.37-0.34: ",mass_g49pt37, sigma_g49pt37
 print "Density: ",mass_g49pt37 / (4/3. * np.pi * r_eff**3)
 print "Density: ",(mass_g49pt37 / (4/3. * np.pi * r_eff**3)/constants.m_p).to(u.cm**-3)
 
-from pyspeckit_individual_fits import load_rrlcubes
 hcubes = load_rrlcubes()
 h77a = hcubes['H77$\\alpha$']
 h110a = hcubes['H110$\\alpha$']

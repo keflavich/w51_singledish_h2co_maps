@@ -5,7 +5,7 @@ import pyspeckit
 import pyregion
 import pylab as pl
 
-scube11 = pyspeckit.Cube(datapath+'W51_H2CO11_cube_sub.fits')
+scube11 = pyspeckit.Cube(datapath+'W51_H2CO11_cube_supersampled_sub.fits')
 taucube11 = pyspeckit.Cube(datapath+'W51_H2CO11_taucube_supersampled.fits')
 scube11.xarr.convert_to_unit('km/s')
 #taucube11_13 = pyspeckit.Cube(datapath+'W51_H213CO_taucube.fits')

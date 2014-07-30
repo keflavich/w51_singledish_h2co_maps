@@ -69,6 +69,7 @@ pb = ProgressBar(len(data_iterator[0]))
 
 #results = map(fit_a_pixel, zip(*(data_iterator + [itertools.cycle((pb,))])),)
 
+# This line contains all the meat!  It can take a long time
 results = parallel_map.parallel_map(fit_a_pixel,
                                     zip(*(data_iterator + [itertools.cycle((pb,))])),
                                     numcores=8)
