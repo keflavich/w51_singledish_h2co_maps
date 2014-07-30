@@ -1,3 +1,4 @@
+echo "Don't use this.  calibrate_session.py is probably right"
 python calibrate_session14.py
 python calibrate_session17.py
 python calibrate_session20.py

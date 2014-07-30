@@ -18,12 +18,13 @@ try:
     import astropy.io.fits as pyfits
 except ImportError:
     import pyfits
-from pylab import *
+import pylab as pl
 import numpy,matplotlib;
 import sys
 import os
 from gbtpy import makecube,calibrate_map_scans
 import timer
+from astropy import log
 
 samplers = {
         0: ["A9","A13","C25","C29"],
@@ -55,7 +56,7 @@ def calibrate_session(filename, mapnames, ifnum=0,
     datapfits = filepyfits[1].data
     dataarr = datapfits.DATA
     if datapfits.DATA[-1,:].sum() == 0:
-        print "READING USING PFITS"
+        log.warn("READING USING PFITS")
         import pfits
         datapfits = pfits.FITS(filename).get_hdus()[1].get_data()
         dataarr = numpy.reshape(datapfits['DATA'],datapfits['DATA'].shape[::-1])
@@ -64,10 +65,12 @@ def calibrate_session(filename, mapnames, ifnum=0,
         for sampler in samplers[ifnum]:
             OK = (datapfits['FEED'] == feed) * (datapfits['SAMPLER'] == sampler)
             if OK.sum() > 0:
-                plot(datapfits['LST'][OK],dataarr[OK,1000:2000].mean(axis=1),',',label='Feed %i Sampler %s' % (feed,sampler))
-    savefig(root+'_secondhalf_continuum_nolimits.png')
-    gca().set_ylim(1,5)
-    savefig(root+'_secondhalf_continuum.png')
+                pl.plot(datapfits['LST'][OK],
+                        dataarr[OK,1000:2000].mean(axis=1), ',',
+                        label='Feed %i Sampler %s' % (feed,sampler))
+    pl.savefig(root+'_secondhalf_continuum_nolimits.png')
+    pl.gca().set_ylim(1,5)
+    pl.savefig(root+'_secondhalf_continuum.png')
 
     if scanranges is None:
         scanranges = [(min(r)+1,max(r)-1) for r in refscans_list]
@@ -76,7 +79,11 @@ def calibrate_session(filename, mapnames, ifnum=0,
     if sourcenames is None:
         sourcenames = [None for r in refscans_list]
 
-    for refscans,scanrange,mapname,obsmode,sourcename in zip(refscans_list,scanranges,mapnames,obsmodes,sourcenames):
+    for refscans, scanrange, mapname, obsmode, sourcename in zip(refscans_list,
+                                                                 scanranges,
+                                                                 mapnames,
+                                                                 obsmodes,
+                                                                 sourcenames):
         outpath = '%s%smap/' % (gbtpath,mapname)
         ref1,ref2 = min(refscans),max(refscans)
         for sampler,feednum in zip(samplers[ifnum],feeds[ifnum]):
@@ -130,22 +137,28 @@ if __name__ == "__main__":
             22:0.02,
             }
 
+    dataroot = '/Users/adam/observations/gbt/'
+
     for ifnum in [3,2,0,1]:
         for sessionnumber in tau.keys():
-            print "Session %i IF %i: " % (sessionnumber,ifnum)
-            calibrate_session('/Users/adam/observations/gbt/AGBT10B_019_%i/AGBT10B_019_%i.raw.acs.fits' % (sessionnumber,sessionnumber),
-                    mapnames[sessionnumber], ifnum=ifnum, tau=tau[sessionnumber],
-                    sessionnumber=sessionnumber, refscans_list=refpairs[sessionnumber])
+            log.info("Session %i IF %i: " % (sessionnumber,ifnum))
+            calibrate_session(dataroot+'AGBT10B_019_%i/AGBT10B_019_%i.raw.acs.fits' % (sessionnumber,sessionnumber),
+                              mapnames[sessionnumber], ifnum=ifnum,
+                              tau=tau[sessionnumber], gbtpath=dataroot,
+                              sessionnumber=sessionnumber,
+                              refscans_list=refpairs[sessionnumber])
 
-        calibrate_session('/Users/adam/observations/gbt/AGBT10B_019_22/AGBT10B_019_22.raw.acs.fits',
-                ["W51"], ifnum=ifnum,scanranges=[[184,206]],
-                refscans_list=[[183,188,193,198,203]],
-                sourcenames=["W51WestExtension"],
-                obsmodes=["DecLatMap"])
+        calibrate_session(dataroot+'AGBT10B_019_22/AGBT10B_019_22.raw.acs.fits',
+                          ["W51"], ifnum=ifnum,scanranges=[[184,206]],
+                          refscans_list=[[183,188,193,198,203]],
+                          sourcenames=["W51WestExtension"], gbtpath=dataroot,
+                          obsmodes=["DecLatMap"])
 
-        calibrate_session('/Users/adam/observations/gbt/AGBT10B_019_17/AGBT10B_019_17_secondhalf.raw.acs.fits',
-                ["W51"], ifnum=ifnum,scanranges=[[112,185]],
-                sessionnumber=17,
-                refscans_list=[[111,116,121,126,131,136,141,146,151,156,161,166,171,176,181,186]],
-                sourcenames=["W51WestExtension"],
-                obsmodes=["DecLatMap"])
+        calibrate_session(dataroot+'AGBT10B_019_17/AGBT10B_019_17_secondhalf.raw.acs.fits',
+                          ["W51"], ifnum=ifnum,scanranges=[[112,185]],
+                          sessionnumber=17, gbtpath=dataroot,
+                          refscans_list=[[111, 116, 121, 126, 131, 136, 141,
+                                          146, 151, 156, 161, 166, 171, 176,
+                                          181, 186]],
+                          sourcenames=["W51WestExtension"],
+                          obsmodes=["DecLatMap"])

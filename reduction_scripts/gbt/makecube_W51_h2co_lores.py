@@ -2,6 +2,7 @@ import pylab as pl
 import numpy as np
 from astropy.io import fits as pyfits
 from astropy import units as u
+from astropy import log
 from agpy import asinh_norm
 from sdpy import makecube
 
@@ -101,7 +102,8 @@ filelist2=[
 ]
 
 
-cubename_lores_supersampled = '/Users/adam/work/h2co/maps/w51/W51_H2CO22_pyproc_cube_lores_supersampled'
+outdir = '/Users/adam/work/h2co/maps/w51/'
+cubename_lores_supersampled = outdir+'W51_H2CO22_pyproc_cube_lores_supersampled'
 velocityrange=[-50,150]
 cd3 = 1.0
 #cd3 = 1.0 # Arecibo is limited to 0.64 because one of the receivers went bad at hi-res mode once
@@ -121,7 +123,7 @@ makecube.make_blank_images(cubename_lores_supersampled,clobber=True)
 
 
 for fn in filelist+filelist2:
-    print "Adding file %s" % fn
+    log.info("Adding file %s" % fn)
     fullfn = '/Users/adam/observations/gbt/W51map/'+fn
     d = pyfits.getdata(fullfn)
     pl.clf()
