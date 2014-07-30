@@ -22,7 +22,7 @@ import pylab as pl
 import numpy,matplotlib;
 import sys
 import os
-from gbtpy import makecube,calibrate_map_scans
+from sdpy import makecube,calibrate_map_scans
 import timer
 from astropy import log
 

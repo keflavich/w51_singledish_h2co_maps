@@ -1,4 +1,4 @@
-import pyfits,pywcs,coords
+import coords
 import numpy as np
 import matplotlib
 import pylab as pl
@@ -7,10 +7,12 @@ import os
 from agpy import asinh_norm
 #from agpy import readcol,asinh_norm
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from astropy import log
+from astropy.io import fits
 
 import sys
 #sys.path.append('/Users/adam/repos/casaradio/branches/python/ginsburg/')
-from gbtpy import makecube
+from sdpy import makecube
 
 filelist = [
 # session 10 is really messed up
@@ -107,7 +109,8 @@ filelist2=[
     #"Session22_74to105_D37_F2.fits", # false absorption lines
     ]
 
-cubename_supersampled = '/Users/adam/work/h2co/maps/w51/W51_h77a_pyproc_cube_supersampled'
+outdir = '/Users/adam/work/h2co/maps/w51/'
+cubename_supersampled = outdir+'W51_h77a_pyproc_cube_supersampled'
 velocityrange=[-50,150]
 cd3 = 1.0
 #cd3 = 1.0 # Arecibo is limited to 0.64 because one of the receivers went bad at hi-res mode once
@@ -126,9 +129,9 @@ makecube.make_blank_images(cubename_supersampled,clobber=True)
 
 
 for fn in filelist+filelist2:
-    print "Adding file %s" % fn
+    log.info("Adding file %s" % fn)
     fullfn = '/Users/adam/observations/gbt/W51map/'+fn
-    d = pyfits.getdata(fullfn)
+    d = fits.getdata(fullfn)
     pl.clf()
     pl.imshow(d['DATA'],norm=asinh_norm.AsinhNorm())
     pl.savefig(fullfn.replace(".fits","_data.png"))
@@ -141,10 +144,11 @@ for fn in filelist+filelist2:
                               add_with_kernel=True,
                               kernel_fwhm=20./3600.,
                               nhits=cubename_supersampled+"_nhits.fits", 
-                              wcstype='V',
                               diagnostic_plot_name=fullfn.replace('.fits','_data_scrubbed.png'),
                               velocityrange=velocityrange,excludefitrange=[20,100],noisecut=50,
                               continuum_prefix=cubename_supersampled+fn.replace(".fits",''),
+                              progressbar=True,
+                              chmod=True,
                               negative_mean_cut=-1)
                               # noisecut was probably a bad idea: it cut SIGNAL  
                               # more aggressive noisecut

@@ -7,10 +7,11 @@ import os
 from agpy import asinh_norm
 #from agpy import readcol,asinh_norm
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from astropy import log
 
 import sys
 #sys.path.append('/Users/adam/repos/casaradio/branches/python/ginsburg/')
-from gbtpy import makecube
+from sdpy import makecube
 
 filelist = [
 # session 10 is really messed up
@@ -126,7 +127,7 @@ makecube.make_blank_images(cubename_supersampled,clobber=True)
 
 
 for fn in filelist+filelist2:
-    print "Adding file %s" % fn
+    log.info("Adding file %s" % fn)
     fullfn = '/Users/adam/observations/gbt/W51map/'+fn
     d = pyfits.getdata(fullfn)
     pl.clf()
