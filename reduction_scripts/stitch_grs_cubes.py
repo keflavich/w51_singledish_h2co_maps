@@ -56,7 +56,10 @@ stacked = fits.PrimaryHDU()
 # cast out of boolean
 addnan = lambda x,y: np.add(np.nan_to_num(x),np.nan_to_num(y),dtype='float')
 add = lambda x,y: np.add(x,y,dtype='float')
-stacked.data = reduce(addnan, (r1.data, r2.data, r3.data))/reduce(add, [(r1.data != 0), (r2.data != 0), (r3.data != 0)])
+weights = reduce(add, [((r1.data[212,:,:] != 0) & (np.isfinite(r1.data[212,:,:]))),
+                       ((r2.data[212,:,:] != 0) & (np.isfinite(r2.data[212,:,:]))),
+                       ((r3.data[212,:,:] != 0) & (np.isfinite(r3.data[212,:,:])))])
+stacked.data = reduce(addnan, (r1.data, r2.data, r3.data))/weights
 stacked.header = outheader
 stacked.writeto(paths.dpath2('grs_48and50_cube.fits'), clobber=True)
 

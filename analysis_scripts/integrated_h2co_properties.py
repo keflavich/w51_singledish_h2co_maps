@@ -78,18 +78,19 @@ for label,vrange in (("",[40,75]), ("lower",[40,62]), ("upper",[62,75])):
     h2co22peak = h2co22slab.with_mask(boolean_maskslab).min(axis=0)
     h2co11_13peak = h2co11_13slab.with_mask(boolean_maskslab).min(axis=0)
 
-    depth11 = -np.log((h2co11peak+cont11) / cont11)
-    depth22 = -np.log((h2co22peak+cont22) / cont22)
+    depth11 = -np.log((h2co11peak.value+cont11) / cont11)
+    depth22 = -np.log((h2co22peak.value+cont22) / cont22)
 
     hdu.header['BUNIT'] = ''
-    hdu.data = depth11.value
+    hdu.data = depth11
     hdu.writeto(dpath(label+'peak_optdepth_11.fits'), clobber=True)
-    hdu.data = depth22.value
+    hdu.data = depth22
     hdu.writeto(dpath(label+'peak_optdepth_22.fits'), clobber=True)
-    hdu.data = (depth11/depth22).value
+    hdu.data = (depth11/depth22)
     hdu.writeto(dpath(label+'peak_optdepth_ratio.fits'), clobber=True)
 
-    h2co11integ.hdu.writeo(dpath(label+"_H213CO_SNmasked_integrated.fits", clobber=True))
+    hdu.data = h2co11_13integ.value
+    hdu.writeto(dpath(label+"H213CO_SNmasked_integrated.fits"), clobber=True)
 
     # These are not particularly useful
     # Better to try and measure a T_ex per pixel
