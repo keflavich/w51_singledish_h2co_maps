@@ -769,6 +769,7 @@ H$_2$ $^{13}$CO was not detected anywhere in the W51 complex in either the
 180, so we report a $3-\sigma$ upper limit on the \formaldehyde/H$_2$ $^{13}$CO
 ratio $R>60$, which is consistent with solar values of the $^{12}C$/$^{13}C$
 ratio.
+% TODO: use integrated_h2co to re-calculate the #
 
 \section{Structure of the Molecular Cloud}
 The \formaldehyde observations reveal two essential features of the W51 GMC:
@@ -1475,7 +1476,8 @@ low-density gas.}
 {figures/FractionOfMassAboveDensity_W51B}
 {Same as Figure \ref{fig:dgmf}, but for two individual regions: W51 Main
 (left), the region $49.4\arcdeg < \ell < 49.6\arcdeg$, $-0.5\arcdeg < b <
--0.3\arcdeg$, and W51 B (right) with $\ell < 49.4\arcdeg$.  }
+-0.3\arcdeg$, and W51 B (right) with $\ell < 49.4\arcdeg$.  Note
+that the $y$ axes have different ranges.}
 {fig:dgmf_regions}{1}
 
 \FigureTwoAA
@@ -1483,8 +1485,10 @@ low-density gas.}
 {figures/DGMF_1e4_Contours_on_13CO.pdf}
 {Contours of the dense gas mass fraction using two different thresholds
 overlaid on the integrated \thirteenco map.  The regions with fraction $f>0.5$
-should be rapidly forming stars.  \todo{Unclosed contours should probably be
-ignored or removed.}}
+should be rapidly forming stars.  The background image in both frames is the
+GRS \thirteenco image integrated over the range $40\kms < v_{lsr} < 75 \kms$,
+masked to include only pixels with $S>0.5$ K. \todo{Unclosed contours should
+probably be ignored or removed.}}
 {fig:dgmf_contours}{1.0}{6.5in}
 
 \subsubsection{Dense Gas Fraction assumptions \& caveats}

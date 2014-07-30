@@ -1,6 +1,7 @@
 import pylab as pl
 import numpy as np
 from astropy.io import fits as pyfits
+from astropy import units as u
 from agpy import asinh_norm
 from sdpy import makecube
 
@@ -114,7 +115,7 @@ if False: # old cube, don't care any more
     #    raise ValueError("Add more points.  Something's going to be out of range for stupid star stupid link")
     makecube.generate_header(49.209553, -0.277137, naxis1=192, naxis2=128,
                              pixsize=24, naxis3=naxis3, cd3=cd3, crval3=crval3,
-                             clobber=True, restfreq=linefreq)
+                             clobber=True, restfreq=linefreq, author='Adam Ginsburg')
     makecube.make_blank_images(cubename_lores,clobber=True)
 
 
@@ -156,7 +157,8 @@ vels = crval3+cd3*(np.arange(naxis3)+1-naxis3/2-1)
 #    raise ValueError("Add more points.  Something's going to be out of range for stupid star stupid link")
 makecube.generate_header(49.209553, -0.277137, naxis1=308, naxis2=205,
                          pixsize=15, naxis3=naxis3, cd3=cd3, crval3=crval3,
-                         clobber=True, restfreq=14.488479e9)
+                         clobber=True, restfreq=linefreq,
+                         author='Adam Ginsburg')
 makecube.make_blank_images(cubename_lores_supersampled,clobber=True)
 
 

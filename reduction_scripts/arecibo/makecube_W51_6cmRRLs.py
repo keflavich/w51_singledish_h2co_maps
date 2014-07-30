@@ -31,12 +31,16 @@ for line in bsgs:
     # Updated June 18, 2014 to use smaller pixels for more useful comparison to other data
     makecube.generate_header(49.209553, -0.277137, naxis1=308, naxis2=205,
                              pixsize=15, naxis3=int(naxis3), cd3=cd3,
-                             crval3=50.0, clobber=True)
+                             crval3=50.0, clobber=True, author='Adam Ginsburg')
     cubename = '/Users/adam/work/h2co/maps/w51/W51_%slpha_cube' % linename
     makecube.make_blank_images(cubename,clobber=True)
 
     for date in ('0910','0911','0912','0915',):
         fn = '/Users/adam/observations/arecibo/2012{date}/W51_{line}_spectra_{date}.fits'.format(line=linename,date=date)
+        if not os.path.exists(fn):
+            fn = '/Users/adam/observations/arecibo/2012{date}/W51_{line}_spectra_{date}.fits'.format(line=linename.replace("h","H"),date=date)
+        if not os.path.exists(fn):
+            fn = '/Users/adam/observations/arecibo/20120910/W51_{line}_spectra_{date}.fits'.format(line=linename.replace("h","H"),date=date)
         log.info(" ".join([str(x) for x in (fn, velocityrange, linename, linefreq)]))
         if os.path.exists(fn):
             makecube.add_file_to_cube(fn,
@@ -47,7 +51,10 @@ for line in bsgs:
                                       progressbar=True,
                                       add_with_kernel=True,
                                       kernel_fwhm=20./3600.,
+                                      chmod=True,
                                       linefreq=linefreq)
+        else:
+            raise IOError("Did not find file {0}".format(fn))
     #    f = pyfits.open(fn)
     #
     #    fixed=False
@@ -83,7 +90,7 @@ for line in bsgs:
     crval3 = 50.0
     naxis3 = int((velocityrange[1]-velocityrange[0]) / cd3)
     makecube.generate_header(49.209553,-0.277137,naxis1=308,naxis2=205,pixsize=15,naxis3=int(naxis3),cd3=cd3,crval3=crval3,clobber=True,
-                             restfreq=linefreq)
+                             restfreq=linefreq, author='Adam Ginsburg')
     cubename = '/Users/adam/work/h2co/maps/w51/W51_%slpha_cube_supersampled' % linename
     makecube.make_blank_images(cubename,clobber=True)
 
@@ -138,7 +145,7 @@ for line in bsgs:
     linename = 'he{0}a'.format(transition)
 
     makecube.generate_header(49.209553,-0.277137,naxis1=308,naxis2=205,pixsize=15,naxis3=int(naxis3),cd3=cd3,crval3=crval3,clobber=True,
-                             restfreq=linefreq)
+                             restfreq=linefreq, author='Adam Ginsburg')
     cubename = '/Users/adam/work/h2co/maps/w51/W51_%slpha_cube_supersampled' % linename
     makecube.make_blank_images(cubename,clobber=True)
 

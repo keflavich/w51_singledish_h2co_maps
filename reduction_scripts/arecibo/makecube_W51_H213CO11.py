@@ -14,7 +14,7 @@ cubename_supersampled = '/Users/adam/work/h2co/maps/w51/W51_H213CO11_cube_supers
 makecube.generate_header(glon, glat, naxis1=naxis1, naxis2=naxis2,
                          pixsize=15, naxis3=int(naxis3), cd3=cd3,
                          crval3=crval3, clobber=True, 
-                         restfreq=linefreq)
+                         restfreq=linefreq, author='Adam Ginsburg')
 makecube.make_blank_images(cubename_supersampled,clobber=True)
 
 files = ['W51_h213coW_spectra_0910.fits',
