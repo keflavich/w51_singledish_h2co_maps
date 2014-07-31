@@ -70,19 +70,11 @@ These scripts can be run in any order.
    Support script.  Fill in missing MIPS data with MSX data.  Not used, but
    could be useful to others.
 
- * pyspeckit_RRL_cube_fit.py
-
-   Single-component fits to each line of sight in the RRL cubes
-
  * pyspeckit_cube_fit_justlineprops.py
 
    Multi-component H2CO 1-1 fits to each line of sight.  Used to create
    velocity maps.
 
- * pyspeckit_cube_fit_textau.py
-
-   Single-component formaldehyde fitting of physical parameters to both lines
-   simultaneously.  Requires load_pyspeckit_cubes.py.
 
 Figure-Making Scripts
 ---------------------
@@ -95,9 +87,16 @@ here also.
 
    Scripts to make PV diagrams with various cuts.
 
+ * vpeak.py
+
+   Simple script to determine the velocity of the peak signal along each LOS.
+
 
 Ordered Scripts
 ---------------
+
+Density Extraction
+~~~~~~~~~~~~~~~~~~
 
  * density_fit.py
 
@@ -110,22 +109,45 @@ Ordered Scripts
    Use aperture extraction to create individual spectra for a number of regions
    of interest.
 
- * pyspeckit_individual_spectra.py
- * pyspeckit_model.py
  * radial_profiles.py
- * radial_velocity_dispersion.py
- * regrid_higal.py
- * rrl_analysis.py
- * rrl_average.py
- * set_headers.py
- * tau_ratio_cube.py
- * vpeak.py
 
+   Analysis of the radial profile of the HiGal and H2CO data
+
+ * radial_velocity_dispersion.py
+
+   Analysis of the radially averaged velocity dispersion in 13CO
 
  * co_intmaps.py
 
    Analysis of the CO maps by integrating over regions masked by various
    properties of the H2CO, e.g. density.
+
+RRLs
+~~~~
+
+ * rrl_average.py
+ * rrl_analysis.py
+ * pyspeckit_RRL_cube_fit.py
+
+   Single-component fits to each line of sight in the RRL cubes
+
+
+Spectral Line Fitting
+~~~~~~~~~~~~~~~~~~~~~
+
+ * load_pyspeckit_cubes.py
+
+   Cube loading for line fitting
+
+ * pyspeckit_cube_fit_textau.py
+
+   Single-component formaldehyde fitting of physical parameters to both lines
+   simultaneously.  Requires load_pyspeckit_cubes.py.
+
+ * pyspeckit_individual_spectra.py
+
+   More involved multi-component fits to selected aperture-extracted regions.
+
 
 Throwaway Scripts
 -----------------
@@ -145,3 +167,24 @@ TBDeleted
  * pyspeckit_cube_fit.py
 
    The original fitter; other tools branched from this one.
+
+ * pyspeckit_model.py
+
+   A container for the model function.  The default pyspeckit fitter was used
+   instead.
+
+ * regrid_higal.py
+
+   Tool to produce HiGal SED fits.  This is superceded by 
+   http://hi-gal-sed-fitter.readthedocs.org/en/latest/higal_sedfitter/
+
+
+ * tau_ratio_cube.py
+
+   The old version of density_fit.py.  It attempted to use optical depth
+   ratios, which proved to be too indirect a measurement to use effectively.
+
+ * set_headers.py
+
+   A tool for updating the headers with information relevant to / important for
+   their upload to the web.

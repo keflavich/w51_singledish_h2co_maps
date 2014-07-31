@@ -16,8 +16,10 @@ fitOK = msxOK * (mipsd<1400)*(mipsd>250)
 
 pl.figure(1)
 pl.clf()
-mpl_plot_templates.adaptive_param_plot(mipsd.flat, msxd.flat, marker=',', bins=50, threshold=10)
-mpl_plot_templates.adaptive_param_plot(mipsd[fitOK], msxd[fitOK], marker=',', bins=50, threshold=10, color='r')
+mpl_plot_templates.adaptive_param_plot(mipsd.flat, msxd.flat, marker=',',
+                                       bins=50, threshold=10)
+mpl_plot_templates.adaptive_param_plot(mipsd[fitOK], msxd[fitOK], marker=',',
+                                       bins=50, threshold=10, color='r')
 
 pv = np.polyfit(mipsd[fitOK],msxd[fitOK],1)
 print pv

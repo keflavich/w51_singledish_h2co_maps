@@ -13,6 +13,7 @@ from agpy import asinh_norm
 from matplotlib.patches import Polygon
 import pvextractor
 import aplpy
+import warnings
 
 cubefiles = ('h2co_singledish/W51_H2CO11_taucube_supersampled.fits',
              'h2co_singledish/W51_H2CO22_pyproc_taucube_lores_supersampled.fits',
@@ -160,13 +161,32 @@ F.show_grayscale(invert=True, vmax=1e23, stretch='log', vmin=2e21, vmid=1e21)
 F.recenter(49.22, -0.33612413, width=0.85, height=0.55)
 F.show_regions(os.path.join(paths.datapath_w51, 'cyan_segments.reg'))
 F.show_regions(os.path.join(paths.datapath_w51, 'bluered_segments.reg'))
-polygons = pvextractor.geometry.path.Path(endpoints, width=25*u.arcsec).sample_polygons(1, wcs=column_wcs)
-for poly in polygons:
-    F._ax1.draw_artist(Polygon(zip(poly.x, poly.y), ec='green', fc='none',
-                               transform=F._ax1.transData, clip_on=True,
-                               clip_box=F._ax1.bbox))
+
+pve_path = pvextractor.geometry.path.Path
+
+warnings.warn("This next step may cause an error on some matplotlib backends,"
+              "e.g. MacOSX.  Try another backend, e.g. Qt4Agg")
+
+F.remove_layer('region_set_1')
+F.remove_layer('region_set_2')
+
+for color in ['cyan', 'purple']:
+    pvs = {}
+    coords = np.array([s.coord_list for s in endpoints_wcs if
+                       s.attr[1]['color'] == color])
+    endpoints = coordinates.Galactic(coords[:,0],coords[:,1], unit=(u.deg,u.deg))
+    polygons = pve_path(endpoints, width=25*u.arcsec).sample_polygons(1,
+                                                                      wcs=column_wcs)
+    for poly in polygons:
+        F._ax1.add_patch(Polygon(zip(poly.x, poly.y), ec=color, fc='none',
+                                   transform=F._ax1.transData, clip_on=True,
+                                   clip_box=F._ax1.bbox, zorder=10))
+    #    F._ax1.draw_artist(Polygon(zip(poly.x, poly.y), ec='green', fc='none',
+    #                               transform=F._ax1.transData, clip_on=True,
+    #                               clip_box=F._ax1.bbox, zorder=10))
 F.set_tick_labels_xformat('dd.d')
 F.set_tick_labels_yformat('dd.d')
+F.refresh()
 F.save(os.path.join(paths.figurepath, 'filament_extraction_region_on_HiGal.pdf'))
 
 pl.show()

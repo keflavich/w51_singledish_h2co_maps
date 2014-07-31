@@ -5,16 +5,13 @@ import scipy
 import scipy.ndimage
 scipyOK=True
 import os
-#cube1 = pyspeckit.Cube('W51_H2CO11_cube_sub.fits')        / 0.51 # eta_mb = 0.51 for arecibo @ c-band according to outergal paper
-#cube2 = pyspeckit.Cube('W51_H2CO22_pyproc_cube_sess22_sub.fits') / 0.886 # from both outergal and pilot
-
-print "TO DO: fix (hold in place) abundance"
+import paths
 
 doextra=False
 
-#etamb already accounted for
-cube1 = pyspeckit.Cube('/Users/adam/work/h2co/maps/W51/W51_H2CO11_taucube_supersampled.fits')
-cube2 = pyspeckit.Cube('/Users/adam/work/h2co/maps/W51/W51_H2CO22_pyproc_taucube_lores_supersampled.fits') #_sess22.fits')
+#etamb already accounted for in 1-1
+cube1 = pyspeckit.Cube(paths.dpath('W51_H2CO11_taucube_supersampled.fits'))
+cube2 = pyspeckit.Cube(paths.dpath('W51_H2CO22_pyproc_taucube_lores_supersampled.fits'))
 cube1.xarr.refX_units='GHz'
 cube1.xarr.refX = 4.829659400
 E = cube1.cube[cube1.xarr.as_unit('km/s') < 0].std(axis=0)
@@ -28,8 +25,8 @@ both.mapplot()
 both.units = 'Optical Depth $\\tau$'
 both.header['BUNIT'] = 'Optical Depth $\\tau$'
 # need continua now
-cont11 = pyspeckit.Cube('/Users/adam/work/h2co/maps/W51/W51_H2CO11_taucube_supersampled_continuum.fits')
-cont12 = pyspeckit.Cube('/Users/adam/work/h2co/maps/W51/W51_H2CO22_pyproc_taucube_lores_supersampled_continuum.fits') #_sess22.fits')
+cont11 = pyspeckit.Cube(paths.dpath('W51_H2CO11_taucube_supersampled_continuum.fits'))
+cont12 = pyspeckit.Cube(paths.dpath('W51_H2CO22_pyproc_taucube_lores_supersampled_continuum.fits'))
 
 freq_dict = pyspeckit.models.formaldehyde.central_freq_dict
 ckms = 2.99792458e5

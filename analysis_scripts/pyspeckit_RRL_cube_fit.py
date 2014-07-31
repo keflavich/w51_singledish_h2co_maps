@@ -3,8 +3,7 @@ import numpy as np
 import FITS_tools
 from astropy.io import fits
 from astropy import units as u
-
-dpath = '/Users/adam/work/h2co/maps/W51/'
+from paths import datapath as dpath
 
 cube1 = pyspeckit.Cube(dpath+'W51_h77a_pyproc_cube_supersampled_sub.fits')
 cube1.xarr.refX_units='GHz'
@@ -30,18 +29,18 @@ cube1.mapplot(estimator=1, vmin=30,vmax=75)
 hdr = FITS_tools.strip_headers.flatten_header(cube1.header)
 hdu = fits.PrimaryHDU(data=cube1.parcube[1,:,:], header=hdr)
 hdr['BUNIT'] = 'km/s'
-hdu.writeto('H77a_central_velocity.fits',clobber=True)
+hdu.writeto(dpath+'H77a_central_velocity.fits',clobber=True)
 
 hdu.data=cube1.parcube[2,:,:]
-hdu.writeto('H77a_velocity_width.fits',clobber=True)
+hdu.writeto(dpath+'H77a_velocity_width.fits',clobber=True)
 
 hdr['BUNIT'] = 'K'
 hdu.data=cube1.parcube[0,:,:]
-hdu.writeto('H77a_amplitude.fits',clobber=True)
+hdu.writeto(dpath+'H77a_amplitude.fits',clobber=True)
 
 hdr['BUNIT'] = 'K km/s'
 hdu.data = cube1.parcube[0] * np.sqrt(2*np.pi)*cube1.parcube[2,:,:]
-hdu.writeto('H77a_integral.fits',clobber=True)
+hdu.writeto(dpath+'H77a_integral.fits',clobber=True)
 
 # Old version:
 #cube2 = pyspeckit.Cube(dpath+'W51_h110alpha_cube_supersampled_sub.fits')
@@ -82,15 +81,15 @@ F.scalebar.set_linewidth(3)
 hdr = FITS_tools.strip_headers.flatten_header(cube2.header)
 hdu = fits.PrimaryHDU(data=cube2.parcube[1,:,:], header=hdr)
 hdr['BUNIT'] = 'km/s'
-hdu.writeto('H110a_central_velocity.fits',clobber=True)
+hdu.writeto(dpath+'H110a_central_velocity.fits',clobber=True)
 
 hdu.data=cube2.parcube[2,:,:]
-hdu.writeto('H110a_velocity_width.fits',clobber=True)
+hdu.writeto(dpath+'H110a_velocity_width.fits',clobber=True)
 
 hdr['BUNIT'] = 'K'
 hdu.data=cube2.parcube[0,:,:]
-hdu.writeto('H110a_amplitude.fits',clobber=True)
+hdu.writeto(dpath+'H110a_amplitude.fits',clobber=True)
 
 hdr['BUNIT'] = 'K km/s'
 hdu.data = cube2.parcube[0] * np.sqrt(2*np.pi)*cube2.parcube[2,:,:]
-hdu.writeto('H110a_integral.fits',clobber=True)
+hdu.writeto(dpath+'H110a_integral.fits',clobber=True)

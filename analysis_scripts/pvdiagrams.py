@@ -10,7 +10,7 @@ from astropy import convolution
 from astropy import coordinates
 from astropy import units as u
 import scipy.signal
-from paths import datapath,datapath_w51
+from paths import datapath,datapath_w51,rpath
 import os
 
 import pylab as pl
@@ -85,7 +85,7 @@ def get_pvs(cubefn, endpoints):
 
 
 if __name__ == "__main__":
-    endpoints_wcs = pyregion.open('pvendpoints.reg')
+    endpoints_wcs = pyregion.open(rpath('pvendpoints.reg'))
 
     if not 'colorpvs' in locals():
         colorpvs = {}

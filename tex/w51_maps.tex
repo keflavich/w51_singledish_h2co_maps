@@ -1488,6 +1488,12 @@ masked to include only pixels with $S>0.5$ K. \todo{Unclosed contours should
 probably be ignored or removed.}}
 {fig:dgmf_contours}{1.0}{6.5in}
 
+The multi-density DGMF presented here can be compared to models of `global'
+collapse.  They are effectively a gas density cumulative distribution function.
+However, to understand the systematic effects of line-of-sight stacking of
+different velocity components (and corresponding radiative transfer issues),
+similar analysis should be performed on hydrodynamic simulations.
+
 \subsubsection{Dense Gas Fraction assumptions \& caveats}
 
 This analysis relies on the \thirteenco being optically thing and thermally
@@ -1503,13 +1509,35 @@ and maximum values of the \formaldehyde-derived density consistent with the
 data at the $1-\sigma$ level in Figure \ref{fig:dgmf} and
 \ref{fig:dgmf_regions}.
 
+We have assigned \emph{all} of the mass associated with a given PPV voxel with
+a single, fixed density in this analysis.  There is certainly some mass at a
+lower density in each PPV pixel.  This additional mass biases the measured DGMF
+higher than it should be, but probably only by a small amount at each
+threshold.  This systematic bias could be characterized from simulations
+projected into PPV space.
+
+\subsection{Implications for the future evolution of W51}
+The low DGMF associated with the W51 B / 66 \kms cloud indicates that it has a
+low star formation potential despite containing significant mass or, at least,
+being quite bright in CO and dust emission.  The presence of a supernova
+remnant and old, diffuse HII regions indicates that the cloud did previously
+(and recently) form stars, but is now being destroyed.  This cloud is therefore
+a good region to examine the effects of different feedback mechanisms in
+parallel.  It may also be a good location to examine how star formation
+progresses, if it does at all, in the presence of severe feedback and at the
+tail end of the overall cloud-to-star process.
+
+By contrast, the W51 Main region has a dense gas fraction $\sim1$, or at least
+$\sim50\%$ out to nearly 5 pc.  It has presumably only formed a small fraction
+of its total potential.
 
 \subsection{Implications for extragalactic observations of \formaldehyde}
 Although W51 is one of the most massive and active GMCs in the galaxy,
 containing 7\% of the present-day massive star formation galaxy-wide
-\citep{Urquhart2014a}, its gas mass is predominantly at a moderate density,
-$n\sim5\ee{4}$ \percc.  There were \emph{no detections} of \formaldehyde
-emission on the $\sim1.25$ pc (50\arcsec) scales observed.
+\citep{Urquhart2014a}, its star-forming gas mass is predominantly at a moderate
+density, $n\sim5\ee{4}$ \percc; there is very little gas above $10^6$ \percc even
+in W51 Main.  There were \emph{no detections} of \formaldehyde emission on the
+$\sim1.25$ pc (50\arcsec) scales observed.
 
 By contrast, in extragalactic observations of starburst galaxies, there have
 been detections of emission on $\sim100$ pc scales.  \citet{Mangum2013a} report
@@ -1519,15 +1547,16 @@ densities from their analysis are modest, but the densities are extreme: their
 observations imply that the local-scale \emph{chemical} conditions are
 comparable to W51, but the densities are different.
 
-The only location in which densities $n\gtrsim5\ee{5}$ (comparable to $n_{Arp
-220}$, etc.) are observed in W51 are in the central W51 Main region.  We don't
-observe absorption because of the extremely bright continuum background source.
-It is therefore not possible to explain the \formaldehyde-emission galaxies by
-constructing them from collections of UCHII regions; such a galaxy would be
-continuum-bright and show only \formaldehyde absorption.  Instead, they must be
-assembled from huge quantities of high-density, non-star-forming gas.
-This result is in contradiction to the idea that Giant \hii Regions are the
-`building blocks' of starburst galaxies \citep[e.g.][]{Miura2014a}.  
+The only location in which densities $n\gtrsim5\ee{5}$ \percc (comparable to
+$n_{\hh}(\textrm{Arp } 220)$, etc.) are observed in W51 are in the central W51
+Main region.  We don't observe emission because of the extremely bright
+continuum background source.  It is therefore not possible to explain a
+\formaldehyde-emission galaxy by constructing it from collections of UCHII
+regions; such a galaxy would be continuum-bright and show only \formaldehyde
+absorption.  Instead, they must be assembled from huge quantities of
+high-density, non-star-forming gas.  This result is in contradiction to the
+idea that Giant \hii Regions are the `building blocks' of starburst galaxies
+\citep[e.g.][]{Miura2014a}.  
 
 
 \section{Conclusion}
@@ -1549,11 +1578,15 @@ The \formaldehyde lines and their ratios have also been used to constrain the
 geometry of the W51 GMC and the associated \hii regions.  The Galactic face-on
 view of W51 is presented in more detail than has previously been possible.
 
-The data are made available in FITS cubes and images.  The entire reduction and
-analysis process and all associated code and scripts are made available via a
-git repository hosted on github:
-\url{https://github.com/keflavich/w51_singledish_h2co_maps}, \todo{with a snapshot of the 
-publication version available as a tarball from figshare \url{}}.
+The data are made available in FITS cubes and images hosted at the CfA
+dataverse \url{doi:10.7910/DVN/26818},
+\url{http://thedata.harvard.edu/dvn/dv/W51_H2CO/faces/study/StudyPage.xhtml?globalId=doi:10.7910/DVN/26818&versionNumber=1}.
+The entire reduction and analysis process and all associated code and scripts
+are made available via a git
+repository hosted on github:
+\url{https://github.com/keflavich/w51_singledish_h2co_maps}, \todo{with a
+snapshot of the publication version available as a tarball from figshare
+\url{}}.
 
 
 
@@ -1592,7 +1625,10 @@ availability on the survey website.
 \begin{itemize}
     \item The GBT KFPA Pipeline \url{https://safe.nrao.edu/wiki/bin/view/Kbandfpa/ObserverGuide}
     \item aoIDL \url{http://www.naic.edu/~phil/download/aoIdl.tar.gz}
+    \item astropy \url{www.astropy.org}
+    \item astroquery \url{astroquery.readthedocs.org}
     \item sdpy \url{https://github.com/keflavich/sdpy}
+    \item \texttt{FITS\_tools} \url{https://github.com/keflavich/FITS_tools}
     \item aplpy \url{http://aplpy.github.io}
     \item image-registration \url{http://image-registration.rtfd.org}
 \end{itemize}

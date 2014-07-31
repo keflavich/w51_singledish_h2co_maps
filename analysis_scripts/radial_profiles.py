@@ -10,7 +10,7 @@ from common_constants import distance, center
 import paths
 import FITS_tools
 
-pl.mpl.rc_file('/Users/adam/work/w51_singledish_maps/plot_scripts/pubfiguresrc')
+pl.mpl.rc_file(paths.rcfilepath)
 
 h2co_densfile = paths.dpath("H2CO_ParameterFits_weighted_mean_mean_density_stdmasked.fits")
 column_image = FITS_tools.hcongrid.hcongrid_hdu(fits.open(paths.dpath2('HIGAL_W51_mosaic_fit_160to500_N.fits'))[0],
