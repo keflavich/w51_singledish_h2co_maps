@@ -42,6 +42,7 @@ These scripts can be run in any order.
 
  * generate_continuum_from_rrls.py
 
+   *NOT USED*
    An abandoned attempt to produce a "cleaner" continuum using the RRLs.
    The fact that there is some structure in the residual maps from this
    approach, hinting that synchrotron emission may indeed be significant, and
@@ -58,6 +59,7 @@ These scripts can be run in any order.
 
  * luminosity.py
 
+   *NOT USED*
    Determine W51's total luminosity from HiGal SED fits.  WARNING: the SED fits
    interpolate across NaNs!
 
@@ -67,6 +69,7 @@ These scripts can be run in any order.
 
  * merge_mips_msx.py
 
+   *NOT USED*
    Support script.  Fill in missing MIPS data with MSX data.  Not used, but
    could be useful to others.
 
@@ -126,8 +129,8 @@ RRLs
 ~~~~
 
  * rrl_average.py
- * rrl_analysis.py
  * pyspeckit_RRL_cube_fit.py
+ * rrl_analysis.py
 
    Single-component fits to each line of sight in the RRL cubes
 

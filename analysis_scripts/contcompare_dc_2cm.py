@@ -3,6 +3,7 @@ import numpy as np
 import FITS_tools
 from astropy.io import fits
 from astropy import units as u
+from astropy import wcs
 from astropy.utils.data import download_file
 from fft_psd_tools import smooth
 from image_tools import downsample
@@ -28,6 +29,7 @@ ac = im_gbt / etamb_twotwo #fits.getdata(twotwofn)
 # T_MB per beam?  Probably.
 dc = im_lang #fits.getdata(dcfn).squeeze()
 ac_hdr = fits.getheader(twotwofn)
+ac_wcs = wcs.WCS(ac_hdr)
 dc_hdr = FITS_tools.strip_headers.flatten_header(fits.getheader(dcfn))
 
 r_big = 9.5 * u.arcmin
@@ -35,7 +37,7 @@ r_dc = 6.6*u.arcmin
 r_gb = 50*u.arcsec
 r_sm = ((r_big**2-r_gb**2)**0.5).to(u.deg)
 r_sm_dc = ((r_big**2-r_dc**2)**0.5).to(u.deg)
-pixsize = abs(ac_hdr['CD1_1'])
+pixsize = np.abs(np.prod((ac_wcs.wcs.get_cdelt() * ac_wcs.wcs.get_pc().diagonal())))**0.5
 fwhm = np.sqrt(8*np.log(2))
 ac_kernsize = (r_sm.value/pixsize)/fwhm
 dc_kernsize = (r_sm_dc.value/pixsize)/fwhm
@@ -73,8 +75,12 @@ cropped_ac = resampled_ac
 cropped_rsok = np.round(resampled_ok).astype('bool')
 
 crop_hdr = ac_hdr.copy()
-crop_hdr['CD1_1'] *= downsample_factor
-crop_hdr['CD2_2'] *= downsample_factor
+if 'CD1_1' in crop_hdr:
+    crop_hdr['CD1_1'] *= downsample_factor
+    crop_hdr['CD2_2'] *= downsample_factor
+else:
+    crop_hdr['CDELT1'] *= downsample_factor
+    crop_hdr['CDELT2'] *= downsample_factor
 crop_hdr['CRPIX1'] = (crop_hdr['CRPIX1']-1)/float(downsample_factor)+1
 crop_hdr['CRPIX2'] = (crop_hdr['CRPIX2']-1)/float(downsample_factor)+1
 #crop_hdr['CRPIX1'] -= croprange_x[0]

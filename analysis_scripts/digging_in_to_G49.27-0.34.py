@@ -5,10 +5,12 @@ from astropy import constants
 #from astroquery.splatalogue import Splatalogue
 from astroquery.vizier import Vizier
 from astroquery.simbad import Simbad
-from pyspeckit_individual_fits import load_rrlcubes
+from pyspeckit_individual_spectra import load_rrlcubes
 
-src = Simbad.query_region(coordinates.Galactic(49.2676*u.deg, -0.3372*u.deg), radius=5*u.arcsec)
-viz = Vizier.query_region(coordinates.Galactic(49.2676*u.deg, -0.3372*u.deg), radius=5*u.arcsec)
+src = Simbad.query_region(coordinates.Galactic(49.2676*u.deg, -0.3372*u.deg),
+                          radius=5*u.arcsec)
+viz = Vizier.query_region(coordinates.Galactic(49.2676*u.deg, -0.3372*u.deg),
+                          radius=5*u.arcsec)
 
 bgps = viz['J/ApJS/188/123/table1']
 snu = bgps['S'][0] * u.Jy

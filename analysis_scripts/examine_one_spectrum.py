@@ -1,12 +1,12 @@
-
 execfile('/Users/adam/work/w51_singledish_maps/analysis_scripts/pyspeckit_individual_spectra.py')
+import paths
 
 #if not 'spectra' in locals():
 #    spectra = w51main()
 #    s17=spectra[-1]
 from load_pyspeckit_cubes import formaldehyde_radex_fitter
 
-s17 = pyspeckit.Spectrum('spectralfits/spectralfits_w51main_aperture_southdensespot.fits')
+s17 = pyspeckit.Spectrum(paths.dpath('spectralfits/spectralfits_w51main_aperture_southdensespot.fits'))
 s17.Registry.add_fitter('formaldehyde_radex',formaldehyde_radex_fitter,8,multisingle='multi')
 
 dofit(s17, s17.header['CONT11'], s17.header['CONT22'], 2)

@@ -35,6 +35,8 @@ for line in bsgs:
 
     for date in ('0910','0911','0912','0915',):
         fn = '/Users/adam/observations/arecibo/2012{date}/W51_{line}_spectra_{date}.fits'.format(line=linename,date=date)
+        if not os.path.exists(fn):
+            fn = '/Users/adam/observations/arecibo/20120910/W51_{line}_spectra_{date}.fits'.format(line=linename,date=date)
         log.info(" ".join([str(x) for x in (fn, velocityrange, linename, linefreq)]))
         if os.path.exists(fn):
             makecube.add_file_to_cube(fn,
@@ -47,16 +49,8 @@ for line in bsgs:
                                       linefreq=linefreq,
                                       progressbar=True,
                                       chmod=True) # security risk, but too many files!
-    #    f = pyfits.open(fn)
-    #
-    #    fixed=False
-    #    for kw in ('TDIM%i' % ii for ii in xrange(5)):
-    #        if kw in f[0].header:
-    #            fixed = True
-    #            del f[0].header[kw]
-    #    if fixed:
-    #        f[0].writeto(fn.replace(".fits","_fixed.fits"),output_verify='fix')
-    #        fn = fn.replace(".fits","_fixed.fits")
+        else:
+            raise IOError("Did not find file {0}".format(fn))
 
 
     flat_vrange = [20,100]
