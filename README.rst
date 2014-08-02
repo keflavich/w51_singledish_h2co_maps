@@ -17,15 +17,16 @@ There is a fairly large suite of dependencies for this program:
  2. Download & install sdpy, FITS_tools, spectral_cube, pyspeckit, astropy...
 
 
- https://github.com/astropy/astropy/archive/master.zip
- https://github.com/astropy/astroquery/archive/master.zip
- https://github.com/aplpy/aplpy/archive/master.zip
- https://github.com/keflavich/FITS_tools/archive/master.zip
- https://github.com/keflavich/sdpy/archive/master.zip
- https://github.com/pyspeckit/pyspeckit/archive/master.zip
- https://github.com/keflavich/image_tools/archive/master.zip
- https://github.com/keflavich/image_registration/archive/master.zip
- https://github.com/radio-astro-tools/spectral-cube/archive/master.zip
+pip install https://github.com/astropy/astropy/archive/master.zip
+pip install https://github.com/astropy/astroquery/archive/master.zip
+pip install https://github.com/aplpy/aplpy/archive/master.zip
+pip install https://github.com/keflavich/FITS_tools/archive/master.zip
+pip install https://github.com/keflavich/sdpy/archive/master.zip
+pip install https://github.com/pyspeckit/pyspeckit/archive/master.zip
+pip install https://github.com/keflavich/image_tools/archive/master.zip
+pip install https://github.com/keflavich/image_registration/archive/master.zip
+pip install https://github.com/radio-astro-tools/spectral-cube/archive/master.zip
+pip install https://github.com/keflavich/h2co_modeling/archive/master.zip
 
  3. Set up the paths appropriately in `allpaths.py <allpaths.py>`_
 
