@@ -22,7 +22,7 @@ if not os.path.exists(dcfn):
 im_lang,im_gbt = FITS_tools.match_images.match_fits(dcfn,twotwofn,use_montage=False)
 etamb_twotwo = 0.886
 
-downsample_factor = 5
+downsample_factor = 10
 
 ac = im_gbt / etamb_twotwo #fits.getdata(twotwofn)
 # unknown whether Langston images need etamb correction!  I couldn't tell from
@@ -129,8 +129,8 @@ pl.plot(np.linspace(0,1.5),np.linspace(0,1.5)*0.6,'k-.',linewidth=2,alpha=0.5,la
 pl.plot(cropped_dc[cropped_rsok],cropped_ac[cropped_rsok],'.',color='r')
 #pl.plot(cropped_dc[cropped_rsok*gpa_gt.astype('bool')],cropped_ac[cropped_rsok*gpa_gt.astype('bool')],'.',color='g',alpha=0.5)
 #mpl_plot_templates.adaptive_param_plot(cropped_dc[ok],cropped_ac[ok],bins=30,threshold=10,fill=True)
-pl.xlabel(r'$T_B(K)$ NRAO 300ft', labelpad=15)
-pl.ylabel(r'$T_B(K)$ Green Bank')
+pl.xlabel(r'$T_{MB}(K)$ NRAO 300ft', labelpad=25)
+pl.ylabel(r'$T_{MB}(K)$ Green Bank')
 pl.axis([0,1.5,0,1.5])
 pl.legend(loc='upper left',fontsize=18)
 

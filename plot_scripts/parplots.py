@@ -10,6 +10,7 @@ from astroquery.vizier import Vizier
 from astropy import coordinates
 from paths import datapath, datapath_w51, figurepath
 from FITS_tools.strip_headers import flatten_header
+from velo_cmap import VeloCmap_r as cm_rgb
 
 # Shortcut functions to get the full paths to files
 def p1(x):
@@ -112,7 +113,7 @@ for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
     dens2.remove_colorbar()
     dens2.hide_colorscale()
     col2 = FITSFigure(parcubefile,convention='calabretta',slices=[9],figure=pl.figure(2),subplot=topbounds)
-    col2.show_colorscale(vmin=11,vmax=13.5,cmap=cmhot)
+    col2.show_colorscale(vmin=11,vmax=13.5,cmap=cm_rgb) #cmhot)
     col2.recenter(**zoomargs)
     col2.colorbar._colorbar_axes.set_ylabel('log$_{10}$(N(H$_2$) cm$^{-2}$)')
     col2.hide_xaxis_label()
@@ -162,7 +163,7 @@ for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
               'width':'Line Width (km s$^{-1}$)',
               'column':'log$_{10}$(N(H$_2$) cm$^{-2}$)'}
     cmaps = {'dens':cmhot,
-             'velocity':cmjet,
+             'velocity':cm_rgb,#cmjet,
              'width':cmjet,
              'column':cmhot,}
     limits = {'dens':[2,6],

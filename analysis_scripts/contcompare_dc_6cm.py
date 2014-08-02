@@ -100,8 +100,8 @@ pl.plot(np.linspace(0,25),np.linspace(0,25)*1.4,'k-.' ,
 #pl.plot(cropped_dc[ok],cropped_ac[ok],',')
 pl.plot(cropped_dc[np.round(cropped_rsok).astype('bool')],cropped_ac[np.round(cropped_rsok).astype('bool')],'.',color='r')
 #mpl_plot_templates.adaptive_param_plot(cropped_dc[ok],cropped_ac[ok],bins=30,threshold=10,fill=True)
-pl.xlabel(r'$T_B(K)$ Urumqi', labelpad=15)
-pl.ylabel(r'$T_B(K)$ Arecibo')
+pl.xlabel(r'$T_{MB}(K)$ Urumqi', labelpad=15)
+pl.ylabel(r'$T_{MB}(K)$ Arecibo')
 pl.axis([0,20,0,25])
 pl.legend(loc='upper left',fontsize=18)
 

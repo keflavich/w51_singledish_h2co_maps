@@ -4,13 +4,10 @@ from paths import figurepath,datapath
 from common_constants import zoomargs
 from velo_cmap import VeloCmap_r
 
-dpath = datapath
-
 cm = pl.cm.RdYlBu
 cm = VeloCmap_r
-cm.set_bad('w')
-cm.set_under('w')
-cm.set_over('w')
+
+dpath = datapath
 
 pl.rcParams['font.size'] = 16
 

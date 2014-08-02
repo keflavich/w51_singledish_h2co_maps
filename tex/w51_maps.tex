@@ -787,8 +787,9 @@ pixels determined by:
     \item Selecting all voxels with $S/N > 2$ and with at least 7 (of 26
         possible) neighbors also having $S/N > 2$
     \item Selecting all voxels with $>=10$ neighbors having $S/N > 2$
-    \item Growing the included mask region by 1 pixel in all directions
-    \item Selecting all voxels with $>=5$ neighbors already selected
+    \item Growing (dilating) the included mask region by 1 pixel in all
+        directions
+    \item Selecting all voxels with $>=5$ included neighbors
     \item When used to mask 2D images, the selection is then collapsed such
         that any pixel containing at least one voxel along the line of sight is
         included
