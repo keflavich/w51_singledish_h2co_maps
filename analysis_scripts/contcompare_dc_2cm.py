@@ -11,6 +11,7 @@ import mpl_plot_templates
 import aplpy
 import image_registration
 import paths
+import os
 
 twotwofn = paths.dpath('W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')
 # has already been corrected for etamb

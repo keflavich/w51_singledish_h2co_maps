@@ -24,16 +24,16 @@ aofn = os.path.join(datapath,'W51_Halpha_6cm_cube_supersampled.fits')
 h112i = fits.getdata(os.path.join(datapath,'H110a_integral.fits')) * ktojy111 # ,aofn.replace("cube","integrated"))) * ktojy111
 h112a = fits.getdata(os.path.join(datapath,'H110a_amplitude.fits')) * ktojy111
 h112a.value[h112a == 0] = np.nan
-h112c = fits.getdata(os.path.join(datapath,'W51_h112alpha_cube_supersampled_continuum.fits')) * ktojy111
+h112c = fits.getdata(os.path.join(datapath,'W51_Halpha_6cm_cube_supersampled_continuum.fits')) * ktojy111
 h112c.value[h112c == 0] = np.nan
-h112h = fits.getheader(os.path.join(datapath,'W51_h112alpha_cube_supersampled_continuum.fits'))
+h112h = fits.getheader(os.path.join(datapath,'W51_Halpha_6cm_cube_supersampled_continuum.fits'))
 
 h77iname = os.path.join(datapath,'H77a_integral.fits') #'W51_h77a_pyproc_integrated_supersampled.fits')
 h77aname = os.path.join(datapath,'H77a_amplitude.fits') #'W51_h77a_pyproc_integrated_supersampled.fits')
 h77i = fits.getdata(h77iname) * ktojy77 / etamb_77
 h77a = fits.getdata(h77aname) * ktojy77 / etamb_77
 h77a.value[h77a == 0] = np.nan
-h77cname = os.path.join(datapath,'W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')
+#h77cname = os.path.join(datapath,'W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')
 h77cname = os.path.join(datapath,'W51_h77a_pyproc_cube_supersampled_continuum.fits')
 h77c = fits.getdata(h77cname) * ktojy77 / etamb_77
 h77c.value[h77c == 0] = np.nan
