@@ -18,7 +18,7 @@ twotwofn = paths.dpath('W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits
 dcfn = paths.dpath('langston_14ghz_gpa-bk1.fit')
 if not os.path.exists(dcfn):
     dlpath = download_file('http://www.gb.nrao.edu/~glangsto/GPA/gpa-bk1.fit', cache=True)
-    os.path.symlink(dlpath, dcfn)
+    os.symlink(dlpath, dcfn)
 im_lang,im_gbt = FITS_tools.match_images.match_fits(dcfn,twotwofn,use_montage=False)
 etamb_twotwo = 0.886
 
