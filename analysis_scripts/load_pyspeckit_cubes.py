@@ -111,6 +111,9 @@ def fit_a_pixel(args):
         tline1, etline1, cont1, tline2, etline2, cont2, pb = args
         pb.update()
 
+    if np.any(np.isnan(args[:6])):
+        return [np.nan]*6
+
     pargrid1 = (cont1*np.exp(-taugrid1) + (1-np.exp(-taugrid1))*texgrid1)
     pargrid2 = (cont2*np.exp(-taugrid2) + (1-np.exp(-taugrid2))*texgrid2)
     #spec = (1.0-np.exp(-np.array(tau_nu_cumul)))*(Tex-Tbackground)

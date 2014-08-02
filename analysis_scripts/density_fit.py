@@ -4,6 +4,7 @@ from astropy.io import fits
 from astropy import wcs
 import pyregion
 import numpy as np
+from astropy import log
 
 from astropy.utils.console import ProgressBar
 import itertools
@@ -29,15 +30,28 @@ noise22 = h2co22[:50,:,:].std(axis=0)
 sn11 = h2co11/noise11
 sn22 = h2co22/noise22
 
-includemask = (sn11 > 2) & (sn22 > 2)
+finite = (np.isfinite(sn11) & np.isfinite(sn22))
+includemask = ((((sn11 > 2) & (sn22 > 2))
+                | (sn11 > 4)
+                | (sn22 > 4))
+               & finite)
+
+log.info("SN22 > 2 & SN22 > 2: {0}".format(np.count_nonzero((sn11 > 2) & (sn22 > 2))))
+log.info("SN11 > 4 & SN22 < 2: {0}".format(np.count_nonzero((sn11 > 4) & (sn22 < 2))))
+log.info("SN22 > 4 & SN11 < 2: {0}".format(np.count_nonzero((sn22 > 4) & (sn11 < 2))))
+
 ratio = h2co11/h2co22
 ratio[True-includemask] = np.nan
 
 filt = np.ones([3,3,3],dtype='bool')
 filt[1,1,1] = 0
 nneighbors = convolve(np.isfinite(ratio), filt)
-ratio[(nneighbors<7) + (True-np.isfinite(nneighbors))] = np.nan
-includemask[(nneighbors<7) + (True-np.isfinite(nneighbors))] = False
+includemask[~np.isfinite(nneighbors)] = False
+includemask[(nneighbors<7)] = False
+includemask[(nneighbors>=10)] = True
+nneighbors2 = convolve(includemask, filt)
+includemask[(nneighbors2>=5)] = True
+
 # End masking
 ###
 

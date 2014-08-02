@@ -17,7 +17,7 @@ noise22 = h2co22[:50,:,:].std(axis=0)
 sn11 = h2co11/noise11
 sn22 = h2co22/noise22
 
-mask = (sn11 > 2) & (sn22 > 2)
+mask = ((sn11 > 2) & (sn22 > 2)) | (sn11 > 4) | (sn22 > 4)
 ratio = h2co11/h2co22
 ratio[True-mask] = np.nan
 
