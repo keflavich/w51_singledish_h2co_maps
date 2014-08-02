@@ -28,6 +28,9 @@ There is a fairly large suite of dependencies for this program:
  https://github.com/radio-astro-tools/spectral-cube/archive/master.zip
 
  3. Set up the paths appropriately in `allpaths.py <allpaths.py>`_
+
+    .. note:: TODO: Add simple example here
+
  4. Run the `analysis scripts <analysis_scripts/run_all.py>`_
  5. Run the `plot scripts <plot_scripts/run_all.py>`_
 
