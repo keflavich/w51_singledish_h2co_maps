@@ -2,13 +2,17 @@ from astropy import units as u
 from sdpy import makecube
 from paths import dpath
 
+flat_vrange = [45,75]
+
 cubename_lores_supersampled = dpath('W51_H2CO22_pyproc_cube_lores_supersampled')
 linefreq = 14.488479e9
 makecube.make_taucube(cubename_lores_supersampled,
                       cubename_lores_supersampled+"_continuum.fits",
                       etamb=0.886, linefreq=linefreq*u.Hz, tex=0)
-makecube.make_flats(cubename_lores_supersampled.replace("cube","taucube"),
-                    vrange=flat_vrange,noisevrange=[-50,-1],suffix='.fits')
+#makecube.make_flats(cubename_lores_supersampled.replace("cube","taucube"),
+#                    vrange=flat_vrange,noisevrange=[-50,-1],suffix='.fits')
+makecube.make_flats(cubename_lores_supersampled, vrange=[45,75],
+                    noisevrange=[-15,30])
 
 
 linefreq = 4.8296594e9
