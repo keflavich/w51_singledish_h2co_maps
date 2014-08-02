@@ -14,6 +14,10 @@ if not os.path.exists(rcfilepath):
     # probably means we're in a subdirectory
     rcfilepath = os.path.join(analysis_path, '../plot_scripts/pubfiguresrc')
 
+if not os.path.exists(figurepath):
+    # The parent directory *should* exist no matter what
+    os.mkdir(figurepath)
+
 def dpath(x, datapath=datapath):
     """
     Shortcut function
