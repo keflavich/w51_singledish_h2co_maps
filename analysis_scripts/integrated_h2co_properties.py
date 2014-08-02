@@ -26,26 +26,22 @@ for label,vrange in (("",[40,75]), ("lower",[40,62]), ("upper",[62,75])):
     h2co11slab = h2co11.spectral_slab(*vrange)
     h2co11_13slab = h2co11_13.spectral_slab(*vrange)
     h2co22slab = h2co22.spectral_slab(*vrange)
+
+    # Compute noise from an appropriate subset of the data
     noisevrange = [-50,0]*u.km/u.s
     h2co11noiseslab = h2co11.spectral_slab(*noisevrange)
     h2co22noiseslab = h2co22.spectral_slab(*noisevrange)
-
-    # TODO: replace _apply_numpy_function with either apply_numpy_function or std
     h2co11noise = h2co11noiseslab.apply_numpy_function(np.std,axis=0)
     h2co22noise = h2co22noiseslab.apply_numpy_function(np.std,axis=0)
 
     # TODO: implement Cube (lazy?) Arithmetic: avoid filling data!
     sn11 = SpectralCube(np.abs(h2co11.filled_data[:])/h2co11noise, wcs=h2co11.wcs)
     sn22 = SpectralCube(np.abs(h2co22.filled_data[:])/h2co22noise, wcs=h2co22.wcs)
-    mask = ((sn11 > 2) & (sn22 > 2))
+    # never used mask = ((sn11 > 2) & (sn22 > 2)) | (sn11 > 4) | (sn22 > 4)
     # TODO: implement MASK slabbing - will remove 2 lines here
     sn11slab = sn11.spectral_slab(*vrange)
     sn22slab = sn22.spectral_slab(*vrange)
-    maskslab = ((sn11slab > 2) & (sn22slab > 2))
-
-    # TODO: fix "velocity-based" mask wcs
-    maskslab._mask1._wcs.wcs.restfrq = 0
-    maskslab._mask2._wcs.wcs.restfrq = 0
+    maskslab = ((sn11slab > 2) & (sn22slab > 2)) | (sn11slab > 4) | (sn22slab > 4)
 
     dx = np.diff(h2co11.spectral_axis)[0]
     h2co11integ = h2co11slab.with_mask(maskslab).sum(axis=0) * dx
@@ -57,14 +53,14 @@ for label,vrange in (("",[40,75]), ("lower",[40,62]), ("upper",[62,75])):
     filt = np.ones([3,3,3],dtype='bool')
     filt[1,1,1] = 0
     # TODO: provide access to boolean arrays!
-    boolean_maskslab = maskslab.include(data=sn11slab._data, wcs=maskslab._mask1._wcs)
+    boolean_maskslab = maskslab.include(data=sn11slab._data, wcs=sn11slab.wcs)
     nneighbors = convolve(boolean_maskslab, filt)
     boolean_maskslab[(nneighbors<7)] = False
     boolean_maskslab[(nneighbors>=10)] = True
     # Grow it again
     nneighbors = convolve(boolean_maskslab, filt)
     boolean_maskslab[(nneighbors>=5)] = True
-    boolean_maskslab = BooleanArrayMask(boolean_maskslab, maskslab._mask1._wcs)
+    boolean_maskslab = BooleanArrayMask(boolean_maskslab, sn11slab.wcs)
 
     h2co11integ2 = h2co11slab.with_mask(boolean_maskslab).sum(axis=0) * dx
     h2co22integ2 = h2co22slab.with_mask(boolean_maskslab).sum(axis=0) * dx

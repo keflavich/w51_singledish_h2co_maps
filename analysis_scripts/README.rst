@@ -55,7 +55,8 @@ These scripts can be run in any order.
 
  * integrated_h2co_properties.py
 
-   Compute various properties (optical depth integral, ratio) of the H2CO maps
+   Compute various properties (optical depth integral, ratio) of the H2CO maps.
+   Creates the mask that is later used in the pyspeckit_ fitting codes.
 
  * luminosity.py
 
