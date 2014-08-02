@@ -27,6 +27,10 @@ There is a fairly large suite of dependencies for this program:
  https://github.com/keflavich/image_registration/archive/master.zip
  https://github.com/radio-astro-tools/spectral-cube/archive/master.zip
 
+ 3. Set up the paths appropriately in `allpaths.py <allpaths.py>`_
+ 4. Run the `analysis scripts <analysis_scripts/run_all.py>`_
+ 5. Run the `plot scripts <plot_scripts/run_all.py>`_
+
 ..
     http://thedata.harvard.edu/dvn/dv/W51_H2CO/FileDownload/?fileId=2387750&xff=0&versionNumber=1
     2387749
