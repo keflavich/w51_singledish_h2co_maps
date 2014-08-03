@@ -1,5 +1,5 @@
 from spectral_cube import SpectralCube,BooleanArrayMask
-from paths import (dpath, h2co11subfn, h2co22subfn, cont6cm, cont2cm)
+from paths import (dpath, h2co11subfn, h2co22subfn, cont6cm, cont2cm, h213co11subfn)
 from astropy import units as u
 from astropy.convolution import convolve
 from astropy.io import fits
