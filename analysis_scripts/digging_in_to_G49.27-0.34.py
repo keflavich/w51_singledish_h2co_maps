@@ -17,6 +17,7 @@ snu = bgps['S'][0] * u.Jy
 smin,smaj = bgps['minAxis'][0]*u.arcsec,bgps['majAxis'][0]*u.arcsec
 
 # copied from pick_bgps_candidates.py in BoundHII
+# Mass conversion factor for optically thin 1.1 mm dust
 def mass_conversion_factor(TK=20*u.K):
     return 14.30 * (np.exp(13.01*u.K/TK) - 1) * u.M_sun / u.Jy
 

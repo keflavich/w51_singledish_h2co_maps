@@ -1,11 +1,13 @@
-from common_constants import vrange1,vrange2
+from common_constants import vrange1,vrange2,cotocol,h2togm,distance
 import spectral_cube
 from spectral_cube import SpectralCube,BooleanArrayMask
+from build_mask import cubemask,includemask
 import numpy as np
 import paths
 from astropy import units as u
 from astropy.table import Table,Column
 from astropy.io import fits
+from astropy import log
 import copy
 import os
 import warnings
@@ -67,6 +69,13 @@ cube13ss_slab1_mom0 = cube13ss_slab1.moment0()
 cube13ss_slab2_mom0 = cube13ss_slab2.moment0()
 cube13ss_slab3_mom0 = cube13ss_slab3.moment0()
 
+pixsize = np.abs(np.prod((cube13ss_slab1_mom0.wcs.wcs.get_cdelt() * cube13ss_slab1_mom0.wcs.wcs.get_pc().diagonal())))**0.5 * u.deg
+pixarea = ((distance * pixsize)**2).to(u.cm**2, u.dimensionless_angles())
+log.info("Mass in slab 1 ({v1} to {v2} km/s): {m:0.5g} Msun".format(v1=vrange1[0], v2=vrange1[1],
+                                                            m=(cube13ss_slab1_mom0*h2togm*pixarea*cotocol()).sum().to(u.M_sun).value))
+log.info("Mass in slab 2 ({v1} to {v2} km/s): {m:0.5g} Msun".format(v1=vrange2[0], v2=vrange2[1],
+                                                            m=(cube13ss_slab2_mom0*h2togm*pixarea*cotocol()).sum().to(u.M_sun).value))
+
 high5e4dens_co = cube13ss.with_mask(high5e4dens)
 high5e4dens_co_slab3 = high5e4dens_co.spectral_slab(vrange1[0],vrange2[1])
 high5e4dens_co_slab3_mom0 = high5e4dens_co_slab3.moment0()
@@ -112,9 +121,9 @@ h2co11_fraction = h2co11_total / total_co_slab.value
 h2co22_fraction = h2co22_total / total_co_slab.value
 both_fraction = cube13ss_slab3.with_mask((sn11_slab3 > 2) & (sn22_slab3 > 2)).sum().value / total_co_slab.value
 
-print "H2CO Fractions: 1-1: ",h2co11_fraction
-print "H2CO Fractions: 2-2: ",h2co22_fraction
-print "Both: ", both_fraction
+log.info("H2CO Fractions: 1-1: {0}".format(h2co11_fraction))
+log.info("H2CO Fractions: 2-2: {0}".format(h2co22_fraction))
+log.info("Both: {0}".format(both_fraction))
 
 
 w51a_corners = denscube_mean.wcs.dropaxis(denscube_mean.wcs.wcs.spec).wcs_world2pix([49.4,49.6],[-0.5,-0.3],0)
@@ -153,7 +162,7 @@ for region in region_slices:
         tbl.add_column(Column(data=tbl['{0} Flux Over Threshold'.format(stat)] / total_co_slab_reg.value,
                               dtype='float', name='{0} F_total(slab)'.format(stat)))
 
-    pkfrac = cube13ss_slab3[slices].with_mask((sn11_slab3[slices] > 2) & (sn22_slab3[slices] > 2)).sum().value / total_co_slab_reg.value
+    pkfrac = cube13ss.with_mask(cubemask).spectral_slab(vrange1[0], vrange2[1])[slices].sum().value / total_co_slab_reg.value
     tbl.meta['Peak Fraction'] = pkfrac
 
     tables[region] = tbl

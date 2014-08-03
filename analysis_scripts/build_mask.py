@@ -1,6 +1,10 @@
 from paths import h2co11taufn, h2co22taufn
 from spectral_cube import BooleanArrayMask
 from astropy import wcs
+from astropy.io import fits
+import numpy as np
+from astropy import log
+from astropy.convolution import convolve
 
 ### copied from tau_ratio_cube
 # These are not used for fitting, only for masking!
@@ -39,7 +43,7 @@ includemask[(nneighbors2>=5)] = True
 includemask[~finite] = False
 
 maskwcs = wcs.WCS(fits.getheader(h2co11taufn))
-cubemask = BooleanArrayMask(incluemask, wcs=maskwcs)
+cubemask = BooleanArrayMask(includemask, wcs=maskwcs)
 
 # End masking
 ###

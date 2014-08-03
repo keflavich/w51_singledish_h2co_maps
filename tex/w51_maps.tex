@@ -1,6 +1,7 @@
 \input{preface}
 
-\title{The W51 GMC in 3D: The DGMF}
+\title{The W51 GMC in 3D: The DGMF says that SF is done in W51 B but booming in
+W51 A.  Also, ULIRGs are missing ionized gas?}
 % NEED A BETTER TITLE...
 \input{authors}
 %\begin{centering} 
@@ -15,7 +16,7 @@
 % FOCUS ON THE *OBSERVATIONAL* QUESTIONS solved here... the theoretical just
 % aren't going to be that exciting
 
-\section{Abstract}
+\begin{abstract}
 We present new 2 cm and 6 cm maps of \formaldehyde, radio recombination lines,
 and the radio continuum in the W51 star forming complex acquired with Arecibo
 and the Green Bank Telescope at $\sim50\arcsec$ resolution.
@@ -35,7 +36,10 @@ We measure gas densities using the \formaldehyde densitometer, finding largely
 consistent mass-weighted volume densities $n\gtrsim10^4$ \percc throughout the
 W51 GMC, with higher density $n\gtrsim10^5$ \percc gas associated with the
 proto-clusters.  We present continuous measurements of the dense gas mass
-fraction over the range $10^4$ $\percc< n(\hh) < 10^6$ \percc.
+fraction (DGMF) over the range $10^4$ $\percc< n(\hh) < 10^6$ \percc.  We measure a
+high DGMF in W51 Main, indicating that nearly all of its mass should form stars,
+and a very low DGMF in W51 B, suggesting that its star-forming lifetime has come
+to an end and it is being disrupted by stellar feedback.
 
 We did not detect \emph{any} \formaldehyde emission throughout the W51 GMC; all
 gas dense enough to emit under normal conditions is in front of bright
@@ -43,13 +47,13 @@ continuum sources.  This nondetection implies that the \formaldehyde emission
 detected in other galaxies, e.g. Arp 220, comes from high-density gas that is
 not directly affiliated with forming massive stars, i.e. the entire ISM of
 these galaxies is very dense.
+\end{abstract}
 
 
-\footnote{Compiled on \today\ at \currenttime}
 
 
 \section{Introduction}
-\todo{To do.  To-do items are coded in red.}
+\todo{To do.  To-do items are coded in red. Compiled on \today\ at \currenttime.}
 
 Massive star clusters are among the most visually outstanding features in the
 night sky.  In other galaxies, they are useful probes of the star formation history
@@ -77,6 +81,14 @@ such as G0.253+0.016 \citep{Longmore2012b}.  The initial conditions for star
 formation on any scale are clearly turbulent.  However, there is no evidence
 whether these initial conditions differ in any qualitative way from turbulence
 in local, low-mass star-forming regions.
+
+\todo{This paragraph may need expansion or removal.  See Section \ref{sec:futureev}}
+Star formation appears to occur only above a set volume density threshold in
+molecular gas, specifically $n(\hh)\gtrsim10^4$ \percc \citep[][, who advocate
+a column density threshold corresponding to this density]{Lada2010a}.  This
+threshold is contentious \citep{Burkert2012a,Clark2013b}, but it can only be
+evaluated when measurements of density and column density are simultaneously
+available.
 
 \subsection{W51}
 The W51 cloud complex (Figure \ref{fig:w51large}), containing the two W51
@@ -993,7 +1005,8 @@ being refit}}
 \subsubsection{The W51 B Filament}
 \label{sec:w51b}
 The W51 B filament, labeled as the 66 \kms cloud in Figure \ref{fig:geosketch},
-exhibits bright CO emission but has relatively weak \formaldehyde absorption.
+exhibits bright CO emission ($T_A^*\sim30-50$ K in the \citet{Parsons2012a} CO
+3-2 data) but has relatively weak \formaldehyde absorption.
 The absorption models are inconsistent with the molecular gas being in front of
 the continuum emission, so Figure \ref{fig:geosketch} shows the continuum sources
 in front of the cloud at lower $\ell$.  Figure \ref{fig:h2cofrontbackmodel}
@@ -1455,6 +1468,7 @@ contrast, the rest of the molecular cloud shows a consistent fraction
 $f\sim10\%$ with $n>10^4$ \percc.
 
 
+% co_intmaps.py
 \Figure{figures/FractionOfMassAboveDensity_All}
 {The `dense gas mass fraction' as a function of volume density $n(\hh)$ \percc.
 The $y$-axis shows the sum of \thirteenco pixels from the GRS cube with
@@ -1471,6 +1485,7 @@ $f\rightarrow f_{max}$ indicates that there are some real detections of
 low-density gas.}
 {fig:dgmf}{0.5}{0}
 
+% co_intmaps.py
 \FigureTwo
 {figures/FractionOfMassAboveDensity_W51Main}
 {figures/FractionOfMassAboveDensity_W51B}
@@ -1480,6 +1495,7 @@ low-density gas.}
 that the $y$ axes have different ranges.}
 {fig:dgmf_regions}{1}
 
+% co_intmaps.py
 \FigureTwoAA
 {figures/DGMF_5e4_Contours_on_13CO.pdf}
 {figures/DGMF_1e4_Contours_on_13CO.pdf}
@@ -1520,19 +1536,25 @@ threshold.  This systematic bias could be characterized from simulations
 projected into PPV space.
 
 \subsection{Implications for the future evolution of W51}
+\label{sec:futureev}
 The low DGMF associated with the W51 B / 66 \kms cloud indicates that it has a
-low star formation potential despite containing significant mass or, at least,
-being quite bright in CO and dust emission.  The presence of a supernova
-remnant and old, diffuse HII regions indicates that the cloud did previously
-(and recently) form stars, but is now being destroyed.  This cloud is therefore
-a good region to examine the effects of different feedback mechanisms in
-parallel.  It may also be a good location to examine how star formation
-progresses, if it does at all, in the presence of severe feedback and at the
-tail end of the overall cloud-to-star process.
+low star formation potential despite containing significant mass
+($M\gtrsim1\ee{5}$ \msun).  The presence of a supernova remnant and old,
+diffuse HII regions indicates that the cloud did previously (and recently) form
+stars, but is now being destroyed.  The fact that this cloud contains $10-30\%$
+of the total mass of W51, but has only a tiny fraction of its total mass above
+the purported star forming thresholds supports this story.
+
+This cloud is therefore a good region to examine the effects of different
+feedback mechanisms in parallel.  It may also be a good location to examine how
+star formation comes to an end in the presence of massive star feedback.
 
 By contrast, the W51 Main region has a dense gas fraction $\sim1$, or at least
 $\sim50\%$ out to nearly 5 pc.  It has presumably only formed a small fraction
-of its total potential.
+of its total potential.  It exceeds all of the various star formation and
+massive star formation thresholds
+\citep[e.g.][]{Lada2010a,Krumholz2008a,Kauffmann2010a}, and therefore is expect
+to form $\sim10^4-10^6$ \msun of additional stars.
 
 \subsection{Implications for extragalactic observations of \formaldehyde}
 Although W51 is one of the most massive and active GMCs in the galaxy,
