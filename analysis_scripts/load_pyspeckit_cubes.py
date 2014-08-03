@@ -119,17 +119,24 @@ def fit_a_pixel(args):
                                             tline2+cont2, etline2, pargrid2)
 
     chi2best = chi2.flat[indbest]
-    chi2_all = chi2[match]
     dens_best = densityarr.flat[indbest]
-    dens_all = densityarr[match]
     col_best = columnarr.flat[indbest]
-    col_all = columnarr[match]
     temp_best = temparr.flat[indbest]
-    temp_all = temparr[match]
     opr_best = oprarr.flat[indbest]
-    opr_all = oprarr[match]
 
     best = (dens_best, col_best, temp_best, opr_best, chi2best)
+
+    if np.count_nonzero(match):
+        log.warn(str(args))
+        warnings.warn("Found no matches.  Returning NaNs")
+        return best, np.nan, np.nan, np.nan, np.nan, np.nan
+
+    chi2_all = chi2[match]
+    dens_all = densityarr[match]
+    col_all = columnarr[match]
+    temp_all = temparr[match]
+    opr_all = oprarr[match]
+
     mins = map(min, (dens_all, col_all, temp_all, opr_all, chi2_all))
     maxs = map(max, (dens_all, col_all, temp_all, opr_all, chi2_all))
     mean = map(np.mean, (dens_all, col_all, temp_all, opr_all, chi2_all))

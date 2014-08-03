@@ -51,6 +51,7 @@ includemask[(nneighbors<7)] = False
 includemask[(nneighbors>=10)] = True
 nneighbors2 = convolve(includemask, filt)
 includemask[(nneighbors2>=5)] = True
+includemask[~finite] = False
 
 # End masking
 ###
@@ -75,6 +76,10 @@ data_iterator = [np.array(cube1.cube[includemask]),
                  np.array(cube2.cube[includemask]),
                  np.array(cube2.errorcube[includemask]),
                  np.repeat(cont22[None,:],cube2.shape[0],axis=0).reshape(cube2.cube.shape)[includemask],]
+
+for d in data_iterator:
+    if np.any(np.isnan(d)):
+        raise ValueError("There are NaNs in the data.  This is strictly impossible.")
 
 args = zip(*data_iterator)[0]
 print(args,fit_a_pixel(args))
