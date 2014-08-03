@@ -3,9 +3,7 @@ import FITS_tools
 from paths import datapath
 import pyspeckit
 import numpy as np
-
-h2co11 = pyspeckit.Cube(datapath+'W51_H2CO11_taucube_supersampled.fits')
-h2co22 = pyspeckit.Cube(datapath+'W51_H2CO22_pyproc_taucube_lores_supersampled.fits')
+from paths import h2co11,h2co22
 
 h2co11.xarr.convert_to_unit('km/s')
 argvmax = h2co11.cube[h2co11.xarr > 20,:,:].argmax(axis=0)

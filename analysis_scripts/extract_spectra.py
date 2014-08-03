@@ -1,19 +1,19 @@
-from paths import datapath,rpath
-from paths import figurepath
+from paths import (datapath, rpath, figurepath, h2co11subfn, h2co11taufn,
+                   h2co22subfn, h2co22taufn)
 import os
 import pyspeckit
 import pyregion
 import pylab as pl
+from load_pyspeckit_cubes import cube1 as scube1
+from load_pyspeckit_cubes import cube2 as scube2
+from load_pyspeckit_taucubes import h2co11 as taucube11
+from load_pyspeckit_taucubes import h2co22 as taucube22
 
-scube11 = pyspeckit.Cube(datapath+'W51_H2CO11_cube_supersampled_sub.fits')
-taucube11 = pyspeckit.Cube(datapath+'W51_H2CO11_taucube_supersampled.fits')
 scube11.xarr.convert_to_unit('km/s')
+scube22.xarr.convert_to_unit('km/s')
 #taucube11_13 = pyspeckit.Cube(datapath+'W51_H213CO_taucube.fits')
 #scube11_13 = pyspeckit.Cube(datapath+'W51_H213CO_cube_sub.fits')
 #scube11_13.xarr.convert_to_unit('km/s')
-scube22 = pyspeckit.Cube(datapath+'W51_H2CO22_pyproc_cube_lores_supersampled_sub.fits')
-taucube22 = pyspeckit.Cube(datapath+'W51_H2CO22_pyproc_taucube_lores_supersampled.fits')
-scube22.xarr.convert_to_unit('km/s')
 
 regfn = rpath('w51main_spectral_apertures.reg')
 regions = pyregion.open(regfn)

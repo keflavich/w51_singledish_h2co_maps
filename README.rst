@@ -12,6 +12,17 @@ There is a fairly large suite of dependencies for this program:
  1. Go here: http://thedata.harvard.edu/dvn/dv/W51_H2CO and download the data.
     It is unfortunately impossible to provide a direct download link, as the
     dataverse obscures the URLs.
+
+    Required Files:
+
+     W51_H2CO11_cube_supersampled_sub.fits
+     W51_H2CO11_cube_supersampled_continuum.fits
+     W51_H2CO22_pyproc_cube_lores_supersampled_sub.fits
+     W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits
+     h77a
+     h110a
+     h112a
+
  2. Install python, if not yet available.  `Conda
     <http://continuum.io/downloads>`_ is very efficient for this purpose
  2. Download & install sdpy, FITS_tools, spectral_cube, pyspeckit, astropy...

@@ -12,7 +12,7 @@ import paths
 pl.matplotlib.rc_file(paths.rcfilepath)
 pl.rcParams['font.size'] = 18
 
-oneonefn = paths.dpath('W51_H2CO11_cube_supersampled_continuum.fits')
+oneonefn = paths.cont6cm
 dcfn = paths.dpath('w51.iuq.fits')
 
 ac = fits.getdata(oneonefn)

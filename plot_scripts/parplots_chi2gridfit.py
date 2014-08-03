@@ -83,29 +83,32 @@ chi2levels = {'best':0.1, 'mean':1.0}
 
 
 for meastype in ('best','mean'):
-    chi2cube = spectral_cube.SpectralCube.read(paths.dpath("H2CO_ParameterFits_{0}chi2.fits".format(meastype)))
+    chi2cube = SpectralCube.read(paths.dpath("H2CO_ParameterFits_{0}chi2.fits".format(meastype)))
     okmask = BooleanArrayMask(np.isfinite(chi2cube.filled_data[:]), wcs=chi2cube.wcs)
     chi2cube = chi2cube.with_mask(okmask)
 
     # Try masking based on stddev: uncertainty of 1 order of magnitude isn't super interesting...
-    stdcube = spectral_cube.SpectralCube.read(paths.dpath("H2CO_ParameterFits_stddens.fits".format(meastype)))
+    stdcube = SpectralCube.read(paths.dpath("H2CO_ParameterFits_stddens.fits".format(meastype)))
     stdcube = stdcube.with_mask(okmask)
 
-    denscube = spectral_cube.SpectralCube.read(paths.dpath("H2CO_ParameterFits_{0}dens.fits".format(meastype)))
+    denscube = SpectralCube.read(paths.dpath("H2CO_ParameterFits_{0}dens.fits".format(meastype)))
     denscube = denscube.with_mask(okmask)
-    colcube  = spectral_cube.SpectralCube.read(paths.dpath("H2CO_ParameterFits_{0}col.fits".format(meastype)))
+    colcube  = SpectralCube.read(paths.dpath("H2CO_ParameterFits_{0}col.fits".format(meastype)))
     colcube = colcube.with_mask(okmask)
     goodmask = chi2cube < chi2levels[meastype]
     goodmask_std = stdcube < 0.5
 
     flathead = denscube.wcs.dropaxis(2).to_header()
 
-    denscube_lin = spectral_cube.SpectralCube(10**denscube.filled_data[:], wcs=denscube.wcs, mask=okmask)
-    colcube_lin = spectral_cube.SpectralCube(10**colcube.filled_data[:], wcs=denscube.wcs, mask=okmask)
+    denscube_lin = SpectralCube(10**denscube.filled_data[:].value,
+                                              wcs=denscube.wcs,
+                                              mask=okmask)
+    colcube_lin = SpectralCube(10**colcube.filled_data[:].value,
+                                             wcs=denscube.wcs, mask=okmask)
 
 
 
-    denscol = spectral_cube.SpectralCube(denscube_lin.filled_data[:] * colcube_lin.filled_data[:], wcs=denscube.wcs,
+    denscol = SpectralCube(denscube_lin.filled_data[:] * colcube_lin.filled_data[:], wcs=denscube.wcs,
                                          mask=okmask)
     wtdmeandens = np.log10(denscol.sum(axis=0) / colcube_lin.sum(axis=0))
 

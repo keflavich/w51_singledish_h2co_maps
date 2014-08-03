@@ -4,7 +4,8 @@ from pyspeckit.wrappers import fith2co
 from astropy.io import fits
 import numpy as np
 import pyregion
-from paths import datapath,dpath,rpath,mpath
+from paths import (datapath, dpath, rpath, mpath, h2co11subfn, h2co22subfn,
+                   cont2cm, cont6cm)
 from common_constants import TCMB, etamb_gbt
 from h2co_modeling.grid_fitter import grid_2p_getmatch
 from astropy import log
@@ -28,10 +29,8 @@ plot=False
 # For 2-2, it is never touched: it is only ever mentioned in make_taucube
 # The problem is that I made the transition from tau->sub without checking this...
 # even though it's obviously indicated in the post-import lines above
-h2co11filename = dpath('W51_H2CO11_cube_supersampled_sub.fits')
-h2co22filename = dpath('W51_H2CO22_pyproc_cube_lores_supersampled_sub.fits')
-cube1 = pyspeckit.Cube(h2co11filename)
-cube2 = pyspeckit.Cube(h2co22filename)
+cube1 = pyspeckit.Cube(h2co11subfn)
+cube2 = pyspeckit.Cube(h2co22subfn)
 cube2.data /= etamb_gbt # etamb scaling *crucial* for 2-2!
 cube1.xarr.refX_units='GHz'
 cube1.xarr.refX = 4.829659400
@@ -49,8 +48,8 @@ else:
 #both.units = 'Optical Depth $\\tau$'
 #both.header['BUNIT'] = 'Optical Depth $\\tau$'
 # need continua now
-cont11filename = dpath('W51_H2CO11_cube_supersampled_continuum.fits')
-cont22filename = dpath('W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')
+cont11filename = cont6cm
+cont22filename = cont2cm
 cont11 = fits.getdata(cont11filename) + TCMB
 cont22 = fits.getdata(cont22filename) / etamb_gbt + TCMB
 cont11[cont11<TCMB] = TCMB
@@ -65,11 +64,11 @@ cont22[contfrontmask] = TCMB
 
 #path_to_data = "/Users/adam/work/h2co/radex/troscompt_grid_March2012"
 
-texgrid1 = fits.getdata(mpath('1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tex1.fits'))
-taugrid1 = fits.getdata(mpath('1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tau1.fits'))
-texgrid2 = fits.getdata(mpath('1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tex2.fits'))
-taugrid2 = fits.getdata(mpath('1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tau2.fits'))
-hdr    = fits.getheader(mpath('1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tau2.fits'))
+texgrid1 = fits.getdata(model11tex)
+taugrid1 = fits.getdata(model11tau)
+texgrid2 = fits.getdata(model22tex)
+taugrid2 = fits.getdata(model22tau)
+hdr    = fits.getheader(model11tex)
 # # this deserves a lot of explanation:
 # # models.formaldehyde.formaldehyde_radex is the MODEL that we are going to fit
 # # models.model.SpectralModel is a wrapper to deal with parinfo, multiple peaks,

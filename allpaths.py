@@ -44,3 +44,18 @@ def afpath(x, figurepath=analysis_figurepath):
 
 def mpath(x, modelpath=modelpath):
     return os.path.join(modelpath, x)
+
+# File paths
+cont6cm = dpath('W51_H2CO11_cube_supersampled_continuum.fits')
+cont2cm = dpath('W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')
+h2co11subfn = dpath('W51_H2CO11_cube_supersampled_sub.fits')
+h2co22subfn = dpath('W51_H2CO22_pyproc_cube_lores_supersampled_sub.fits')
+h2co11taufn = dpath('W51_H2CO11_taucube_supersampled.fits')
+h2co22taufn = dpath('W51_H2CO22_pyproc_taucube_lores_supersampled.fits')
+
+model11tex = mpath('1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tex1.fits')
+model11tau = mpath('1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tau1.fits')
+model22tex = mpath('1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tex2.fits')
+model22tau = mpath('1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tau2.fits')
+
+h213cosubfn = dpath('W51_H213CO11_cube_supersampled_sub.fits')

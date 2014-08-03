@@ -13,7 +13,7 @@ import image_registration
 import paths
 import os
 
-twotwofn = paths.dpath('W51_H2CO22_pyproc_cube_lores_supersampled_continuum.fits')
+twotwofn = paths.cont2cm
 # has already been corrected for etamb
 dcfn = paths.dpath('langston_14ghz_gpa-bk1.fit')
 if not os.path.exists(dcfn):
