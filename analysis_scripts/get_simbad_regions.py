@@ -2,10 +2,11 @@ from astroquery.simbad import Simbad
 from astropy import coordinates
 from astropy import units as u
 
-Simbad.add_votable_fields('id(Gal|RAFGL|IRAS|1)')
-Simbad.add_votable_fields('otype')
+S = Simbad()
+S.add_votable_fields('id(Gal|RAFGL|IRAS|1)')
+S.add_votable_fields('otype')
 
-tbl = Simbad.query_region(coordinates.Galactic(49*u.deg,-0.3*u.deg), radius=1.5*u.deg)
+tbl = S.query_region(coordinates.Galactic(49*u.deg,-0.3*u.deg), radius=1.5*u.deg)
 
 with open('/Users/adam/work/w51/simbad_HII_regions.reg','w') as outf:
     print >>outf,'global color=white\nfk5'
