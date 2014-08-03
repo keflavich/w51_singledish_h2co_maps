@@ -4,12 +4,13 @@ Script to do the parameter fitting for the H2CO cubes
 It has gone through at least 11 iterations, some of which tried fitting the
 observed optical depth cubes (bad) and others which do the full line modeling.
 """
-from load_pyspeckit_cubes import both,T,F,cont11,cont22,h2co11filename
+from load_pyspeckit_cubes import both,T,F,cont11,cont22,h2co11subfn
 from astropy.io import fits
 import os
 import numpy as np
 import types
 import paths
+import warnings
 
 plot=False
 
@@ -33,11 +34,20 @@ if plot:
 doextra=False
 
 # Added 5/23/2014
-mask = fits.getdata(paths.dpath('mask_h2co_signal.fits'))
+mask = fits.getdata(paths.dpath('mask_h2co_signal.fits')).astype('bool')
 both.maskmap = mask
 
 twopar = True
 if True:
+    warnings.warn("This code takes ~24.5 hours to run on a modern 4-core laptop.")
+    warnings.warn("The progressbar does not report accurately when run in parallel.")
+    warnings.warn("The last 3 lines I saw when running this:"
+                  """
+                  Finished fit   3948 of  63140 at (  77,  89) s/n=  8.4. Elapsed time is 88106.2 seconds.  %6
+                  Finished final fit 63139.  Elapsed time was 88119.7 seconds
+                  Overwriting existing file '/Users/adam/work/w51/h2co_singledish/W51_taucube_fit_parcube_try11.fits'.
+                  """
+                 )
 
     #fith2co.plotter_override(sp,vrange=[-50,10],fignum=5,reset_xlimits=True)
     #sp.specfit(fittype='formaldehyde_radex_tau',guesses=[4,13,-20,2],quiet=False,verbose=True,multifit=True)
@@ -79,7 +89,7 @@ if True:
                          absorption=True,
                          integral=False,
                          fittype='formaldehyde_radex',
-                         multicore=16,
+                         multicore=4,
                          signal_cut=4,
                          fixed=[F,F,T,T,F,F,T,T]*2,
                          parlimited=parlimited,
@@ -94,14 +104,14 @@ if True:
                          absorption=True,
                          integral=False,
                          fittype='formaldehyde_radex',
-                         multicore=8,
+                         multicore=4,
                          signal_cut=3,
                          fixed=[F,F,T,T,F,F,T,T],
                          parlimited=[(T,T), (T,T), (T,T), (T,T), (F,F), (T,F), (T,F), (T,F)],
                          parlimits=[(1,8), (11,16), (-3,np.log10(3.0)), (5,55), (0,0), (0,0), (2.73,0), (2.73,0)],
                          start_from_point=[x,y])
         both.write_fit(parcubefilename,clobber=True)
-        cubeheader = fits.getheader(h2co11filename)
+        cubeheader = fits.getheader(h2co11subfn)
         tempf = fits.open(parcubefilename) # error in pyspeckit header tracking
         tempf[0].header = cubeheader
         tempf.writeto(parcubefilename,clobber=True)

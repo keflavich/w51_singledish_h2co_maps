@@ -4,6 +4,7 @@ from pyspeckit.wrappers import fith2co
 from astropy.io import fits
 import numpy as np
 import pyregion
+import paths
 from paths import (datapath, dpath, rpath, mpath, h2co11subfn, h2co22subfn,
                    cont2cm, cont6cm)
 from common_constants import TCMB, etamb_gbt
@@ -64,11 +65,11 @@ cont22[contfrontmask] = TCMB
 
 #path_to_data = "/Users/adam/work/h2co/radex/troscompt_grid_March2012"
 
-texgrid1 = fits.getdata(model11tex)
-taugrid1 = fits.getdata(model11tau)
-texgrid2 = fits.getdata(model22tex)
-taugrid2 = fits.getdata(model22tau)
-hdr    = fits.getheader(model11tex)
+texgrid1 = fits.getdata(paths.model11tex)
+taugrid1 = fits.getdata(paths.model11tau)
+texgrid2 = fits.getdata(paths.model22tex)
+taugrid2 = fits.getdata(paths.model22tau)
+hdr    = fits.getheader(paths.model11tex)
 # # this deserves a lot of explanation:
 # # models.formaldehyde.formaldehyde_radex is the MODEL that we are going to fit
 # # models.model.SpectralModel is a wrapper to deal with parinfo, multiple peaks,
