@@ -7,6 +7,8 @@ import pyregion
 from paths import datapath,dpath,rpath,mpath
 from common_constants import TCMB, etamb_gbt
 from h2co_modeling.grid_fitter import grid_2p_getmatch
+from astropy import log
+import warnings
 import os
 #cube1 = pyspeckit.Cube('W51_H2CO11_cube_sub.fits')        / 0.51 # eta_mb = 0.51 for arecibo @ c-band according to outergal paper
 #cube2 = pyspeckit.Cube('W51_H2CO22_pyproc_cube_sess22_sub.fits') / 0.886 # from both outergal and pilot
@@ -126,7 +128,7 @@ def fit_a_pixel(args):
 
     best = (dens_best, col_best, temp_best, opr_best, chi2best)
 
-    if np.count_nonzero(match):
+    if np.count_nonzero(match) == 0:
         log.warn(str(args))
         warnings.warn("Found no matches.  Returning NaNs")
         return best, np.nan, np.nan, np.nan, np.nan, np.nan

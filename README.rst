@@ -18,14 +18,14 @@ There is a fairly large suite of dependencies for this program:
 
 
 pip install https://github.com/astropy/astropy/archive/master.zip
-pip install https://github.com/astropy/astroquery/archive/master.zip
+pip install https://github.com/astropy/astroquery/archive/master.zip [CURRENTLY REQUIRES AN UNRELEASED VERSION]
 pip install https://github.com/aplpy/aplpy/archive/master.zip
 pip install https://github.com/keflavich/FITS_tools/archive/master.zip
 pip install https://github.com/keflavich/sdpy/archive/master.zip
 pip install https://github.com/pyspeckit/pyspeckit/archive/master.zip
 pip install https://github.com/keflavich/image_tools/archive/master.zip
 pip install https://github.com/keflavich/image_registration/archive/master.zip
-pip install https://github.com/radio-astro-tools/spectral-cube/archive/master.zip
+pip install https://github.com/radio-astro-tools/spectral-cube/archive/master.zip   [CURRENTLY REQUIRES AN UNRELEASED VERSION]
 pip install https://github.com/keflavich/h2co_modeling/archive/master.zip
 pip install https://github.com/keflavich/pyregion/archive/master.zip
 
