@@ -11,7 +11,9 @@ from pyspeckit.wrappers import fith2co
 import numpy as np
 import pylab as pl
 import os
-from paths import datapath,datapath_w51,figurepath,datapath_spectra,dpath,rpath,analysis_path
+from paths import (datapath, datapath_w51, figurepath, datapath_spectra, dpath,
+                   rpath, analysis_path)
+import paths
 
 pl.rcParams['font.size'] = 18
 
@@ -727,8 +729,8 @@ class LoadRRLCubes:
     def __call__(self):
 
         if not hasattr(self,'h77a'):
-            self.h77a = pyspeckit.Cube(datapath+'W51_h77a_pyproc_cube_supersampled_sub.fits')
-            self.h110a = pyspeckit.Cube(datapath+'W51_h110alpha_cube_supersampled_sub.fits')
+            self.h77a = pyspeckit.Cube(paths.h77asubfn)
+            self.h110a = pyspeckit.Cube(paths.h110112asubfn)
 
         hcubes = {'H110$\\alpha$': self.h110a,
                   'H77$\\alpha$': self.h77a}

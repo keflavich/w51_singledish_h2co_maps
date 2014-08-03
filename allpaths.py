@@ -59,3 +59,7 @@ model22tex = mpath('1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tex2.fits')
 model22tau = mpath('1-1_2-2_T=5to55_lvg_troscompt_100square_opgrid_tau2.fits')
 
 h213cosubfn = dpath('W51_H213CO11_cube_supersampled_sub.fits')
+
+h77asubfn = dpath('W51_h77a_pyproc_cube_supersampled_sub.fits')
+h110asubfn = dpath('W51_h110alpha_cube_supersampled_sub.fits')
+h110112asubfn = dpath('W51_Halpha_6cm_cube_supersampled_sub.fits')
