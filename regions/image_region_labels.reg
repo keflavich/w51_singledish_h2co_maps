@@ -1,0 +1,33 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+galactic
+point(48.987006,-0.30168) # point=cross color=white font="times 10 bold roman" text={GAL 49.0-00.3}
+point(49.078962,-0.37399139) # point=cross color=white font="times 10 bold roman" text={GAL 49.10-00.40}
+point(49.205724,-0.34827639) # point=cross color=white font="times 10 bold roman" text={HII 49.20-00.35}
+point(49.399342,-0.48953806) # point=cross color=white font="times 10 bold roman" text={HRDS 49.399-0.489}
+point(49.43684,-0.46483139) # point=cross color=white font="times 10 bold roman" text={GRS 49.40 -00.50}
+point(49.489818,-0.3691) # point=cross color=black font="times 10 bold roman" text={W 51 IRS 2}
+point(49.489402,-0.38802417) # point=cross color=black font="times 10 bold roman" text={W 51 Main}
+point(49.167617,-0.20749167) # point=cross color=white font="times 10 bold roman" text={HII 49.17-00.21}
+point(49.377222,-0.26769778) # point=cross color=white font="times 10 bold roman" text={IRAS 19207+1422}
+point(49.586304,-0.3795225) # point=cross color=white font="times 10 bold roman" text={HII 49.58-00.38}
+point(49.389033,-0.31007924) # point=cross color=black font="times 10 bold roman" text={HII 49.38-00.30}
+point(49.472353,-0.27133279) # point=cross color=white font="times 10 bold roman" text={IRDC 49.47 -0.27}
+point(48.920754,-0.28050574) # point=cross color=white font="times 10 bold roman" text={HII 048.92 -0.28}
+point(49.131,-0.4671) # point=cross color=white font="times 10 bold roman" text={W51 C SNR}
+point(49.110382,-0.28929798) # point=cross color=white font="times 10 bold roman" text={IRDC 49.11-00.29}
+point(49.069166,-0.32780711) # point=cross color=white font="times 10 bold roman" text={IRDC 49.07-00.33}
+point(49.3437,-0.3356) # point=cross color=white font="times 10 bold roman" text={G49.34-0.34}
+point(49.370758,-0.35052786) # point=cross color=white font="times 10 bold roman" text={IRDC 49.37-0.35}
+point(49.5528,-0.3303) # point=cross color=white font="times 10 bold roman" text={W51 I}
+point(49.5861,-0.3529) # point=cross color=white font="times 10 bold roman" text={[OMN2000] LS1}
+point(49.5361,-0.3937) # point=cross color=white font="times 10 bold roman" text={W51 G}
+point(49.499108,-0.3459375) # point=cross color=black font="times 10 bold roman" text={W51 B1/B3}
+point(49.59395,-0.45761016) # point=cross color=white font="times 10 bold roman" text={HII 49.59-0.45}
+point(49.461063,-0.35486261) # point=cross color=black font="times 10 bold roman" text={HII 49.46-0.35}
+point(49.564723,-0.27366307) # point=cross color=white font="times 10 bold roman" text={BGPS 49.561-00.276}
+point(49.402376,-0.2186188) # point=cross color=white font="times 10 bold roman" text={BGPS 49.402-00.214}
+point(49.466547,-0.25533435) # point=cross color=white text={HII 49.47-0.26}
+line(49.265214,-0.27859357,49.366141,-0.300715) # line=0 1 color=white font="times 10 bold roman" text={HII 49.37-0.30}
+line(49.42337,-0.307255,49.484369,-0.29491247) # line=1 0 color=white font="times 10 bold roman" text={HII 049.42-00.31}
+line(49.253918,-0.31223415,49.2667,-0.3367) # line=0 1 color=white font="times 10 bold roman" text={EGO 49.27-0.34}

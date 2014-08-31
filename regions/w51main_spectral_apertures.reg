@@ -1,0 +1,21 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+galactic
+circle(49.586243,-0.35230639,52") # color=black text={StarBubble}
+circle(49.475552,-0.36182389,26") # color=black text={IRS2IRDC}
+circle(49.490697,-0.36943028,26") # color=black text={IRS2}
+circle(49.457478,-0.31703972,52") # color=black text={NorthIRDC1}
+circle(49.467409,-0.28895944,52") # color=black text={NorthIRDC2}
+circle(49.466547,-0.25533435,72") # color=black text={G49.47-0.26}
+circle(49.455765,-0.378675,52") # color=black text={leftestfilament1}
+circle(49.425972,-0.37456833,52") # color=black text={leftestfilament2}
+circle(49.39892,-0.36327333,52") # color=black text={leftestfilament3}
+circle(49.374944,-0.34922722,52") # color=black text={leftestfilament4}
+circle(49.476809,-0.39778806,26") # color=black text={W51Main1}
+circle(49.491731,-0.39759333,26") # color=black text={W51Main2}
+circle(49.491926,-0.38344833,26") # color=black text={W51Main3}
+circle(49.477779,-0.38384111,26") # color=black text={W51Main4}
+circle(49.493476,-0.41329139,26") # color=black text={W51Main5}
+circle(49.478199,-0.34329333,26") # color=black text={IRS2IRDC_B}
+circle(49.456824,-0.35614972,26") # color=black text={Arnal_b}
+circle(49.474875,-0.42436977,42.12504") # color=black text={southdensespot}

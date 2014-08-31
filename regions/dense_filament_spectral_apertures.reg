@@ -1,0 +1,11 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+galactic
+circle(48.866332,-0.25896903,55") # text={ap1}
+circle(48.892364,-0.26632596,55") # text={ap2}
+circle(48.919528,-0.27594656,55") # text={ap3}
+circle(49.014603,-0.30990161,55") # text={ap4}
+circle(48.990834,-0.29914918,55") # text={ap5}
+circle(48.964802,-0.29349000,55") # text={ap6}
+circle(48.941599,-0.28669899,55") # text={ap7}
+circle(49.078593,-0.37574333,55") # text={G49.1-0.4}

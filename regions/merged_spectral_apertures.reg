@@ -1,0 +1,48 @@
+global highlite=1  include=1  width=1  color=green edit=1  move=1  font="helvetica 10 normal roman" dash=0  source=1 dashlist=8 3  fixed=0  select=1  delete=1 
+galactic
+circle(48.866332,-0.258969,0.015278) # text={ap1}
+circle(48.892364,-0.266326,0.015278) # text={ap2}
+circle(48.919528,-0.275947,0.015278) # text={ap3}
+circle(49.014603,-0.309902,0.015278) # text={ap4}
+circle(48.990834,-0.299149,0.015278) # text={ap5}
+circle(48.964802,-0.293490,0.015278) # text={ap6}
+circle(48.941599,-0.286699,0.015278) # text={ap7}
+circle(49.078593,-0.375743,0.015278) # text={G49.1-0.4}
+circle(49.380529,-0.269046,0.014444) # text={IRAS_19207+1422}
+circle(49.363608,-0.301992,0.014444) # text={G49.37-0.30}
+circle(49.423273,-0.305556,0.014444) # text={G49.42-0.31}
+circle(49.389433,-0.309117,0.014444) # text={G49.38-0.30}
+circle(49.337784,-0.282401,0.014444) # text={Maus5}
+circle(49.403682,-0.219180,0.014444) # text={BGPS_49.402-0.214}
+circle(49.344516,-0.338711,0.009158) # text={G49.34-0.34}
+circle(49.318700,-0.336919,0.014444) # text={ap2}
+circle(49.292973,-0.334770,0.014444) # text={ap3}
+circle(49.266103,-0.334769,0.014444) # text={G49.27-0.34}
+circle(49.210215,-0.339068,0.014444) # text={G49.20-0.35}
+circle(49.239234,-0.337994,0.014444) # text={ap6}
+circle(49.185623,-0.368960,0.014444) # text={ap7}
+circle(49.087691,-0.239120,0.014444) # text={ap1}
+circle(49.107037,-0.256316,0.014444) # text={ap2}
+circle(49.118859,-0.276735,0.014444) # text={ap3}
+circle(49.107037,-0.289632,0.014444) # text={ap4}
+circle(49.128532,-0.322948,0.014444) # text={ap5}
+circle(49.112411,-0.312201,0.014444) # text={ap6}
+circle(49.070495,-0.327247,0.014444) # text={ap7}
+circle(49.586243,-0.352306,0.014444) # color=black text={StarBubble}
+circle(49.475552,-0.361824,0.007222) # color=black text={IRS2IRDC}
+circle(49.490697,-0.369430,0.007222) # color=black text={IRS2}
+circle(49.457478,-0.317040,0.014444) # color=black text={NorthIRDC1}
+circle(49.467409,-0.288959,0.014444) # color=black text={NorthIRDC2}
+circle(49.466547,-0.255334,0.020000) # color=black text={G49.47-0.26}
+circle(49.455765,-0.378675,0.014444) # color=black text={leftestfilament1}
+circle(49.425972,-0.374568,0.014444) # color=black text={leftestfilament2}
+circle(49.398920,-0.363273,0.014444) # color=black text={leftestfilament3}
+circle(49.374944,-0.349227,0.014444) # color=black text={leftestfilament4}
+circle(49.476809,-0.397788,0.007222) # color=black text={W51Main1}
+circle(49.491731,-0.397593,0.007222) # color=black text={W51Main2}
+circle(49.491926,-0.383448,0.007222) # color=black text={W51Main3}
+circle(49.477779,-0.383841,0.007222) # color=black text={W51Main4}
+circle(49.493476,-0.413291,0.007222) # color=black text={W51Main5}
+circle(49.478199,-0.343293,0.007222) # color=black text={IRS2IRDC_B}
+circle(49.456824,-0.356150,0.007222) # color=black text={Arnal_b}
+circle(49.474875,-0.424370,0.011701) # color=black text={southdensespot}

@@ -31,8 +31,9 @@ function tsysmodel,za,p=p,tsys_scale=tsys_scale
     return,model*tsys_scale
 end
 
-pro wcs_line,header,line=line,crpix=crpix,cdelt=cdelt,crvalL=crvalL,vel_lsr=vel_lsr,crvalT=crvalT,$
-    restfreq=restfreq
+pro wcs_line, header, line=line, crpix=crpix, cdeltv=cdeltv, crvalL=crvalL,$
+              vel_lsr=vel_lsr, crvalT=crvalT, crvalB=crvalB, restfreq=restfreq,$
+              topofreq=topofreq,crvalF=crvalF,cdeltF=cdeltF
     if keyword_set(restfreq) then begin
         if ((restfreq lt 4000) or (restfreq gt 6000)) then begin
             message,'Rest frequency is not within C-band.  Must be specified in MHz.  Was: '+strtrim(restfreq)
@@ -67,32 +68,43 @@ pro wcs_line,header,line=line,crpix=crpix,cdelt=cdelt,crvalL=crvalL,vel_lsr=vel_
         restfreq = 4.91632*1e3
     endif
 
+    topofreq = masfreq(header, retvel=0)
+
     speedoflight=2.99792458e8
 
     ;x = masfreq(header)
-    velo_topo = masfreq(header,/retvel,restFreq=restfreq,velcrdsys='T') ;(x-restfreq)/restfreq * speedoflight
-    velo_bary = masfreq(header,/retvel,restfreq=restfreq,velcrdsys='B') ;velo_topo - header.vel_bary
+    ;(x-restfreq)/restfreq * speedoflight
+    velo_topo = masfreq(header,/retvel,restFreq=restfreq,velcrdsys='T')
+    ;velo_topo - header.vel_bary
+    velo_bary = masfreq(header,/retvel,restfreq=restfreq,velcrdsys='B')
     ra  = header.crval2
     dec = header.crval3
     vec = anglestovec3(ra*!dtor,dec*!dtor)
+    
+    ; get offset_lsr in METERS PER SECOND (m/s)
     offset_lsr=velLsrProj(vec,header.vel_bary/speedoflight)*speedoflight 
+
     ;velo_lsr1 = (x-restfreq)/restfreq * speedoflight+offset_lsr
     velo_lsr = masfreq(header,/retvel,restfreq=restfreq,velcrdsys='L') ;velo_topo - header.vel_bary
     ;plot,velo_lsr,velo_lsr1
 
     ;plot,velo_lsr/1e3,spec.d,psym=10
-    vel_lsr = offset_lsr
+    vel_lsr = offset_lsr/1e3 ; convert from m/s to km/s
 
     m = min(abs(velo_lsr),wherezero)
     
-    cdelt = mean(velo_lsr[1:8191] - velo_lsr[0:8190])
+    cdeltv = mean(velo_lsr[1:8191] - velo_lsr[0:8190])
     crvalL = velo_lsr[wherezero]
     crvalT = velo_topo[wherezero]
+    crvalB = velo_bary[wherezero]
+    crvalF = topofreq[wherezero]
+    cdeltF = mean(topofreq[1:8191] - topofreq[0:8190])
     crpix = wherezero+1
 
 end
 
-function add_lines_to_header,header,freqrange,spechead,linedict=linedict,machine=machine,projid=projid
+function add_lines_to_header,header,freqrange,spechead,$
+        linedict=linedict,machine=machine,projid=projid
     if machine eq 'macbook' or machine eq 'eta' then begin
         readcol,getenv('AODATAROOT')+'/arecibo_lines_named.txt',names,freq,tupp,format='(A,F,F)',/silent
     endif else if machine eq 'ao' then begin
@@ -107,10 +119,10 @@ function add_lines_to_header,header,freqrange,spechead,linedict=linedict,machine
     for ii=0,n_elements(names)-1 do begin 
         ;linedict = [linedict,{name:names[ii],freq:freq[ii]}]
         if (freqrange[0] lt freq[ii]*1e3) and (freqrange[1] gt freq[ii]*1e3) then begin
-            wcs_line,spechead,crpix=crpix,cdelt=cdelt,crvalL=crvalL,vel_lsr=vel_lsr,crvalT=crvalT,restfreq=freq[ii]*1e3
+            wcs_line,spechead,crpix=crpix,cdeltv=cdeltv,crvalL=crvalL,vel_lsr=vel_lsr,crvalT=crvalT,crvalB=crvalB,restfreq=freq[ii]*1e3
             header = [header,'CRPIX1'+csuffix[jj]+' =  ' + string(strcompress(crpix),format='(A65)')]
             header = [header,'CRVAL1'+csuffix[jj]+' =  ' + string(strcompress(CRVALL),format='(A65)')]
-            header = [header,'CDELT1'+csuffix[jj]+' =  ' + string(strcompress(CDELT),format='(A65)')]
+            header = [header,'CDELT1'+csuffix[jj]+' =  ' + string(strcompress(CDELTV),format='(A65)')]
             header = [header,'CTYPE1'+csuffix[jj]+' =  ' + string("'VRAD-LSR'",format='(A65)')]
             header = [header,'CUNIT1'+csuffix[jj]+' =  ' + string("'km/s'",format='(A65)')]
             header = [header,'RESTFRQ'+csuffix[jj]+'=  ' + string(strcompress(freq[ii]*1e9),format='(A65)')]
@@ -259,7 +271,7 @@ pro reduce_session,line=line,output_prefix=output_prefix,offsmooth=offsmooth,obs
         print,"Scan number ",scannum," object ",spec.h.object," line ",line," bsg ",bsg
         ; there was a change to the Arecibo version of some component that required spec.h.restfrq to be set forcibly
         ; the change occured between 9/5/2011 and 10/10/2011
-        wcs_line,spec.h,crpix=crpix,cdelt=cdelt,crvalL=crvalL,vel_lsr=vel_lsr,crvalT=crvalT,line=line,restfreq=restfreq
+        wcs_line,spec.h,crpix=crpix,cdeltv=cdeltv,crvalL=crvalL,vel_lsr=vel_lsr,crvalT=crvalT,line=line,crvalB=crvalB,restfreq=restfreq
         spec.h.restfrq = restfreq * 1e6
         tagnames = tag_names(spec.h)
         fitsheader = strarr(n_elements(tagnames)) 
@@ -300,14 +312,14 @@ pro reduce_session,line=line,output_prefix=output_prefix,offsmooth=offsmooth,obs
         fitsheader = [fitsheader,'TSYSB   =  ' + string(strcompress(tsys[1]),format='(A65)')]
         fitsheader = [fitsheader,'CRPIX1V =  ' + string(strcompress(crpix),format='(A65)')]
         fitsheader = [fitsheader,'CRVAL1V =  ' + string(strcompress(CRVALL),format='(A65)')]
-        fitsheader = [fitsheader,'CDELT1V =  ' + string(strcompress(CDELT),format='(A65)')]
+        fitsheader = [fitsheader,'CDELT1V =  ' + string(strcompress(CDELTV),format='(A65)')]
         fitsheader = [fitsheader,'CTYPE1V =  ' + string("'VRAD-LSR'",format='(A65)')]
         fitsheader = [fitsheader,'CUNIT1V =  ' + string("'km/s'",format='(A65)')]
         fitsheader = [fitsheader,'RESTFRQV=  ' + string(strcompress(spec.h.restfrq),format='(A65)')]
         fitsheader = [fitsheader,'VEL_LSR =  ' + string(vel_lsr,format='(F65)')]
         fitsheader = [fitsheader,'CRPIX1T =  ' + string(strcompress(crpix),format='(A65)')]
         fitsheader = [fitsheader,'CRVAL1T =  ' + string(strcompress(CRVALT),format='(A65)')]
-        fitsheader = [fitsheader,'CDELT1T =  ' + string(strcompress(CDELT),format='(A65)')]
+        fitsheader = [fitsheader,'CDELT1T =  ' + string(strcompress(CDELTV),format='(A65)')]
         fitsheader = [fitsheader,'CTYPE1T =  ' + string("'VRAD-TOP'",format='(A65)')]
         fitsheader = [fitsheader,'CUNIT1T =  ' + string("'km/s'",format='(A65)')]
         fitsheader = [fitsheader,'CTYPE1  =  ' + string("'FREQ'",format='(A65)')]

@@ -1,3 +1,6 @@
+; Before running this:
+; .r reduce_session
+; .r reduce_map
 ; created Thurs, Sep 26, 2013
 ; see arecibo_bsg_freqref.txt
 
@@ -36,8 +39,10 @@ for ii=0,n_elements(name)-1 do begin
             print,obsdate,firstscan,lastscan,bsg,linename,restfreq
             flist = get_scanlist(firstscan,lastscan,obsdate=obsdate,machine='eta',bsg=bsg,projid=projid)
             prefix = '/Users/adam/observations/arecibo/'+strtrim(obsdate)
-            accum_map,flist,savefile=prefix+'/W51_'+strtrim(linename)+'_spectra_'+strmid(obsdate,4,4)+'.fits',$
-                velocities=[-30,30,100,130],obsdate=obsdate,machine='eta',line=linename,percentile=10,/do_mask_line,$
+            savefile = prefix+'/W51_'+strtrim(linename)+'_spectra_'+strmid(obsdate,4,4)+'.fits'
+            accum_map,flist,savefile=savefile,$
+                velocities=[-30,30,100,130],obsdate=obsdate,machine='eta',$
+                line=linename,percentile=10,/do_mask_line,$
                 restfreq=restfreq,domedsmooth=domedsmooth
         endfor
     endif
