@@ -52,7 +52,7 @@ glon,glat = np.array(zip(*[(rd.galactic.l.degree,
 mask = fits.getdata(p1('mask_h2co_signal.fits'))
 
 for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
-    parcubefile = fits.open(p1('W51_taucube_fit_parcube_try10'+suffix))
+    parcubefile = fits.open(p1('W51_taucube_fit_parcube_try11'+suffix))
     #parcubefile[0].header = fits.getheader('W51_H2CO11_taucube_integrated.fits')
     parcubefile[0].header['CTYPE3'] = 'linear'
     parcubefile[0].data *= mask
@@ -84,7 +84,7 @@ for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
     velo1.show_colorscale(vmin=52,vmax=66,cmap=cmjet)
     velo1.recenter(**zoomargs)
     velo1.colorbar._colorbar_axes.set_ylabel('Velocity ($V_{LSR}$ km s$^{-1}$)')
-    savefig('W51_H2CO_2parfittry10_v1_densityvelocity%s.png' % extrastr,bbox_inches='tight')
+    savefig('W51_H2CO_2parfittry11_v1_densityvelocity%s.png' % extrastr,bbox_inches='tight')
 
     dens1.remove_colorbar()
     dens1.hide_colorscale()
@@ -94,7 +94,7 @@ for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
     col1.colorbar._colorbar_axes.set_ylabel('log$_{10}$(N(H$_2$) cm$^{-2}$)')
     col1.hide_xaxis_label()
     col1.hide_xtick_labels()
-    savefig('W51_H2CO_2parfittry10_v1_columnvelocity%s.png' % extrastr,bbox_inches='tight')
+    savefig('W51_H2CO_2parfittry11_v1_columnvelocity%s.png' % extrastr,bbox_inches='tight')
 
     pl.figure(2,figsize=(12,12))
     pl.clf()
@@ -108,7 +108,7 @@ for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
     velo2.show_colorscale(vmin=65,vmax=73,cmap=cmjet)
     velo2.recenter(**zoomargs)
     velo2.colorbar._colorbar_axes.set_ylabel('Velocity ($V_{LSR}$ km s$^{-1}$)')
-    savefig('W51_H2CO_2parfittry10_v2_densityvelocity%s.png' % extrastr,bbox_inches='tight')
+    savefig('W51_H2CO_2parfittry11_v2_densityvelocity%s.png' % extrastr,bbox_inches='tight')
 
     dens2.remove_colorbar()
     dens2.hide_colorscale()
@@ -118,7 +118,7 @@ for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
     col2.colorbar._colorbar_axes.set_ylabel('log$_{10}$(N(H$_2$) cm$^{-2}$)')
     col2.hide_xaxis_label()
     col2.hide_xtick_labels()
-    savefig('W51_H2CO_2parfittry10_v2_columnvelocity%s.png' % extrastr,bbox_inches='tight')
+    savefig('W51_H2CO_2parfittry11_v2_columnvelocity%s.png' % extrastr,bbox_inches='tight')
 
     pl.figure(3)
     pl.clf()
@@ -131,7 +131,7 @@ for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
     #dens1.hide_xaxis_label()
     #dens1.hide_xtick_labels()
     dens1.refresh()
-    savefig('W51_H2CO_2parfittry10_v1_justdensity%s.png' % extrastr,bbox_inches='tight')
+    savefig('W51_H2CO_2parfittry11_v1_justdensity%s.png' % extrastr,bbox_inches='tight')
     dens1.show_markers(np.array(ysos['_Glon'][ysos['Cl1']=='I']),
                        np.array(ysos['_Glat'][ysos['Cl1']=='I']),
                        edgecolor='k',marker='x')
@@ -140,7 +140,7 @@ for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
                        marker='+',edgecolor='k')
     dens1.show_markers(glon,glat,marker='+',edgecolor='k')
     dens1.refresh()
-    savefig('W51_H2CO_2parfittry10_v1_justdensity%s_withYSOs.png' % extrastr,bbox_inches='tight')
+    savefig('W51_H2CO_2parfittry11_v1_justdensity%s_withYSOs.png' % extrastr,bbox_inches='tight')
 
     column1 = 10**parcubefile[0].data[1] * parcubefile[0].data[5]
     column2 = 10**parcubefile[0].data[9] * parcubefile[0].data[13]
@@ -153,7 +153,7 @@ for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
     tcol = FITSFigure(colhdu, figure=pl.figure(4))
     tcol.show_colorscale(cmap=cmhot)
     tcol.colorbar._colorbar_axes.set_ylabel('log$_{10}$(N(H$_2$) cm$^{-2}$)')
-    savefig('W51_H2CO_2parfittry10_totalcolumn.png', bbox_inches='tight')
+    savefig('W51_H2CO_2parfittry11_totalcolumn.png', bbox_inches='tight')
 
 
     labels = {'dens':'log$_{10}$(n(H$_2$) cm$^{-3}$)',
@@ -185,7 +185,7 @@ for suffix,extrastr in ((".fits",""), ):#("_prefiltered.fits", "filtered")):
         F.show_colorscale(cmap=cmaps[param[:-1]],vmin=vmin,vmax=vmax)
         F.recenter(**zoomargs)
         F.colorbar._colorbar_axes.set_ylabel(labels[param[:-1]])
-        savefig('W51_H2CO_2parfittry10_{0}.png'.format(param),bbox_inches='tight')
+        savefig('W51_H2CO_2parfittry11_{0}.png'.format(param),bbox_inches='tight')
 
 rfiles = ['W51_H2CO_max_ratio.fits',
           'W51_H2CO_mid_ratio.fits',
