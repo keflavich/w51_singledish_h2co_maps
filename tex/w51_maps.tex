@@ -109,7 +109,8 @@ and 22 \um) respectively.  The yellow-orange semitransparent layer is from the
 Bolocam 1.1 mm Galactic Plane Survey data \citep{Aguirre2011a,Ginsburg2013a}.
 Finally, the faint whitish haze filling in most of the image is from a 90 cm
 VLA image by \citet{Brogan2013a}, which primarily traces the W51 C supernova
-remnant.}
+remnant. \todo{As recommended by Allison, Cara, and Hector - remove haze,
+describe location better}}
 {fig:w51large}{0.5}{0}
 
 
@@ -155,7 +156,7 @@ Perillat's AOIDL routines.  The code is available at
 is included in a corresponding git repository:
 \url{https://github.com/keflavich/w51_singledish_h2co_maps}.
 
-The individual spectral were calibrated using a noise calibration diode as
+Each spectrum was calibrated using a noise calibration diode as
 usual.  The first and last scans of each observation were used as off
 positions, and the background level to be subtracted off of the continuum was
 determined by linearly interpolating between these scans.
@@ -174,6 +175,25 @@ correction was never more than $\sim5\%$.
 
 Typical noise levels were $\sim10-20$ mK per 1 \kms channel; the levels vary
 across the map.  See Section \ref{sec:ppvcubes} for details.
+
+The GBT data were mapped in an orthogonal grid pattern, so the hit coverage is
+more uniform on small scales, but because of the dual-beam Ku-band system, the
+overall noise levels are much more patchy.  Additionally, the nights with
+better weather yielded a lower noise level.  The noise ranges from $\sim7$ mK
+in the W51 Main region to $\sim 20$ mK in the westmost region.  As with the
+Arecibo data, the \hii region adds noise, but the peak noise towards an \hii
+region is only $\sim 20$ mK.  This difference is because the diffuse \hii
+region is fainter at 2 cm.  The signal-to-noise ratio in the continuum peaks at
+$\sim 400$.
+
+While the noise in the continuum is nominally quite low, there are significant
+systematic effects visible in the continuum maps.  The continuum zero-point of
+each GBT map was determined by assuming that the first and last scan both
+observed zero continuum and that the sky background can be linearly
+interpolated between the start and end of the observations.  In general, these
+are good assumptions, but they leave in systematic offsets of up to
+$\lesssim-0.15$ K in the maps, most likely because there is a $\sim0.15$ K
+mostly uniform background of diffuse emission.
 
 \subsection{Arecibo 6 cm}
 The Arecibo data were taken as part of project A2705 over the course of 4
@@ -212,7 +232,6 @@ assembled by Phil Perrilat.
 Typical noise levels were $\sim50$ mK per 1 \kms channel.  See Section
 \ref{sec:ppvcubes} for details.
 
-\subsection{Mapmaking}
 The maps were made by computing an output grid in Galactic coordinates with
 15\arcsec pixels and adding each spectrum to the appropriate pixel\footnote{We
 use the term `pixel' to refer to a square data element projected on the sky
@@ -236,16 +255,6 @@ at 0.25 \kms resolution.  The spectra were regridded onto a velocity grid from
 $-50$ to 150 \kms with 1 \kms resolution.  To achieve this, they were first
 smoothed by a Gaussian with $FWHM=1$ \kms then downsampled appropriately.
 
-
-\section{The Data}
-
-The main products of the mapping data are PPV cubes in the two \formaldehyde
-lines, the integrated continuum in the 2 and 6 cm bands, and optical depth data
-cubes.  In this section we describe these data and the systematic errors
-associated with them.  
-
-\subsection{PPV cubes}
-\label{sec:ppvcubes}
 The PPV cubes were created with units of brightness temperature.  The Arecibo
 cubes have contributions from 15-20 independent spectra in each pixel, though
 this hit rate varies in a systematic striped pattern parallel to the Galactic
@@ -255,70 +264,30 @@ The resulting noise level is RMS $\sim 50-60$ mK except toward the \hii
 regions, where it peaks at about 400 mK.  The continuum is derived by averaging
 line-free channels; its signal-to-noise peaks at $\sim900$.
 
-The GBT data were mapped in an orthogonal grid pattern, so the hit coverage is
-more uniform on small scales, but because of the dual-beam Ku-band system, the
-overall noise levels are much more patchy.  Additionally, the nights with
-better weather yielded a lower noise level.  The noise ranges from $\sim7$ mK
-in the W51 Main region to $\sim 20$ mK in the westmost region.  As with the
-Arecibo data, the \hii region adds noise, but the peak noise towards an \hii
-region is only $\sim 20$ mK.  This difference is because the diffuse \hii
-region is fainter at 2 cm.  The signal-to-noise ratio in the continuum peaks at
-$\sim 400$.
+The Arecibo data appear to have smaller systematic continuum offsets than the
+GBT data, but they are more visually pronounced because there is much more
+diffuse emission at 6 cm.  The continuum zero-point level in the Arecibo data
+was set to be the 10th percentile value of each scan, which is effectively the
+minimum value across each scan but with added robustness against
+noise-generated false minima.  In the eastmost and westmost blocks, this
+strategy was very effective, as there are clearly areas in each scan that see
+no continuum.  However, in the central block, this approach resulted in a
+vertical negative filament that almost certainly represents a local minimum
+that should be positive.  This negative filament has values $\gtrsim-0.08$ K.
+Given the excellent agreement between the three independently observed regions
+in the areas that they overlap, it is clear that the continuum is
+reliable above $\gtrsim0.5$ K, which is the entire regime in which it is a
+significant contributor to the total background emission (at lower levels, the
+CMB is dominant).
 
-\subsection{Continuum Images}
-Our observations comprise the highest resolution wide-area maps of the W51
-region in the 6 cm and 2 cm continuum that preserve large angular scale
-structures.  They can be used to provide the zero-spacing for future and extant
-VLA observations and are essential for the density measurements we describe
-later.  We therefore carefully verify the quality and calibration of the
-continuum data.
-
-While the noise is nominally quite low, there are significant systematic
-effects visible in the continuum maps.  The continuum zero-point of each GBT
-map was determined by assuming that the first and last scan both observed zero
-continuum and that the sky background can be linearly interpolated between the
-start and end of the observations.  In general, these are good assumptions, but
-they leave in systematic offsets of up to $\lesssim-0.15$ K in the maps, most
-likely because there is a $\sim0.15$ K mostly uniform background.
-
-The Arecibo data appear to have smaller systematic offsets, but they are more
-visually pronounced because there is much more diffuse emission
-at 6 cm.  The continuum zero-point level in the Arecibo data was set to be the
-10th percentile value of each scan, which is effectively the minimum value
-across each scan but with added robustness against noise-generated false
-minima.  In the eastmost and westmost blocks, this strategy was very effective,
-as there are clearly areas in each scan that see no continuum.  However, in the
-central block, this approach resulted in a vertical negative filament that
-almost certainly represents a local minimum that should be positive.  This
-negative filament has values $\gtrsim-0.08$ K.  Given the excellent agreement
-between the three independently observed blocks in the overlap regions between
-these blocks, it is clear that the continuum is reliable above $\gtrsim0.5$ K,
-which is the entire regime in which it is a significant contributor to the
-total background emission (at lower levels, the CMB is dominant).
 
 \FigureTwoAA{figures/continuum_11.pdf}
             {figures/continuum_22.pdf}
-{Continuum images of the 6 cm Arecibo data (left) and 2 cm GBT data (right)}
-{fig:continuum}{1.0}{6in}
+{Continuum images of the 6 cm Arecibo data \todo{(left or top)} and 2 cm GBT
+data \todo{(right or bottom)}} {fig:continuum}{1.0}{6in}
 
 
 
-\FigureFourPDF
-{figures/ratiomap_cont_h112te}
-{figures/ratiomap_cont_h77te}
-{figures/electron_temperature_77vs111}
-{figures/ratiomap_cont_h77te_HeContours}
-{(a) The H112$\alpha$ electron temperature map showing $T_e^*$ in K. 
-(b) The H77$\alpha$ electron temperature map showing $T_e^*$ in K.
-(c) The measured electron temperature in the 6 cm vs the 2 cm band at each spatial
-pixel with significant detected RRL emission.  The contours show regions of
-increasing pixel density.  The $x$ marks the median and the $+$ marks the mean
-over all valid pixels.
-(d) Same as (b), but with integrated He77$\alpha$ contours at levels [0.0125,
-0.025, 0.05, 0.1, 0.15, 0.2] K \kms overlaid.  The contours on the right side
-($\ell<49$) most likely trace noise, since the noise in that region is higher.
-}
-{fig:tevste}%{0.5}{0}
 \clearpage
 
 \subsection{Optical Depths}
@@ -366,7 +335,7 @@ voxels with signal-to-noise $>2$ in  \emph{both} the \oneone and \twotwo data
 cubes.  To filter out spurious signals, of which many are expected given the
 3.5 million voxels in the data cubes, we filtered the cube with a
 number-of-neighbors filter (i.e., a $3\times3$ kernel with all values of unity
-except the center pixel) and removed all pixels with fewer than 7 neighbors
+except the center pixel) and removed all pixels that had fewer than 7 neighbors
 with detections.  After filtering, 35039 voxels were left, or $\sim 1\%$ of the
 total (though this fraction is arbitrary, since the number of spectral pixels
 is determined by the gridding; i.e. we could have included a larger velocity
@@ -379,9 +348,10 @@ particular, appears to follow a power-law distribution with a cutoff at low
 ratio.
 
 Note that there is hyperfine structure in the \oneone lines, but the maximum
-offset is 1.15 \kms, and that hyperfine line is expected to be 1/6th of the
-total.  For the purpose of these bulk comparisons on the large observed scales,
-it is safe to ignore the hyperfine structure.
+offset between the main line and a hyperfine is 1.15 \kms, and that hyperfine
+line is expected to be 1/6th of the total.  For the purpose of these bulk
+comparisons on the large observed scales, it is safe to ignore the hyperfine
+structure.
 
 % plot_scripts/tau_histograms.py
 \Figure{figures/cube_histograms_tau_and_ratio}
@@ -604,10 +574,11 @@ pixels determined by:
     \item Selecting all voxels with $>=10$ neighbors having $S/N > 2$
     \item Growing (dilating) the included mask region by 1 pixel in all
         directions
-    \item Selecting all voxels with $>=5$ included neighbors
-    \item When used to mask 2D images, the selection is then collapsed such
-        that any pixel containing at least one voxel along the line of sight is
-        included
+    \item Selecting all voxels with $>=5$ neighbors marked as `included' by the
+        above steps (this is a `closing' operation)
+    \item (2D only) When used to mask 2D images, the selection mask is then
+        collapsed along the spectral axis such that any pixel containing at
+        least one voxel along the spectral axis is included
 \end{enumerate}
 This approach effectively includes all significant pixels and all reliably
 detected regions within the data cube, though the number of neighbors used at
@@ -675,16 +646,17 @@ $T_{continuum}$ is in the \emph{foreground} of the molecular gas.}
 \label{sec:densmaps}
 We computed the density using the $\chi^2$ minimization technique from
 \citet{Ginsburg2011a}.  We measure $\chi^2$ over the full 4D parameter space (density, column density, temperature,
-and ortho-to-para ratio)
+and ortho-to-para ratio [OPR])
 \begin{equation}
     \label{eqn:chi2}
     \chi^2 =  \left( \frac{T_B(\oneone)-T_{model}(\oneone)}{\sigma(T_B,\oneone)}\right)^2 +
               \left( \frac{T_B(\twotwo)-T_{model}(\twotwo)}{\sigma(T_B,\twotwo)}\right)^2
 \end{equation}
 We have therefore not enforced any constraints on the column density,
-temperature, or ortho-to-para ratio when fitting.
-The best-fit value of each of these parameters is taken to be the mean of those
-parameters over the range $\chi^2 - \chi^2_{min} < 1$.
+temperature, or ortho-to-para ratio when fitting.  The best-fit value of each
+of these parameters is taken to be the mean of those parameters over the range
+$\Delta \chi^2 = \chi^2 - \chi^2_{min} < 1$, where $\chi^2_{min}$ is the
+minimum $\chi^2$ value.
 
 The temperatures returned from the fitting process are, as expected, purely
 noise: the \formaldehyde \oneone/\twotwo ratio provides virtually no constraint
@@ -796,12 +768,11 @@ to each spectrum.}
 
 % parplots.py
 \FigureTwoAA
-{figures/W51_H2CO_2parfittry10_velocity1}
-{figures/W51_H2CO_2parfittry10_velocity2}
+{figures/W51_H2CO_2parfittry11_velocity1}
+{figures/W51_H2CO_2parfittry11_velocity2}
 {Maps of the fitted \formaldehyde velocity components over the range $40 <
 v_{LSR} < 66$ \kms (left) and $66 < v_{LSR} < 75$ \kms (right).  The regions
-that appear noisy have ambiguous multi-component decompositions.  \todo{This is
-being refit}}
+that appear noisy have ambiguous multi-component decompositions.  }
 {fig:h2cokinematics}{1}{6.5in}
 
 \subsection{Geometry of Individual Regions}
@@ -1501,16 +1472,18 @@ underestimated by 19\% and flux on small angular scales may be unreliable.
 
 % this analysis is all done in /Users/adam/work/h2co/maps/W51/ipython_log_2014-01-07.py
 % then in contcompare_dc_2cm.py
-In order to perform the comparison, we first had to correct for an offset
-between the GPA and GBT data.  We used the Image Registration toolkit
-(\url{http://image-registration.rtfd.org}) to measure the offset between the continuum
-images using a cross-correlation technique.
-The GBT and Arecibo data match to within 4\arcsec, while the GPA data showed
-a 4\arcmin offset in longitude and 1\arcmin in latitude.  We then resampled
-the GPA image onto the GBT grid using cubic spline interpolation, then smoothed
-both data sets to 9.5\arcmin.  There are image artifacts (particularly
-vertical streaking) in the GPA data that are diminished by this large
-smoothing kernel.
+% There is no apparent offset when smoothed.
+% In order to perform the comparison, we first had to correct for an offset
+% between the GPA and GBT data.  We used the Image Registration toolkit
+% (\url{http://image-registration.rtfd.org}) to measure the offset between the continuum
+% images using a cross-correlation technique.
+% The GBT and Arecibo data match to within 4\arcsec, while the GPA data showed
+% a 4\arcmin offset in longitude and 1\arcmin in latitude. 
+
+We resampled the GPA image onto the GBT grid using cubic spline interpolation,
+then smoothed both data sets to 9.5\arcmin.  There are image artifacts
+(particularly vertical streaking) in the GPA data that are diminished by this
+large smoothing kernel.
 
 We compared the surface brightness in the GPA and GBT data, and found that the
 GPA data was $\sim0.2$ K brighter than the GBT in the diffuse portion of the
@@ -1526,12 +1499,13 @@ observations.
 \Figure{figures/comparison_to_gpa.pdf}
 {Comparison between the GBT and NRAO 300 ft \citep{Langston2000a} data.
 (top left) NRAO 300 ft 2 cm map
-(top right) Arecibo 6 cm map of the same region smoothed to about 8.9\arcmin. 
+(top right) GBT 2 cm map of the same region smoothed to about 8.9\arcmin. 
 The colorbar applies to both figures,
 showing brightness temperature units in K.  The red contours in both figures
 show the region observed by Green Bank; flux outside of those boundaries is
-extrapolated.  The green contours show the region where $T_B$(GBT)$>T_B$(300 ft).
-(bottom) Plot of the GBT vs the 300 ft surface brightness measurements.
+extrapolated with the smoothing kernel.  The green contours show the region
+where $T_B$(GBT)$>T_B$(300 ft).  (bottom) Plot of the GBT vs the 300 ft surface
+brightness measurements.
 The large red dots show the region within the red contours.  
 }
 {fig:2cmcompare}{0.5}{0}
@@ -1541,14 +1515,15 @@ We compare the 6 cm continuum to the Urumqi 25m data from \citet{Sun2007a} and
 \citet{Sun2011a}.  Figure \ref{fig:6cmcompare} shows the comparison of the
 Urumqi data and the Arecibo continuum data smoothed to 9.5\arcmin resolution.
 The Arecibo data appears to be systematically brighter than the Urumqi data
-by about 40\%.  This systematic offset is worrisome for spectral index
-measurements, but should have little effect on the \formaldehyde analysis.
-\todo{This offset appeared upon reanalysis in July 2014.  It definitely, 100\%
-certainly, did not exist the last time I ran the \emph{exact} same analysis
-on the same data with the same code.  I cannot track down this offset but it
-will probably keep me awake at nights for months.  The increase from before
-is about 25\%, which one will note is nowhere near $1/\eta_{MB}=2$, so
-I really have no explanation.}
+by about 40\%.  This systematic offset is concerning for spectral index
+measurements, but has relatively little effect on the \formaldehyde analysis,
+especially in regions where the continuum background is bright.
+% \todo{This offset appeared upon reanalysis in July 2014.  It definitely, 100\%
+% certainly, did not exist the last time I ran the \emph{exact} same analysis
+% on the same data with the same code.  I cannot track down this offset but it
+% will probably keep me awake at nights for months.  The increase from before
+% is about 25\%, which one will note is nowhere near $1/\eta_{MB}=2$, so
+% I really have no explanation.}
 
 
 \Figure{figures/comparison_to_urumqi_6cm.pdf}
@@ -1558,9 +1533,9 @@ I really have no explanation.}
 resolution of the Urumqi data set.  The colorbar applies to both figures,
 showing brightness temperature units in K.  The red contours in both figures
 show the region observed by Arecibo; flux outside of those boundaries is
-extrapolated.
+extrapolated with the smoothing kernel. 
 (bottom) Plot of the Arecibo vs the Urumqi surface brightness measurements.
-The large red dots show the region within the red contours.
+The red dots show the region within the red contours.
 }
 {fig:6cmcompare}{0.5}{0}
 
@@ -1637,7 +1612,7 @@ thermodynamic equilibrium (the $*$ in $T_e^*$ is meant to indicate these three
 assumptions are made).  The two lines yield consistent measurements, with mean
 $T_e^*\sim7000-8000$ K; these measurements are consistent with smaller-scale
 measurements using the VLA with H92$\alpha$ \citep{Mehringer1994a}.  There is
-only a little structure in the $T_e^*$ maps, with a hint of higher temperatures
+little structure in the $T_e^*$ maps, with a hint of higher temperatures
 around G49.1-0.4, coincident with the W51C supernova remnant.  Other structures
 are most likely due to the limited S/N.
 
@@ -1665,7 +1640,7 @@ comparison of the continuum ratio to the RRL ratio.  The dashed line in the
 upper-right plot has slope 1, and the dotted line has slope 0.6.}
 {fig:gbtaocontcompare}{0.5}{0}
 
-\clearpage
+% analysis_scripts/rrl_analysis.py
 \FigureFour
 {figures/ratiomap_cont_c2cmtc6cm}
 {figures/ratiomap_cont_h77th112}
@@ -1681,6 +1656,22 @@ the ratio is 9.
 }
 {fig:contrrlcompare}
 
+\FigureFourPDF
+{figures/ratiomap_cont_h112te}
+{figures/ratiomap_cont_h77te}
+{figures/electron_temperature_77vs111}
+{figures/ratiomap_cont_h77te_HeContours}
+{(a) The H112$\alpha$ electron temperature map showing $T_e^*$ in K. 
+(b) The H77$\alpha$ electron temperature map showing $T_e^*$ in K.
+(c) The measured electron temperature in the 6 cm vs the 2 cm band at each spatial
+pixel with significant detected RRL emission.  The contours show regions of
+increasing pixel density.  The $x$ marks the median and the $+$ marks the mean
+over all valid pixels.
+(d) Same as (b), but with integrated He77$\alpha$ contours at levels [0.0125,
+0.025, 0.05, 0.1, 0.15, 0.2] K \kms overlaid.  The contours on the right side
+($\ell<49$) most likely trace noise, since the noise in that region is higher.
+}
+{fig:tevste}%{0.5}{0}
 
 \input{solobib}
 \end{document}

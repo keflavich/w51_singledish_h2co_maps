@@ -9,7 +9,7 @@ from fft_psd_tools import smooth
 from image_tools import downsample
 import mpl_plot_templates
 import aplpy
-import image_registration
+#import image_registration
 import paths
 import os
 
@@ -35,26 +35,34 @@ dc_hdr = FITS_tools.strip_headers.flatten_header(fits.getheader(dcfn))
 
 r_big = 9.5 * u.arcmin
 r_dc = 6.6*u.arcmin
+#r_dc = 3.3*u.arcmin # DEBUG: try to make the 300ft data less smooth...
 r_gb = 50*u.arcsec
 r_sm = ((r_big**2-r_gb**2)**0.5).to(u.deg)
 r_sm_dc = ((r_big**2-r_dc**2)**0.5).to(u.deg)
-pixsize = np.abs(np.prod((ac_wcs.wcs.get_cdelt() * ac_wcs.wcs.get_pc().diagonal())))**0.5
+# in a future version of astropy, this will become wcs.celestial_pixel_scale:
+pixsize = np.abs(np.prod((ac_wcs.wcs.get_cdelt() *
+                          ac_wcs.wcs.get_pc().diagonal())))**0.5
 fwhm = np.sqrt(8*np.log(2))
 ac_kernsize = (r_sm.value/pixsize)/fwhm
 dc_kernsize = (r_sm_dc.value/pixsize)/fwhm
 
 sm_ac = smooth(ac, ac_kernsize, interpolate_nan=True,
-               downsample=True,downsample_factor=downsample_factor)
-sm_dc = dc # alternate option
-# this is slow; should use astropy version
+               downsample=True, downsample_factor=downsample_factor)
 sm_dc = smooth(dc, dc_kernsize, downsample=True,
-               downsample_factor=downsample_factor) # (8.9**2-6.6**2)**0.5/2.35 == 2.54
+               downsample_factor=downsample_factor)
 
-# correction not needed
-# sm_ac_hdu = fits.PrimaryHDU(sm_ac, ac_hdr)
-#
-# result = image_registration.FITS_tools.register_fits(sm_ac_hdu, dcfn, return_cropped_images=True, verbose=True, upsample_factor=10)
-# sm_ac,dc = result[-2:]
+# There is no obvious (measurable) offset
+# ac_hdr_ds = ac_wcs[::downsample_factor,::downsample_factor].to_header()
+# sm_ac_hdu = fits.PrimaryHDU(sm_ac, ac_hdr_ds)
+# dc_hdu = fits.PrimaryHDU(dc, ac_hdr_ds)
+# 
+# result = image_registration.FITS_tools.register_fits(sm_ac_hdu, dc_hdu,
+#                                                      return_cropped_images=True,
+#                                                      return_shifted_image=True,
+#                                                      verbose=True,
+#                                                      upsample_factor=100)
+# # dc_p = dc projected, not shifted
+# sm_ac,dc_p,dc = result[-3:]
 
 okimg = np.isfinite(ac).astype('float')
 
@@ -122,7 +130,8 @@ F2.colorbar._colorbar.set_label("$T_{MB}$ (K)",rotation=270, labelpad=20)
 pl.subplot(2,1,2)
 ok = np.isfinite(cropped_ac) # dc is all "ok"
 pl.plot(np.linspace(0,1.5),np.linspace(0,1.5)*1.0,'k--',linewidth=2,alpha=0.5,label=r'$y=x$')
-pl.plot(np.linspace(0,1.5),np.linspace(0,1.5)*0.8,'k:' ,linewidth=2,alpha=0.5,label=r'$y=0.8 x$')
+#pl.plot(np.linspace(0,1.5),np.linspace(0,1.5)*0.8,'k:' ,linewidth=2,alpha=0.5,label=r'$y=0.8 x$')
+pl.plot(np.linspace(0,1.5),np.linspace(0,1.5)*1.4,'k:' ,linewidth=2,alpha=0.5,label=r'$y=1.4 x$')
 pl.plot(np.linspace(0,1.5),np.linspace(0,1.5)*0.6,'k-.',linewidth=2,alpha=0.5,label=r'$y=0.6 x$')
 #pl.plot(cropped_dc[ok],cropped_ac[ok],',')
 #pl.plot(cropped_dc[gpa_gt.astype('bool')],cropped_ac[gpa_gt.astype('bool')],',',color='g',alpha=0.5)
@@ -137,5 +146,15 @@ pl.legend(loc='upper left',fontsize=18)
 F1.refresh()
 F2.refresh()
 pl.savefig(paths.fpath('comparison_to_gpa.pdf'))
+
+# This is just for checking purposes; this figure is not saved
+diffmap = fits.PrimaryHDU(cropped_dc-cropped_ac, crop_hdr)
+fig2 = pl.figure(2)
+fig2.clf()
+F3 = aplpy.FITSFigure(diffmap, convention='calabretta', figure=fig2)
+F3.show_grayscale(invert=True)
+F3.show_contour(fits.PrimaryHDU(cropped_ac, crop_hdr), convention='calabretta')
+F3.add_colorbar()
+
 
 pl.show()

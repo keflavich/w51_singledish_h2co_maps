@@ -12,7 +12,9 @@ import common_constants
 aobeam,gbbeam = common_constants.beams()
 from common_constants import h2co11freq,h2co22freq,etamb_77,rrl
 from paths import datapath,fpath
+import matplotlib
 
+matplotlib.rc_file('pubfiguresrc')
 pl.mpl.rcParams['axes.color_cycle'] = ["#"+x for x in "348ABD, 7A68A6, A60628, 467821, CF4457, 188487, E24A33".split(", ")]
 
 # Have to convert to Jy to compare fairly

@@ -2,6 +2,8 @@ import pylab as pl
 import numpy as np
 import aplpy
 from paths import datapath, figurepath, cont6cm, cont2cm
+import matplotlib
+matplotlib.rc_file('pubfiguresrc')
 
 for fn in (1,2):
     pl.figure(fn)
@@ -11,7 +13,9 @@ for fn in (1,2):
 oneonefn = cont6cm
 twotwofn = cont2cm
 F1 = aplpy.FITSFigure(oneonefn,convention='calabretta',figure=pl.figure(1),)
+F1._ax1.set_title("Arecibo 6 cm Continuum")
 F2 = aplpy.FITSFigure(twotwofn,convention='calabretta',figure=pl.figure(2),)
+F2._ax1.set_title("GBT 2 cm Continuum")
 
 F1.set_tick_labels_xformat('dd.d')
 F2.set_tick_labels_xformat('dd.d')
