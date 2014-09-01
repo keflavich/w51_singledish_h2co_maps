@@ -20,33 +20,31 @@ W51 A.  Also, ULIRGs are missing ionized gas?}
 We present new 2 cm and 6 cm maps of \formaldehyde, radio recombination lines,
 and the radio continuum in the W51 star forming complex acquired with Arecibo
 and the Green Bank Telescope at $\sim50\arcsec$ resolution.
-We perform a detailed analysis of the data and data processing with an emphasis on
-ensuring the reliability of the data.
 The data set has been made public at \url{http://dx.doi.org/10.7910/DVN/26818}.
 
 We present an analysis of the three-dimensional structure of the W51 region,
-determining the relative line-of-sight positions of molecular and ionized gas.
-We show evidence that the W51 C supernova remnant is interacting with the W51 B
-molecular filament.
-We argue that the W51 A and B star-forming regions are physically associated and
-interacting, supporting the idea that the W51 A cluster formation was triggered
-by cloud-cloud collision.
+using \formaldehyde absorption to determine the relative line-of-sight
+positions of molecular and ionized gas.  This analysis suggests that W51 C
+supernova remnant is interacting with the W51 B molecular filament.  The W51 A
+and B star-forming regions are physically associated and interacting,
+supporting the idea that the W51 A cluster formation was triggered by
+cloud-cloud collision.
 
-We measure gas densities using the \formaldehyde densitometer, finding largely
-consistent mass-weighted volume densities $n\gtrsim10^4$ \percc throughout the
-W51 GMC, with higher density $n\gtrsim10^5$ \percc gas associated with the
-proto-clusters.  We present continuous measurements of the dense gas mass
-fraction (DGMF) over the range $10^4$ $\percc< n(\hh) < 10^6$ \percc.  We measure a
-high DGMF in W51 Main, indicating that nearly all of its mass should form stars,
-and a very low DGMF in W51 B, suggesting that its star-forming lifetime has come
-to an end and it is being disrupted by stellar feedback.
+We measure gas densities using the \formaldehyde densitometer,
+including continuous measurements of the dense gas mass
+fraction (DGMF) over the range $10^4$ $\percc< n(\hh) < 10^6$ \percc.  The DGMF
+in W51 Main is high, $f\gtrsim70\%$ above $n>10^4$ \percc, indicating that
+nearly all of its mass should form stars. By contrast, the DGMF is low,
+$f<20\%$, in W51 B, suggesting that its star-forming lifetime has come to an
+end and it is being disrupted by stellar feedback.
 
 We did not detect \emph{any} \formaldehyde emission throughout the W51 GMC; all
 gas dense enough to emit under normal conditions is in front of bright
-continuum sources.  This nondetection implies that the \formaldehyde emission
-detected in other galaxies, e.g. Arp 220, comes from high-density gas that is
-not directly affiliated with forming massive stars, i.e. the entire ISM of
-these galaxies is very dense.
+continuum sources and therefore is seen in absorption instead.  This
+nondetection implies that the \formaldehyde emission detected in other
+galaxies, e.g. Arp 220, comes from high-density gas that is not directly
+affiliated with already-formed massive stars.  Either the non-star-forming ISM
+of these galaxies is very dense, or HII regions have their emission suppressed.
 \end{abstract}
 
 
@@ -304,200 +302,6 @@ total background emission (at lower levels, the CMB is dominant).
 {fig:continuum}{1.0}{6in}
 
 
-\subsubsection{Comparison between GBT and GPA data}
-\label{sec:gpacompare}
-The Galactic Plane ``A'' survey \citep{Langston2000a} covered the Galactic
-plane at 14.35 GHz using the NRAO 300 ft telescope, with a reported FWHM beam
-size of 6.6\arcmin.  We compared our GBT continuum observations to theirs in
-order to determine whether a significant DC component is missing from our data.
-Because the GPA used $10\deg$ long scans in Galactic latitude, it should fully
-recover all diffuse Galactic Plane emission.  In the released brightness temperature
-maps, brightness down to a scale of $1.5\deg$ is recovered.  However, because
-the GPA data undersampled the sky (its 5\arcmin steps between scans were larger
-than the FWHM of the 14.35 GHz beam), point source fluxes in the GPA are
-underestimated by 19\% and flux on small angular scales may be unreliable.
-
-% this analysis is all done in /Users/adam/work/h2co/maps/W51/ipython_log_2014-01-07.py
-% then in contcompare_dc_2cm.py
-In order to perform the comparison, we first had to correct for an offset
-between the GPA and GBT data.  We used the Image Registration toolkit
-(\url{http://image-registration.rtfd.org}) to measure the offset between the continuum
-images using a cross-correlation technique.
-The GBT and Arecibo data match to within 4\arcsec, while the GPA data showed
-a 4\arcmin offset in longitude and 1\arcmin in latitude.  We then resampled
-the GPA image onto the GBT grid using cubic spline interpolation, then smoothed
-both data sets to 9.5\arcmin.  There are image artifacts (particularly
-vertical streaking) in the GPA data that are diminished by this large
-smoothing kernel.
-
-We compared the surface brightness in the GPA and GBT data, and found that the
-GPA data was $\sim0.2$ K brighter than the GBT in the diffuse portion of the
-W51 Main region; the offset is not consistent with a purely multiplicative
-offset (Figure \ref{fig:2cmcompare}).  The GBT observed the W51 Main peak to be
-moderately brighter, which is likely a result of the sparse sampling in the
-GPA.  The morphological agreement between the maps is imperfect, perhaps in
-part because of the small area mapped in our GBT data, though there also
-appears to be vertical (along a line of constant longitude) stretching of the
-W51 main source in the unsmoothed GPA data that is not consistent with the GBT
-observations.
-
-\Figure{figures/comparison_to_gpa.pdf}
-{Comparison between the GBT and NRAO 300 ft \citep{Langston2000a} data.
-(top left) NRAO 300 ft 2 cm map
-(top right) Arecibo 6 cm map of the same region smoothed to about 8.9\arcmin. 
-The colorbar applies to both figures,
-showing brightness temperature units in K.  The red contours in both figures
-show the region observed by Green Bank; flux outside of those boundaries is
-extrapolated.  The green contours show the region where $T_B$(GBT)$>T_B$(300 ft).
-(bottom) Plot of the GBT vs the 300 ft surface brightness measurements.
-The large red dots show the region within the red contours.  
-}
-{fig:2cmcompare}{0.5}{0}
-
-\subsubsection{Comparison between Arecibo and Urumqi data}
-We compare the 6 cm continuum to the Urumqi 25m data from \citet{Sun2007a} and
-\citet{Sun2011a}.  Figure \ref{fig:6cmcompare} shows the comparison of the
-Urumqi data and the Arecibo continuum data smoothed to 9.5\arcmin resolution.
-The Arecibo data appears to be systematically brighter than the Urumqi data
-by about 40\%.  This systematic offset is worrisome for spectral index
-measurements, but should have little effect on the \formaldehyde analysis.
-\todo{This offset appeared upon reanalysis in July 2014.  It definitely, 100\%
-certainly, did not exist the last time I ran the \emph{exact} same analysis
-on the same data with the same code.  I cannot track down this offset but it
-will probably keep me awake at nights for months.  The increase from before
-is about 25\%, which one will note is nowhere near $1/\eta_{MB}=2$, so
-I really have no explanation.}
-
-
-\Figure{figures/comparison_to_urumqi_6cm.pdf}
-{Comparison between the Arecibo and Urumqi 25m \citep{Sun2011b} data.
-(top left) Urumqi 6 cm map of the W51 region.
-(top right) Arecibo 6 cm map of the same region smoothed to the 9.5\arcmin
-resolution of the Urumqi data set.  The colorbar applies to both figures,
-showing brightness temperature units in K.  The red contours in both figures
-show the region observed by Arecibo; flux outside of those boundaries is
-extrapolated.
-(bottom) Plot of the Arecibo vs the Urumqi surface brightness measurements.
-The large red dots show the region within the red contours.
-}
-{fig:6cmcompare}{0.5}{0}
-
-
-\subsubsection{Comparison of GBT and Arecibo data}
-In order to compare the Green Bank and Arecibo continuum data, we converted
-the brightness temperature maps to Janskys assuming a beam FWHM of 50\arcsec
-for both surveys and central frequencies of 4.8 and 14.5 GHz for Arecibo and
-Green Bank respectively.  Measured beam widths for both telescopes were
-$\sim49-54\arcsec$, so the relative error from assuming the same beam size
-should be $\lesssim10\%$.
-In this section, the target frequencies are referred
-to as $S_{5 GHz}$ and $S_{15 GHz}$ for brevity.
-
-The data are well-correlated, with $S_{5 GHz} \sim 1.4 S_{15 GHz}$ ($S_{15 GHz}
-\sim 0.7 S_{5 GHz}$; Figure \ref{fig:gbtaocontcompare}), consistent with a
-spectral index $\alpha_\nu=-0.3$
-slightly steeper than usually observed for optically thin brehmsstrahlung and
-consistent with there being some contribution from synchrotron emission.  The
-lower-brightness regions have a lower $S_{15 GHz}/S_{5 GHz}$, indicating that
-these regions are more affected by synchrotron.  In Figure
-\ref{fig:contrrlcompare}a, a great deal of structure in the $S_{15 GHz}/S_{5
-GHz}$ ratio is evident in the vicinity of W51 Main: the ratio is higher towards
-the continuum peaks, indicating that the peaks have higher free-free optical
-depths, or lower relative contributions from synchrotron emission, than their
-envelopes.
-
-We additionally compare the radio recombination lines observed simultaneously
-with the continuum and \formaldehyde.  Hydrogen RRLs are often extremely
-well-correlated with the continuum and are therefore good indicators of the
-calibration quality.
-
-In Figure \ref{fig:contrrlcompare}, we show the ratios between the two
-frequencies in RRLs and continuum and the line-to-continuum ratios at both
-frequencies.  The `line' values are the integrated flux densities over the
-range 20 to 100 \kms, which includes all H$\alpha$ emission but no He$\alpha$.
-
-% TODO: re-create h112alpha cube: likely problem with bg subtraction at 20 km/s
-% Done!
-The ratios between the $x$ and $y$ axis in each plot in Figure
-\ref{fig:gbtaocontcompare} are fitted using a total least squares approach with
-uniform errors for each data point.   The line-to-continuum ratio is
-$L/C(H77\alpha)\sim0.15$ and $L/C(H112\alpha)\sim0.04$; in both cases there is
-little evidence for deviation from a linear relationship.
-
-\subsubsection{Comparison of the RRL and continuum data}
-\label{sec:rrlvscont}
-Radio recombination lines are generally observed to be well-correlated with the
-corresponding radio continuum, particularly at low frequencies.  At 5 and 15
-GHz, the population level departure coefficients are close to 1, $b_n > 0.95$
-\citep{Wilson2009a,Walmsley1990a}.
-
-While radio recombination lines are purely thermal in nature, the large-scale
-continuum may include a contribution from synchrotron emission.  The
-morphological similarity between the 90 cm and 4 m (meter - i.e., 74 MHz)
-images presented by \citet{Brogan2013a} and our 6 and 2 cm data hint that
-synchrotron emission could be significant.  However, the high degree of
-correlation between the 2 and 6 cm described below suggest that synchrotron
-`contamination' is minor at both wavelengths.
-
-Figure \ref{fig:gbtaocontcompare} shows a comparison between the integrated RRL
-surface brightness and radio continuum at both 2 and 6 cm\footnote{The H107,
-108, 109, and 111$\alpha$ data were affected by missing (corrupted) data in one
-segment of the map.  H107 and 108$\alpha$ were also affected by RFI.  We
-therefore used the average of the H110 and H112$\alpha$ lines for the 6 cm line
-ananylsis.}.  The figure shows
-the total least squares best-fit slopes to the data assuming uniform error,
-which yield a measurement of the line-to-continuum ratio.
-
-We use the line-to-continuum ratio in both bands to measure the electron
-temperature using Equation 14.58 of \citet{Wilson2009a}, which assumes a
-plane-parallel, optically-thin emission region with lines formed in local
-thermodynamic equilibrium (the $*$ in $T_e^*$ is meant to indicate these three
-assumptions are made).  The two lines yield consistent measurements, with mean
-$T_e^*\sim7000-8000$ K; these measurements are consistent with smaller-scale
-measurements using the VLA with H92$\alpha$ \citep{Mehringer1994a}.  There is
-only a little structure in the $T_e^*$ maps, with a hint of higher temperatures
-around G49.1-0.4, coincident with the W51C supernova remnant.  Other structures
-are most likely due to the limited S/N.
-
-Finally, we fit a single-component Gaussian to each pixel to produce velocity
-maps.  These are discussed in Section \ref{sec:kinematics}.
-
-\subsection{Carbon and Helium RRLs}
-Helium RRLs were prevalent and reasonably well-correlated with the hydrogen
-RRLs, but we did not examine them in detail.  He77$\alpha$ is detected at much
-higher signal-to-noise than than He107-112$\alpha$.  There were no clear
-detections of C77$\alpha$ or C107-112$\alpha$, though there is a possible
-C77$\alpha$ signal at G49.366-0.304 with $v_{lsr} \approx 55$ \kms and a
-possible detection toward W51 Main along the wing of the He77$\alpha$ line.
-The He77$\alpha$ line detections are associated with regions of high $H_n\alpha$
-but not regions of different $T_e^*$.
-
-
-\Figure{figures/continuum_rrl_comparisongrid.pdf}
-{Plots of the 5 GHz and 15 GHz continuum and RRL flux densities against one
-another; all units are in Jy.  The dashed lines show the total least squares
-best fit line with the slope shown in the legend.  Wherever the density of
-points is too high to display, the points have been replaced with a contour
-plot showing the density of data points.  The upper-right panel shows a
-comparison of the continuum ratio to the RRL ratio.  The dashed line in the
-upper-right plot has slope 1, and the dotted line has slope 0.6.}
-{fig:gbtaocontcompare}{0.5}{0}
-
-\clearpage
-\FigureFour
-{figures/ratiomap_cont_c2cmtc6cm}
-{figures/ratiomap_cont_h77th112}
-{figures/ratiomap_cont_h112lc}
-{figures/ratiomap_cont_h77lc}
-{Ratio maps of the ionized gas in W51.  
-(a) Continuum ratio $S_{15 GHz} / S_{5 GHz}$.  For $\alpha=-0.1$, an optically
-thin free-free source, the ratio is 0.9, while for $\alpha=2$, an optically thick source,
-the ratio is 9.
-(b) The ratio of the H77$\alpha$ peak to the H112$\alpha$ peak.
-(c) The line-to-continuum ratio H112$\alpha$ / $S_{5 GHz}$
-(d) The line-to-continuum ratio H77$\alpha$ / $S_{15 GHz}$
-}
-{fig:contrrlcompare}
 
 \FigureFourPDF
 {figures/ratiomap_cont_h112te}
@@ -1680,6 +1484,202 @@ availability on the survey website.
 %needed flexibility for comparing the GBT and Arecibo data.
 
 
+\appendix
+\section{Continuum and RRL Data Verification}
+\subsection{Comparison between GBT and GPA data}
+\label{sec:gpacompare}
+The Galactic Plane ``A'' survey \citep{Langston2000a} covered the Galactic
+plane at 14.35 GHz using the NRAO 300 ft telescope, with a reported FWHM beam
+size of 6.6\arcmin.  We compared our GBT continuum observations to theirs in
+order to determine whether a significant DC component is missing from our data.
+Because the GPA used $10\deg$ long scans in Galactic latitude, it should fully
+recover all diffuse Galactic Plane emission.  In the released brightness temperature
+maps, brightness down to a scale of $1.5\deg$ is recovered.  However, because
+the GPA data undersampled the sky (its 5\arcmin steps between scans were larger
+than the FWHM of the 14.35 GHz beam), point source fluxes in the GPA are
+underestimated by 19\% and flux on small angular scales may be unreliable.
+
+% this analysis is all done in /Users/adam/work/h2co/maps/W51/ipython_log_2014-01-07.py
+% then in contcompare_dc_2cm.py
+In order to perform the comparison, we first had to correct for an offset
+between the GPA and GBT data.  We used the Image Registration toolkit
+(\url{http://image-registration.rtfd.org}) to measure the offset between the continuum
+images using a cross-correlation technique.
+The GBT and Arecibo data match to within 4\arcsec, while the GPA data showed
+a 4\arcmin offset in longitude and 1\arcmin in latitude.  We then resampled
+the GPA image onto the GBT grid using cubic spline interpolation, then smoothed
+both data sets to 9.5\arcmin.  There are image artifacts (particularly
+vertical streaking) in the GPA data that are diminished by this large
+smoothing kernel.
+
+We compared the surface brightness in the GPA and GBT data, and found that the
+GPA data was $\sim0.2$ K brighter than the GBT in the diffuse portion of the
+W51 Main region; the offset is not consistent with a purely multiplicative
+offset (Figure \ref{fig:2cmcompare}).  The GBT observed the W51 Main peak to be
+moderately brighter, which is likely a result of the sparse sampling in the
+GPA.  The morphological agreement between the maps is imperfect, perhaps in
+part because of the small area mapped in our GBT data, though there also
+appears to be vertical (along a line of constant longitude) stretching of the
+W51 main source in the unsmoothed GPA data that is not consistent with the GBT
+observations.
+
+\Figure{figures/comparison_to_gpa.pdf}
+{Comparison between the GBT and NRAO 300 ft \citep{Langston2000a} data.
+(top left) NRAO 300 ft 2 cm map
+(top right) Arecibo 6 cm map of the same region smoothed to about 8.9\arcmin. 
+The colorbar applies to both figures,
+showing brightness temperature units in K.  The red contours in both figures
+show the region observed by Green Bank; flux outside of those boundaries is
+extrapolated.  The green contours show the region where $T_B$(GBT)$>T_B$(300 ft).
+(bottom) Plot of the GBT vs the 300 ft surface brightness measurements.
+The large red dots show the region within the red contours.  
+}
+{fig:2cmcompare}{0.5}{0}
+
+\subsubsection{Comparison between Arecibo and Urumqi data}
+We compare the 6 cm continuum to the Urumqi 25m data from \citet{Sun2007a} and
+\citet{Sun2011a}.  Figure \ref{fig:6cmcompare} shows the comparison of the
+Urumqi data and the Arecibo continuum data smoothed to 9.5\arcmin resolution.
+The Arecibo data appears to be systematically brighter than the Urumqi data
+by about 40\%.  This systematic offset is worrisome for spectral index
+measurements, but should have little effect on the \formaldehyde analysis.
+\todo{This offset appeared upon reanalysis in July 2014.  It definitely, 100\%
+certainly, did not exist the last time I ran the \emph{exact} same analysis
+on the same data with the same code.  I cannot track down this offset but it
+will probably keep me awake at nights for months.  The increase from before
+is about 25\%, which one will note is nowhere near $1/\eta_{MB}=2$, so
+I really have no explanation.}
+
+
+\Figure{figures/comparison_to_urumqi_6cm.pdf}
+{Comparison between the Arecibo and Urumqi 25m \citep{Sun2011b} data.
+(top left) Urumqi 6 cm map of the W51 region.
+(top right) Arecibo 6 cm map of the same region smoothed to the 9.5\arcmin
+resolution of the Urumqi data set.  The colorbar applies to both figures,
+showing brightness temperature units in K.  The red contours in both figures
+show the region observed by Arecibo; flux outside of those boundaries is
+extrapolated.
+(bottom) Plot of the Arecibo vs the Urumqi surface brightness measurements.
+The large red dots show the region within the red contours.
+}
+{fig:6cmcompare}{0.5}{0}
+
+
+\subsubsection{Comparison of GBT and Arecibo data}
+In order to compare the Green Bank and Arecibo continuum data, we converted
+the brightness temperature maps to Janskys assuming a beam FWHM of 50\arcsec
+for both surveys and central frequencies of 4.8 and 14.5 GHz for Arecibo and
+Green Bank respectively.  Measured beam widths for both telescopes were
+$\sim49-54\arcsec$, so the relative error from assuming the same beam size
+should be $\lesssim10\%$.
+In this section, the target frequencies are referred
+to as $S_{5 GHz}$ and $S_{15 GHz}$ for brevity.
+
+The data are well-correlated, with $S_{5 GHz} \sim 1.4 S_{15 GHz}$ ($S_{15 GHz}
+\sim 0.7 S_{5 GHz}$; Figure \ref{fig:gbtaocontcompare}), consistent with a
+spectral index $\alpha_\nu=-0.3$
+slightly steeper than usually observed for optically thin brehmsstrahlung and
+consistent with there being some contribution from synchrotron emission.  The
+lower-brightness regions have a lower $S_{15 GHz}/S_{5 GHz}$, indicating that
+these regions are more affected by synchrotron.  In Figure
+\ref{fig:contrrlcompare}a, a great deal of structure in the $S_{15 GHz}/S_{5
+GHz}$ ratio is evident in the vicinity of W51 Main: the ratio is higher towards
+the continuum peaks, indicating that the peaks have higher free-free optical
+depths, or lower relative contributions from synchrotron emission, than their
+envelopes.
+
+We additionally compare the radio recombination lines observed simultaneously
+with the continuum and \formaldehyde.  Hydrogen RRLs are often extremely
+well-correlated with the continuum and are therefore good indicators of the
+calibration quality.
+
+In Figure \ref{fig:contrrlcompare}, we show the ratios between the two
+frequencies in RRLs and continuum and the line-to-continuum ratios at both
+frequencies.  The `line' values are the integrated flux densities over the
+range 20 to 100 \kms, which includes all H$\alpha$ emission but no He$\alpha$.
+
+% TODO: re-create h112alpha cube: likely problem with bg subtraction at 20 km/s
+% Done!
+The ratios between the $x$ and $y$ axis in each plot in Figure
+\ref{fig:gbtaocontcompare} are fitted using a total least squares approach with
+uniform errors for each data point.   The line-to-continuum ratio is
+$L/C(H77\alpha)\sim0.15$ and $L/C(H112\alpha)\sim0.04$; in both cases there is
+little evidence for deviation from a linear relationship.
+
+\subsubsection{Comparison of the RRL and continuum data}
+\label{sec:rrlvscont}
+Radio recombination lines are generally observed to be well-correlated with the
+corresponding radio continuum, particularly at low frequencies.  At 5 and 15
+GHz, the population level departure coefficients are close to 1, $b_n > 0.95$
+\citep{Wilson2009a,Walmsley1990a}.
+
+While radio recombination lines are purely thermal in nature, the large-scale
+continuum may include a contribution from synchrotron emission.  The
+morphological similarity between the 90 cm and 4 m (meter - i.e., 74 MHz)
+images presented by \citet{Brogan2013a} and our 6 and 2 cm data hint that
+synchrotron emission could be significant.  However, the high degree of
+correlation between the 2 and 6 cm described below suggest that synchrotron
+`contamination' is minor at both wavelengths.
+
+Figure \ref{fig:gbtaocontcompare} shows a comparison between the integrated RRL
+surface brightness and radio continuum at both 2 and 6 cm\footnote{The H107,
+108, 109, and 111$\alpha$ data were affected by missing (corrupted) data in one
+segment of the map.  H107 and 108$\alpha$ were also affected by RFI.  We
+therefore used the average of the H110 and H112$\alpha$ lines for the 6 cm line
+ananylsis.}.  The figure shows
+the total least squares best-fit slopes to the data assuming uniform error,
+which yield a measurement of the line-to-continuum ratio.
+
+We use the line-to-continuum ratio in both bands to measure the electron
+temperature using Equation 14.58 of \citet{Wilson2009a}, which assumes a
+plane-parallel, optically-thin emission region with lines formed in local
+thermodynamic equilibrium (the $*$ in $T_e^*$ is meant to indicate these three
+assumptions are made).  The two lines yield consistent measurements, with mean
+$T_e^*\sim7000-8000$ K; these measurements are consistent with smaller-scale
+measurements using the VLA with H92$\alpha$ \citep{Mehringer1994a}.  There is
+only a little structure in the $T_e^*$ maps, with a hint of higher temperatures
+around G49.1-0.4, coincident with the W51C supernova remnant.  Other structures
+are most likely due to the limited S/N.
+
+Finally, we fit a single-component Gaussian to each pixel to produce velocity
+maps.  These are discussed in Section \ref{sec:kinematics}.
+
+\subsection{Carbon and Helium RRLs}
+Helium RRLs were prevalent and reasonably well-correlated with the hydrogen
+RRLs, but we did not examine them in detail.  He77$\alpha$ is detected at much
+higher signal-to-noise than than He107-112$\alpha$.  There were no clear
+detections of C77$\alpha$ or C107-112$\alpha$, though there is a possible
+C77$\alpha$ signal at G49.366-0.304 with $v_{lsr} \approx 55$ \kms and a
+possible detection toward W51 Main along the wing of the He77$\alpha$ line.
+The He77$\alpha$ line detections are associated with regions of high $H_n\alpha$
+but not regions of different $T_e^*$.
+
+
+\Figure{figures/continuum_rrl_comparisongrid.pdf}
+{Plots of the 5 GHz and 15 GHz continuum and RRL flux densities against one
+another; all units are in Jy.  The dashed lines show the total least squares
+best fit line with the slope shown in the legend.  Wherever the density of
+points is too high to display, the points have been replaced with a contour
+plot showing the density of data points.  The upper-right panel shows a
+comparison of the continuum ratio to the RRL ratio.  The dashed line in the
+upper-right plot has slope 1, and the dotted line has slope 0.6.}
+{fig:gbtaocontcompare}{0.5}{0}
+
+\clearpage
+\FigureFour
+{figures/ratiomap_cont_c2cmtc6cm}
+{figures/ratiomap_cont_h77th112}
+{figures/ratiomap_cont_h112lc}
+{figures/ratiomap_cont_h77lc}
+{Ratio maps of the ionized gas in W51.  
+(a) Continuum ratio $S_{15 GHz} / S_{5 GHz}$.  For $\alpha=-0.1$, an optically
+thin free-free source, the ratio is 0.9, while for $\alpha=2$, an optically thick source,
+the ratio is 9.
+(b) The ratio of the H77$\alpha$ peak to the H112$\alpha$ peak.
+(c) The line-to-continuum ratio H112$\alpha$ / $S_{5 GHz}$
+(d) The line-to-continuum ratio H77$\alpha$ / $S_{15 GHz}$
+}
+{fig:contrrlcompare}
 
 
 \input{solobib}
