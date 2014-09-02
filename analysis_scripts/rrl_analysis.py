@@ -143,8 +143,8 @@ mpl_plot_templates.adaptive_param_plot(h77te.value, h112te.value, bins=50,
                                        ncontours=10, threshold=5, fill=True,
                                        alpha=0.5, cmap=pl.mpl.cm.spectral,
                                        axis=ax)
-pl.plot(h77te_med, h112te_med, 'kx')
-pl.plot(h77te_mean, h112te_mean, 'k+')
+ax.plot(h77te_med, h112te_med, 'kx', markersize=15, markeredgewidth=3)
+ax.plot(h77te_mean, h112te_mean, 'k+', markersize=15, markeredgewidth=3)
 ax.set_xlabel(r"$T_e(\mathrm{H}77\alpha)$")
 ax.set_ylabel(r"$T_e(\mathrm{H}112\alpha)$")
 ax.axis([0,2e4,0,2e4])

@@ -1,4 +1,6 @@
 import pylab as pl
+import matplotlib
+matplotlib.rc_file('pubfiguresrc')
 
 from aplpy_figure_maker import FITSFigure
 from paths import dpath, fpath
@@ -17,6 +19,21 @@ for label in ("","lower","upper"):
 
     figs = [FITSFigure(fn, figure=pl.figure(ii+1))
             for ii,fn in enumerate(files)]
+
+    for fig,fn in zip(figs,files):
+        if '11' in fn:
+            cblabel = (r'$\tau_{1-1}$')
+        elif '22' in fn:
+            cblabel = (r'$\tau_{2-2}$')
+        elif 'ratio' in fn:
+            cblabel = (r'$\tau_{1-1} / \tau_{2-2}$')
+        else:
+            raise ValueError("This is not a file: {0}".format(fn))
+
+        fig.colorbar.set_axis_label_text(cblabel)
+        fig.colorbar.set_axis_label_rotation(270)
+        fig.colorbar.set_axis_label_pad(30)
+
 
     figs[2].show_colorscale(cmap=pl.cm.gist_stern, vmin=0, vmax=15)
     figs[5].show_colorscale(cmap=pl.cm.gist_stern, vmin=0, vmax=15)

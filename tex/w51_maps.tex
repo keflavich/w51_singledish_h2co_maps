@@ -32,8 +32,10 @@ cloud-cloud collision.
 
 We measure gas densities using the \formaldehyde densitometer,
 including continuous measurements of the dense gas mass
-fraction (DGMF) over the range $10^4$ $\percc< n(\hh) < 10^6$ \percc.  The DGMF
-in W51 Main is high, $f\gtrsim70\%$ above $n>10^4$ \percc, indicating that
+fraction (DGMF) over the range $10^4$ $\percc< n(\hh) < 10^6$ \percc - this is
+the first time a multi-density dense gas mass fraction has been measured with a
+single data set.  The DGMF in W51 Main is high, $f\gtrsim70\%$ above $n>10^4$
+\percc, indicating that
 nearly all of its mass should form stars. By contrast, the DGMF is low,
 $f<20\%$, in W51 B, suggesting that its star-forming lifetime has come to an
 end and it is being disrupted by stellar feedback.
@@ -44,7 +46,7 @@ continuum sources and therefore is seen in absorption instead.  This
 nondetection implies that the \formaldehyde emission detected in other
 galaxies, e.g. Arp 220, comes from high-density gas that is not directly
 affiliated with already-formed massive stars.  Either the non-star-forming ISM
-of these galaxies is very dense, or HII regions have their emission suppressed.
+of these galaxies is very dense, or \hii regions have their emission suppressed.
 \end{abstract}
 
 
@@ -53,11 +55,12 @@ of these galaxies is very dense, or HII regions have their emission suppressed.
 \section{Introduction}
 \todo{To do.  To-do items are coded in red. Compiled on \today\ at \currenttime.}
 
-Massive star clusters are among the most visually outstanding features in the
-night sky.  In other galaxies, they are useful probes of the star formation history
-and can be individually identified and measured \citep{Bastian2008a}.  Locally,
-they are the essential laboratories in which we can study the formation of massive
-stars \citep{Davies2012a}.
+Massive star clusters, those containing $>10^4$ \msun of stars, are among the
+most visually outstanding features in the night sky.  In other galaxies, they
+are useful probes of the star formation history and can be individually
+identified and measured \citep{Bastian2008a}.  Locally, they are the essential
+laboratories in which we can study the formation of massive stars
+\citep{Davies2012a}.
 
 In order to utilize these clusters as laboratories, we need to understand their
 formation in detail.  Clusters are often assumed and measured to be coeval
@@ -68,9 +71,11 @@ the gas will remain gravitationally bound \citep{Bressert2012a}.   Feedback from
 and within young massive clusters is an active field of numerical study
 \citep{Rogers2013a,Dale2013a,Dale2012a,Dale2008a,Dale2005a,Parker2013a,Myers2014a,Krumholz2014a}
 While
-only 5-35\% of all stars form in bound clusters \citep{Kruijssen2012a},
-these clusters form the basis of our understanding of stars and stellar evolution
-[citation needed], and understanding their formation is therefore crucial.
+only 5-35\% of all stars form in bound clusters\footnote{Clusters bound by the
+stellar mass alone, not including the birth cloud's mass.}
+\citep{Kruijssen2012a}, these clusters form the basis of our understanding of
+stars and stellar evolution
+\citep{Kalirai2010a}, and understanding their formation is therefore crucial.
 
 The results of cluster formation may be decided before the first stars are
 formed.  The starless initial conditions of massive clusters have not yet been
@@ -80,7 +85,7 @@ formation on any scale are clearly turbulent.  However, there is no evidence
 whether these initial conditions differ in any qualitative way from turbulence
 in local, low-mass star-forming regions.
 
-\todo{This paragraph may need expansion or removal.  See Section \ref{sec:futureev}}
+%\todo{This paragraph may need expansion or removal.  See Section \ref{sec:futureev}}
 Star formation appears to occur only above a set volume density threshold in
 molecular gas, specifically $n(\hh)\gtrsim10^4$ \percc \citep[][, who advocate
 a column density threshold corresponding to this density]{Lada2010a}.  This
@@ -120,9 +125,14 @@ conditions in the molecular interstellar medium for decades
 \citep{Mangum1993a}.  The centimeter lines, \formaldehyde \oneone (6.2 cm,
 4.82966 GHz) and \twotwo (2.1 cm, 14.48848 GHz), have a peculiar excitation
 process in which collisions overpopulate the lower of the two $K_c$ rotational
-states.  Because the \oneone and \twotwo level pairs populate differently
-depending on the volume density of the colliding partner (generally \hh), their
-ratio is sensitive to the local gas volume density.
+states, where $K_c$ is the quantum number representing the angular momentum
+projected onto the long axis of the molecule.  Because the \oneone and \twotwo
+level pairs populate differently
+depending on the volume density of the colliding partner (a mix of p-\hh, He,
+and o-\hh), their ratio is sensitive to the local gas volume
+density\footnote{Higher frequency
+\formaldehyde lines show the same behavior, though the effect is progressively
+weaker; see \citet{Darling2012b} Figure 2}.
 
 \formaldehyde \oneone has been observed in the W51 main region with the VLA
 \citep{Martin-Pintado1985a} and Westerbork \citep{Arnal1985a}, and this data
@@ -132,6 +142,9 @@ the \oneone and \twotwo lines, and \citet{Martin-Pintado1985b} presented
 single-dish mapping observations of the \formaldehyde \twotwo line toward the
 W51 Main region, but both treated the region as a single-density structure.
 
+
+\subsection{Paper Overview} 
+\todo{Need to add the outline here}
 
 
 \section{Observations \& Data Reduction}
@@ -255,8 +268,9 @@ at 0.25 \kms resolution.  The spectra were regridded onto a velocity grid from
 $-50$ to 150 \kms with 1 \kms resolution.  To achieve this, they were first
 smoothed by a Gaussian with $FWHM=1$ \kms then downsampled appropriately.
 
-The PPV cubes were created with units of brightness temperature.  The Arecibo
-cubes have contributions from 15-20 independent spectra in each pixel, though
+The position-position-velocity (PPV) cubes were created with units of
+brightness temperature.  The Arecibo cubes have contributions from 15-20
+independent spectra in each pixel, though
 this hit rate varies in a systematic striped pattern parallel to the Galactic
 plane.  The small overlap regions between different maps have a significantly
 higher number of samples; these regions constitute a small portion of the map.
@@ -378,6 +392,7 @@ relative to \hh are generally assumed \citep{Mangum1993a, Ginsburg2011a,
 Ginsburg2013a, Ao2013a} and found to be consistent with the observations.
 Nonetheless, little is known about local variations in \ortho abundance, except
 that it freezes out in cold, dense cores \citep{Young2004a}.
+The abundance is left as a free parameter in the model fitting.
 
 % ~/work/h2co/codes/ratio_to_dens_plots.py
 % ~/repos/h2co_modeling/examples/plot_line_brightness.py
@@ -571,10 +586,10 @@ pixels determined by:
 \begin{enumerate}
     \item Selecting all voxels with $S/N > 2$ in both images or $S/N > 4$ in
         either and with at least 7 (of 26 possible) neighbors also having $S/N > 2$ 
-    \item Selecting all voxels with $>=10$ neighbors having $S/N > 2$
+    \item Selecting all voxels with $\ge10$ neighbors having $S/N > 2$
     \item Growing (dilating) the included mask region by 1 pixel in all
         directions
-    \item Selecting all voxels with $>=5$ neighbors marked as `included' by the
+    \item Selecting all voxels with $\ge5$ neighbors marked as `included' by the
         above steps (this is a `closing' operation)
     \item (2D only) When used to mask 2D images, the selection mask is then
         collapsed along the spectral axis such that any pixel containing at
@@ -603,7 +618,7 @@ discussed in Sections \ref{sec:w51b} and \ref{sec:maus}, these two regions have
 Figure \ref{fig:peakoptdepth} are therefore computed with an incorrect
 background assumed.
 
-
+% plot_scripts/opticaldepth_plots.py
 \FigureFourPDF
 {figures/peak_observed_opticaldepth_11}
 {figures/peak_observed_opticaldepth_22}
@@ -645,7 +660,8 @@ $T_{continuum}$ is in the \emph{foreground} of the molecular gas.}
 \subsection{Density Maps}
 \label{sec:densmaps}
 We computed the density using the $\chi^2$ minimization technique from
-\citet{Ginsburg2011a}.  We measure $\chi^2$ over the full 4D parameter space (density, column density, temperature,
+\citet{Ginsburg2011a}.  We measure $\chi^2$ over the full 4D parameter space
+(density, column density, gas temperature,
 and ortho-to-para ratio [OPR])
 \begin{equation}
     \label{eqn:chi2}
@@ -658,12 +674,12 @@ of these parameters is taken to be the mean of those parameters over the range
 $\Delta \chi^2 = \chi^2 - \chi^2_{min} < 1$, where $\chi^2_{min}$ is the
 minimum $\chi^2$ value.
 
-The temperatures returned from the fitting process are, as expected, purely
+The gas temperatures returned from the fitting process are, as expected, purely
 noise: the \formaldehyde \oneone/\twotwo ratio provides virtually no constraint
 on the gas temperature and therefore leaving it as a free parameter has no
 effect on the fitted density.  Similarly, the ortho-to-para ratio of \hh is
 unconstrained in our data.  In principle, the \hh OPR has some effect on
-\formaldehyde excitation, but in the regime we have modeled and obseved, no
+\formaldehyde excitation, but in the regime we have modeled and observed, no
 effect is apparent.
 
 
@@ -674,21 +690,23 @@ density over the two velocity ranges previously discussed.  These projections
 include no information about the errors in the individual fits, which are
 available from Equation \ref{eqn:chi2}, but by weighting by column density, we
 have effectively selected the highest signal-to-noise points; the statistical
-errors are therefore negligible relative to the systematic in these maps.
+errors are therefore negligible relative to the systematic (i.e., those caused
+by invalid assumptions about the single-zone nature of the models) in these
+maps.
 
 
 
-The overall picture is of a central proto-cluster region with most of the gas
-mass at a density $n\sim10^{5.5}$ \percc within a diameter of $\sim3$ pc, surrounded
-by a rich cloud in which most of the mass is at a density $\sim10^4$ \percc out
-to a diameter $d\sim14$ pc.
+The overall picture is of a central proto-cluster region (W51 Main) with most
+of the gas mass at a density $n\sim10^{5.5}$ \percc within a diameter of
+$\sim3$ pc, surrounded by a rich cloud in which most of the mass is at a
+density $\sim10^4$ \percc out to a diameter $d\sim14$ pc.
 
 
 % parplots_chi2gridfit.py
 \Figure
 {figures/H2CO_ParameterFitPlot_weighted_mean_meanfit_density_mean_linear.pdf}
 {Map of the column-weighted volume density along the line of sight averaged
-over all velocities.}
+over all velocities.  }
 {fig:wtdmeandens}{0.5}{0}
 
 % parplots_chi2gridfit.py
@@ -728,6 +746,13 @@ significant differences between this and Figure 29 of \citet{Kang2010a},
 particularly the relative geometry of the cloud and the \hii regions in W51 B.
 We also show a good deal more detail, revealing that there are \hii regions on
 both front and back of many clouds.
+The orange areas represent \hii regions and ionized gas (the W51 C SNR), while
+purple/blue/cyan regions show molecular clouds.
+The shapes of the clouds approximately reflect their shape on the sky, but these
+shapes are only intended as mnemonics to help associate this face-on view with
+the edge-on view of the real observations.
+Figure \ref{fig:labeledzoom} shows the face-on view and can be compared
+side-by-side with this figure to get an approximate 3D view of the region.
 \todo{This figure needs to be kept up to date with text changes.  Ideally, I'd
 like to build an interactive version of this figure, but that may not happen in
 finite time.}}
@@ -736,7 +761,7 @@ finite time.}}
 \Figure
 {figures/W51_wisecolor_labeled_detail.pdf}
 {Labeled figures of the W51A and W51B regions, highlighting \hii regions and
-infrared dark clouds.   The colors are described in Figure \ref{fig:w51large}.
+8\um-dark clouds.   The colors are described in Figure \ref{fig:w51large}.
 These labels can be compared to Figure \ref{fig:geosketch} to associated
 labeled regions in the plane of the sky with their counterparts in the face-on
 view of our Galaxy.}
@@ -760,9 +785,9 @@ at each position.
 \FigureTwoAA
 {figures/H2CO11_central_velocity}
 {figures/H110a_central_velocity}
-{(left) Velocity of the peak \formaldehyde \oneone signal (deepest absorption) at
+{(a) Velocity of the peak \formaldehyde \oneone signal (deepest absorption) at
 1 \kms resolution
-(right) Velocity of the peak H110$\alpha$ emission as derived from Gaussian fits
+(b) Velocity of the peak H110$\alpha$ emission as derived from Gaussian fits
 to each spectrum.}
 {fig:kinematics}{1}{6.5in}
 
@@ -778,7 +803,7 @@ that appear noisy have ambiguous multi-component decompositions.  }
 \subsection{Geometry of Individual Regions}
 \subsubsection{The W51 B Filament}
 \label{sec:w51b}
-The W51 B filament, labeled as the 66 \kms cloud in Figure \ref{fig:geosketch},
+The W51 B filament (right side of Figure \ref{fig:geosketch} at $\sim68$ \kms),
 exhibits bright CO emission ($T_A^*\sim30-50$ K in the \citet{Parsons2012a} CO
 3-2 data) but has relatively weak \formaldehyde absorption.
 The absorption models are inconsistent with the molecular gas being in front of
@@ -868,7 +893,7 @@ associated with the W51 B cloud complex, contrary to the interpretation by
 rotation curve doesn't allow for velocities red of $\sim60$ \kms, and almost
 none of the molecular gas exceeds $\sim70$ \kms even on the wings.  The \hii
 regions are therefore probably shooting out the back side of the molecular
-cloud, perhaps accelerating ionized gas from the $\sim 66$ \kms component
+cloud, perhaps accelerating ionized gas from the $\sim 68$ \kms component
 further to the red.
 
 \FigureTwo
@@ -893,10 +918,10 @@ morphological hints that it is interacting with and truncated by the cloud.
 \FigureTwo
 {figures/filament_extraction_region_on_HiGal.pdf}
 {figures/cyan_wide_PV_h2co11_22_13co.pdf}
-{(left) A column density map fitted from the Herschel Hi-Gal data with two filament extraction regions superposed
-in cyan and red-blue
+{(left) A column density map fitted from the Herschel Hi-Gal data with two
+filament extraction regions superposed in cyan and purple.
 (right) A position-velocity slice of the 68 \kms cloud, shown in cyan in the
-left figure, which includes an infrared dark cloud and the interaction region
+left figure, which includes an 8\um-dark cloud and the interaction region
 with the W51C supernova remnant.
 (top) \formaldehyde \oneone observed optical depth
 (middle) \formaldehyde \twotwo observed optical depth
@@ -911,8 +936,9 @@ and \twotwo lines in Figure \ref{fig:h2cofrontbackmodel}.}
 The \uchii region G49.27-0.34, which was considered a candidate extended green
 object (EGO) and subsequently rejected for lack of \hh emission
 \citep{De-Buizer2010a,Lee2013a}, exhibits a second velocity component at $\sim68
-\kms$, slightly but clearly redshifted of the rest of the IRDC.  It contains a
-gas mass $\sim2\ee{3} \msun$ based on the BGPS flux and using the assumptions
+\kms$, slightly but clearly redshifted of the rest of the IRDC.  The dust
+component contains a gas mass $\sim2\ee{3} \msun$ based on the BGPS flux and
+using the assumptions
 outlined in \citet{Aguirre2011a}, suggesting that the high velocity could be
 due to infall or virialized gas within a deep potential.  The virialized
 velocity width, given the radius and mass from the BGPS data, is
@@ -950,8 +976,9 @@ and 63 \kms, while the \formaldehyde \oneone line is $\sim10\times$ deeper at
 63 \kms.  The RRLs associated with this source are at $v_{LSR}=58 \pm 1$ \kms.
 
 The \formaldehyde lines are moderately well-fit by the two-velocity-component
-model, but there is a relative excess of \twotwo absorption at 66 \kms.  The
-extra absorption may indicate that there is a high-density, low-column
+model, but there is a relative excess of \twotwo absorption at 66 \kms
+(associated with the 68 \kms component).  The extra absorption may indicate
+that there is a high-density, low-column
 component at this velocity.
 
 The 8 \um GLIMPSE image shows that the 68 \kms IRDC crosses in front of this
@@ -984,7 +1011,7 @@ The 8 \um morphology of G49.42-0.31 is bubble-like, so it is plausible that the
 \hii region is neither in front nor behind the 51 \kms cloud but embedded
 within it, blowing a hole in the cloud.
 
-\subsection{Infrared Dark Cloud G49.47-0.27}
+\subsection{8\um Dark Cloud G49.47-0.27}
 The cloud to the north of W51 Main/IRS2 appears as a dark feature in Spitzer
 GLIMPSE 8 \um maps.  It is detected in \formaldehyde from 54 to 64
 \kms.  Throughout, it has a high \oneone/\twotwo ratio, $\gtrsim7$ in
@@ -1011,13 +1038,14 @@ are no YSOs within the boundaries of this cloud; it is very likely
 non-star-forming at present.
 
 Because the cloud is continuous with the W51 Main region in velocity and is
-infrared-dark, it is most likely at the same distance as W51 Main and
+8\um-dark, it is most likely at the same distance as W51 Main and
 associated indirectly with the massive cluster forming region.
 
 \Figure
 {figures/purple_wide_PV_h2co11_22_13co.pdf}
-{Position-velocity diagrams of filamentary structures to the north and south of W51 main.
-See Figure \ref{fig:filament_pvslice} for the extracted region.}
+{Position-velocity diagrams of filamentary structures to the north and south of
+W51 main.  The extracted region is identified in purple in Figure
+\ref{fig:filament_pvslice}.}
 {fig:northsouthpv}{0.5}{0}
 
 %\subsection{HII region G49.37-0.30, AKA W51 West}
@@ -1289,7 +1317,7 @@ similar analysis should be performed on hydrodynamic simulations.
 
 \subsubsection{Dense Gas Fraction assumptions \& caveats}
 
-This analysis relies on the \thirteenco being optically thing and thermally
+This analysis relies on the \thirteenco being optically thin and thermally
 excited, both of which are generally good assumptions for the majority of the
 mass.  The molecular cloud probably includes no more than $\sim20\%$ of its mass
 in CO-dark gas \citep{Pineda2013a,Langer2013a,Smith2014b}, which adds little to
@@ -1311,10 +1339,10 @@ projected into PPV space.
 
 \subsection{Implications for the future evolution of W51}
 \label{sec:futureev}
-The low DGMF associated with the W51 B / 66 \kms cloud indicates that it has a
+The low DGMF associated with the W51 B cloud indicates that it has a
 low star formation potential despite containing significant mass
 ($M\gtrsim1\ee{5}$ \msun).  The presence of a supernova remnant and old,
-diffuse HII regions indicates that the cloud did previously (and recently) form
+diffuse \hii regions indicates that the cloud did previously (and recently) form
 stars, but is now being destroyed.  The fact that this cloud contains $10-30\%$
 of the total mass of W51, but has only a tiny fraction of its total mass above
 the purported star forming thresholds supports this story.
@@ -1355,14 +1383,31 @@ regions; such a galaxy would be continuum-bright and show only \formaldehyde
 absorption.  Instead, they must be assembled from huge quantities of
 high-density, non-star-forming gas.  This result is in contradiction to the
 idea that Giant \hii Regions are the `building blocks' of starburst galaxies
-\citep[e.g.][]{Miura2014a}.  
+\citep[e.g.][]{Miura2014a}.
+
+An alternative interpretation of the difference between the Galactic and
+extragalactic \formaldehyde is that the \hii regions still form in these
+galaxies, but their luminosity is significantly suppressed.  The most
+straightforward explanation for a lower luminosity is that they are smaller,
+perhaps compressed by a much more massive and overpressured ISM.  Tightly
+squeezed \hii regions such as these are locations where radiation pressure may
+eventually become dominant, with multiple photon scatterings transferring
+additional momentum to the surrounding medium as described in
+\citet{Murray2010b}; this scenario does not occur in the optically thin \hii
+regions in the Galaxy.
 
 
 \section{Conclusion}
 We have presented maps of the \formaldehyde \oneone and \twotwo and H77$\alpha$
-and H110$\alpha$ lines covering the W51 star forming complex.  The continuum
-data were compared with previous lower-resolution observations of the region,
-resulting yielding a consistent calibration.
+and H110$\alpha$ lines covering the W51 star forming complex and used these maps
+to examine the geometry and density structure of the complex.  
+The broad-brush picture is of a massive proto-cluster region with high density
+(W51 Main, $n(\hh) > 10^5$ \percc) surrounded by a dense cloud ($n(\hh)>10^4$
+\percc) out to a $\sim10$ pc radius.  The rest of the complex is lower density
+chaff, much of which is being disrupted by feedback from massive stars in the
+form of ionized gas and supernova explosions.
+
+
 
 The recombination lines have been used in conjunction with the continuum to
 estimate electron temperatures, with a consistent mean $T_e^*\sim7500$ K.

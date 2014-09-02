@@ -18,6 +18,7 @@ from spectral_cube import SpectralCube,BooleanArrayMask
 
 import co_intmaps
 
+mpl.rc_file('pubfiguresrc')
 
 def makefig(hdu, ii, name, vmax_lin=100):
     fig = pl.figure(6+ii,figsize=(12,12))
@@ -33,7 +34,9 @@ def makefig(hdu, ii, name, vmax_lin=100):
     F1 = F = FITSFigure(hdu,convention='calabretta',figure=fig)
     F.show_colorscale(cmap=cmhot, vmin=2, vmax=6.5)
     F.recenter(**zoomargs)
-    F.colorbar._colorbar_axes.set_ylabel(labels['dens'])
+    F.colorbar.set_axis_label_text(labels['dens'])
+    F.colorbar.set_axis_label_rotation(270)
+    F.colorbar.set_axis_label_pad(30)
     
     F.grid.set_color('black')
     F.grid.set_alpha(0.5)
@@ -49,7 +52,9 @@ def makefig(hdu, ii, name, vmax_lin=100):
     F2 = F = FITSFigure(hdu,convention='calabretta',figure=fig)
     F.show_colorscale(cmap=cmhot, vmin=0, vmax=vmax_lin)
     F.recenter(**zoomargs)
-    F.colorbar._colorbar_axes.set_ylabel(labels['lindens'])
+    F.colorbar.set_axis_label_text(labels['lindens'])
+    F.colorbar.set_axis_label_rotation(270)
+    F.colorbar.set_axis_label_pad(30)
     F.grid.set_color('black')
     F.grid.set_linestyle('dotted')
     F.grid.set_alpha(0.5)
@@ -146,6 +151,8 @@ for meastype in ('best','mean'):
     pl.savefig(paths.fpath('H2CO_ParameterFits_ColumnVsDensity_{0}_62to76kms_W51Main.pdf'.format(meastype)))
 
     cmhot = mpl.cm.gist_stern
+    cmhot.set_bad((0.1,0.1,0.1,0.3))
+    #cmhot = mpl.cm.hot
     #cmhot = mpl.cm.cubehelix
     zoomargs = dict(x=49.27, y=-0.32, width=0.9, height=0.4)
 

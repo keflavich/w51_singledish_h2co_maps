@@ -3,6 +3,9 @@ import pylab as pl
 from paths import figurepath,datapath
 from common_constants import zoomargs
 from velo_cmap import VeloCmap_r
+import matplotlib
+
+matplotlib.rc_file('pubfiguresrc')
 
 dpath = datapath
 
@@ -12,7 +15,7 @@ cm.set_bad('w')
 cm.set_under('w')
 cm.set_over('w')
 
-pl.rcParams['font.size'] = 16
+#pl.rcParams['font.size'] = 16
 
 for rrl in (77,110):
 

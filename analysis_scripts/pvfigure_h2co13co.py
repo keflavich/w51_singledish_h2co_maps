@@ -63,24 +63,39 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
         vmax = np.percentile(pvhdu.data[np.isfinite(pvhdu.data)], 99.95)
         ax.imshow(pvhdu.data, cmap=cm, vmin=vmin, vmax=vmax, norm=asinh_norm.AsinhNorm())
         ax.set_ylim(*wcs.wcs_world2pix([0,0],[35e3,80e3],0)[1])
+        #ax.set_ylim(35e3, 80e3)
+        #ax.set_ylim(35, 80)
         #ax.set_yticklabels(ax.get_yticks()/1e3)
 
         if ii<2:
             ax.coords[0].ticklabels.set_visible(False)
             #ax.coords[1].set_major_formatter(matplotlib.ticker.FuncFormatter(lambda x: x/1e3)) # notimplemented =(
-            for k in ax.coords[1].ticklabels.text:
-                text = [str(int(tt)/1000) for tt in ax.coords[1].ticklabels.text[k]]
-                ax.coords[1].ticklabels.text[k] = text
-                ax.coords[1].ticklabels.set_text(text)
-            ax.set_xticklabels(["" for x in ax.get_xticklabels()])
+            #ax.set_xticklabels(["" for x in ax.get_xticklabels()])
+
+        #pl.draw; pl.show()
+
+        #ax.coords[1].set_ticks(spacing=10*u.km/u.s)
+
+        #for k in ax.coords[1].ticklabels.text:
+        #    text = [str(int(tt)/1000) for tt in ax.coords[1].ticklabels.text[k]]
+        #    ax.coords[1].ticklabels.text[k] = text
+        #    ax.coords[1].ticklabels.set_text(text)
+        #    ax.yaxis.set_ticklabels(['{0:d}'.format(int(yy)) for yy in ax.yaxis.get_ticklocs()])
 
         #aspects.append(np.diff(ax.get_ylim()) / np.diff(ax.get_xlim()))
 
     fig11.subplots_adjust(hspace=0)
-    ax.set_xlabel("Offset (degrees)")
-    fig11.axes[1].set_ylabel("Radio $V_{LSR}$ (m/s)")
-    fig11.axes[0].set_xlabel("Offset (pc)")
-    fig11.axes[0].coords[0].set_ticks(spacing=(10*u.pc/(5.1*u.kpc)).to(u.deg, u.dimensionless_angles()).value)
+    #ax.set_xlabel("Offset (degrees)")
+    ax.coords[0].set_axislabel("Offset (degrees)")
+    #fig11.axes[0].set_xlabel("Offset (pc)")
+    #fig11.axes[0].coords[0].set_ticks(spacing=(10*u.pc/(5.1*u.kpc)).to(u.deg, u.dimensionless_angles()).value)
+    #fig11.axes[0].coords[0].set_ticks(spacing=(10*u.pc/(5.1*u.kpc)).to(u.deg, u.dimensionless_angles()))
+    #for ax in fig11.axes:
+    #    ax.yaxis.set_ticklabels(['{0:d}'.format(int(yy)) for yy in ax.yaxis.get_ticklocs()])
+    #fig11.axes[1].set_ylabel("Radio $V_{LSR}$ (m/s)")
+    fig11.axes[1].coords[1].set_axislabel("Radio $V_{LSR}$ (km/s)")
+
+    #import ipdb; ipdb.set_trace()
 
     # the -0.5 is just to force the colors to the high-end
     con = ax.contour(hdus[0].data, levels=[-0.5,0.025,0.05,0.1,0.2,0.4])
@@ -93,6 +108,17 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
     rfig[~mask] = np.nan
     rhdu = pvhdu.copy()
     rhdu.data = rfig
+
+
+    auto_levels = aplpy.image_util.percentile_function(hdus[0].data)
+    vmin = auto_levels(0.25)
+    vmax = auto_levels(99.75)
+    levels = np.linspace(vmin, vmax, 5)
+    c1 = ax.contour(hdus[0].data, levels=levels)
+    #fig11.savefig(os.path.join(paths.figurepath, color+"_filaments_H2CO_13CO_density_pvslice.pdf"))
+    fig11.savefig(os.path.join(paths.figurepath, color+"_wide_PV_h2co11_22_13co_wcsaxes.pdf"))
+
+    #c1.set_visible(False)
     c = ax.contourf(rfig, colors=[(1,0,0.5,0.3), (1,0,0,0.5), (1.0,0.33,0,0.5,),
                               (0.75,0.6,0,0.5), (0.6,0.9,0,0.3), (0.3,0.95,0,0.3)],
                 levels=[0,1,2,5,10,15,35])
@@ -121,11 +147,12 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
         F.recenter(width/2, 60000, width=width, height=35000)
 
         ffs.append(F)
-    ffs[2].show_contour(hdus[0])
+    levels = ffs[2].show_contour(hdus[0], return_levels=True)
+    print levels
 
     # change labels AFTER overplotting contours
     for F in ffs:
-        F._wcs.wcs.cunit[1] = u.km/u.s
+        F._wcs.wcs.cunit[1] = 'km/s' # u.km/u.s
         F._wcs.wcs.cdelt[1] = F._wcs.wcs.cdelt[1]/1000.
         F._wcs.wcs.crval[1] = F._wcs.wcs.crval[1]/1000.
 

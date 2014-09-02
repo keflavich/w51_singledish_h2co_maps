@@ -22,5 +22,5 @@ for line in (11,22):
     F.colorbar.set_axis_label_rotation(270)
     F.colorbar.set_axis_label_pad(30)
     F.recenter(**zoomargs)
-    F.show_colorscale(vmin=45,vmax=72,cmap=cm)
+    F.show_colorscale(vmin=45,vmax=75,cmap=cm)
     F.save(figurepath+'H2CO%i_central_velocity.pdf' % line, dpi=72)
