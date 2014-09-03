@@ -17,7 +17,9 @@ import warnings
 
 cubefiles = ('h2co_singledish/W51_H2CO11_taucube_supersampled.fits',
              'h2co_singledish/W51_H2CO22_pyproc_taucube_lores_supersampled.fits',
-             'grs_48and50_cube_supersampledh2cogrid.fits')
+             'grs_48and50_cube_supersampledh2cogrid.fits',
+             'h2co_singledish/H2CO_ParameterFits_bestdens.fits',
+             )
 
 if 'colorpvs' in locals():
     pvs = colorpvs['cyan']
@@ -43,7 +45,7 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
     #aspects = []
 
     hdus = []
-    for ii,cfn in enumerate(cubefiles):
+    for ii,cfn in enumerate(cubefiles[:3]):
         pvhdu, npts, velo, dv = pvs[cfn]
         hdus.append(pvhdu)
 
@@ -67,6 +69,7 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
         #ax.set_ylim(35, 80)
         #ax.set_yticklabels(ax.get_yticks()/1e3)
 
+        ax.coords[1].set_format_unit(u.km / u.s)
         if ii<2:
             ax.coords[0].ticklabels.set_visible(False)
             #ax.coords[1].set_major_formatter(matplotlib.ticker.FuncFormatter(lambda x: x/1e3)) # notimplemented =(
@@ -103,11 +106,14 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
     for cc in ax.collections:
         cc.set_visible(False)
 
-    mask = hdus[2].data > 0.2
-    rfig = hdus[0].data / hdus[1].data
-    rfig[~mask] = np.nan
-    rhdu = pvhdu.copy()
-    rhdu.data = rfig
+    #mask = hdus[2].data > 0.2
+    # Ratio figure
+    #rfig = hdus[0].data / hdus[1].data
+    #rfig[~mask] = np.nan
+    #rhdu = pvhdu.copy()
+    #rhdu.data = rfig
+    # Density Figure
+    nhdu, nnpts, nvelo, ndv = pvs[cubefiles[3]]
 
 
     auto_levels = aplpy.image_util.percentile_function(hdus[0].data)
@@ -118,12 +124,17 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
     #fig11.savefig(os.path.join(paths.figurepath, color+"_filaments_H2CO_13CO_density_pvslice.pdf"))
     fig11.savefig(os.path.join(paths.figurepath, color+"_wide_PV_h2co11_22_13co_wcsaxes.pdf"))
 
-    #c1.set_visible(False)
-    c = ax.contourf(rfig, colors=[(1,0,0.5,0.3), (1,0,0,0.5), (1.0,0.33,0,0.5,),
-                              (0.75,0.6,0,0.5), (0.6,0.9,0,0.3), (0.3,0.95,0,0.3)],
-                levels=[0,1,2,5,10,15,35])
+    for cc in c1.collections:
+        cc.set_visible(False)
+    c = ax.contourf(nhdu.data, colors=[(1,0,0.1,0.7), (1,0,0.0,0.6),
+                                       (1,0,0,0.5), (1.0,0.33,0,0.5,),
+                                       (0.75,0.6,0,0.5), (0.6,0.9,0,0.3),
+                                       (0.3,0.95,0,0.3)][::-1],
+                levels=[1,2,3,4,5,6]) # density
+                #levels=[0,1,2,5,10,15,35]) # ratio
     fig11.savefig(os.path.join(paths.figurepath, color+"_filaments_H2CO_13CO_density_pvslice.pdf"))
-    A = matplotlib.axes.Axes(fig11, [0.9,0.1,0.025,0.25])
+    ((x0,y0),(x1,y1)) = ax.bbox._bbox.get_points()
+    A = matplotlib.axes.Axes(fig11, [x1,y0,0.025,y1-y0])
     pl.colorbar(c, cax=A)
     fig11.add_axes(A)
     fig11.savefig(os.path.join(paths.figurepath, color+"_filaments_H2CO_13CO_density_pvslice_colorbar.pdf"))
@@ -136,7 +147,7 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
     fig.clf()
 
     ffs = []
-    for ii,cfn in enumerate(cubefiles):
+    for ii,cfn in enumerate(cubefiles[:3]):
         pvhdu, npts, velo, dv = pvs[cfn]
         hdus.append(pvhdu)
 
