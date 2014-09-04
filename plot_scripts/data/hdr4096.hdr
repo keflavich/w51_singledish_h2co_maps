@@ -1,0 +1,24 @@
+SIMPLE  =                    T / conforms to FITS standard
+BITPIX  =                  -32 / array data type
+NAXIS   =                    2 / number of array dimensions
+NAXIS1  =                 2048
+NAXIS2  =                 2048
+EXTEND  =                    T / FITS dataset may contain extensions
+COMMENT   FITS (Flexible Image Transport System) format is defined in 'Astronomy
+COMMENT   and Astrophysics', volume 376, page 359; bibcode: 2001A&A...376..359H
+LONPOLE2=                180.0 / lonpole
+LATPOLE2=                  0.0 / latpole
+CTYPE1  = 'GLON-CAR'           / Coordinate Type
+CTYPE2  = 'GLAT-CAR'           / Coordinate Type
+EQUINOX =               2000.0 / Equinox of Ref. Coord.
+CD1_1   =               -0.001 / Degrees / Pixel
+CD2_2   =                0.001 / Degrees / Pixel
+CRPIX1  =                1024. / Reference Pixel in X
+CRPIX2  =                1024. / Reference Pixel in Y
+CRVAL1  =            49.146830 / Galactic longitude of reference pixel
+CRVAL2  =            -0.215860 / Galactic latitude of reference pixel
+BMAJ    =         0.0141666666
+BMIN    =         0.0141666666
+BPA     =                    0
+WAVELENG=                2.069 / cm
+END

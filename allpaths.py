@@ -9,6 +9,7 @@ datapath_spectra = os.path.join(datapath, 'spectralfits/')
 regionpath = os.path.join(source_root, 'regions/')
 modelpath = os.path.join(source_root, 'models/')
 analysis_path = os.path.split(os.path.realpath(__file__))[0]
+plotdata_path = os.path.join(analysis_path, 'plot_scripts/data')
 rcfilepath = os.path.join(analysis_path, 'plot_scripts/pubfiguresrc')
 if not os.path.exists(rcfilepath):
     # probably means we're in a subdirectory
@@ -40,6 +41,9 @@ def fpath(x, figurepath=figurepath):
     return os.path.join(figurepath, x)
 
 def afpath(x, figurepath=analysis_figurepath):
+    return os.path.join(figurepath, x)
+
+def pdpath(x, figurepath=plotdata_path):
     return os.path.join(figurepath, x)
 
 def mpath(x, modelpath=modelpath):

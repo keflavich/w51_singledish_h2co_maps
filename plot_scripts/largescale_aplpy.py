@@ -67,9 +67,12 @@ F = aplpy.FITSFigure(datapath+'v2.0_ds2_l050_13pca_map20_reproject.fits',
                      color=False)
 
 H = fits.Header()
-H.fromTxtFile('/Volumes/128gbdisk/w51/pngs/hdr4096.hdr')
+#H.fromTxtFile('/Volumes/128gbdisk/w51/pngs/hdr4096.hdr')
+H.fromTxtFile(paths.pdpath('hdr4906.hdr'))
 hwcs = wcs.WCS(H)
-F.show_rgb('/Volumes/128gbdisk/w51/pngs/W51_4096sq_WISE_bolo_mosaic_rotated_blackbg.png',wcs=hwcs)
+#F.show_rgb('/Volumes/128gbdisk/w51/pngs/W51_4096sq_WISE_bolo_mosaic_rotated_blackbg.png',wcs=hwcs)
+F.show_rgb(paths.pdpath('W51_4096sq_WISE_bolo_mosaic_rotated_blackbg.png'),
+           wcs=hwcs)
 
 #F.show_regions(paths.rpath('large_scale_regions.reg'))
 regions = pyregion.open(paths.rpath('large_scale_regions.reg'))
