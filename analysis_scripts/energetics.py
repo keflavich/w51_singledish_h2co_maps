@@ -3,6 +3,8 @@ from astropy import units as u
 from astropy import constants
 
 """
+Examine the formation scenario of W51 from an energetics perspective
+
 1. Assume there are two clouds, one at 55 km/s and one at 68 km/s.
 They are 100's of pc apart, but are both interacting with a spiral arm.
 The 68 km/s cloud has been accelerated from the tangent velocity of 54 km/s.
