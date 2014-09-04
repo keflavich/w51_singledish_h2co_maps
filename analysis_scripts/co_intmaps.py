@@ -5,6 +5,7 @@ from build_mask import cubemask,includemask
 import numpy as np
 import paths
 from astropy import units as u
+from astropy import coordinates
 from astropy.table import Table,Column
 from astropy.io import fits
 from astropy import log
@@ -92,10 +93,18 @@ high1e3dens_co = cube13ss.with_mask(high1e3dens)
 high1e3dens_co_slab3 = high1e3dens_co.spectral_slab(vrange1[0],vrange2[1])
 high1e3dens_co_slab3_mom0 = high1e3dens_co_slab3.moment0()
 
-dgmf1e4 = fits.PrimaryHDU(data=(high1e4dens_co_slab3_mom0/cube13ss_slab3_mom0).value, header=high1e4dens_co_slab3_mom0.hdu.header)
-dgmf5e4 = fits.PrimaryHDU(data=(high5e4dens_co_slab3_mom0/cube13ss_slab3_mom0).value, header=high5e4dens_co_slab3_mom0.hdu.header)
-dgmf5e3 = fits.PrimaryHDU(data=(high5e3dens_co_slab3_mom0/cube13ss_slab3_mom0).value, header=high5e3dens_co_slab3_mom0.hdu.header)
-dgmf1e3 = fits.PrimaryHDU(data=(high1e3dens_co_slab3_mom0/cube13ss_slab3_mom0).value, header=high1e3dens_co_slab3_mom0.hdu.header)
+dgmf1e4 = fits.PrimaryHDU(data=(high1e4dens_co_slab3_mom0 /
+                                cube13ss_slab3_mom0).value,
+                          header=high1e4dens_co_slab3_mom0.hdu.header)
+dgmf5e4 = fits.PrimaryHDU(data=(high5e4dens_co_slab3_mom0 /
+                                cube13ss_slab3_mom0).value,
+                          header=high5e4dens_co_slab3_mom0.hdu.header)
+dgmf5e3 = fits.PrimaryHDU(data=(high5e3dens_co_slab3_mom0 /
+                                cube13ss_slab3_mom0).value,
+                          header=high5e3dens_co_slab3_mom0.hdu.header)
+dgmf1e3 = fits.PrimaryHDU(data=(high1e3dens_co_slab3_mom0 /
+                                cube13ss_slab3_mom0).value,
+                          header=high1e3dens_co_slab3_mom0.hdu.header)
 
 # Purely detection-based thresholding
 h2co11 = SpectralCube.read(paths.dpath('W51_H2CO11_cube_supersampled_sub.fits'))
@@ -119,7 +128,8 @@ h2co22_total = np.array([cube13ss_slab3.with_mask(sn22_slab3>threshold).sum().va
                          for threshold in np.arange(1,6)])
 h2co11_fraction = h2co11_total / total_co_slab.value
 h2co22_fraction = h2co22_total / total_co_slab.value
-both_fraction = cube13ss_slab3.with_mask((sn11_slab3 > 2) & (sn22_slab3 > 2)).sum().value / total_co_slab.value
+both_fraction = cube13ss_slab3.with_mask((sn11_slab3 > 2) &
+                                         (sn22_slab3 > 2)).sum().value / total_co_slab.value
 
 log.info("H2CO Fractions: 1-1: {0}".format(h2co11_fraction))
 log.info("H2CO Fractions: 2-2: {0}".format(h2co22_fraction))
@@ -234,3 +244,37 @@ if __name__ == "__main__":
     F6.save(paths.fpath('DGMF_1e4_Contours_on_13CO.pdf'))
     F7 = show_con(dgmf5e3, 5, "$f(n>5\\times10^3$ cm$^{-3})$")
     F8 = show_con(dgmf1e3, 6, "$f(n>1\\times10^3$ cm$^{-3})$")
+
+    # Make a "star forming mass map"
+    # use some simple assumptions for CO
+    co_to_mass = ((8e20*u.cm**-2 * (15*u.arcsec * 5.1*u.kpc).to(u.pc,
+                                                               u.dimensionless_angles())**2
+                  * constants.m_p * 2.8).to(u.M_sun)).value
+    co_to_mass_surf = ((8e20*u.cm**-2 * constants.m_p *
+                        2.8).to(u.M_sun/u.pc**2)).value
+    sfmassmap = dgmf1e4.data * cube13ss_slab3_masked_mom0.to(u.K*u.km/u.s).value * co_to_mass_surf
+    sfmassmap[sfmassmap!=sfmassmap] = 0
+    sfmasshdu = fits.PrimaryHDU(sfmassmap, header=dgmf1e4.header)
+
+    from astroquery.vizier import Vizier
+    catalog_list = Vizier.find_catalogs('Kang W51')
+    ysos = Vizier(row_limit=1e6).query_region(coordinates.SkyCoord.from_name('W51'),
+                                              radius=1*u.deg,
+                                              catalog=catalog_list.keys())
+    cl1 = ((ysos[0]['Cl1'] == 'I') |
+           (ysos[0]['Cl1'] == 'F') |
+           (ysos[0]['Cl2'] == 'I') |
+           (ysos[0]['Cl2'] == 'F'))
+    cl1coords = coordinates.SkyCoord(ysos[0][cl1]['_RAJ2000'],
+                                     ysos[0][cl1]['_DEJ2000'],
+                                     frame='fk5').galactic
+    fig7 = pl.figure(7)
+    fig7.clf()
+    gray = copy.copy(pl.cm.gray_r)
+    gray.set_bad('white')
+    gray.set_under('white')
+    FMM = FITSFigure(sfmasshdu, figure=fig7, cmap=gray, stretch='log', vmax=99.95)
+    FMM.colorbar._colorbar.set_label("Star-Forming Gas Surface Density\n[$M_{\odot}$ pc$^{-2}$",
+                                     rotation=270, labelpad=50)
+    FMM.show_markers(cl1coords.l, cl1coords.b, marker='x', edgecolor='r', zorder=1100)
+    FMM.save(paths.fpath('StarFormingMassMap_Kang2009ClassIYSOs.pdf'))

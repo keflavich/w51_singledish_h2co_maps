@@ -527,7 +527,8 @@ There were no detections of \formaldehyde \oneone or \twotwo emission.
 \subsection{A note on nondetections}
 H$_2$ $^{13}$CO was not detected anywhere in the W51 complex in either the
 \oneone or \twotwo lines.  The peak signal-to-noise in the \formaldehyde \oneone cube was
-180 at 1 \kms resolution, so we report a $3-\sigma$ upper limit on the
+180 at 1 \kms resolution (corresponding to an optical depth $\tau_{obs}\sim1/5$ at
+the peak continuum detection point), so we report a $3-\sigma$ upper limit on the
 \formaldehyde/H$_2$ $^{13}$CO ratio $R>60$, which is consistent with solar
 values of the $^{12}C$/$^{13}C$
 ratio.
@@ -985,6 +986,9 @@ of W51 Main, around half of the mass is at density $n>10^4$ \percc.  By
 contrast, the rest of the molecular cloud shows a consistent fraction
 $f(n>10^4~\percc) \sim10\%$.
 
+These DGMF plots are similar to cumulative distribution functions of the column
+density \citep[e.g.][Figure 6]{Battersby2014a}, but with the added advantage of
+assigning a density to each resolution element in both velocity and position.
 
 % co_intmaps.py
 \Figure{figures/FractionOfMassAboveDensity_All}
@@ -1060,7 +1064,7 @@ The W51 cloud complex includes a full range of star forming conditions.  In the
 west, W51 B, there is an older generation of stars including at least one supernova
 remnant.  In the east, there is a pair of forming, still-embedded massive clusters.
 We have described the geometry of these regions and features of the cloud structures,
-now we will speculate on the broader implications of these observations.
+now we speculate on the broader implications of these observations.
 
 The gas in the W51 B region, while clearly impacted by the expanding W51 C
 supernova, is less dense than most of the gas in the W51 A region.  The
@@ -1074,8 +1078,15 @@ presented as evidence for a cloud-cloud collision \citep{Kang2010a}.
 Examination of the \formaldehyde line ratios has shown that the protocluster is
 embedded in the $\sim55$ \kms molecular cloud.  The velocity difference and their
 relative positions along the line of sight unambiguously indicate that these
-components are approaching each other, which supports the cloud-cloud collision
-hypothesis.
+components are approaching each other, which is consistent with the cloud-cloud
+collision hypothesis.
+
+It is possible that the 68 \kms cloud is streaming in to a spiral arm, while
+the 50 \kms cloud is slowed down as it exits the spiral arm on the far side.
+In this scenario, W51 Main is in the deepest part of the spiral arm potential.
+Gas is accumulating at W51 Main,  becoming compressed and undergoing a
+``mini-starburst".  In this scenario, the W51 B/C region, with its mature HII
+regions and SNR, represents a slightly older generation than W51 Main.
 
 % \subsection{A formation scenario for the W51 region}
 % The W51 cloud complex has been discussed as both a collection of unrelated
@@ -1088,8 +1099,8 @@ hypothesis.
 % clouds were pre-existing features in a larger, possibly atomic, cloud that
 % underwent stretching and squeezing upon interaction with a spiral arm.
 
-\todo{Energetics, cloud-cloud collision discussion, spiral arm potential
-discussion}
+%\todo{Energetics, cloud-cloud collision discussion, spiral arm potential
+%discussion}
 
 %Alternatively, the W51 complex could trace a `spur' from a spiral arm.  In
 %other galaxies, e.g. M51, spurs are frequently seen to be richly star-forming,
@@ -1123,6 +1134,28 @@ measurements in the W51 cloud exceed this value for the majority of the
 detections significant in both \oneone and \twotwo, indicating that there is a
 much higher fraction of high-density gas in this star-forming cloud than in the
 quiescent GMC in front of W49.
+
+To assess the relation between gas density and star formation rate or
+efficiency, one can multiply the DGMF by the total mass to get a naïve
+measurement of the total mass directly involved in star formation (Figure
+\ref{fig:dgmf_contours} transformed to Figure \ref{fig:sfmassmap}).  We have
+compared this map to the distribution of Class I and flat-spectrum Spitzer YSO
+candidates from \citet{Kang2009a} in Figure \ref{fig:sfmassmap}.  While there
+are some regions of decent agreement between the YSO density and the
+star-forming gas mass, e.g.  in the W51 B cloud and some of the more diffuse
+filaments, the richest pockets of star-forming gas contain few or no YSOs.
+Spitzer mid-infrared sources are either too confused or obscured to be detected
+in these richest regions.  In order to evaluate star formation efficiency as a
+function of dense gas fraction, a more complete assessment of the present-day
+star formation in the W51 clouds is needed.
+
+\Figure{figures/StarFormingMassMap_Kang2009ClassIYSOs}
+{A `star-forming gas mass' map, created by multiplying the dense gas fraction
+by the integrated CO mass surface density.  The red $\times$'s are Class I and
+flat-spectrum YSOs from \citet{Kang2009a}.  They are absent from the highest
+density regions.
+}
+{fig:sfmassmap}{0.5}{0}
 
 \subsection{The future evolution of W51}
 \label{sec:futureev}
@@ -1191,6 +1224,17 @@ thin \hii regions in the Galaxy where ionized gas pressure dominates.
 We have presented maps of the \formaldehyde \oneone and \twotwo and H77$\alpha$
 and H110$\alpha$ lines covering the W51 star forming complex and used these maps
 to examine the geometry and density structure of the complex.  
+The data are made available in FITS cubes and images hosted at the CfA
+dataverse \url{doi:10.7910/DVN/26818},
+\url{http://thedata.harvard.edu/dvn/dv/W51_H2CO}.
+The entire reduction and analysis process and all associated code and scripts
+are made available via a git
+repository hosted on github:
+\url{https://github.com/keflavich/w51_singledish_h2co_maps}, \todo{with a
+snapshot of the publication version available as a tarball from figshare
+\url{TBD}}.
+
+
 The broad-brush picture is of a massive proto-cluster region with high density
 (W51 Main, $n(\hh) > 10^5$ \percc) surrounded by a dense cloud ($n(\hh)>10^4$
 \percc) out to a $\sim10$ pc radius.  The rest of the complex is lower density
@@ -1203,24 +1247,28 @@ form of ionized gas and supernova explosions.
 %estimate electron temperatures, with a consistent mean $T_e^*\sim7500$ K.
 
 The \formaldehyde \oneone/\twotwo line ratio was used to measure gas volume
-densities.  While systematic uncertainties in the modeling remain, the
-\formaldehyde nonetheless yields a consistent picture of the W51 star forming
-region in which the central W51 Main proto-cluster is filled with gas of a mean
-density at least an order of magnitude greater than the rest of the cloud.
+densities.  The W51 protocluster has the majority of its mass in gas with
+density $n(\hh)>5\ee{4}$ \percc.  The rest of the cloud has a small dense gas
+fraction, with $f(n>1\ee{4}~\percc) \sim 10\%$.  The W51 B cloud therefore
+appears to be at the end of its star-forming lifetime, while W51 Main/A will
+continue to form stars efficiently in the future.
 
 The \formaldehyde lines and their ratios have also been used to constrain the
 geometry of the W51 GMC and the associated \hii regions.  The Galactic face-on
 view of W51 is presented in more detail than has previously been possible.
+\begin{itemize}
+    \item The high velocity 68 \kms cloud cloud is in front of the 51 \kms cloud
+        and the rest of the W51 GMC complex.
+    \item The most luminous clusters and associated HII regions are in between
+        the 51 \kms and 68 \kms clouds.
+    \item The W51 C supernova remnant is in front of some, but not all, of the 
+        W51 B molecular cloud gas: it is therefore within the W51 B cloud.
+\end{itemize}
+It is possible that the foreground 68 \kms cloud is falling into the spiral
+potential from the near side, interacting with the 51 \kms cloud exiting the
+potential on the far side to produce the W51 protoclusters.  
 
-The data are made available in FITS cubes and images hosted at the CfA
-dataverse \url{doi:10.7910/DVN/26818},
-\url{http://thedata.harvard.edu/dvn/dv/W51_H2CO}.
-The entire reduction and analysis process and all associated code and scripts
-are made available via a git
-repository hosted on github:
-\url{https://github.com/keflavich/w51_singledish_h2co_maps}, \todo{with a
-snapshot of the publication version available as a tarball from figshare
-\url{TBD}}.
+
 
 
 
@@ -1252,7 +1300,8 @@ snapshot of the publication version available as a tarball from figshare
 
 \textbf{Acknowledgements}:
 We thank Xiaohui Sun for providing the Urumqi 6 cm Stokes I image prior to its
-availability on the survey website.
+availability on the survey website.  We thank Jonathan Tan for productive
+discussions of cloud-cloud collisions.
 
 \textbf{Code Packages Used}:
 

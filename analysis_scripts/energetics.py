@@ -54,3 +54,22 @@ is no instantaneous trigger
  - Cannot explain the 68 km/s cloud's velocity
 """
 
+"""
+4. The W51 Main protocluster came from the 55 km/s cloud and has now expanded
+in velocity by +/- 15 km/s, so any apparent interaction is illusory.
+
+ - Cannot explain the 68 km/s cloud's velocity
+"""
+
+# again, enclosed mass here is key:
+r = 5*u.pc
+m = 2e5*u.M_sun
+v = ((2*constants.G*m/r)**0.5).to(u.km/u.s)
+print("delta-V = {0} for an enclosed mass of {1} at {2}".format(v,m,r))
+
+"""
+5. The W51 Main protocluster came from the 68 km/s cloud and has now expanded
+in velocity to +/- 15 km/s.  It has decelerated to ~55-60 km/s.
+
+ - Cannot explain the 68 km/s cloud's velocity
+"""
