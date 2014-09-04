@@ -53,7 +53,7 @@ of these galaxies is very dense, or \hii regions have their emission suppressed.
 
 
 \section{Introduction}
-\todo{To do.  To-do items are coded in red. Compiled on \today\ at \currenttime.}
+\todo{Compiled on \today\ at \currenttime.}
 
 Massive star clusters, those containing $>10^4$ \msun of stars, are among the
 most visually outstanding features in the night sky.  In other galaxies, they
@@ -148,10 +148,20 @@ W51 Main region, but both treated the region as a single-density structure.
 
 
 \subsection{Paper Overview} 
-\todo{Need to add the outline here}
+We present a detailed examination of the dense gas in the W51 cloud complex.
+Section \ref{sec:observations} presents the observations and data reduction.
+Section \ref{sec:analysis} describes the analysis techniques, including
+measurement of the dense gas mass fraction and derivation of the cloud
+geometry.  Section \ref{sec:discussion} discusses the implications of the
+density measurements for Galactic clouds and extragalactic interstellar media.
+Section \ref{sec:conclusion} concludes.  There are two appendices: Appendix
+\label{sec:contrrldata} describes the RRL and continuum data.  Appendix
+\label{sec:geometry} describes details of individual regions, with a focus on
+the cloud and \hii region line-of-sight geometry.
 
 
 \section{Observations \& Data Reduction}
+\label{sec:observations}
 The W51 survey was performed in September 2011 and 2012.  
 The data was reduced using custom-made scripts based off of both GBTIDL's
 mapping routines by Glen Langston
@@ -304,9 +314,8 @@ data.} {fig:continuum}{1.0}{6in}
 
 
 
-\clearpage
 
-\subsection{Optical Depths Data Cubes}
+\subsection{Optical Depth Data Cubes}
 
 The data cubes were converted into ``optical depth'' data cubes by dividing the
 integrated \formaldehyde absorption signature by the measured continuum level.
@@ -533,8 +542,10 @@ values of the $^{12}C$/$^{13}C$
 ratio.
 % TODO: use integrated_h2co to re-calculate the #
 % TODO: Didn't I report 900 above?  What's wrong with this picture?
+% DONE - S/N in the continuum, tau=1/5 
 
 \section{Analysis}
+\label{sec:analysis}
 
 \subsection{\formaldehyde modeling}
 \label{sec:models}
@@ -825,18 +836,16 @@ shapes are only intended as mnemonics to help associate this face-on view with
 the edge-on view of the real observations.
 Figure \ref{fig:labeledzoom} shows the face-on view and can be compared
 side-by-side with this figure to get an approximate 3D view of the region.
-\todo{This figure needs to be kept up to date with text changes.  Ideally, I'd
-like to build an interactive version of this figure, but that may not happen in
-finite time.}}
+}
 {fig:geosketch}{0.5}{0}
 
 \Figure
 {figures/W51_wisecolor_labeled_detail.pdf}
 {Labeled figures of the W51A and W51B regions, highlighting \hii regions and
 8\um-dark clouds.   The colors are described in Figure \ref{fig:w51large}.
-These labels can be compared to Figure \ref{fig:geosketch} to associated
-labeled regions in the plane of the sky with their counterparts in the face-on
-view of our Galaxy.}
+These labels can be compared to Figure \ref{fig:geosketch} to associate labeled
+regions in the plane of the sky with their counterparts in the face-on view of
+our Galaxy.}
 {fig:labeledzoom}{0.5}{0}
 
 
@@ -991,8 +1000,9 @@ assigning a density to each resolution element in both velocity and position.
 
 % co_intmaps.py
 \Figure{figures/FractionOfMassAboveDensity_All}
-{The `dense gas mass fraction' as a function of volume density $n(\hh)$ \percc.
-The $y$-axis shows the sum of \thirteenco pixels from the GRS cube with
+{The `dense gas mass fraction' as a function of volume density threshold
+$n(\hh)$ \percc.  The $y$-axis shows the sum of \thirteenco pixels from the GRS
+cube with
 \formaldehyde-derived density above the value shown on the $x$-axis divided by
 the total.  Both values are computed over the velocity range $40 \kms < v_{LSR}
 < 75 \kms$.  The blue shaded region shows the extent of plausible model fits at
@@ -1059,6 +1069,7 @@ for other analysis techniques by][]{Beaumont2013a}.
 
 
 \section{Discussion}
+\label{sec:discussion}
 The W51 cloud complex includes a full range of star forming conditions.  In the
 west, W51 B, there is an older generation of stars including at least one supernova
 remnant.  In the east, there is a pair of forming, still-embedded massive clusters.
@@ -1150,9 +1161,9 @@ star formation in the W51 clouds is needed.
 
 \Figure{figures/StarFormingMassMap_Kang2009ClassIYSOs}
 {A `star-forming gas mass' map, created by multiplying the dense gas fraction
-by the integrated CO mass surface density.  The red $\times$'s are Class I and
-flat-spectrum YSOs from \citet{Kang2009a}.  They are absent from the highest
-density regions.
+by the integrated \thirteenco mass surface density.  The red $\times$'s are
+Class I and flat-spectrum YSOs from \citet{Kang2009a}.  They are absent from
+the highest density regions.
 }
 {fig:sfmassmap}{0.5}{0}
 
@@ -1220,6 +1231,7 @@ thin \hii regions in the Galaxy where ionized gas pressure dominates.
 
 
 \section{Conclusion}
+\label{sec:conclusion}
 We have presented maps of the \formaldehyde \oneone and \twotwo and H77$\alpha$
 and H110$\alpha$ lines covering the W51 star forming complex and used these maps
 to examine the geometry and density structure of the complex.  
@@ -1267,7 +1279,12 @@ It is possible that the foreground 68 \kms cloud is falling into the spiral
 potential from the near side, interacting with the 51 \kms cloud exiting the
 potential on the far side to produce the W51 protoclusters.  
 
-
+Finally, we did not detect any \formaldehyde emission throughout the entire W51
+GMC.  The nondetection on scales from $\sim1-100$ pc implies that detections of
+\formaldehyde \oneone emission in other galaxies comes from gas that does not
+surround bright \hii regions.  These galaxies may therefore have interstellar
+media dominated by very high-density gas ($n(\hh)>10^{5.5}$ \percc) that is not
+presently forming stars.
 
 
 
@@ -1342,6 +1359,7 @@ discussions of cloud-cloud collisions.
 
 \appendix
 \section{Continuum and RRL Data Verification}
+\label{sec:contrrldata}
 \subsection{Comparison between GBT and GPA data}
 \label{sec:gpacompare}
 The Galactic Plane ``A'' survey \citep{Langston2000a} covered the Galactic
@@ -1403,12 +1421,6 @@ The Arecibo data appears to be systematically brighter than the Urumqi data
 by about 40\%.  This systematic offset is concerning for spectral index
 measurements, but has relatively little effect on the \formaldehyde analysis,
 especially in regions where the continuum background is bright.
-% \todo{This offset appeared upon reanalysis in July 2014.  It definitely, 100\%
-% certainly, did not exist the last time I ran the \emph{exact} same analysis
-% on the same data with the same code.  I cannot track down this offset but it
-% will probably keep me awake at nights for months.  The increase from before
-% is about 25\%, which one will note is nowhere near $1/\eta_{MB}=2$, so
-% I really have no explanation.}
 
 
 \Figure{figures/comparison_to_urumqi_6cm.pdf}
@@ -1458,8 +1470,6 @@ frequencies in RRLs and continuum and the line-to-continuum ratios at both
 frequencies.  The `line' values are the integrated flux densities over the
 range 20 to 100 \kms, which includes all H$\alpha$ emission but no He$\alpha$.
 
-% TODO: re-create h112alpha cube: likely problem with bg subtraction at 20 km/s
-% Done!
 The ratios between the $x$ and $y$ axis in each plot in Figure
 \ref{fig:gbtaocontcompare} are fitted using a total least squares approach with
 uniform errors for each data point.   The line-to-continuum ratio is
