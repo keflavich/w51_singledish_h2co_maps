@@ -1,7 +1,6 @@
 \input{preface}
 
-\title{The W51 GMC in 3D: The DGMF says that SF is done in W51 B but booming in
-W51 A.  Also, ULIRGs are missing ionized gas?}
+\title{The dense gas mass fraction in the W51 cloud and proto-cluster}
 % NEED A BETTER TITLE...
 \input{authors}
 %\begin{centering} 
@@ -91,7 +90,7 @@ column density threshold corresponding to this density]{Lada2010a}.  The `dense
 gas mass fraction' has been measured for various definitions of `dense'
 \citep{Battisti2014a,Wu2005a}, but these definitions don't always correspond to
 the associated threshold
-\citep{Parmentier2010a,Kauffmann2010a,Parmentier2011a}.  The existence of a
+\citep{Kauffmann2010a,Parmentier2011a,Parmentier2011b}.  The existence of a
 density threshold for star formation is contentious
 \citep{Burkert2012a,Clark2013b}, and even if such a threshold exists, it likely
 varies with the turbulent properties of clouds \citep{Longmore2013b}.  Star
@@ -100,7 +99,7 @@ column density are simultaneously available.
 
 \subsection{W51}
 The W51 cloud complex (Figure \ref{fig:w51large}), containing the two W51
-massive proto-cluster candidates from \citep{Ginsburg2012a}, is located at
+massive proto-cluster candidates from \citet{Ginsburg2012a}, is located at
 $\ell\sim49, b\sim-0.3$, very near the Galactic midplane\footnote{The midplane
 at $d=5.1$ kpc is offset approximately -0.22 to -0.33 degrees from $b=0$
 depending on our solar system's height above the midplane, $Z_\odot = 20$ pc or
@@ -130,7 +129,12 @@ conditions in the molecular interstellar medium for decades
 4.82966 GHz) and \twotwo (2.1 cm, 14.48848 GHz), have a peculiar excitation
 process in which collisions overpopulate the lower of the two $K_c$ rotational
 states, where $K_c$ is the quantum number representing the angular momentum
-projected onto the long axis of the molecule.  Because the \oneone and \twotwo
+projected onto the long axis of the molecule.  
+The overpopulated lower-energy state leads to amplified absorption, or
+effective excitation temperatures less than the background temperature,
+allowing \formaldehyde centimeter absorption to be seen against the cosmic
+microwave background.
+Because the \oneone and \twotwo
 level pairs populate differently
 depending on the volume density of the colliding partner (a mix of p-\hh, He,
 and o-\hh), their ratio is sensitive to the local gas volume
@@ -155,8 +159,8 @@ measurement of the dense gas mass fraction and derivation of the cloud
 geometry.  Section \ref{sec:discussion} discusses the implications of the
 density measurements for Galactic clouds and extragalactic interstellar media.
 Section \ref{sec:conclusion} concludes.  There are two appendices: Appendix
-\label{sec:contrrldata} describes the RRL and continuum data.  Appendix
-\label{sec:geometry} describes details of individual regions, with a focus on
+\ref{sec:contrrldata} describes the RRL and continuum data.  Appendix
+\ref{appendix:geometry} describes details of individual regions, with a focus on
 the cloud and \hii region line-of-sight geometry.
 
 
@@ -674,8 +678,9 @@ and ortho-to-para ratio [OPR])
     \chi^2 =  \left( \frac{T_B(\oneone)-T_{model}(\oneone)}{\sigma(T_B,\oneone)}\right)^2 +
               \left( \frac{T_B(\twotwo)-T_{model}(\twotwo)}{\sigma(T_B,\twotwo)}\right)^2
 \end{equation}
-The modeled $T_B$ is different for each spatial pixel in order to account for
-the varying continuum background, although for some pixels with significant
+The modeled brightness temperature $T_{model}$ is different for each spatial
+pixel in order to account for the varying continuum background, although for
+some pixels with significant
 continuum detected, we still use the CMB as the background continuum because
 the molecular gas is behind the other continuum emission; see Section
 \ref{sec:geometry}.
@@ -691,8 +696,8 @@ noise: the \formaldehyde \oneone/\twotwo ratio provides virtually no constraint
 on the gas temperature and therefore leaving it as a free parameter has no
 effect on the fitted density.  Similarly, the ortho-to-para ratio of \hh is
 unconstrained in our data.  In principle, the \hh OPR has some effect on
-\formaldehyde excitation, but in the regime we have modeled and observed, no
-effect is apparent.
+\formaldehyde excitation \citep{Troscompt2009a}, but in the regime we have
+modeled and observed, no effect is apparent.
 
 
 The \ortho-column-weighted volume-density along each line of sight is shown in
@@ -743,7 +748,7 @@ those with the background fixed to $T_{BG} = T_{CMB}$.  We then selected the
 better of the two fits as representative of the physical conditions.  Figures
 \ref{fig:filament_pvslice} and \ref{fig:northsouthpv} show the qualitative
 version of this analysis, highlighting CO-bright regions that lack the expected
-\formaldehyde absorption signatures as those with different geometry.
+\formaldehyde absorption signatures and therefore have a different geometry.
 Regions with the continuum emission in front of the molecular absorption were
 converted into masks that were then used to decide which models to use for the
 per-pixel fitting process described in the previous section.  The geometric
@@ -962,7 +967,7 @@ delivered from the \formaldehyde densitometer.
 
 The `dense gas mass fraction' (DGMF) is an oft-quoted measurement used to argue
 about the speed of the star formation process, the existence of density
-threshold, and turbulent properties of the ISM \citep[e.g. Fig. 5
+thresholds, and turbulent properties of the ISM \citep[e.g. Fig. 5
 of][]{Krumholz2007a,Battisti2014a,Kainulainen2013a,Juneau2009a,Muraoka2009a,Hopkins2013e}.
 However, these fractions are most often quoted as mass of gas at a \emph{single}
 density divided by the total mass.  We present an improvement on these measurements,
@@ -970,7 +975,7 @@ showing the continuous distribution of the dense gas mass fraction.
 
 Figure \ref{fig:dgmf} shows the result of using our \formaldehyde PPV density
 cubes to measure the DGMF from \thirteenco.  We use a range of density
-thresholds from $\sim10^3$ to $\sim10^4$ \percc.  At each density, we identify
+thresholds from $\sim10^3$ to $\sim10^6$ \percc.  At each density, we identify
 all voxels in the \thirteenco PPV cube above that density and sum those.  We
 then divide by the total integrated \thirteenco brightness to get the mass
 fraction. 
@@ -1025,7 +1030,8 @@ masked to include only pixels with $T_B>0.5$ K.}
 {fig:dgmf_contours}{1.0}{6.5in}
 
 The multi-density DGMF presented here can be compared to models of `global'
-collapse.  They are effectively a gas density cumulative distribution function.
+collapse in which progressively more gas should be observed in denser structures
+over time.  They are effectively a gas density cumulative distribution function.
 However, to understand the systematic effects of line-of-sight stacking of
 different velocity components (and corresponding radiative transfer issues),
 similar analysis should be performed on hydrodynamic simulations.
@@ -1051,8 +1057,8 @@ lower density in each PPV pixel associated with each voxel along that line of
 sight.  This additional mass biases the measured DGMF upwards,
 but probably only by a small amount at each
 threshold.  This systematic bias can be better characterized by performing a
-similar analysis on simulations projected into PPV space \citep[as demonstrated
-for other analysis techniques by][]{Beaumont2013a}.
+similar analysis on molecular cloud simulations projected into PPV space
+\citep[as demonstrated for other analysis techniques by][]{Beaumont2013a}.
 
 
 \section{Discussion}
@@ -1066,15 +1072,16 @@ now we speculate on the broader implications of these observations.
 The gas in the W51 B region, while clearly impacted by the expanding W51 C
 supernova, is less dense than most of the gas in the W51 A region.  The
 supernova feedback is, if anything, destructive; a `collect-and-collapse'
-scenario does not fit the observed gas structure.  Stellar feedback in the W51
-region is therefore destructive, though so far not severely so.
+scenario does not fit the observed gas structure since there is less dense
+gas in the vicinity of the SNR.
 
 The proximity of the 68 \kms filamentary `high velocity stream' and the W51
 Main protocluster and their relative line-of-sight positions have been
 presented as evidence for a cloud-cloud collision \citep{Kang2010a}.
 Examination of the \formaldehyde line ratios has shown that the protocluster is
-embedded in the $\sim55$ \kms molecular cloud.  The velocity difference and their
-relative positions along the line of sight unambiguously indicate that these
+embedded in the $\sim55$ \kms molecular cloud (e.g. Figure
+\ref{fig:northsouthpv}).  The velocity difference and their relative positions
+along the line of sight unambiguously indicate that these
 components are approaching each other, which is consistent with the cloud-cloud
 collision hypothesis.
 
@@ -1082,7 +1089,7 @@ It is possible that the 68 \kms cloud is streaming in to a spiral arm, while
 the 50 \kms cloud is slowed down as it exits the spiral arm on the far side.
 In this scenario, W51 Main is in the deepest part of the spiral arm potential.
 Gas is accumulating at W51 Main,  becoming compressed and undergoing a
-``mini-starburst".  In this scenario, the W51 B/C region, with its mature HII
+``mini-starburst".  The W51 B/C region, with its mature HII
 regions and SNR, represents a slightly older generation than W51 Main.
 
 % \subsection{A formation scenario for the W51 region}
@@ -1112,18 +1119,19 @@ be undertaken.  Maser parallax observations of different zones may also provide
 differential distance estimates.
 
 \subsection{Gas density and its relation to star formation}
-The lowest density readily observed in our survey of W51 is $n\sim10^4$ \percc.
-Lower densities can be detected with \formaldehyde observations but require
-greater depth, especially in the \twotwo line.
-
-In \citet{Ginsburg2013b}, we measured the \formaldehyde line ratio to high
-precision in a low-density, turbulent, non-star-forming GMC.  While the mean
-density of this cloud was of order $n\sim10^2$ \percc, the mass-weighted
-density as probed by \formaldehyde was $n\approx5\ee{3}$ \percc.  The density
-measurements in the W51 cloud exceed this value for the majority of the
-detections significant in both \oneone and \twotwo, indicating that there is a
-much higher fraction of high-density gas in this star-forming cloud than in the
-quiescent GMC in front of W49.
+% These PPs are not obviously relevant
+%The lowest density readily observed in our survey of W51 is $n\sim10^4$ \percc.
+%Lower densities can be detected with \formaldehyde observations but require
+%greater depth, especially in the \twotwo line.
+%
+%In \citet{Ginsburg2013b}, we measured the \formaldehyde line ratio to high
+%precision in a low-density, turbulent, non-star-forming GMC.  While the mean
+%density of this cloud was of order $n\sim10^2$ \percc, the mass-weighted
+%density as probed by \formaldehyde was $n\approx5\ee{3}$ \percc.  The density
+%measurements in the W51 cloud exceed this value for the majority of the
+%detections significant in both \oneone and \twotwo, indicating that there is a
+%much higher fraction of high-density gas in this star-forming cloud than in the
+%quiescent GMC in front of W49.
 
 To assess the relation between gas density and star formation rate or
 efficiency, one can multiply the DGMF by the total mass to get a naïve
@@ -1189,7 +1197,7 @@ comparable to W51, but the densities are different.
 
 The only location in which densities $n\gtrsim5\ee{5}$ \percc (comparable to
 $n(\textrm{Arp } 220)$, etc.) are observed in W51 are in the central W51
-Main region.  We don't observe emission because of the extremely bright
+Main region.  We do not observe emission because of the bright
 continuum background source.  It is therefore not possible to explain a
 \formaldehyde-emission galaxy by constructing it from collections of UCHII
 regions; such a galaxy would be continuum-bright and show only \formaldehyde
@@ -1226,11 +1234,12 @@ snapshot of the publication version available as a tarball from figshare
 \url{TBD}}.
 
 
-The broad-brush picture is of a massive proto-cluster region with high density
-(W51 Main, $n(\hh) > 10^5$ \percc) surrounded by a dense cloud ($n(\hh)>10^4$
-\percc) out to a $\sim10$ pc radius.  The rest of the complex is lower density
-chaff, much of which is being disrupted by feedback from massive stars in the
-form of ionized gas and supernova explosions.
+%The broad-brush picture is of a massive proto-cluster region with high density
+%(W51 Main, $n(\hh) > 10^5$ \percc) surrounded by a dense cloud ($n(\hh)>10^4$
+%\percc) out to a $\sim10$ pc radius.  The rest of the complex is lower density
+%chaff with relatively little star formation.  Much of this low-density material
+%is being disrupted by feedback from massive stars in the form of ionized gas
+%and supernova explosions.
 
 
 
@@ -1238,14 +1247,15 @@ form of ionized gas and supernova explosions.
 %estimate electron temperatures, with a consistent mean $T_e^*\sim7500$ K.
 
 The \formaldehyde \oneone/\twotwo line ratio was used to measure gas volume
-densities.  The W51 protocluster has the majority of its mass in gas with
-density $n(\hh)>5\ee{4}$ \percc.  The rest of the cloud has a small dense gas
-fraction, with $f(n>1\ee{4}~\percc) \sim 10\%$.  The W51 B cloud therefore
-appears to be at the end of its star-forming lifetime, while W51 Main/A will
-continue to form stars efficiently in the future.
+densities and dense gas mass fractions.  The W51 protocluster has the majority
+($>70\%$) of its mass in gas with density $n(\hh)>5\ee{4}$ \percc.  The rest of
+the cloud has a small dense gas fraction, with $f(n>1\ee{4}~\percc) \sim 10\%$.
+The W51 B cloud therefore appears to be at the end of its star-forming
+lifetime, while W51 Main/A will continue to form stars efficiently in the
+future.
 
 The \formaldehyde lines and their ratios have also been used to constrain the
-geometry of the W51 GMC and the associated \hii regions.  The Galactic face-on
+geometry of the W51 GMC and the associated \hii regions.  The Galactic-face-on
 view of W51 is presented in more detail than has previously been possible.
 \begin{itemize}
     \item The high velocity 68 \kms cloud cloud is in front of the 51 \kms cloud
