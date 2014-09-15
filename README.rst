@@ -47,7 +47,8 @@ pip install https://github.com/keflavich/pyregion/archive/master.zip
  4. Run the `analysis scripts <analysis_scripts/run_all.py>`_
  5. Run the `plot scripts <plot_scripts/run_all.py>`_
 
-.. image:: https://zenodo.org/badge/3821/keflavich/w51_singledish_h2co_maps.png   :target: http://dx.doi.org/10.5281/zenodo.11737
+.. image:: https://zenodo.org/badge/3821/keflavich/w51_singledish_h2co_maps.png
+   :target: http://dx.doi.org/10.5281/zenodo.11737
 
 
 ..
