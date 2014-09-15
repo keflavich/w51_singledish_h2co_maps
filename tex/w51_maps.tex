@@ -1,6 +1,10 @@
 \input{preface}
 
+\begin{document}
+
 \title{The dense gas mass fraction in the W51 cloud and proto-cluster}
+\titlerunning{W51 DMGF}
+\authorrunning{Ginsburg et al}
 % NEED A BETTER TITLE...
 \input{authors}
 %\begin{centering} 
@@ -8,6 +12,7 @@
 %\end{centering}
 
 
+\date{Date: \today ~~ Time: \currenttime}
 
 % Somewhere in here:
 % need a shoutout to "Overheard on Astro-PH"
@@ -15,44 +20,53 @@
 % FOCUS ON THE *OBSERVATIONAL* QUESTIONS solved here... the theoretical just
 % aren't going to be that exciting
 
-\begin{abstract}
+%\begin{abstract}
+\abstract
+{The density structure of molecular clouds determines how they will evolve.}
+{To map the velocity-resolved density structure of the most vigorously
+star-forming molecular cloud in the Galactic disk, the W51 Giant Molecular
+Cloud.}
+{
 We present new 2 cm and 6 cm maps of \formaldehyde, radio recombination lines,
 and the radio continuum in the W51 star forming complex acquired with Arecibo
 and the Green Bank Telescope at $\sim50\arcsec$ resolution.
-The data set has been made public at \url{http://dx.doi.org/10.7910/DVN/26818}.
-
-We present an analysis of the three-dimensional structure of the W51 region,
-using \formaldehyde absorption to determine the relative line-of-sight
-positions of molecular and ionized gas.  This analysis suggests that W51 C
-supernova remnant is interacting with the W51 B molecular filament.  The W51 A
-and B star-forming regions are physically associated and interacting,
-supporting the idea that the W51 A cluster formation was triggered by
-cloud-cloud collision.
-
-We measure gas densities using the \formaldehyde densitometer,
-including continuous measurements of the dense gas mass
+We use \formaldehyde absorption to determine the relative line-of-sight
+positions of molecular and ionized gas.  We measure gas densities using the
+\formaldehyde densitometer, including continuous measurements of the dense gas
+mass
 fraction (DGMF) over the range $10^4$ $\percc< n(\hh) < 10^6$ \percc - this is
 the first time a multi-density dense gas mass fraction has been measured with a
-single data set.  The DGMF in W51 Main is high, $f\gtrsim70\%$ above $n>10^4$
-\percc, indicating that
-nearly all of its mass should form stars. By contrast, the DGMF is low,
-$f<20\%$, in W51 B, suggesting that its star-forming lifetime has come to an
-end and it is being disrupted by stellar feedback.
-
+single data set.}
+{The DGMF in W51 Main is high, $f\gtrsim70\%$ above $n>10^4$
+\percc, while it is low, $f<20\%$, in W51 B.
+%, suggesting that its star-forming lifetime has come to an
+%end and it is being disrupted by stellar feedback.
+%The W51 C
+%supernova remnant is interacting with the W51 B molecular filament.  The W51 A
+%and B star-forming regions are physically associated and interacting,
+%supporting the idea that the W51 A cluster formation was triggered by
+%cloud-cloud collision.
 We did not detect \emph{any} \formaldehyde emission throughout the W51 GMC; all
 gas dense enough to emit under normal conditions is in front of bright
-continuum sources and therefore is seen in absorption instead.  This
-nondetection implies that the \formaldehyde emission detected in other
-galaxies, e.g. Arp 220, comes from high-density gas that is not directly
-affiliated with already-formed massive stars.  Either the non-star-forming ISM
-of these galaxies is very dense, or \hii regions have their emission suppressed.
-\end{abstract}
+continuum sources and therefore is seen in absorption instead.  
+The data set has been made public at \protect\url{http://dx.doi.org/10.7910/DVN/26818}.
+}
+{(1) The dense gas fraction in the W51 A and B clouds shows that W51 A will
+continue to form stars vigorously, while star formation has mostly ended in W51
+B.
+(2) The nondetection of \formaldehyde emission implies that the  emission
+detected in other galaxies, e.g. Arp 220, comes from high-density gas that is
+not directly affiliated with already-formed massive stars.  Either the
+non-star-forming ISM of these galaxies is very dense, or \hii regions have
+their emission suppressed.
+}
+%\end{abstract}
 
 
-
+\maketitle
 
 \section{Introduction}
-\todo{Compiled on \today\ at \currenttime.}
+%\todo{Compiled on \today\ at \currenttime.}
 
 Massive star clusters, those containing $>10^4$ \msun of stars, are among the
 most visually outstanding features in the night sky.  In other galaxies, they
@@ -772,7 +786,7 @@ only over the pixels where the model is greater than the local RMS.}
 {fig:h2cofrontbackmodel}{0.5}{0}
 
 % analysis_scripts/pvfigure_h2co13co.py
-\FigureTwo
+\FigureTwoAA
 {figures/filament_extraction_region_on_HiGal.pdf}
 {figures/cyan_wide_PV_h2co11_22_13co.pdf}
 {(left) A column density map fitted from the Herschel Hi-Gal data with two
@@ -789,7 +803,7 @@ and \twotwo lines in Figure \ref{fig:h2cofrontbackmodel}.
 These figures were made using \texttt{wcsaxes} (\protect\url{http://wcsaxes.rtfd.org})
 and \texttt{pvextractor} (\protect\url{http://pvextractor.rtfd.org}).
 }
-{fig:filament_pvslice}{1}%{0}
+{fig:filament_pvslice}{1}{6.0in}
 
 
 \Figure
@@ -1009,14 +1023,14 @@ low-density gas.}
 {fig:dgmf}{0.5}{0}
 
 % co_intmaps.py
-\FigureTwo
+\FigureTwoAA
 {figures/FractionOfMassAboveDensity_W51Main}
 {figures/FractionOfMassAboveDensity_W51B}
 {Same as Figure \ref{fig:dgmf}, but for two individual regions: W51 Main
 (left), the region $49.4\arcdeg < \ell < 49.6\arcdeg$, $-0.5\arcdeg < b <
 -0.3\arcdeg$, and W51 B (right) with $\ell < 49.4\arcdeg$.  Note
 that the $y$ axes have different ranges.}
-{fig:dgmf_regions}{1}
+{fig:dgmf_regions}{1}{6.5in}
 
 % co_intmaps.py
 \FigureTwoAA
@@ -1346,7 +1360,7 @@ discussions of cloud-cloud collisions.
 %enough for use with our Ku-band data.  The custom-made scripts also provided
 %needed flexibility for comparing the GBT and Arecibo data.
 
-
+\clearpage
 \appendix
 \section{Continuum and RRL Data Verification}
 \label{sec:contrrldata}
@@ -1652,14 +1666,14 @@ cloud in a `champagne flow,' perhaps accelerating ionized gas from the $\sim
 68$ \kms component
 further to the red.
 
-\FigureTwo
+\FigureTwoAA
 {figures/spectralfits_70kmscloudLeft_wideplot_RRL_aperture_G49.20-0.35.pdf}
 {figures/spectralfits_70kmscloud_wideplot_RRL_aperture_G49.1-0.4.pdf}
 {Fitted H110$\alpha$ (red) and H77$\alpha$ (black) spectra extracted from
 55\arcsec apertures centered on G49.20-0.35 (left) and G49.1-0.4 (right).
 The best-fit Gaussian parameters are shown in the legends, with the lower
 legend corresponding to H77$\alpha$.}
-{fig:hiirrlspec}{1}
+{fig:hiirrlspec}{1}{6.5in}
 
 \subsection{The 66 \kms 8 \um dark cloud}
 Between W51 A and W51 B, there is a component of the 68 \kms cloud that is
