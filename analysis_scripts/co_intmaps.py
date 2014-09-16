@@ -1,10 +1,12 @@
-from common_constants import vrange1,vrange2,cotocol,h2togm,distance
+from common_constants import (vrange1, vrange2, cotocol, h2togm, distance,
+                             h2co22freq, gbbeamarea,)
 import spectral_cube
 from spectral_cube import SpectralCube,BooleanArrayMask
 from build_mask import cubemask,includemask
 import numpy as np
 import paths
 from astropy import units as u
+from astropy import constants
 from astropy import coordinates
 from astropy.table import Table,Column
 from astropy.io import fits
@@ -40,7 +42,7 @@ stdcube = spectral_cube.SpectralCube.read(paths.dpath("H2CO_ParameterFits_stdden
 okmask = BooleanArrayMask(np.isfinite(stdcube.filled_data[:]), wcs=stdcube.wcs)
 stdcube = stdcube.with_mask(okmask)
 goodmask_std = stdcube < 0.5
-denscube_mean = spectral_cube.SpectralCube.read(paths.dpath("H2CO_ParameterFits_meandens.fits")).with_mask(okmask)
+denscube_mean = spectral_cube.SpectralCube.read(paths.dpath("H2CO_ParameterFits_likewtddens.fits")).with_mask(okmask)
 denscube_min = spectral_cube.SpectralCube.read(paths.dpath("H2CO_ParameterFits_mindens.fits"))
 denscube_max = spectral_cube.SpectralCube.read(paths.dpath("H2CO_ParameterFits_maxdens.fits"))
 high5e4dens = denscube_mean > np.log10(5e4)
@@ -252,9 +254,32 @@ if __name__ == "__main__":
                   * constants.m_p * 2.8).to(u.M_sun)).value
     co_to_mass_surf = ((8e20*u.cm**-2 * constants.m_p *
                         2.8).to(u.M_sun/u.pc**2)).value
-    sfmassmap = dgmf1e4.data * cube13ss_slab3_masked_mom0.to(u.K*u.km/u.s).value * co_to_mass_surf
-    sfmassmap[sfmassmap!=sfmassmap] = 0
+    totalmassmap = (cube13ss_slab3_masked_mom0.to(u.K*u.km/u.s).value *
+                    co_to_mass_surf)
+    sfmassmap = (dgmf1e4.data *
+                 cube13ss_slab3_masked_mom0.to(u.K*u.km/u.s).value *
+                 co_to_mass_surf)
+    badsfmass = ~np.isfinite(sfmassmap)
+    sfmassmap[badsfmass] = 0
     sfmasshdu = fits.PrimaryHDU(sfmassmap, header=dgmf1e4.header)
+
+    # Make an SFR map from the radio continuum data
+    cont2cm = fits.getdata(paths.cont2cm)
+    hdr2cm = fits.getheader(paths.cont2cm)
+    # Use Murphy 2011 (2011ApJ...737...67M) calibration: eqn 11
+    te = 7.5e3*u.K
+    nu = h2co22freq
+    sfrperergshz = (4.6e-28 *u.Msun/u.yr * (te/(1e4*u.K))**-0.45 *
+                    (nu.to(u.GHz).value)**0.1) / u.erg / u.s**-1 / u.Hz**-1
+    pixel_area = (hdr2cm['CDELT2']*u.deg*distance).to(u.cm, u.dimensionless_angles())**2
+    sfr2cm = ((cont2cm*u.K).to(u.Jy, u.brightness_temperature(gbbeamarea,
+                                                              h2co22freq)) *
+              distance**2 * 
+              sfrperergshz).to(u.M_sun/u.yr)
+    sfr2cmd = (sfr2cm / pixel_area).to(u.M_sun/u.yr/u.kpc**2)
+    ok2cm = cont2cm > 0.1
+
+
 
     from astroquery.vizier import Vizier
     catalog_list = Vizier.find_catalogs('Kang W51')
@@ -278,3 +303,15 @@ if __name__ == "__main__":
                                      rotation=270, labelpad=50)
     FMM.show_markers(cl1coords.l, cl1coords.b, marker='x', edgecolor='r', zorder=1100)
     FMM.save(paths.fpath('StarFormingMassMap_Kang2009ClassIYSOs.pdf'))
+
+    fig8 = pl.figure(8)
+    fig8.clf()
+    ax8 = fig8.gca()
+    ax8.loglog(totalmassmap[~badsfmass & ok2cm], sfr2cmd[~badsfmass & ok2cm], 'r.', alpha=0.1)
+    ax8.loglog(sfmassmap[~badsfmass & ok2cm], sfr2cmd[~badsfmass & ok2cm], 'k.', alpha=0.1)
+    ax8.loglog([1,1e4],np.array([1,1e4])*1.2e-8*1e6,'b--', alpha=0.5)
+    ax8.loglog([700,2900],[2,900],'g:', alpha=0.7)
+    ax8.set_xlabel("Star Forming Gas Surface Density ($M_{\\odot}$ pc$^{-2}$)")
+    ax8.set_ylabel("2 cm continuum SFR ($M_{\\odot}$ yr$^{-1}$ kpc$^{-2}$)")
+    ax8.set_ylim(0.5,1e3)
+    fig8.savefig(paths.fpath('ksrelation_2cm_densegas.pdf'))

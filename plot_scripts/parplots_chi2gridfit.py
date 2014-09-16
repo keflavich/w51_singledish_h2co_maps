@@ -87,20 +87,26 @@ def plot_denscol(denscube, colcube, center, radius, alpha=0.3, vmin=43, vmax=76,
 chi2levels = {'best':0.1, 'mean':1.0}
 
 
-for meastype in ('best','mean'):
-    chi2cube = SpectralCube.read(paths.dpath("H2CO_ParameterFits_{0}chi2.fits".format(meastype)))
-    okmask = BooleanArrayMask(np.isfinite(chi2cube.filled_data[:]), wcs=chi2cube.wcs)
-    chi2cube = chi2cube.with_mask(okmask)
+for meastype in ('best','mean','likewtd'):
 
     # Try masking based on stddev: uncertainty of 1 order of magnitude isn't super interesting...
+    # (this is done first because chi2 doesn't exist for likewtd)
     stdcube = SpectralCube.read(paths.dpath("H2CO_ParameterFits_stddens.fits".format(meastype)))
+
+    if os.path.exists(paths.dpath("H2CO_ParameterFits_{0}chi2.fits".format(meastype))):
+        chi2cube = SpectralCube.read(paths.dpath("H2CO_ParameterFits_{0}chi2.fits".format(meastype)))
+        okmask = BooleanArrayMask(np.isfinite(chi2cube.filled_data[:]), wcs=chi2cube.wcs)
+        chi2cube = chi2cube.with_mask(okmask)
+        goodmask = chi2cube < chi2levels[meastype]
+    else:
+        goodmask = okmask = stdcube.mask
+
     stdcube = stdcube.with_mask(okmask)
 
     denscube = SpectralCube.read(paths.dpath("H2CO_ParameterFits_{0}dens.fits".format(meastype)))
     denscube = denscube.with_mask(okmask)
     colcube  = SpectralCube.read(paths.dpath("H2CO_ParameterFits_{0}col.fits".format(meastype)))
     colcube = colcube.with_mask(okmask)
-    goodmask = chi2cube < chi2levels[meastype]
     goodmask_std = stdcube < 0.5
 
     flathead = denscube.wcs.dropaxis(2).to_header()

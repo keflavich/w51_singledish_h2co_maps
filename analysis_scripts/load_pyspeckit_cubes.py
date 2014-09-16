@@ -120,6 +120,14 @@ def fit_a_pixel(args):
     match, indbest, chi2 = grid_2p_getmatch(tline1+cont1, etline1, pargrid1,
                                             tline2+cont2, etline2, pargrid2)
 
+    likelihood = np.exp(-chi2/2.)
+    def lwt(x, mask=match):
+        """ Likelihood-weighted mean """
+        return (x*likelihood)[mask].sum() / likelihood[mask].sum()
+    def lstd(x, mask=match):
+        """ Likelihood-weighted stddev """
+        return (((x-lwt(x,mask))**2*likelihood)[mask].sum() / likelihood[mask].sum() * (mask.sum()/(mask.sum()-1)))**0.5
+
     chi2best = chi2.flat[indbest]
     dens_best = densityarr.flat[indbest]
     col_best = columnarr.flat[indbest]
@@ -133,6 +141,7 @@ def fit_a_pixel(args):
         warnings.warn("Found no matches.  Returning NaNs")
         return best, np.nan, np.nan, np.nan, np.nan, np.nan
 
+
     chi2_all = chi2[match]
     dens_all = densityarr[match]
     col_all = columnarr[match]
@@ -143,5 +152,7 @@ def fit_a_pixel(args):
     maxs = map(max, (dens_all, col_all, temp_all, opr_all, chi2_all))
     mean = map(np.mean, (dens_all, col_all, temp_all, opr_all, chi2_all))
     std = map(np.std, (dens_all, col_all, temp_all, opr_all, chi2_all))
+    lweighted = map(lwt, (densityarr, columnarr, temparr, oprarr))
+    lerror = map(lstd, (densityarr, columnarr, temparr, oprarr))
 
-    return best,mins,maxs,mean,std,chi2best
+    return best,mins,maxs,mean,std,chi2best,lweighted,lerror

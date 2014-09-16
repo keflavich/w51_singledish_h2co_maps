@@ -11,6 +11,11 @@ def beams():
     gbbeam = 54*u.arcsec
     return aobeam,gbbeam
 
+aobeam, gbbeam = beams()
+fwhm = np.sqrt(8*np.log(2))
+aobeamarea = (2*np.pi*(aobeam/fwhm)**2)
+gbbeamarea = (2*np.pi*(gbbeam/fwhm)**2)
+
 h2co11freq = 4.82966 * u.GHz
 h2co22freq = 14.48848 * u.GHz
 

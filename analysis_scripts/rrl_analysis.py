@@ -9,8 +9,7 @@ import numpy as np
 from agpy import fit_a_line
 import astropy.units as u
 import common_constants
-aobeam,gbbeam = common_constants.beams()
-from common_constants import h2co11freq,h2co22freq,etamb_77,rrl
+from common_constants import h2co11freq,h2co22freq,etamb_77,rrl,aobeamarea,gbbeamarea
 from paths import datapath,fpath
 import matplotlib
 
@@ -18,9 +17,8 @@ matplotlib.rc_file('pubfiguresrc')
 pl.mpl.rcParams['axes.color_cycle'] = ["#"+x for x in "348ABD, 7A68A6, A60628, 467821, CF4457, 188487, E24A33".split(", ")]
 
 # Have to convert to Jy to compare fairly
-fwhm = np.sqrt(8*np.log(2))
-ktojy111 = (1*u.K).to(u.Jy,u.brightness_temperature((2*np.pi*(aobeam/fwhm)**2), h2co11freq))
-ktojy77 = (1*u.K).to(u.Jy,u.brightness_temperature((2*np.pi*(gbbeam/fwhm)**2), h2co22freq))
+ktojy111 = (1*u.K).to(u.Jy,u.brightness_temperature(aobeamarea, h2co11freq))
+ktojy77 = (1*u.K).to(u.Jy,u.brightness_temperature(gbbeamarea, h2co22freq))
 
 aofn = os.path.join(datapath,'W51_Halpha_6cm_cube_supersampled.fits')
 h112i = fits.getdata(os.path.join(datapath,'H110a_integral.fits')) * ktojy111 # ,aofn.replace("cube","integrated"))) * ktojy111

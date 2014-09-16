@@ -1,4 +1,4 @@
-\input{preface}
+\input{preface_aa}
 
 \begin{document}
 
@@ -82,7 +82,7 @@ In the most massive clusters, there are predictions that multiple generations
 or an extended generation of stars should form prior to gas expulsion because
 the gas will remain gravitationally bound \citep{Bressert2012a}.   Feedback from
 and within young massive clusters is an active field of numerical study
-\citep{Rogers2013a,Dale2013a,Dale2012a,Dale2008a,Dale2005a,Parker2013a,Myers2014a,Krumholz2014a}
+\citep{Rogers2013a,Dale2013a,Dale2012a,Dale2008a,Dale2005a,Parker2013a,Myers2014a,Krumholz2014a}.
 While
 only 5-35\% of all stars form in bound clusters\footnote{Clusters bound by the
 stellar mass alone, not including the birth cloud's mass.}
@@ -154,7 +154,7 @@ depending on the volume density of the colliding partner (a mix of p-\hh, He,
 and o-\hh), their ratio is sensitive to the local gas volume
 density\footnote{Higher frequency
 \formaldehyde lines show the same behavior, though the effect is progressively
-weaker; see \citet{Darling2012b} Figure 2}.
+weaker; see \citet{Darling2012b} Figure 2.}.
 
 \formaldehyde \oneone has been observed in the W51 main region with the VLA
 \citep{Martin-Pintado1985a} and Westerbork \citep{Arnal1985a}, and this data
@@ -173,14 +173,16 @@ measurement of the dense gas mass fraction and derivation of the cloud
 geometry.  Section \ref{sec:discussion} discusses the implications of the
 density measurements for Galactic clouds and extragalactic interstellar media.
 Section \ref{sec:conclusion} concludes.  There are two appendices: Appendix
-\ref{sec:contrrldata} describes the RRL and continuum data.  Appendix
-\ref{appendix:geometry} describes details of individual regions, with a focus on
+\ref{sec:contrrldata} describes the radio recombination line and continuum
+data.  Appendix \ref{appendix:geometry} describes details of individual
+regions, with a focus on
 the cloud and \hii region line-of-sight geometry.
 
 
 \section{Observations \& Data Reduction}
 \label{sec:observations}
-The W51 survey was performed in September 2011 and 2012.  
+The W51 survey was performed in September 2011 on the Green Bank Telescope
+(GBT) and in 2012 using the Arecibo Observatory.  
 The data was reduced using custom-made scripts based off of both GBTIDL's
 mapping routines by Glen Langston
 (\url{https://safe.nrao.edu/wiki/bin/view/Kbandfpa/KfpaPipelineHowTo}) and Phil
@@ -189,6 +191,84 @@ Perillat's AOIDL routines.  The code is available at
 are included in a corresponding git repository:
 \url{https://github.com/keflavich/w51_singledish_h2co_maps}.
 
+\subsection{Arecibo 6 cm}
+The Arecibo data were taken as part of project A2705 over the course of 4
+nights, September 10, 11, 12, and 15 2012.  On the first night, September 10
+2012, a significant fraction of the data was lost due to an internal instrument
+error within the Mock spectrometer, which resulted in a loss of the
+high spectral resolution component of the \formaldehyde data for that night.  As a
+result, we have focused our study on the lower-resolution ($\sim1$ \kms) data.
+
+The fields were observed with east-west maps using the C-band receiver.  No
+crosshatching was performed with Arecibo.
+
+The Arecibo data reduction process for W51
+presented unique challenges: at C-band, the entire region surveyed contains
+continuum emission, so no truly suitable `off' position was found within the
+survey data.  Similarly, \formaldehyde is ubiquitous across the region, so it
+was necessary to `mask out' the absorption lines when building an off position.
+This was done by interpolating across the line-containing region of the
+spectrum with a polynomial fit.  The fits were inspected interactively and
+tuned to avoid over-predicting the background.
+
+The Arecibo data were corrected to main beam brightness temperature $T_{MB}$
+using a main-beam efficiency as a function of zenith angle in degrees ($za$):
+$$\eta_{MB}(za) = 0.491544 + 0.00580397 za - 0.000341992 za^2$$
+This is a fit to 5 years worth of calibration data acquired at Arecibo and
+assembled by Phil Perrilat\footnote{The data can be retrieved from within aoIDL
+with the command \texttt{n=mmgetarchive(yymmdd1,yymmdd2,mm,rcvnum=9)}, then
+the $\eta_{MB}$ data are in \texttt{mm.fit.etamb}.  The calibration process is
+recorded in detail in \citet{Heiles2001a}.}
+
+
+The maps were made by computing an output grid in Galactic coordinates with
+15\arcsec pixels and adding each spectrum to the appropriate pixel\footnote{We
+use the term `pixel' to refer to a square data element projected on the sky
+with axes in Galactic coordinates.  The term `voxel' is used to indicate a cubic data
+element, with two axes in galactic coordinates and a third in frequency or
+velocity}.  In order
+to avoid empty pixels and maximize the signal-to-noise, the spectra were added
+to the grid with a weight set from a Gaussian with $FWHM=20\arcsec$, which
+effectively smooths the output images from $FWHM\approx50\arcsec$ to
+$\approx54\arcsec$.  See \citet{Mangum2007a} for more detail on the on-the-fly
+mapping technique used here.
+
+The Arecibo data were taken at a spectral resolution of 0.68 \kms.  The
+spectra were regridded onto a velocity grid from $-50$ to 150 \kms with 1 \kms
+resolution.  To achieve this, they were first Gaussian-smoothed to $FWHM=1$
+\kms then downsampled appropriately.
+%\footnote{For
+%most of the map area, data is available at much higher $\lesssim0.2$ \kms
+%resolution, but the signal-to-noise at this resolution is relatively poor, no
+%linewidths were observed to be that narrow, and most importantly, one Arecibo
+%data set suffered from a malfunction that allowed data at 0.68 \kms resolution
+%to be taken, but not the corresponding 0.2 \kms data.}
+
+The position-position-velocity (PPV) cubes were created with units of
+brightness temperature.  The Arecibo cubes have contributions from 15-20
+independent spectra in each pixel, though
+this hit rate varies in a systematic striped pattern parallel to the Galactic
+plane.  The small overlap regions between different maps have a significantly
+higher number of samples; these regions constitute a small portion of the map.
+The resulting noise level is RMS $\sim 50-60$ mK except toward the \hii
+regions, where it peaks at about 400 mK.  The continuum is derived by averaging
+line-free channels; its signal-to-noise peaks at $\sim900$.
+
+The Arecibo data have smaller systematic continuum offsets than the GBT data
+(Figure \ref{fig:continuum}), but they are more visually pronounced because
+there is much more diffuse emission at 6 cm.  The continuum zero-point level in
+the Arecibo data was set to be the 10th percentile value of each scan, which is
+effectively the minimum value across each scan but with added robustness
+against noise-generated false minima.  In the eastmost and westmost blocks,
+this strategy was very effective, as there are clearly areas in each scan that
+see no continuum.  However, in the central block, this approach resulted in a
+vertical negative filament that almost certainly represents a local minimum
+that should be positive.  This negative filament has values $\gtrsim-0.08$ K.
+Given the excellent agreement between the three independently observed regions
+in the areas that they overlap, it is clear that the continuum is reliable
+above $\gtrsim0.5$ K, which is the entire regime in which it is a significant
+contributor to the total background emission (at lower levels, the CMB is
+dominant).
 
 \subsection{GBT 2 cm}
 The GBT data were
@@ -241,80 +321,6 @@ are good assumptions, but they leave in systematic offsets of up to
 $\lesssim-0.15$ K in the maps, most likely because there is a $\sim0.15$ K
 variation in the diffuse background  emission.
 
-\subsection{Arecibo 6 cm}
-The Arecibo data were taken as part of project A2705 over the course of 4
-nights, September 10, 11, 12, and 15 2012.  On the first night, September 10
-2012, a significant fraction of the data was lost due to an internal instrument
-error within the Mock spectrometer, which resulted in a loss of the
-high spectral resolution component of the \formaldehyde data for that night.  As a
-result, we have focused our study on the lower-resolution ($\sim1$ \kms) data.
-
-The fields were observed with east-west maps using the C-band receiver.  No
-crosshatching was performed with Arecibo.
-
-The Arecibo data reduction process for W51
-presented unique challenges: at C-band, the entire region surveyed contains
-continuum emission, so no truly suitable `off' position was found within the
-survey data.  Similarly, \formaldehyde is ubiquitous across the region, so it
-was necessary to `mask out' the absorption lines when building an off position.
-This was done by interpolating across the line-containing region of the
-spectrum with a polynomial fit.  The fits were inspected interactively and
-tuned to avoid over-predicting the background.
-
-The Arecibo data were corrected to main beam brightness temperature $T_{MB}$
-using a main-beam efficiency as a function of zenith angle in degrees ($za$):
-$$\eta_{MB}(za) = 0.491544 + 0.00580397 za - 0.000341992 za^2$$
-This is a fit to 5 years worth of calibration data acquired at Arecibo and
-assembled by Phil Perrilat.
-
-
-The maps were made by computing an output grid in Galactic coordinates with
-15\arcsec pixels and adding each spectrum to the appropriate pixel\footnote{We
-use the term `pixel' to refer to a square data element projected on the sky
-with axes in Galactic coordinates.  The term `voxel' is used to indicate a cubic data
-element, with two axes in galactic coordinates and a third in frequency or
-velocity}.  In order
-to avoid empty pixels and maximize the signal-to-noise, the spectra were added
-to the grid with a weight set from a Gaussian with $FWHM=20\arcsec$, which
-effectively smooths the output images from $FWHM\approx50\arcsec$ to
-$\approx54\arcsec$.  See \citet{Mangum2007a} for more detail on the on-the-fly
-mapping technique used here.
-
-The Arecibo data were taken at a spectral resolution\footnote{For
-most of the map area, data is available at much higher $\lesssim0.2$ \kms
-resolution, but the signal-to-noise at this resolution is relatively poor, no
-linewidths were observed to be that narrow, and most importantly, one Arecibo
-data set suffered from a malfunction that allowed data at 0.68 \kms resolution
-to be taken, but not the corresponding 0.2 \kms data.} of 0.68 \kms.  The
-spectra were regridded onto a velocity grid from $-50$ to 150 \kms with 1 \kms
-resolution.  To achieve this, they were first Gaussian-smoothed to $FWHM=1$
-\kms then downsampled appropriately.
-
-The position-position-velocity (PPV) cubes were created with units of
-brightness temperature.  The Arecibo cubes have contributions from 15-20
-independent spectra in each pixel, though
-this hit rate varies in a systematic striped pattern parallel to the Galactic
-plane.  The small overlap regions between different maps have a significantly
-higher number of samples; these regions constitute a small portion of the map.
-The resulting noise level is RMS $\sim 50-60$ mK except toward the \hii
-regions, where it peaks at about 400 mK.  The continuum is derived by averaging
-line-free channels; its signal-to-noise peaks at $\sim900$.
-
-The Arecibo data have smaller systematic continuum offsets than the GBT data
-(Figure \ref{fig:continuum}, but they are more visually pronounced because
-there is much more diffuse emission at 6 cm.  The continuum zero-point level in
-the Arecibo data was set to be the 10th percentile value of each scan, which is
-effectively the minimum value across each scan but with added robustness
-against noise-generated false minima.  In the eastmost and westmost blocks,
-this strategy was very effective, as there are clearly areas in each scan that
-see no continuum.  However, in the central block, this approach resulted in a
-vertical negative filament that almost certainly represents a local minimum
-that should be positive.  This negative filament has values $\gtrsim-0.08$ K.
-Given the excellent agreement between the three independently observed regions
-in the areas that they overlap, it is clear that the continuum is reliable
-above $\gtrsim0.5$ K, which is the entire regime in which it is a significant
-contributor to the total background emission (at lower levels, the CMB is
-dominant).
 
 
 \FigureTwoAA{figures/continuum_11.pdf}
@@ -333,12 +339,12 @@ We added a fixed background of 2.73 K to the reduced images to account for the
 CMB, which is absent from the images due to the background-subtraction
 process.  We define an ``observer's optical depth''
 \begin{equation}
-    \tau_{obs} = -\ln\left[\frac{T_{mb}}{T_{bg}}\right]
+    \tau_{obs} = -\ln\left[\frac{T_{MB}}{T_{bg}}\right]
 \end{equation}
 as opposed to the `true' optical depth, which is modeled in radiative transfer
 calculations
 \begin{equation}
-    \tau = -\ln\left[\frac{T_{mb}-T_{ex}}{T_{bg}-T_{ex}}\right]
+    \tau = -\ln\left[\frac{T_{MB}-T_{ex}}{T_{bg}-T_{ex}}\right]
 \end{equation}
 The approximation $\tau_{obs} = \tau$ is valid for $T_{ex} << T_{bg}$, which is
 true when an \hii region is the backlight but generally not when the CMB is.
@@ -361,7 +367,9 @@ trace denser gas and therefore be detected along fewer lines of sight.  The
 $>3\sigma$ in 12254 pixels (69\%).  The high detection rate validates
 \formaldehyde as an efficient dense-gas tracer.
 
-There were no detections of \formaldehyde \oneone or \twotwo emission.
+There were no detections of \formaldehyde \oneone or \twotwo emission.  The
+significance of the nondetection of emission is discussed in Section
+\ref{sec:exgal}.
 
 % \subsection{Ratio Cubes}
 % In order to compare the \formaldehyde spectra, we first
@@ -546,7 +554,7 @@ There were no detections of \formaldehyde \oneone or \twotwo emission.
 H$_2$ $^{13}$CO was not detected anywhere in the W51 complex in either the
 \oneone or \twotwo lines.  The peak signal-to-noise in the \formaldehyde \oneone cube was
 180 at 1 \kms resolution (corresponding to an optical depth $\tau_{obs}\sim1/5$ at
-the peak continuum detection point), so we report a $3-\sigma$ upper limit on the
+the peak continuum detection point), so we report a $3\sigma$ upper limit on the
 \formaldehyde/H$_2$ $^{13}$CO ratio $R>60$, which is consistent with solar
 values of the $^{12}C$/$^{13}C$
 ratio.
@@ -704,6 +712,9 @@ temperature, or ortho-to-para ratio when fitting.  The best-fit value of each
 of these parameters is taken to be the mean of those parameters over the range
 $\Delta \chi^2 = \chi^2 - \chi^2_{min} < 1$, where $\chi^2_{min}$ is the
 minimum $\chi^2$ value.
+%\todo{weighted by their
+%relative likelihood $\mathcal{L}_{rel} = e^{\chi^2/2}$ over the full parameter
+%space.}
 
 The gas temperatures returned from the fitting process are, as expected, purely
 noise: the \formaldehyde \oneone/\twotwo ratio provides virtually no constraint
@@ -735,15 +746,18 @@ density $\sim10^4$ \percc out to a diameter $d\sim14$ pc.
 
 % parplots_chi2gridfit.py
 \Figure
-{figures/H2CO_ParameterFitPlot_weighted_mean_meanfit_density_mean_linear.pdf}
+%{figures/H2CO_ParameterFitPlot_weighted_mean_meanfit_density_mean_linear.pdf}
+{figures/H2CO_ParameterFitPlot_weighted_mean_likewtdfit_density_log.pdf}
 {Map of the column-weighted volume density along the line of sight averaged
 over all velocities.  }
 {fig:wtdmeandens}{0.5}{0}
 
 % parplots_chi2gridfit.py
 \FigureTwoAA
-{figures/H2CO_ParameterFitPlot_weighted_mean_meanfit_density_v40.0to62.0_mean_linear.pdf}
-{figures/H2CO_ParameterFitPlot_weighted_mean_meanfit_density_v62.0to75.0_mean_linear.pdf}
+{figures/H2CO_ParameterFitPlot_weighted_mean_likewtdfit_density_v40.0to62.0_log.pdf}
+{figures/H2CO_ParameterFitPlot_weighted_mean_likewtdfit_density_v62.0to75.0_log.pdf}
+%{figures/H2CO_ParameterFitPlot_weighted_mean_meanfit_density_v40.0to62.0_mean_linear.pdf}
+%{figures/H2CO_ParameterFitPlot_weighted_mean_meanfit_density_v62.0to75.0_mean_linear.pdf}
 {Map of the column-weighted volume density along the line of sight, split into 
 (a) the 40-62 \kms component and (b) the 62 to 75 \kms component.}
 {fig:wtdmeandensvrange}{1}{6.5in}
@@ -777,7 +791,7 @@ the CMB (green) as the background.  The top plot shows the \oneone line and the
 bottom shows the \twotwo line both with the continuum level set to zero in the
 plot.  The residuals are shown
 offset above the spectra, with the dashed line indicating the zero-residual
-level.  The grey shaded regions show the 1-$\sigma$ error bars on each pixel.
+level.  The grey shaded regions show the 1$\sigma$ error bars on each pixel.
 The model with the CMB as the only
 background is able to reproduce the absorption line, while the model with the
 \hii region in the background cannot account for the depth of the \twotwo line.
@@ -791,6 +805,8 @@ only over the pixels where the model is greater than the local RMS.}
 {figures/cyan_wide_PV_h2co11_22_13co.pdf}
 {(left) A column density map fitted from the Herschel Hi-Gal data with two
 filament extraction regions superposed in cyan and purple.
+The purple extracted position-velocity diagram is shown in Figure
+\ref{fig:northsouthpv}.
 (right) A position-velocity slice of the 68 \kms cloud, shown in cyan in the
 left figure, which includes an 8\um-dark cloud and the interaction region
 with the W51C supernova remnant.
@@ -973,11 +989,11 @@ our Galaxy.}
 Because the \formaldehyde densitometer yields a mass-weighted measurement of
 the gas volume density, it is difficult to connect directly to the total gas
 mass, which is the quantity of interest when determining bulk properties like
-star forming efficiency.  However, because the \formaldehyde and CO trace the
-same gas, the \formaldehyde-derived density can be applied to the total mass
-measured by CO.  We assume that each \thirteenco PPV `voxel' has a mass
-proportional to its integrated intensity and a density given by the $n(\hh)$
-delivered from the \formaldehyde densitometer.
+star forming efficiency.  However, because the \formaldehyde and CO chemically
+trace the same gas, the \formaldehyde-derived density can be applied to the
+total mass measured by CO.  We assume that each \thirteenco PPV `voxel' has a
+mass proportional to its integrated intensity and a density given by the
+$n(\hh)$ delivered from the \formaldehyde densitometer.
 
 The `dense gas mass fraction' (DGMF) is an oft-quoted measurement used to argue
 about the speed of the star formation process, the existence of density
@@ -1011,12 +1027,17 @@ $n(\hh)$ \percc.  The $y$-axis shows the sum of \thirteenco pixels from the GRS
 cube with
 \formaldehyde-derived density above the value shown on the $x$-axis divided by
 the total.  Both values are computed over the velocity range $40 \kms < v_{LSR}
-< 75 \kms$.  The blue shaded region shows the extent of plausible model fits at
-each density: effectively, this is the $\sim1-\sigma$ error region.  The
+< 75 \kms$.  The solid line represents the fraction of \thirteenco emitting
+voxels above the mean measured \formaldehyde density as described in Section
+\ref{sec:densmaps}.
+The blue shaded region shows the extent of plausible model fits at
+each density: effectively, this is the $\sim1\sigma$ error region.  The
 vertical line at $n=10^4$ \percc indicates the approximate completeness limit.
-The horizontal line shows the fraction of \thirteenco flux detected at
-$>2\sigma$ in both the \oneone and \twotwo lines: it represents the upper limit
-of what could have been detected if, e.g., all \formaldehyde detections were
+The horizontal line shows the fraction of \thirteenco flux in pixels that had
+corresponding detections at
+$>2\sigma$ in both the \formaldehyde \oneone and \twotwo lines: it represents
+the upper limit of what could have been detected if, e.g., all \formaldehyde
+detections were
 toward regions with $n>10^4$ \percc.  The failure to converge to a fraction
 $f\rightarrow f_{max}$ indicates that there are some real detections of
 low-density gas.}
@@ -1050,7 +1071,7 @@ However, to understand the systematic effects of line-of-sight stacking of
 different velocity components (and corresponding radiative transfer issues),
 similar analysis should be performed on hydrodynamic simulations.
 
-\subsubsection{Dense Gas Fraction assumptions \& caveats}
+\subsubsection{Dense Gas Fraction assumptions and caveats}
 
 The DGMF analysis relies on the \thirteenco being optically thin and thermally
 excited, both of which are generally good assumptions for the majority of the
@@ -1062,7 +1083,7 @@ In Section \ref{sec:densmaps}, we discussed the various caveats and issues
 related to \formaldehyde density fitting.  To account for the full range of
 errors in that analysis, we have plotted the DGMF calculated using the minimum
 and maximum values of the \formaldehyde-derived density consistent with the
-data at the $1-\sigma$ level in Figure \ref{fig:dgmf} and
+data at the $1\sigma$ level in Figure \ref{fig:dgmf} and
 \ref{fig:dgmf_regions}.
 
 We have assigned \emph{all} of the mass associated with a given PPV voxel with
@@ -1155,12 +1176,14 @@ compared this map to the distribution of Class I and flat-spectrum Spitzer YSO
 candidates from \citet{Kang2009a} in Figure \ref{fig:sfmassmap}.  While there
 are some regions of decent agreement between the YSO density and the
 star-forming gas mass, e.g.  in the W51 B cloud and some of the more diffuse
-filaments, the richest pockets of star-forming gas contain few or no YSOs.
+filaments, the densest pockets of star-forming gas contain few or no YSOs.
 Spitzer mid-infrared sources are either too confused or obscured to be detected
-in these richest regions.  In order to evaluate star formation efficiency as a
+in these regions.  The Herschel images are also too crowded to identify a full
+sample of individual YSOs.  In order to evaluate star formation efficiency as a
 function of dense gas fraction, a more complete assessment of the present-day
 star formation in the W51 clouds is needed.
 
+% co_intmaps.py
 \Figure{figures/StarFormingMassMap_Kang2009ClassIYSOs}
 {A `star-forming gas mass' map, created by multiplying the dense gas fraction
 by the integrated \thirteenco mass surface density.  The red $\times$'s are
@@ -1193,6 +1216,7 @@ massive star formation thresholds
 to form $\sim10^4-10^6$ \msun of additional stars.
 
 \subsection{Implications for extragalactic observations of \formaldehyde}
+\label{sec:exgal}
 Although W51 is one of the most massive and active GMCs in the galaxy,
 containing 7\% of the present-day massive star formation galaxy-wide
 \citep{Urquhart2014a}, its star-forming gas mass is predominantly at a moderate
@@ -1237,16 +1261,6 @@ thin \hii regions in the Galaxy where ionized gas pressure dominates.
 We have presented maps of the \formaldehyde \oneone and \twotwo and H77$\alpha$
 and H110$\alpha$ lines covering the W51 star forming complex and used these maps
 to examine the geometry and density structure of the complex.  
-The data are made available in FITS cubes and images hosted at the CfA
-dataverse \url{doi:10.7910/DVN/26818},
-\url{http://thedata.harvard.edu/dvn/dv/W51_H2CO}.
-The entire reduction and analysis process and all associated code and scripts
-are made available via a git
-repository hosted on github:
-\url{https://github.com/keflavich/w51_singledish_h2co_maps}, \todo{with a
-snapshot of the publication version available as a tarball from figshare
-\url{TBD}}.
-
 
 %The broad-brush picture is of a massive proto-cluster region with high density
 %(W51 Main, $n(\hh) > 10^5$ \percc) surrounded by a dense cloud ($n(\hh)>10^4$
@@ -1271,13 +1285,16 @@ future.
 The \formaldehyde lines and their ratios have also been used to constrain the
 geometry of the W51 GMC and the associated \hii regions.  The Galactic-face-on
 view of W51 is presented in more detail than has previously been possible.
+Analysis of our \formaldehyde data lead to the following conclusions about the
+structure of the GMC:
 \begin{itemize}
-    \item The high velocity 68 \kms cloud cloud is in front of the 51 \kms cloud
+    \item The high velocity 68 \kms cloud is in front of the 51 \kms cloud
         and the rest of the W51 GMC complex.
     \item The most luminous clusters and associated HII regions are in between
         the 51 \kms and 68 \kms clouds.
-    \item The W51 C supernova remnant is in front of some, but not all, of the 
-        W51 B molecular cloud gas: it is therefore within the W51 B cloud.
+    \item There is molecular absorption associated with W51 B both in front of
+        and behind the W51 C supernova remnant; W51 C is therefore within the
+        W51 B cloud.
 \end{itemize}
 It is possible that the foreground 68 \kms cloud is falling into the spiral
 potential from the near side, interacting with the 51 \kms cloud exiting the
@@ -1290,6 +1307,16 @@ surround bright \hii regions.  These galaxies may therefore have interstellar
 media dominated by very high-density gas ($n(\hh)>10^{5.5}$ \percc) that is not
 presently forming stars.
 
+
+The data are made available in FITS cubes and images hosted at the CfA
+dataverse \url{doi:10.7910/DVN/26818},
+\url{http://thedata.harvard.edu/dvn/dv/W51_H2CO}.
+The entire reduction and analysis process and all associated code and scripts
+are made available via a git
+repository hosted on github:
+\url{https://github.com/keflavich/w51_singledish_h2co_maps}, with a
+snapshot of the publication version available from zenodo
+\url{http://dx.doi.org/10.5281/zenodo.11737}.
 
 
  
@@ -1322,14 +1349,17 @@ presently forming stars.
 We thank Xiaohui Sun for providing the Urumqi 6 cm Stokes I image prior to its
 availability on the survey website.  We thank Jonathan Tan for productive
 discussions of cloud-cloud collisions.
+ER is supported by a Discovery Grant from NSERC of Canada.
+This research has made use of the VizieR catalogue access tool, CDS,
+Strasbourg, France. The original description of the VizieR service was
+published in \citep{Ochsenbein2000a}.
 
-\textbf{Code Packages Used}:
-
+\textbf{Code Bibliography:} 
 \begin{itemize}
     \item The GBT KFPA Pipeline \url{https://safe.nrao.edu/wiki/bin/view/Kbandfpa/ObserverGuide}
     \item aoIDL \url{http://www.naic.edu/~phil/download/aoIdl.tar.gz}
-    \item astropy \url{www.astropy.org}
-    \item astroquery \url{astroquery.readthedocs.org}
+    \item astropy \url{www.astropy.org} \citep{Astropy-Collaboration2013a}
+    \item astroquery \url{astroquery.readthedocs.org} (http://dx.doi.org/10.5281/zenodo.11656)
     \item sdpy \url{https://github.com/keflavich/sdpy}
     \item \texttt{FITS\_tools} \url{https://github.com/keflavich/FITS_tools}
     \item aplpy \url{http://aplpy.github.io}
@@ -1635,7 +1665,7 @@ region free-free emission, i.e. the 335 and 71 MHz \para lines.
 {The spectrum extracted from G49.119-0.277 in a 55\arcsec radius aperture,
 showing a model in which the continuum is \emph{behind} the 63 \kms component
 but in front of the 68 \kms component.  The legend gives the fit parameters
-along with $1-\sigma$ error bars.  The parameters with no errors indicated
+along with $1\sigma$ error bars.  The parameters with no errors indicated
 (OPR, $T$, $T_{BG}$) are assumed or independently measured values.}
 {fig:contbetween63kms}{0.5}{0}
 

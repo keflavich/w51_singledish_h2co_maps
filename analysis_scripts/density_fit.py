@@ -12,7 +12,7 @@ from pyspeckit import parallel_map
 
 from h2co_modeling.grid_fitter import grid_2p_getmatch
 
-from load_pyspeckit_cubes import (both, T, F, cont11, cont22, h2co11filename,
+from load_pyspeckit_cubes import (both, T, F, cont11, cont22, 
                                   cube1, cube2, texgrid1,  taugrid1,  texgrid2,
                                   taugrid2,  hdr, fit_a_pixel)
 from common_constants import TCMB
@@ -61,14 +61,20 @@ cubenames = ['bestdens','bestcol','besttemp','bestopr','bestchi2',
              'mindens','mincol','mintemp','minopr','minchi2',
              'maxdens','maxcol','maxtemp','maxopr','maxchi2',
              'meandens','meancol','meantemp','meanopr','meanchi2',
-             'stddens','stdcol','stdtemp','stdopr','stdchi2']
+             'stddens','stdcol','stdtemp','stdopr','stdchi2',
+             'likewtddens','likewtdcol','likewtdtemp','likewtdopr',
+             'likestddens','likestdcol','likestdtemp','likestdopr',
+            ]
 cubetargets = [ (0,0), (0,1), (0,2), (0,3), (0,4), 
                 (1,0), (1,1), (1,2), (1,3), (1,4),
                 (2,0), (2,1), (2,2), (2,3), (2,4),
                 (3,0), (3,1), (3,2), (3,3), (3,4),
-                (4,0), (4,1), (4,2), (4,3), (4,4),]
+                (4,0), (4,1), (4,2), (4,3), (4,4),
+                (6,0), (6,1), (6,2), (6,3), 
+                (7,0), (7,1), (7,2), (7,3), 
+              ]
 
-cubes = {c: np.empty(h2co11.shape)+np.nan for c in cubenames}
+cubes = {c: np.empty(cube1.cube.shape)+np.nan for c in cubenames}
 
 header = wcs.WCS(cube1.header).to_header()
 flatheader = wcs.WCS(cube1.header).sub([wcs.WCSSUB_CELESTIAL]).to_header()
