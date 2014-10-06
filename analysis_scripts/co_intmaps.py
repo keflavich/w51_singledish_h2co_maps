@@ -10,6 +10,7 @@ from astropy import constants
 from astropy import coordinates
 from astropy.table import Table,Column
 from astropy.io import fits
+from astropy import wcs
 from astropy import log
 import copy
 import os
@@ -271,10 +272,18 @@ if __name__ == "__main__":
     nu = h2co22freq
     sfrperergshz = (4.6e-28 *u.Msun/u.yr * (te/(1e4*u.K))**-0.45 *
                     (nu.to(u.GHz).value)**0.1) / u.erg / u.s**-1 / u.Hz**-1
-    pixel_area = (hdr2cm['CDELT2']*u.deg*distance).to(u.cm, u.dimensionless_angles())**2
+    gb_pixelsize_deg = (hdr2cm['CDELT2']*u.deg)
+    pixel_area = (gb_pixelsize_deg*distance).to(u.cm, u.dimensionless_angles())**2
+    gb_ppbeam = (gbbeamarea / gb_pixelsize_deg**2)
+    # I don't think this is right.  I'm not sure where I'm going wrong but I think
+    # the luminosity is just not right...
+    # (this is not included in the paper because I'm worried about a factor of
+    # at least 4 pi being left out...)
     sfr2cm = ((cont2cm*u.K).to(u.Jy, u.brightness_temperature(gbbeamarea,
                                                               h2co22freq)) *
-              distance**2 * 
+              #gb_ppbeam / gb_pixelsize_deg**2 * u.sr *
+              #(4*np.pi*distance**2) *
+              distance**2 *  # there is a 4 pi missing here... but it may come from elsewhere
               sfrperergshz).to(u.M_sun/u.yr)
     sfr2cmd = (sfr2cm / pixel_area).to(u.M_sun/u.yr/u.kpc**2)
     ok2cm = cont2cm > 0.1
@@ -299,7 +308,7 @@ if __name__ == "__main__":
     gray.set_bad('white')
     gray.set_under('white')
     FMM = FITSFigure(sfmasshdu, figure=fig7, cmap=gray, stretch='log', vmax=99.95)
-    FMM.colorbar._colorbar.set_label("Star-Forming Gas Surface Density\n[$M_{\odot}$ pc$^{-2}$",
+    FMM.colorbar._colorbar.set_label("Star-Forming Gas Surface Density\n[$M_{\odot}$ pc$^{-2}$]",
                                      rotation=270, labelpad=50)
     FMM.show_markers(cl1coords.l, cl1coords.b, marker='x', edgecolor='r', zorder=1100)
     FMM.save(paths.fpath('StarFormingMassMap_Kang2009ClassIYSOs.pdf'))
@@ -310,8 +319,41 @@ if __name__ == "__main__":
     ax8.loglog(totalmassmap[~badsfmass & ok2cm], sfr2cmd[~badsfmass & ok2cm], 'r.', alpha=0.1)
     ax8.loglog(sfmassmap[~badsfmass & ok2cm], sfr2cmd[~badsfmass & ok2cm], 'k.', alpha=0.1)
     ax8.loglog([1,1e4],np.array([1,1e4])*1.2e-8*1e6,'b--', alpha=0.5)
-    ax8.loglog([700,2900],[2,900],'g:', alpha=0.7)
+    ax8.loglog([700,2900],[2,900],'g:', alpha=0.7) # by-eye fit to some of the data
     ax8.set_xlabel("Star Forming Gas Surface Density ($M_{\\odot}$ pc$^{-2}$)")
     ax8.set_ylabel("2 cm continuum SFR ($M_{\\odot}$ yr$^{-1}$ kpc$^{-2}$)")
     ax8.set_ylim(0.5,1e3)
     fig8.savefig(paths.fpath('ksrelation_2cm_densegas.pdf'))
+
+    fig9 = pl.figure(9)
+    fig9.clf()
+    gray = copy.copy(pl.cm.gray_r)
+    gray.set_bad('white')
+    gray.set_under('white')
+    msxhdu = fits.open(paths.dpath2('MSX_MIPS_merged.fits'))[0]
+    msxwcs = wcs.WCS(msxhdu.header)
+    logC24 = 42.69 # Kennicutt & Evans 2012 reporting Rieke et al 2009
+    msxpixsize_deg = (wcs.utils.celestial_pixel_scale(msxwcs)**2)
+    msxfreq = (24*u.um).to(u.THz, u.spectral())
+    L_msx = ((msxhdu.data*u.MJy/u.sr) * msxpixsize_deg * (4*np.pi*distance**2)
+             * msxfreq).to(u.erg/u.s)
+    sfrmsx = np.log10(L_msx.to(u.erg/u.s).value) - logC24 # Kennicutt & Evans 2012
+    sfrsdmsx = sfrmsx - np.log10(msxpixsize.to(u.kpc**2).value)
+    msxhdu.data = sfrsdmsx
+    FMM = FITSFigure(msxhdu, figure=fig9, cmap=gray)
+    FMM.show_colorscale(cmap=gray, vmin=-1.0, vmax=2.5, stretch='linear')
+    FMM.show_contour(sfmasshdu, levels=[100,300,500,1000,2000], zorder=1000, smooth=1)
+    FMM.colorbar._colorbar.set_label("SFR Surface Density\n[log $M_{\odot}$ kpc$^{-2}$]",
+                                     rotation=270, labelpad=50)
+    #FMM.show_markers(cl1coords.l, cl1coords.b, marker='x', edgecolor='r', zorder=1100)
+    FMM.save(paths.fpath('SFRmap24um_SFMassDensityContours.pdf'))
+
+    fig10 = pl.figure(10)
+    fig10.clf()
+    sfr2hdu = fits.PrimaryHDU(data=np.log10(sfr2cmd.value), header=hdr2cm)
+    FMM = FITSFigure(sfr2hdu, figure=fig10, cmap=gray)
+    FMM.show_contour(sfmasshdu, levels=[100,300,500,1000,2000], zorder=1000, smooth=1)
+    FMM.show_colorscale(cmap=gray, vmin=-1.0, vmax=2.5, stretch='linear')
+    FMM.colorbar._colorbar.set_label("SFR Surface Density\n[log $M_{\odot}$ kpc$^{-2}$]",
+                                     rotation=270, labelpad=50)
+    FMM.save(paths.fpath('SFRmap2cm_SFMassDensityContours.pdf'))

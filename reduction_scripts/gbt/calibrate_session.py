@@ -1,19 +1,3 @@
-"""
-Note to self: Write more notes to self about creation dates.
-As of January 15, 2014, I think THIS is the right calibration code to use, not
-the other stuff I had been using... implication is that I haven't recalibrated
-since MAYBE making some important changes?  But probably not?
-
-Creation dates:
-    H2CO:
-    -rw-r--r--  1 adam  staff    54M Mar 25  2013 Session14_167to198_C25_F2.fits
-    H77a:
-    -rw-r--r--  1 adam  staff    54M Jun 13  2011 Session16_74to105_D33_F2.fits
-
-So it's pretty clear these need to be rerun for the H77a data, though the only major
-change seems to be related to tsys flagging
-http://code.google.com/p/casaradio/source/diff?path=/branches/python/ginsburg/makecube.py&format=side&r=80#cc_svn80_415
-"""
 try:
     import astropy.io.fits as pyfits
 except ImportError:

@@ -34,8 +34,8 @@ ac_wcs = wcs.WCS(ac_hdr)
 dc_hdr = FITS_tools.strip_headers.flatten_header(fits.getheader(dcfn))
 
 r_big = 9.5 * u.arcmin
-r_dc = 6.6*u.arcmin
-#r_dc = 3.3*u.arcmin # DEBUG: try to make the 300ft data less smooth...
+r_dc = 8.0*u.arcmin # stated in the paper and on the website
+#r_dc = 3.3*u.arcmin # DEBUG: try to make the GBES data less smooth...
 r_gb = 50*u.arcsec
 r_sm = ((r_big**2-r_gb**2)**0.5).to(u.deg)
 r_sm_dc = ((r_big**2-r_dc**2)**0.5).to(u.deg)
@@ -109,7 +109,7 @@ sp2b = sp2.bbox._bbox._points[0].tolist() + (sp2.bbox._bbox._points[1]-sp2.bbox.
 pl.clf()
 F1 = aplpy.FITSFigure(dc_hdu, convention='calabretta', subplot=sp1b, figure=fig)
 F1.set_auto_refresh(False)
-F1._ax1.set_title("NRAO 300ft")
+F1._ax1.set_title("NRAO GBES")
 F2 = aplpy.FITSFigure(ac_hdu, convention='calabretta', subplot=sp2b, figure=fig)
 F2.set_auto_refresh(False)
 F2._ax1.set_title("Green Bank")
@@ -138,7 +138,7 @@ pl.plot(np.linspace(0,1.5),np.linspace(0,1.5)*0.6,'k-.',linewidth=2,alpha=0.5,la
 pl.plot(cropped_dc[cropped_rsok],cropped_ac[cropped_rsok],'.',color='r')
 #pl.plot(cropped_dc[cropped_rsok*gpa_gt.astype('bool')],cropped_ac[cropped_rsok*gpa_gt.astype('bool')],'.',color='g',alpha=0.5)
 #mpl_plot_templates.adaptive_param_plot(cropped_dc[ok],cropped_ac[ok],bins=30,threshold=10,fill=True)
-pl.xlabel(r'$T_{MB}(K)$ NRAO 300ft', labelpad=25)
+pl.xlabel(r'$T_{MB}(K)$ NRAO GBES', labelpad=25)
 pl.ylabel(r'$T_{MB}(K)$ Green Bank')
 pl.axis([0,1.5,0,1.5])
 pl.legend(loc='upper left',fontsize=18)

@@ -1,3 +1,13 @@
+"""
+Compare the Arecibo and Urumqi data
+
+AC = "alternating current"
+DC = "direct current"
+
+referring to the angular scales recovered; in principle the Urumqi data are
+sensitive to all angular scales (or at least much larger scales than the
+Arecibo data)
+"""
 import pylab as pl
 import numpy as np
 import FITS_tools
@@ -8,6 +18,7 @@ from astropy import convolution
 import mpl_plot_templates
 import aplpy
 import paths
+import image_registration
 
 pl.matplotlib.rc_file(paths.rcfilepath)
 pl.rcParams['font.size'] = 18
@@ -20,7 +31,8 @@ ac = fits.getdata(oneonefn)
 # This used to be ext=0, and now it's not, and I DON'T KNOW WHY
 # (ext=1 yields an ERROR now?!)
 # Re-downloading fresh fixes it - I think using WCSUTILS corrupts the file
-dc = fits.getdata(dcfn,ext=1) / 1e3 # mK -> K
+# The main beam efficiency of the Urumqi data is 67%. (Section 4.2 of Sun 2007)
+dc = fits.getdata(dcfn,ext=1) / 1e3 /0.67# mK -> K
 ac_hdr = fits.getheader(oneonefn)
 ac_wcs = wcs.WCS(ac_hdr)
 dc_hdr = FITS_tools.strip_headers.flatten_header(fits.getheader(dcfn,ext=1))
@@ -60,8 +72,20 @@ crop_hdr = dc_hdr.copy()
 crop_hdr['CRPIX1'] -= croprange_x[0]
 crop_hdr['CRPIX2'] -= croprange_y[0]
 
+
 ac_hdu = fits.PrimaryHDU(cropped_ac, crop_hdr)
 dc_hdu = fits.PrimaryHDU(cropped_dc, crop_hdr)
+
+# Check for an offset
+result = image_registration.FITS_tools.register_fits(ac_hdu, dc_hdu,
+                                                     return_cropped_images=True,
+                                                     return_shifted_image=True,
+                                                     #verbose=True,
+                                                     upsample_factor=100)
+# dc_p = dc projected, not shifted
+sm_ac,dc_p,dc = result[-3:]
+# There is a small offset, but it doesn't account for the difference.
+
 
 pl.close(1)
 fig = pl.figure(1, figsize=(12,9))
@@ -93,10 +117,10 @@ F2.colorbar._colorbar.set_label("$T_{MB}$ (K)",rotation=270, labelpad=20)
 pl.subplot(2,1,2)
 ok = np.isfinite(cropped_ac) # dc is all "ok"
 pl.plot(np.linspace(0,25),np.linspace(0,25),'k--',linewidth=2,alpha=0.5, label=r'$y=x$')
-pl.plot(np.linspace(0,25),np.linspace(0,25)*1.2,'k:' ,
-        linewidth=2,alpha=0.5,label=r'$y=1.2 x$')
-pl.plot(np.linspace(0,25),np.linspace(0,25)*1.4,'k-.' ,
-        linewidth=2,alpha=0.5,label=r'$y=1.4 x$')
+#pl.plot(np.linspace(0,25),np.linspace(0,25)*1.2,'k:' ,
+#        linewidth=2,alpha=0.5,label=r'$y=1.2 x$')
+#pl.plot(np.linspace(0,25),np.linspace(0,25)*1.4,'k-.' ,
+#        linewidth=2,alpha=0.5,label=r'$y=1.4 x$')
 #pl.plot(cropped_dc[ok],cropped_ac[ok],',')
 pl.plot(cropped_dc[np.round(cropped_rsok).astype('bool')],cropped_ac[np.round(cropped_rsok).astype('bool')],'.',color='r')
 #mpl_plot_templates.adaptive_param_plot(cropped_dc[ok],cropped_ac[ok],bins=30,threshold=10,fill=True)
@@ -110,7 +134,7 @@ F2.refresh()
 pl.savefig(paths.fpath('comparison_to_urumqi_6cm.pdf'))
 
 # This is just for checking purposes; this figure is not saved
-diffmap = fits.PrimaryHDU(cropped_dc-cropped_ac, crop_hdr)
+diffmap = fits.PrimaryHDU(cropped_dc*1.4-cropped_ac, crop_hdr)
 fig2 = pl.figure(2)
 fig2.clf()
 F3 = aplpy.FITSFigure(diffmap, convention='calabretta', figure=fig2)

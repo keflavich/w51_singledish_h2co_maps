@@ -2,7 +2,7 @@
 
 \begin{document}
 
-\title{The dense gas mass fraction in the W51 cloud and proto-cluster}
+\title{The dense gas mass fraction in the W51 cloud and protoclusters}
 \titlerunning{W51 DMGF}
 \authorrunning{Ginsburg et al}
 % NEED A BETTER TITLE...
@@ -35,9 +35,9 @@ positions of molecular and ionized gas.  We measure gas densities using the
 \formaldehyde densitometer, including continuous measurements of the dense gas
 mass
 fraction (DGMF) over the range $10^4$ $\percc< n(\hh) < 10^6$ \percc - this is
-the first time a multi-density dense gas mass fraction has been measured with a
-single data set.}
-{The DGMF in W51 Main is high, $f\gtrsim70\%$ above $n>10^4$
+the first time a \added{dense gas mass fraction has been measured over a range
+of densities} with a single data set.}
+{The DGMF in W51 A is high, $f\gtrsim70\%$ above $n>10^4$
 \percc, while it is low, $f<20\%$, in W51 B.
 %, suggesting that its star-forming lifetime has come to an
 %end and it is being disrupted by stellar feedback.
@@ -77,7 +77,8 @@ laboratories in which we can study the formation of massive stars
 
 In order to utilize these clusters as laboratories, we need to understand their
 formation in detail.  Clusters are often assumed and measured to be coeval
-\citep[e.g.][]{Kudryavtseva2012a}, but uncertainties remain \citep{Beccari2010a}.
+\added{to within a narrow range \citep[e.g. $10^5$ yr][]{Kudryavtseva2012a}},
+but uncertainties remain \citep{Beccari2010a}.
 In the most massive clusters, there are predictions that multiple generations
 or an extended generation of stars should form prior to gas expulsion because
 the gas will remain gravitationally bound \citep{Bressert2012a}.   Feedback from
@@ -98,22 +99,31 @@ formation on any scale are clearly turbulent.  However, there is no evidence
 whether these initial conditions differ in any qualitative way from turbulence
 in local, low-mass star-forming regions.
 
-Star formation appears to occur only above a set volume density threshold in
-molecular gas, specifically $n(\hh)\gtrsim10^4$ \percc \citep[][who advocate a
-column density threshold corresponding to this density]{Lada2010a}.  The `dense
+Star formation appears to occur \added{efficiently} only above a volume
+density threshold in molecular gas, specifically $n(\hh)\gtrsim10^4$ \percc
+\citep[][who advocate a
+column density threshold corresponding to this density]{Lada2010a}; \added{note however
+that this is a smooth threshold, not  a step function \citep{Padoan2013a}}.  The `dense
 gas mass fraction' has been measured for various definitions of `dense'
 \citep{Battisti2014a,Wu2005a}, but these definitions don't always correspond to
 the associated threshold
-\citep{Kauffmann2010a,Parmentier2011a,Parmentier2011b}.  The existence of a
+\citep{Kauffmann2010a,Parmentier2011a,Parmentier2011b}.  
+\added{Often, the `dense gas' threshold is observationally defined as the threshold
+to see a given molecule, which is sometimes incorrectly assumed to correspond
+to a fixed `critical density' for the molecule.}
+The existence of a \added{universal} 
 density threshold for star formation is contentious
-\citep{Burkert2012a,Clark2013b}, and even if such a threshold exists, it likely
-varies with the turbulent properties of clouds \citep{Longmore2013b}.  Star
+\citep{Burkert2012a,Clark2013b}\added{; the star formation threshold} likely
+varies with the turbulent properties of clouds
+\citep{Longmore2013b,Hennebelle2011a,Hennebelle2013a}.  Star
 formation thresholds can only be evaluated when measurements of density and
 column density are simultaneously available.  
+% Padoan 2013 fig 1: SFR/M_dense vs M_dense; "dense" = A_V>8
 
 \subsection{W51}
-The W51 cloud complex (Figure \ref{fig:w51large}), containing the two W51
-massive proto-cluster candidates from \citet{Ginsburg2012a}, is located at
+The W51 cloud complex (Figure \ref{fig:w51large}), containing the two 
+massive protocluster candidates \added{W51 Main and W51 IRS 2} from
+\citet{Ginsburg2012a}, is located at
 $\ell\sim49, b\sim-0.3$, very near the Galactic midplane\footnote{The midplane
 at $d=5.1$ kpc is offset approximately -0.22 to -0.33 degrees from $b=0$
 depending on our solar system's height above the midplane, $Z_\odot = 20$ pc or
@@ -127,7 +137,9 @@ for the southern component, known to trace a supernova remnant
 
 \Figure{figures/W51_wisecolor_modified_largescale_labeled.pdf}
 {A color composite of the W51 region with major regions, W51 A, B, and C,
-labeled.  The blue, green, and red colors are WISE bands 1, 3, and 4 (3.4, 12,
+labeled.  \added{W51 A contains the protoclusters W51 Main and W51 IRS 2; these
+are blended in the light orange region around 49.5-0.38.}  The
+blue, green, and red colors are WISE bands 1, 3, and 4 (3.4, 12,
 and 22 \um) respectively.  The yellow-orange semitransparent layer is from the
 Bolocam 1.1 mm Galactic Plane Survey data \citep{Aguirre2011a,Ginsburg2013a}.
 Finally, the faint whitish haze filling in most of the image is from a 90 cm
@@ -156,7 +168,7 @@ density\footnote{Higher frequency
 \formaldehyde lines show the same behavior, though the effect is progressively
 weaker; see \citet{Darling2012b} Figure 2.}.
 
-\formaldehyde \oneone has been observed in the W51 main region with the VLA
+\formaldehyde \oneone has been observed in the W51 Main region with the VLA
 \citep{Martin-Pintado1985a} and Westerbork \citep{Arnal1985a}, and this data
 was used to gain some early constraints on the geometry of the region
 \citep[e.g.][]{Carpenter1998a}.  \citet{Henkel1980a} presented observations of
@@ -193,7 +205,10 @@ are included in a corresponding git repository:
 
 \subsection{Arecibo 6 cm}
 The Arecibo data were taken as part of project A2705 over the course of 4
-nights, September 10, 11, 12, and 15 2012.  On the first night, September 10
+nights, September 10, 11, 12, and 15 2012.  \added{The Mock spectrometer
+was used to cover the range 4.6 to 5.4 GHz with a spectral resolution $\sim$ 1
+\kms, including the \ortho 4.82966 GHz line and the H107-H112$\alpha$
+recombination lines.} On the first night, September 10
 2012, a significant fraction of the data was lost due to an internal instrument
 error within the Mock spectrometer, which resulted in a loss of the
 high spectral resolution component of the \formaldehyde data for that night.  As a
@@ -271,9 +286,10 @@ contributor to the total background emission (at lower levels, the CMB is
 dominant).
 
 \subsection{GBT 2 cm}
-The GBT data were
-taken as part of program AGBT10B/019; the raw data are available from the NRAO
-archive (\url{https://archive.nrao.edu/}).  The data presented in this paper
+The GBT data were taken as part of program AGBT10B/019.  \added{We used the GBT
+Spectrometer with 4 windows covering the \ortho 14.488479 GHz line,
+H77$\alpha$, and two others that were not reduced.}
+The data presented in this paper
 include sessions 10, 11, 14, 16, 17, 20, 21, and 22; the other sessions from
 this project include maps of outer galaxy regions and a single-pointing survey
 of Galactic plane sources that will be presented in another paper. 
@@ -696,9 +712,11 @@ from \citet{Ginsburg2011a}.  We measure $\chi^2$ over the full 4D parameter
 space (density, column density, gas temperature,
 and ortho-to-para ratio [OPR])
 \begin{equation}
+    \begin{split}
     \label{eqn:chi2}
-    \chi^2 =  \left( \frac{T_B(\oneone)-T_{model}(\oneone)}{\sigma(T_B,\oneone)}\right)^2 +
+    \chi^2 =  \left( \frac{T_B(\oneone)-T_{model}(\oneone)}{\sigma(T_B,\oneone)}\right)^2 +\\
               \left( \frac{T_B(\twotwo)-T_{model}(\twotwo)}{\sigma(T_B,\twotwo)}\right)^2
+    \end{split}
 \end{equation}
 The modeled brightness temperature $T_{model}$ is different for each spatial
 pixel in order to account for the varying continuum background, although for
@@ -738,7 +756,7 @@ maps.
 
 
 
-The overall picture is of a central proto-cluster region (W51 Main) with most
+The overall picture is of a central protocluster region (W51 Main and IRS2) with most
 of the gas mass at a density $n\sim10^{5.5}$ \percc within a diameter of
 $\sim3$ pc, surrounded by a rich cloud in which most of the mass is at a
 density $\sim10^4$ \percc out to a diameter $d\sim14$ pc.
@@ -803,17 +821,17 @@ only over the pixels where the model is greater than the local RMS.}
 \FigureTwoAA
 {figures/filament_extraction_region_on_HiGal.pdf}
 {figures/cyan_wide_PV_h2co11_22_13co.pdf}
-{(left) A column density map fitted from the Herschel Hi-Gal data with two
+{(top figure) A column density map fitted from the Herschel Hi-Gal data with two
 filament extraction regions superposed in cyan and purple.
 The purple extracted position-velocity diagram is shown in Figure
 \ref{fig:northsouthpv}.
-(right) A position-velocity slice of the 68 \kms cloud, shown in cyan in the
+(bottom figure) A position-velocity slice of the 68 \kms cloud, shown in cyan in the
 left figure, which includes an 8\um-dark cloud and the interaction region
 with the W51C supernova remnant.
-(top) \formaldehyde \oneone observed optical depth
-(middle) \formaldehyde \twotwo observed optical depth
-(bottom) \thirteenco 1-0 emission from the Galactic Ring Survey
-\citep[GRS][]{Jackson2006a} with \formaldehyde \oneone
+(bottom figure, top panel) \formaldehyde \oneone observed optical depth
+(bottom figure, middle panel) \formaldehyde \twotwo observed optical depth
+(bottom figure, bottom panel) \added{\thirteenco 1-0 emission from the Galactic Ring Survey
+\citep[GRS][]{Jackson2006a}} with \formaldehyde \oneone
 contours superposed.  The weakness of the \formaldehyde absorption on the right
 half of the cloud corroborates the geometry inferred from comparison of the \oneone
 and \twotwo lines in Figure \ref{fig:h2cofrontbackmodel}.
@@ -987,14 +1005,21 @@ our Galaxy.}
 % {fig:w51h2cofits}{1}
 
 \subsection{Dense Gas Mass Fractions}
-Because the \formaldehyde densitometer yields a mass-weighted measurement of
+Because the \formaldehyde densitometer yields a
+mass-weighted\footnote{\added{This is a simplification; other factors in the weight
+include the optical depth for an optically thick line, the abundance of \formaldehyde,
+and the geometry if there is a background source.  For most of the W51 cloud, a
+fixed abundance and optically thin lines are not a bad assumption, and we account
+for the geometry in the discussion.}}
+measurement of
 the gas volume density, it is difficult to connect directly to the total gas
 mass, which is the quantity of interest when determining bulk properties like
 star forming efficiency.  However, because the \formaldehyde and CO chemically
 trace the same gas, the \formaldehyde-derived density can be applied to the
-total mass measured by CO.  We assume that each \thirteenco PPV `voxel' has a
-mass proportional to its integrated intensity and a density given by the
-$n(\hh)$ delivered from the \formaldehyde densitometer.
+total mass measured by CO.   \added{We use the the FCRAO Galactic Ring Survey
+of \thirteenco \citep{Jackson2006a} and} assume that each \thirteenco PPV
+`voxel' has a mass proportional to its integrated intensity and a density given
+by the $n(\hh)$ delivered from the \formaldehyde densitometer.
 
 The `dense gas mass fraction' (DGMF) is an oft-quoted measurement used to argue
 about the speed of the star formation process, the existence of density
@@ -1012,7 +1037,7 @@ then divide by the total integrated \thirteenco brightness to get the mass
 fraction. 
 
 Figure \ref{fig:dgmf_regions} shows the same results, but for two individual
-regions: the W51 Main proto-cluster and the W51 B region.  Within about 10 pc
+regions: the W51 Main/IRS2 protoclusters and the W51 B region.  Within about 10 pc
 of W51 Main, around half of the mass is at density $n>10^4$ \percc.  By
 contrast, the rest of the molecular cloud shows a consistent fraction
 $f(n>10^4~\percc) \sim10\%$.
@@ -1078,7 +1103,9 @@ The DGMF analysis relies on the \thirteenco being optically thin and thermally
 excited, both of which are generally good assumptions for the majority of the
 mass.  The molecular cloud probably includes no more than $\sim20\%$ of its mass
 in CO-dark gas \citep{Pineda2013a,Langer2013a,Smith2014b}, which adds little to
-the overall uncertainty.
+the overall uncertainty.  \added{As long as we can assume the
+\thirteenco-traced gas represents the majority of the total cloud gas, the
+$^{13}$C/$^{12}$C ratio has no effect on our measurements.} 
 
 In Section \ref{sec:densmaps}, we discussed the various caveats and issues
 related to \formaldehyde density fitting.  To account for the full range of
@@ -1109,7 +1136,9 @@ The gas in the W51 B region, while clearly impacted by the expanding W51 C
 supernova, is less dense than most of the gas in the W51 A region.  The
 supernova feedback is, if anything, destructive; a `collect-and-collapse'
 scenario does not fit the observed gas structure since there is less dense
-gas in the vicinity of the SNR.
+gas in the vicinity of the SNR.  \added{Given the large radius of the W51 C
+SNR, $\gtrsim100$ pc, collection and the early stages of collapse should
+have happened by now if they are to happen at all.}
 
 The proximity of the 68 \kms filamentary `high velocity stream' and the W51
 Main protocluster and their relative line-of-sight positions have been
@@ -1180,18 +1209,45 @@ star-forming gas mass, e.g.  in the W51 B cloud and some of the more diffuse
 filaments, the densest pockets of star-forming gas contain few or no YSOs.
 Spitzer mid-infrared sources are either too confused or obscured to be detected
 in these regions.  The Herschel images are also too crowded to identify a full
-sample of individual YSOs.  In order to evaluate star formation efficiency as a
+sample of individual YSOs.
+
+\added{We also compare the star-forming gas surface density to a 21+24
+\um-derived star formation rate surface density in Figure \ref{fig:sfmassmap}
+using standard extragalactic SFR calibrations
+\citep{Price2001a,Carey2009a,Rieke2009a,Kennicutt2012a}\footnote{The same
+exercise was performed with the 2 cm radio continuum data yielding broadly
+consistent results.}.  The map was created
+by filling the saturated regions of the 24 \um MIPS map with empirically scaled 
+21 \um values.
+% see analysis_scripts/merge_mips_msx.py
+The star formation rate density is only well-correlated with the dense gas
+surface density in the central portion of W51 A.  At lower gas surface
+densities, the SFR and gas are nearly anticorrelated.  This offset isdue to an
+age difference: the gas is tracing star formation yet to begin up to $\sim1$
+Myr, while the infrared emission traces older \citep[0-100 Myr, with a peak at
+5 Myr;][]{Kennicutt2012a} star formation.}
+
+In order to evaluate star formation efficiency as a
 function of dense gas fraction, a more complete assessment of the present-day
-star formation in the W51 clouds is needed.
+\added{or very recent, $t<5$ Myr,} star formation in the W51 clouds is needed.
 
 % co_intmaps.py
-\Figure{figures/StarFormingMassMap_Kang2009ClassIYSOs}
-{A `star-forming gas mass' map, created by multiplying the dense gas fraction
-by the integrated \thirteenco mass surface density.  The red $\times$'s are
-Class I and flat-spectrum YSOs from \citet{Kang2009a}.  They are absent from
-the highest density regions.
+\FigureTwoAA
+{figures/StarFormingMassMap_Kang2009ClassIYSOs.pdf}
+{figures/SFRmap24um_SFMassDensityContours.pdf}
+{(top) A `star-forming gas mass' map, created by multiplying the dense gas
+fraction by the integrated \thirteenco mass surface density.  The red
+$\times$'s are Class I and flat-spectrum YSOs from \citet{Kang2009a}.  They are
+absent from the highest density regions.
+\added{(bottom) A star formation rate surface density map computed from the MSX
+21 cm and MIPS 24 \um \citep{Price2001a,Carey2009a} data with a star formation
+rate computed using the \citet{Rieke2009a} calibration \citep{Kennicutt2012a}.
+The contours show the star-forming gas surface density at levels of
+[100,300,500,1000,2000] \msun \perspc.  At low star-forming gas surface density,
+the star formation surface density is essentially anticorrelated with the gas
+surface density.  The two converge at the highest surface densities. }
 }
-{fig:sfmassmap}{0.5}{0}
+{fig:sfmassmap}{0.5}{6.5in}
 
 \subsection{The future evolution of W51}
 \label{sec:futureev}
@@ -1213,8 +1269,9 @@ center, or at least $\sim50\%$ out to nearly 5 pc.  It has presumably only
 formed a small fraction
 of its total potential.  It exceeds all of the various star formation and
 massive star formation thresholds
-\citep[e.g.][]{Lada2010a,Krumholz2008a,Kauffmann2010a}, and therefore is expected
-to form $\sim10^4-10^6$ \msun of additional stars.
+\citep[e.g.][]{Lada2010a,Krumholz2008a,Kauffmann2010a}, and therefore is
+expected to form \added{additional stars efficiently, up to $\sim10^4-10^6$
+\msun}.
 
 \subsection{Implications for extragalactic observations of \formaldehyde}
 \label{sec:exgal}
@@ -1223,7 +1280,17 @@ containing 7\% of the present-day massive star formation galaxy-wide
 \citep{Urquhart2014a}, its star-forming gas mass is predominantly at a moderate
 density, $n\sim5\ee{4}$ \percc; there is very little gas above $10^6$ \percc even
 in W51 Main.  There were \emph{no detections} of \formaldehyde emission on the
-$\sim1.25$ pc (50\arcsec) scales observed.
+$\sim1.25$ pc (50\arcsec) scales observed.  
+
+\added{The nondetection is not just a geometric effect,
+as the only gas within W51 that is capable of emitting is tightly associated
+with the deeply embedded \uchii regions within W51 Main.  The dense gas is
+spatially compact and very likely to reside along the line of sight toward the
+continuum sources independent of viewing angle.  This geometry is confirmed by
+existing interferometric observations that also show only absorption
+\citep{Martin-Pintado1985a,Arnal1985a} and observations in other tracers
+showing that the dense gas is associated on $\sim0.1$ pc scales with the
+\uchii regions \citep{Zhang1997a,Zhang1998a}.}
 
 By contrast, in extragalactic observations of starburst galaxies, there have
 been detections of \formaldehyde emission on $\sim100$ pc scales.
@@ -1263,7 +1330,7 @@ We have presented maps of the \formaldehyde \oneone and \twotwo and H77$\alpha$
 and H110$\alpha$ lines covering the W51 star forming complex and used these maps
 to examine the geometry and density structure of the complex.  
 
-%The broad-brush picture is of a massive proto-cluster region with high density
+%The broad-brush picture is of a massive protocluster region with high density
 %(W51 Main, $n(\hh) > 10^5$ \percc) surrounded by a dense cloud ($n(\hh)>10^4$
 %\percc) out to a $\sim10$ pc radius.  The rest of the complex is lower density
 %chaff with relatively little star formation.  Much of this low-density material
@@ -1276,12 +1343,14 @@ to examine the geometry and density structure of the complex.
 %estimate electron temperatures, with a consistent mean $T_e^*\sim7500$ K.
 
 The \formaldehyde \oneone/\twotwo line ratio was used to measure gas volume
-densities and dense gas mass fractions.  The W51 protocluster has the majority
-($>70\%$) of its mass in gas with density $n(\hh)>5\ee{4}$ \percc.  The rest of
+densities and dense gas mass fractions.  The W51 protoclusters have the majority
+($>70\%$) of their mass in gas with density $n(\hh)>5\ee{4}$ \percc.  The rest of
 the cloud has a small dense gas fraction, with $f(n>1\ee{4}~\percc) \sim 10\%$.
 The W51 B cloud therefore appears to be at the end of its star-forming
-lifetime, while W51 Main/A will continue to form stars efficiently in the
-future.
+lifetime, while W51 A will continue to form stars efficiently in the
+future.  \added{The relative weakness of present and future star formation
+in the W51 B/C region suggests that the `collect-and-collapse' mechanism
+is operating inefficiently or not at all.}
 
 The \formaldehyde lines and their ratios have also been used to constrain the
 geometry of the W51 GMC and the associated \hii regions.  The Galactic-face-on
@@ -1348,22 +1417,24 @@ snapshot of the publication version available from zenodo
 
 \textbf{Acknowledgements}:
 We thank Xiaohui Sun for providing the Urumqi 6 cm Stokes I image prior to its
-availability on the survey website.  We thank Jonathan Tan for productive
-discussions of cloud-cloud collisions.
+availability on the survey website.  \added{The paper benefitted from discussions
+with Jonathan Tan and Neal Evans.
+We thank our referee Jeff Mangum for a helpful and rapid referee report.}
 ER is supported by a Discovery Grant from NSERC of Canada.
 This research has made use of the VizieR catalogue access tool, CDS,
 Strasbourg, France. The original description of the VizieR service was
 published in \citep{Ochsenbein2000a}.
-This publication makes use of molecular line data from the Boston
+\added{This publication makes use of molecular line data from the Boston
 University-FCRAO Galactic Ring Survey (GRS). The GRS is a joint project of
 Boston University and Five College Radio Astronomy Observatory, funded by the
 National Science Foundation under grants AST-9800334, AST-0098562, AST-0100793,
-AST-0228993, \& AST-0507657.
+AST-0228993, \& AST-0507657.}
 
 \textbf{Code Bibliography:} 
 \begin{itemize}
     \item The GBT KFPA Pipeline \url{https://safe.nrao.edu/wiki/bin/view/Kbandfpa/ObserverGuide}
     \item aoIDL \url{http://www.naic.edu/~phil/download/aoIdl.tar.gz}
+    \item gbtidl \url{http://gbtidl.nrao.edu/}
     \item astropy \url{www.astropy.org} \citep{Astropy-Collaboration2013a}
     \item astroquery \url{astroquery.readthedocs.org} (http://dx.doi.org/10.5281/zenodo.11656)
     \item sdpy \url{https://github.com/keflavich/sdpy}
@@ -1372,6 +1443,9 @@ AST-0228993, \& AST-0507657.
     \item image-registration \url{http://image-registration.rtfd.org}
     \item wcsaxes \url{wcsaxes.rtfd.org} ($>=$0.3.dev409)
     \item pvextractor \url{pvextractor.rtfd.org}
+    \item agpy \url{https://code.google.com/p/agpy/}
+    \item pyspeckit \url{pyspeckit.bitbucket.org} \citep{Ginsburg2011c}
+    \item ipython \url{http://ipython.org/} \citep{Perez2007a}
 \end{itemize}
 
 %\appendix
@@ -1398,20 +1472,31 @@ AST-0228993, \& AST-0507657.
 
 \clearpage
 \appendix
-\section{Continuum and RRL Data Verification}
+\section{Continuum and RRL Data}
 \label{sec:contrrldata}
+\added{We compare various data sets to assess calibration uncertainties and
+provide details of reduction for archival purposes.  The data presented in this
+section are suitable for comparisons of Galactic to extragalactic star
+formation rate measurements, for example, since they are among the largest
+angular scale maps of radio recombination lines available with sub-parsec
+resolution.}
+
 \subsection{Comparison between GBT and GPA data}
 \label{sec:gpacompare}
 The Galactic Plane ``A'' survey \citep{Langston2000a} covered the Galactic
-plane at 14.35 GHz using the NRAO 300 ft telescope, with a reported FWHM beam
-size of 6.6\arcmin.  We compared our GBT continuum observations to theirs in
-order to determine whether a significant DC component is missing from our data.
+plane at 14.35 GHz using the \added{Green Bank Earth Station (GBES) 13.7m} telescope,
+with a reported FWHM beam size of 6.6\arcmin. % last pp in section 2
+\added{The published images were released with a
+FWHM resolution of 8\arcmin.}  We compared our GBT
+continuum observations to theirs in order to determine whether a significant DC
+component is missing from our data.
 Because the GPA used $10\deg$ long scans in Galactic latitude, it should fully
 recover all diffuse Galactic Plane emission.  In the released brightness temperature
 maps, brightness down to a scale of $1.5\deg$ is recovered.  However, because
-the GPA data undersampled the sky (its 5\arcmin steps between scans were larger
-than the FWHM of the 14.35 GHz beam), point source fluxes in the GPA are
-underestimated by 19\% and flux on small angular scales may be unreliable.
+the GPA data undersampled the sky (its 5\arcmin steps between scans \added{were
+larger than the Nyquist sampling scale} of the 14.35 GHz beam), point source
+fluxes in the GPA are underestimated by 19\% and flux on small angular scales
+may be unreliable.
 
 % this analysis is all done in /Users/adam/work/h2co/maps/W51/ipython_log_2014-01-07.py
 % then in contcompare_dc_2cm.py
@@ -1436,18 +1521,18 @@ moderately brighter, which is likely a result of the sparse sampling in the
 GPA.  The morphological agreement between the maps is imperfect, perhaps in
 part because of the small area mapped in our GBT data, though there also
 appears to be vertical (along a line of constant longitude) stretching of the
-W51 main source in the unsmoothed GPA data that is not consistent with the GBT
+W51 Main source in the unsmoothed GPA data that is not consistent with the GBT
 observations.
 
 \Figure{figures/comparison_to_gpa.pdf}
-{Comparison between the GBT and NRAO 300 ft \citep{Langston2000a} data.
-(top left) NRAO 300 ft 2 cm map
+{Comparison between the GBT and NRAO GBES \citep{Langston2000a} data.
+(top left) NRAO GBES 2 cm map
 (top right) GBT 2 cm map of the same region smoothed to about 8.9\arcmin. 
 The colorbar applies to both figures,
 showing brightness temperature units in K.  The red contours in both figures
 show the region observed by Green Bank; flux outside of those boundaries is
 extrapolated with the smoothing kernel.  The green contours show the region
-where $T_B$(GBT)$>T_B$(300 ft).  (bottom) Plot of the GBT vs the 300 ft surface
+where $T_B$(GBT)$>T_B$(GBES).  (bottom) Plot of the GBT vs the GBES surface
 brightness measurements.
 The large red dots show the region within the red contours.  
 }
@@ -1457,10 +1542,8 @@ The large red dots show the region within the red contours.
 We compare the 6 cm continuum to the Urumqi 25m data from \citet{Sun2007a} and
 \citet{Sun2011a}.  Figure \ref{fig:6cmcompare} shows the comparison of the
 Urumqi data and the Arecibo continuum data smoothed to 9.5\arcmin resolution.
-The Arecibo data appears to be systematically brighter than the Urumqi data
-by about 40\%.  This systematic offset is concerning for spectral index
-measurements, but has relatively little effect on the \formaldehyde analysis,
-especially in regions where the continuum background is bright.
+\added{The Arecibo and Urumqi data agree well as long as the main beam
+efficiencies of the respective telescopes ($0.5$ and $0.67$) are accounted for.}
 
 
 \Figure{figures/comparison_to_urumqi_6cm.pdf}
