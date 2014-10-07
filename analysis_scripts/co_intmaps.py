@@ -15,6 +15,7 @@ from astropy import log
 import copy
 import os
 import warnings
+from allpaths import h2co11subfn, h2co22subfn
 
 grsfilepath = paths.dpath2('grs_48and50_cube.fits')
 grsSSfilepath = paths.dpath2('grs_48and50_cube_supersampledh2cogrid.fits')
@@ -110,8 +111,8 @@ dgmf1e3 = fits.PrimaryHDU(data=(high1e3dens_co_slab3_mom0 /
                           header=high1e3dens_co_slab3_mom0.hdu.header)
 
 # Purely detection-based thresholding
-h2co11 = SpectralCube.read(paths.dpath('W51_H2CO11_cube_supersampled_sub.fits'))
-h2co22 = SpectralCube.read(paths.dpath('W51_H2CO22_pyproc_cube_lores_supersampled_sub.fits'))
+h2co11 = SpectralCube.read(h2co11subfn)
+h2co22 = SpectralCube.read(h2co22subfn)
 
 noisevrange = [-50,0]*u.km/u.s
 h2co11noiseslab = h2co11.spectral_slab(*noisevrange)
