@@ -51,15 +51,15 @@ titles = ('H$_2$CO 1-1',
           '$^{13}$CO 1-0',
           'H$_2$CO n(H$_2$)')
           #'H 112$\\alpha$')
-cubefiles = ('W51_H2CO11_taucube.fits',
-             '13co_final_cube_c.fits',
-             '12co_final_cube_c.fits',
-             'W51_H2CO22_pyproc_taucube_lores.fits',
-             'w51_bieging_13co32.fits', # these are really CO 2-1
-             'w51_bieging_12co32.fits', # these are really CO 2-1
-             'c18o_final_cube_c.fits',
-             'grs_48and50_cube.fits',
-             'W51_h112alpha_modelcube.fits')
+#old cubefiles = ('W51_H2CO11_taucube.fits',
+#old              '13co_final_cube_c.fits',
+#old              '12co_final_cube_c.fits',
+#old              'W51_H2CO22_pyproc_taucube_lores.fits',
+#old              'w51_bieging_13co32.fits', # these are really CO 2-1
+#old              'w51_bieging_12co32.fits', # these are really CO 2-1
+#old              'c18o_final_cube_c.fits',
+#old              'grs_48and50_cube.fits',
+#old              'W51_h112alpha_modelcube.fits')
 cubefiles = ('h2co_singledish/W51_H2CO11_taucube_supersampled.fits',
              '13co_final_cube_c_supersampledh2cogrid.fits',
              '12co_final_cube_c_supersampledh2cogrid.fits',

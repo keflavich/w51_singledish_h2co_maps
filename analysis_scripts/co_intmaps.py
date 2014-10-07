@@ -345,7 +345,7 @@ if __name__ == "__main__":
     FMM = FITSFigure(msxhdu, figure=fig9, cmap=gray)
     FMM.show_colorscale(cmap=gray, vmin=-0.5, vmax=2.5, stretch='linear')
     FMM.show_contour(sfmasshdu, levels=[100,300,500,1000], zorder=1000, smooth=1)
-    FMM.colorbar._colorbar.set_label("SFR Surface Density\n[log $M_{\odot}$ kpc$^{-2}$]",
+    FMM.colorbar._colorbar.set_label("SFR Surface Density\n[log $M_{\odot}$ yr$^{-1}$ kpc$^{-2}$]",
                                      rotation=270, labelpad=50)
     #FMM.show_markers(cl1coords.l, cl1coords.b, marker='x', edgecolor='r', zorder=1100)
     FMM.save(paths.fpath('SFRmap24um_SFMassDensityContours.pdf'))
@@ -356,6 +356,6 @@ if __name__ == "__main__":
     FMM = FITSFigure(sfr2hdu, figure=fig10, cmap=gray)
     FMM.show_contour(sfmasshdu, levels=[100,300,500,1000,2000], zorder=1000, smooth=1)
     FMM.show_colorscale(cmap=gray, vmin=-0.5, vmax=2.5, stretch='linear')
-    FMM.colorbar._colorbar.set_label("SFR Surface Density\n[log $M_{\odot}$ kpc$^{-2}$]",
+    FMM.colorbar._colorbar.set_label("SFR Surface Density\n[log $M_{\odot}$ yr$^{-1}$ kpc$^{-2}$]",
                                      rotation=270, labelpad=50)
     FMM.save(paths.fpath('SFRmap2cm_SFMassDensityContours.pdf'))
