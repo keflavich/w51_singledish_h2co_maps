@@ -14,8 +14,8 @@
    height="600px"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.48.2 r9819"
-   sodipodi:docname="geometry_diagram.png">
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="geometry_diagram.svg">
   <defs
      id="defs4684">
     <linearGradient
@@ -767,13 +767,13 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.2492387"
      inkscape:cx="383.60815"
-     inkscape:cy="259.7709"
+     inkscape:cy="261.44732"
      inkscape:current-layer="layer1"
      inkscape:document-units="px"
      showgrid="false"
      inkscape:window-width="1285"
      inkscape:window-height="1182"
-     inkscape:window-x="2073"
+     inkscape:window-x="1483"
      inkscape:window-y="0"
      inkscape:window-maximized="0" />
   <metadata
@@ -784,7 +784,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -854,8 +854,7 @@
        x="697.71539"
        y="410.06161"
        id="text4767"
-       sodipodi:linespacing="125%"
-       transform="scale(0.98023058,1.0201681)"><tspan
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4769"
          x="697.71539"
@@ -873,15 +872,14 @@
     <text
        xml:space="preserve"
        style="font-size:19.0269413px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="605.36566"
-       y="375.71075"
+       x="558.1369"
+       y="412.53317"
        id="text4767-3"
-       sodipodi:linespacing="125%"
-       transform="scale(0.93340177,1.07135)"><tspan
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4769-3"
-         x="605.36566"
-         y="375.71075">G49.0-0.3</tspan></text>
+         x="558.1369"
+         y="412.53317">G49.0-0.3</tspan></text>
     <path
        style="fill:url(#radialGradient5388);fill-opacity:1;stroke:none"
        d="m 138.61734,53.524217 c 17.15946,-13.610292 33.10288,0.446136 58.30084,0.981169 30.00552,0.63712 71.1294,-28.265336 97.05498,-19.321441 29.2148,10.078606 35.31165,32.468379 63.97406,23.469806 26.85654,-8.431624 65.4654,-13.19328 92.59858,-19.484482 35.55343,-8.243548 65.27214,3.958432 102.09492,3.599545 26.02536,-0.253636 53.43633,-3.255583 71.22599,7.732419 24.07553,14.870561 42.68417,12.743108 64.74126,9.661321 24.49468,-3.42235 55.16844,-11.789176 69.65773,1.781502 14.0792,13.186596 24.66474,32.55964 5.06494,38.418314 -26.00807,7.77421 -38.08979,19.16837 -66.73702,26.38075 -38.03562,9.57602 -25.12066,-9.46499 -67.60419,4.04373 -16.28616,5.17862 -28.23367,-12.2789 -51.90431,-11.12987 -23.73108,1.15198 -18.85251,-9.30561 -59.88129,-19.53603 -40.65102,-10.136238 -37.35733,36.81563 -75.49447,22.50543 -3.60484,-1.35264 -31.91353,7.58829 -42.97466,1.10529 -16.38239,-9.60181 -40.85397,-11.35473 -60.72019,1.48247 -19.8662,12.83719 -36.53717,-18.1762 -59.68284,-18.17673 -21.27402,-5e-4 -32.69874,0.61807 -49.45991,15.63623 -8.79459,7.88003 -48.01421,36.79295 -73.36953,38.43234 -17.99581,1.16354 -23.71001,-44.01513 -36.38482,-48.86448 C 106.4426,107.39215 105.88463,95.871309 105.1961,84.000432 104.5076,72.129539 121.62389,67.002837 138.61734,53.524217 z"
@@ -1040,8 +1038,7 @@
        x="169.3407"
        y="245.58484"
        id="text5916-7-1"
-       sodipodi:linespacing="125%"
-       transform="scale(0.97757113,1.0229435)"><tspan
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan5918-4-6"
          x="169.3407"
@@ -1061,28 +1058,26 @@
     <text
        xml:space="preserve"
        style="font-size:22.77685547px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="513.94659"
-       y="352.16031"
+       x="473.12173"
+       y="390.58371"
        id="text4767-3-3"
-       sodipodi:linespacing="125%"
-       transform="scale(0.8870767,1.1272982)"><tspan
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4769-3-9"
-         x="513.94659"
-         y="352.16031"
+         x="473.12173"
+         y="390.58371"
          style="fill:#d45500">W51 C</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:19.65979576px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="504.23022"
-       y="242.31818"
+       x="433.78732"
+       y="285.54449"
        id="text4767-3-3-5"
-       sodipodi:linespacing="125%"
-       transform="scale(0.83447103,1.1983639)"><tspan
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4769-3-9-3"
-         x="504.23022"
-         y="242.31818">G49.2-0.35</tspan></text>
+         x="433.78732"
+         y="285.54449">G49.2-0.35</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot3208"
@@ -1097,17 +1092,16 @@
            style="line-height:48.00000191%" /></flowRegion><flowPara
          id="flowPara3214" /></flowRoot>    <text
        xml:space="preserve"
-       style="font-size:53.46386719px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="207.57991"
-       y="30.036543"
+       style="font-size:71.59970856px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="150.88329"
+       y="34.234249"
        id="text3216"
-       sodipodi:linespacing="125%"
-       transform="scale(0.95380841,1.0484286)"><tspan
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3218"
-         x="207.57991"
-         y="30.036543"
-         style="font-size:16.03915977px">49.38-0.30</tspan></text>
+         x="150.88329"
+         y="34.234249"
+         style="font-size:21.47991371px">49.38-0.30</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot3220"
@@ -1122,56 +1116,52 @@
            style="font-size:12px" /></flowRegion><flowPara
          id="flowPara3226" /></flowRoot>    <text
        xml:space="preserve"
-       style="font-size:56.72906494px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="327.02307"
-       y="32.339024"
+       style="font-size:76.79846191px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="296.6651"
+       y="35.103363"
        id="text3228"
-       sodipodi:linespacing="125%"
-       transform="scale(0.89890932,1.1124593)"><tspan
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3230"
-         x="327.02307"
-         y="32.339024"
-         style="font-size:17.01872063px">49.37-0.30</tspan></text>
+         x="296.6651"
+         y="35.103363"
+         style="font-size:23.03954124px">49.37-0.30</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:68.74094391px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="215.93498"
-       y="89.883934"
+       x="142.29013"
+       y="93.886375"
        id="text3216-6"
-       sodipodi:linespacing="125%"
-       transform="scale(0.81566493,1.2259936)"><tspan
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3218-5"
-         x="215.93498"
-         y="89.883934"
-         style="font-size:20.62228394px">49.42-0.31</tspan></text>
+         x="142.29013"
+         y="93.886375"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Gill Sans MT;-inkscape-font-specification:Gill Sans MT">49.42-0.31</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:59.5315094px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="367.36862"
-       y="51.002655"
+       style="font-size:82.09307098px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="333.85452"
+       y="79.194366"
        id="text3276"
-       sodipodi:linespacing="125%"
-       transform="scale(0.84845623,1.1786112)"><tspan
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3278"
-         x="367.36862"
-         y="51.002655"
-         style="font-size:17.8594532px">IRAS 19207</tspan></text>
+         x="333.85452"
+         y="79.194366"
+         style="font-size:24.62792206px;fill:#ff9955">IRAS 19207</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:50.35374451px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="378.8587"
-       y="218.76764"
+       x="345.23822"
+       y="237.17885"
        id="text3276-3"
-       sodipodi:linespacing="125%"
-       transform="scale(0.89832305,1.1131853)"><tspan
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3278-5"
-         x="378.8587"
-         y="218.76764"
-         style="font-size:15.10612392px">G49.34-0.34</tspan></text>
+         x="345.23822"
+         y="237.17885"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Gill Sans MT;-inkscape-font-specification:Gill Sans MT">G49.34-0.34</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot3759"
@@ -1197,16 +1187,15 @@
            style="font-size:12px" /></flowRegion><flowPara
          id="flowPara3773" /></flowRoot>    <text
        xml:space="preserve"
-       style="font-size:37.35551453px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="221.43112"
-       y="384.83682"
+       style="font-size:57.43410873px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="260.13666"
+       y="326.96902"
        id="text3775-4"
-       sodipodi:linespacing="125%"
-       transform="scale(1.0707923,0.93388791)"><tspan
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         x="221.43112"
-         y="384.83682"
-         style="font-size:11.20665455px"
+         x="260.13666"
+         y="326.96902"
+         style="font-size:21.99999964px;-inkscape-font-specification:Gill Sans MT;font-family:Gill Sans MT;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%"
          id="tspan3800">IRDC 49.37-0.35</tspan></text>
     <flowRoot
        xml:space="preserve"
@@ -1219,7 +1208,8 @@
            height="65.659492"
            x="594.33167"
            y="189.06212" /></flowRegion><flowPara
-         id="flowPara3194">68 km/s </flowPara></flowRoot>    <flowRoot
+         id="flowPara3194"
+         style="-inkscape-font-specification:Gill Sans MT;font-family:Gill Sans MT;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:39.99999819px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">68 km/s </flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot3196"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
@@ -1234,7 +1224,7 @@
        xml:space="preserve"
        id="flowRoot3204"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       transform="matrix(1.2708257,0,0,1.5763556,-268.55669,-75.926505)"><flowRegion
+       transform="matrix(1.2708257,0,0,1.5763556,-270.95815,-87.13333)"><flowRegion
          id="flowRegion3206"><rect
            id="rect3208"
            width="195.84642"
@@ -1250,21 +1240,20 @@
        sodipodi:nodetypes="sssssssssssssssssssssss" />
     <text
        xml:space="preserve"
-       style="font-size:46.22201538px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="170.16479"
-       y="179.69148"
+       style="font-size:63.16163254px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="123.23387"
+       y="176.81923"
        id="text3775"
-       sodipodi:linespacing="125%"
-       transform="scale(0.94401067,1.0593101)"><tspan
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3777"
-         x="170.16479"
-         y="179.69148"
-         style="font-size:13.8666048px">IRDC 49.47-0.27</tspan><tspan
+         x="123.23387"
+         y="176.81923"
+         style="font-size:19.99999959px;-inkscape-font-specification:Gill Sans MT;font-family:Gill Sans MT;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">IRDC 49.47-0.27</tspan><tspan
          sodipodi:role="line"
-         x="170.16479"
-         y="197.02473"
-         style="font-size:13.8666048px"
+         x="123.23387"
+         y="200.50484"
+         style="font-size:19.99999959px;-inkscape-font-specification:Gill Sans MT;font-family:Gill Sans MT;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%"
          id="tspan3295">60 km/s</tspan></text>
     <flowRoot
        xml:space="preserve"
@@ -1277,7 +1266,8 @@
            height="65.659492"
            x="594.33167"
            y="189.06212" /></flowRegion><flowPara
-         id="flowPara3194-7">W51 A</flowPara></flowRoot>    <text
+         id="flowPara3194-7"
+         style="-inkscape-font-specification:Gill Sans MT;font-family:Gill Sans MT;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:40px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">W51 A</flowPara></flowRoot>    <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
        x="531.52368"
@@ -1300,23 +1290,22 @@
            x="594.33167"
            y="189.06212" /></flowRegion><flowPara
          id="flowPara3194-7-8"
-         style="font-size:24px">W51 Main</flowPara></flowRoot>    <text
+         style="font-size:24px;-inkscape-font-specification:Gill Sans MT;font-family:Gill Sans MT;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">W51 Main</flowPara></flowRoot>    <text
        xml:space="preserve"
-       style="font-size:37.35551453px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="340.30502"
-       y="523.98145"
+       style="font-size:54.95919418px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="380.49338"
+       y="442.70145"
        id="text3775-4-5"
-       sodipodi:linespacing="125%"
-       transform="scale(1.0707923,0.93388792)"><tspan
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         x="340.30502"
-         y="523.98145"
-         style="font-size:11.20665455px"
+         x="380.49338"
+         y="442.70145"
+         style="font-size:21.99999983px;-inkscape-font-specification:Gill Sans MT;font-family:Gill Sans MT;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%"
          id="tspan3800-3">IRDC 49.11-00.29 </tspan><tspan
          sodipodi:role="line"
-         x="340.30502"
-         y="537.98975"
-         style="font-size:11.20665455px"
+         x="380.49338"
+         y="463.3111"
+         style="font-size:21.99999983px;-inkscape-font-specification:Gill Sans MT;font-family:Gill Sans MT;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%"
          id="tspan3350">IRDC 49.07-00.33</tspan></text>
   </g>
 </svg>

@@ -334,6 +334,7 @@ if __name__ == "__main__":
     msxwcs = wcs.WCS(msxhdu.header)
     logC24 = 42.69 # Kennicutt & Evans 2012 reporting Rieke et al 2009
     msxpixsize_deg = (wcs.utils.celestial_pixel_scale(msxwcs)**2)
+    msxpixsize = (msxpixsize_deg*distance**2).to(u.pc**2, u.dimensionless_angles())
     msxfreq = (24*u.um).to(u.THz, u.spectral())
     L_msx = ((msxhdu.data*u.MJy/u.sr) * msxpixsize_deg * (4*np.pi*distance**2)
              * msxfreq).to(u.erg/u.s)
@@ -341,8 +342,8 @@ if __name__ == "__main__":
     sfrsdmsx = sfrmsx - np.log10(msxpixsize.to(u.kpc**2).value)
     msxhdu.data = sfrsdmsx
     FMM = FITSFigure(msxhdu, figure=fig9, cmap=gray)
-    FMM.show_colorscale(cmap=gray, vmin=-1.0, vmax=2.5, stretch='linear')
-    FMM.show_contour(sfmasshdu, levels=[100,300,500,1000,2000], zorder=1000, smooth=1)
+    FMM.show_colorscale(cmap=gray, vmin=-0.5, vmax=2.5, stretch='linear')
+    FMM.show_contour(sfmasshdu, levels=[100,300,500,1000], zorder=1000, smooth=1)
     FMM.colorbar._colorbar.set_label("SFR Surface Density\n[log $M_{\odot}$ kpc$^{-2}$]",
                                      rotation=270, labelpad=50)
     #FMM.show_markers(cl1coords.l, cl1coords.b, marker='x', edgecolor='r', zorder=1100)
@@ -353,7 +354,7 @@ if __name__ == "__main__":
     sfr2hdu = fits.PrimaryHDU(data=np.log10(sfr2cmd.value), header=hdr2cm)
     FMM = FITSFigure(sfr2hdu, figure=fig10, cmap=gray)
     FMM.show_contour(sfmasshdu, levels=[100,300,500,1000,2000], zorder=1000, smooth=1)
-    FMM.show_colorscale(cmap=gray, vmin=-1.0, vmax=2.5, stretch='linear')
+    FMM.show_colorscale(cmap=gray, vmin=-0.5, vmax=2.5, stretch='linear')
     FMM.colorbar._colorbar.set_label("SFR Surface Density\n[log $M_{\odot}$ kpc$^{-2}$]",
                                      rotation=270, labelpad=50)
     FMM.save(paths.fpath('SFRmap2cm_SFMassDensityContours.pdf'))
