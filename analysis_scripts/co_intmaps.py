@@ -47,6 +47,7 @@ goodmask_std = stdcube < 0.5
 denscube_mean = spectral_cube.SpectralCube.read(paths.dpath("H2CO_ParameterFits_likewtddens.fits")).with_mask(okmask)
 denscube_min = spectral_cube.SpectralCube.read(paths.dpath("H2CO_ParameterFits_mindens.fits"))
 denscube_max = spectral_cube.SpectralCube.read(paths.dpath("H2CO_ParameterFits_maxdens.fits"))
+high1e5dens = denscube_mean > np.log10(1e5)
 high5e4dens = denscube_mean > np.log10(5e4)
 high1e4dens = denscube_mean > np.log10(1e4)
 high5e3dens = denscube_mean > np.log10(5e3)
@@ -81,6 +82,10 @@ log.info("Mass in slab 1 ({v1} to {v2} km/s): {m:0.5g} Msun".format(v1=vrange1[0
 log.info("Mass in slab 2 ({v1} to {v2} km/s): {m:0.5g} Msun".format(v1=vrange2[0], v2=vrange2[1],
                                                             m=(cube13ss_slab2_mom0*h2togm*pixarea*cotocol()).sum().to(u.M_sun).value))
 
+high1e5dens_co = cube13ss.with_mask(high1e5dens)
+high1e5dens_co_slab3 = high1e5dens_co.spectral_slab(vrange1[0],vrange2[1])
+high1e5dens_co_slab3_mom0 = high1e5dens_co_slab3.moment0()
+
 high5e4dens_co = cube13ss.with_mask(high5e4dens)
 high5e4dens_co_slab3 = high5e4dens_co.spectral_slab(vrange1[0],vrange2[1])
 high5e4dens_co_slab3_mom0 = high5e4dens_co_slab3.moment0()
@@ -97,6 +102,9 @@ high1e3dens_co = cube13ss.with_mask(high1e3dens)
 high1e3dens_co_slab3 = high1e3dens_co.spectral_slab(vrange1[0],vrange2[1])
 high1e3dens_co_slab3_mom0 = high1e3dens_co_slab3.moment0()
 
+dgmf1e5 = fits.PrimaryHDU(data=(high1e5dens_co_slab3_mom0 /
+                                cube13ss_slab3_mom0).value,
+                          header=high1e5dens_co_slab3_mom0.hdu.header)
 dgmf1e4 = fits.PrimaryHDU(data=(high1e4dens_co_slab3_mom0 /
                                 cube13ss_slab3_mom0).value,
                           header=high1e4dens_co_slab3_mom0.hdu.header)
@@ -200,6 +208,8 @@ if __name__ == "__main__":
     F4 = FITSFigure(high1e4dens_co_slab3_mom0.hdu, subplot=[0.50,0.05,0.4,0.4], figure=fig)
     F4.show_grayscale()
     F4._ax1.set_title("$^{13}$CO masked by $n>1\\times10^4$")
+    F13 = FITSFigure(high1e5dens_co_slab3_mom0.hdu, subplot=[0.05,0.05,0.4,0.4], figure=fig)
+    F13.show_grayscale()
 
     pl.matplotlib.rc_file('pubfiguresrc')
 
@@ -242,6 +252,8 @@ if __name__ == "__main__":
         #FF.refresh()
         return FF
 
+    F14 = show_con(dgmf1e5, 3, "$f(n>5\\times10^4$ cm$^{-3})$")
+    F14.save(paths.fpath('DGMF_1e5_Contours_on_13CO.pdf'))
     F5 = show_con(dgmf5e4, 3, "$f(n>5\\times10^4$ cm$^{-3})$")
     F5.save(paths.fpath('DGMF_5e4_Contours_on_13CO.pdf'))
     F6 = show_con(dgmf1e4, 4, "$f(n>1\\times10^4$ cm$^{-3})$")
@@ -258,12 +270,26 @@ if __name__ == "__main__":
                         2.8).to(u.M_sun/u.pc**2)).value
     totalmassmap = (cube13ss_slab3_masked_mom0.to(u.K*u.km/u.s).value *
                     co_to_mass_surf)
-    sfmassmap = (dgmf1e4.data *
+    sfmassmap1e4 = (dgmf1e4.data *
                  cube13ss_slab3_masked_mom0.to(u.K*u.km/u.s).value *
                  co_to_mass_surf)
-    badsfmass = ~np.isfinite(sfmassmap)
-    sfmassmap[badsfmass] = 0
-    sfmasshdu = fits.PrimaryHDU(sfmassmap, header=dgmf1e4.header)
+    badsfmass1e4 = ~np.isfinite(sfmassmap1e4)
+    sfmassmap1e4[badsfmass1e4] = 0
+    sfmasshdu1e4 = fits.PrimaryHDU(sfmassmap1e4, header=dgmf1e4.header)
+
+    sfmassmap5e4 = (dgmf5e4.data *
+                 cube13ss_slab3_masked_mom0.to(u.K*u.km/u.s).value *
+                 co_to_mass_surf)
+    badsfmass5e4 = ~np.isfinite(sfmassmap5e4)
+    sfmassmap5e4[badsfmass5e4] = 0
+    sfmasshdu5e4 = fits.PrimaryHDU(sfmassmap5e4, header=dgmf5e4.header)
+
+    sfmassmap1e5 = (dgmf1e5.data *
+                 cube13ss_slab3_masked_mom0.to(u.K*u.km/u.s).value *
+                 co_to_mass_surf)
+    badsfmass1e5 = ~np.isfinite(sfmassmap1e5)
+    sfmassmap1e5[badsfmass1e5] = 0
+    sfmasshdu1e5 = fits.PrimaryHDU(sfmassmap1e5, header=dgmf1e5.header)
 
     # Make an SFR map from the radio continuum data
     cont2cm = fits.getdata(paths.cont2cm)
@@ -308,8 +334,8 @@ if __name__ == "__main__":
     gray = copy.copy(pl.cm.gray_r)
     gray.set_bad('white')
     gray.set_under('white')
-    FMM = FITSFigure(sfmasshdu, figure=fig7, cmap=gray, stretch='log', vmax=99.95)
-    FMM.colorbar._colorbar.set_label("Star-Forming Gas Surface Density\n[$M_{\odot}$ pc$^{-2}$]",
+    FMM = FITSFigure(sfmasshdu1e4, figure=fig7, cmap=gray, stretch='log', vmax=99.95)
+    FMM.colorbar._colorbar.set_label("Star-Forming ($n>10^4$ cm$^{-3}$) Gas Surface Density\n[$M_{\odot}$ pc$^{-2}$]",
                                      rotation=270, labelpad=50)
     FMM.show_markers(cl1coords.l, cl1coords.b, marker='x', edgecolor='r', zorder=1100)
     FMM.save(paths.fpath('StarFormingMassMap_Kang2009ClassIYSOs.pdf'))
@@ -317,8 +343,8 @@ if __name__ == "__main__":
     fig8 = pl.figure(8)
     fig8.clf()
     ax8 = fig8.gca()
-    ax8.loglog(totalmassmap[~badsfmass & ok2cm], sfr2cmd[~badsfmass & ok2cm], 'r.', alpha=0.1)
-    ax8.loglog(sfmassmap[~badsfmass & ok2cm], sfr2cmd[~badsfmass & ok2cm], 'k.', alpha=0.1)
+    ax8.loglog(totalmassmap[~badsfmass1e4 & ok2cm], sfr2cmd[~badsfmass1e4 & ok2cm], 'r.', alpha=0.1)
+    ax8.loglog(sfmassmap1e4[~badsfmass1e4 & ok2cm], sfr2cmd[~badsfmass1e4 & ok2cm], 'k.', alpha=0.1)
     ax8.loglog([1,1e4],np.array([1,1e4])*1.2e-8*1e6,'b--', alpha=0.5)
     ax8.loglog([700,2900],[2,900],'g:', alpha=0.7) # by-eye fit to some of the data
     ax8.set_xlabel("Star Forming Gas Surface Density ($M_{\\odot}$ pc$^{-2}$)")
@@ -326,11 +352,6 @@ if __name__ == "__main__":
     ax8.set_ylim(0.5,1e3)
     fig8.savefig(paths.fpath('ksrelation_2cm_densegas.pdf'))
 
-    fig9 = pl.figure(9)
-    fig9.clf()
-    gray = copy.copy(pl.cm.gray_r)
-    gray.set_bad('white')
-    gray.set_under('white')
     msxhdu = fits.open(paths.dpath2('MSX_MIPS_merged.fits'))[0]
     msxwcs = wcs.WCS(msxhdu.header)
     logC24 = 42.69 # Kennicutt & Evans 2012 reporting Rieke et al 2009
@@ -342,20 +363,66 @@ if __name__ == "__main__":
     sfrmsx = np.log10(L_msx.to(u.erg/u.s).value) - logC24 # Kennicutt & Evans 2012
     sfrsdmsx = sfrmsx - np.log10(msxpixsize.to(u.kpc**2).value)
     msxhdu.data = sfrsdmsx
+
+    fig9 = pl.figure(9)
+    fig9.clf()
+    gray = copy.copy(pl.cm.gray_r)
+    gray.set_bad('white')
+    gray.set_under('white')
     FMM = FITSFigure(msxhdu, figure=fig9, cmap=gray)
     FMM.show_colorscale(cmap=gray, vmin=-0.5, vmax=2.5, stretch='linear')
-    FMM.show_contour(sfmasshdu, levels=[100,300,500,1000], zorder=1000, smooth=1)
+    FMM.show_contour(sfmasshdu1e4, levels=[100,300,500,1000], zorder=1000, smooth=1)
     FMM.colorbar._colorbar.set_label("SFR Surface Density\n[log $M_{\odot}$ yr$^{-1}$ kpc$^{-2}$]",
                                      rotation=270, labelpad=50)
     #FMM.show_markers(cl1coords.l, cl1coords.b, marker='x', edgecolor='r', zorder=1100)
-    FMM.save(paths.fpath('SFRmap24um_SFMassDensityContours.pdf'))
+    FMM.save(paths.fpath('SFRmap24um_SFMassDensityContours_1e4.pdf'))
 
     fig10 = pl.figure(10)
     fig10.clf()
     sfr2hdu = fits.PrimaryHDU(data=np.log10(sfr2cmd.value), header=hdr2cm)
     FMM = FITSFigure(sfr2hdu, figure=fig10, cmap=gray)
-    FMM.show_contour(sfmasshdu, levels=[100,300,500,1000,2000], zorder=1000, smooth=1)
+    FMM.show_contour(sfmasshdu1e4, levels=[100,300,500,1000,2000], zorder=1000, smooth=1)
     FMM.show_colorscale(cmap=gray, vmin=-0.5, vmax=2.5, stretch='linear')
     FMM.colorbar._colorbar.set_label("SFR Surface Density\n[log $M_{\odot}$ yr$^{-1}$ kpc$^{-2}$]",
                                      rotation=270, labelpad=50)
     FMM.save(paths.fpath('SFRmap2cm_SFMassDensityContours.pdf'))
+
+    fig11 = pl.figure(11)
+    fig11.clf()
+    gray = copy.copy(pl.cm.gray_r)
+    gray.set_bad('white')
+    gray.set_under('white')
+    FMM = FITSFigure(msxhdu, figure=fig11, cmap=gray)
+    FMM.show_colorscale(cmap=gray, vmin=-0.5, vmax=2.5, stretch='linear')
+    FMM.show_contour(sfmasshdu5e4, levels=[100,300,500,1000], zorder=1000, smooth=1)
+    FMM.colorbar._colorbar.set_label("SFR Surface Density\n[log $M_{\odot}$ yr$^{-1}$ kpc$^{-2}$]",
+                                     rotation=270, labelpad=50)
+    #FMM.show_markers(cl1coords.l, cl1coords.b, marker='x', edgecolor='r', zorder=1100)
+    FMM.save(paths.fpath('SFRmap24um_SFMassDensityContours_5e4.pdf'))
+
+    fig12 = pl.figure(12)
+    fig12.clf()
+    gray = copy.copy(pl.cm.gray_r)
+    gray.set_bad('white')
+    gray.set_under('white')
+    FMM = FITSFigure(msxhdu, figure=fig12, cmap=gray)
+    FMM.show_colorscale(cmap=gray, vmin=-0.5, vmax=2.5, stretch='linear')
+    FMM.show_contour(sfmasshdu1e5, levels=[100,300,500,1000], zorder=1000, smooth=1)
+    FMM.colorbar._colorbar.set_label("SFR Surface Density\n[log $M_{\odot}$ yr$^{-1}$ kpc$^{-2}$]",
+                                     rotation=270, labelpad=50)
+    #FMM.show_markers(cl1coords.l, cl1coords.b, marker='x', edgecolor='r', zorder=1200)
+    FMM.save(paths.fpath('SFRmap24um_SFMassDensityContours_1e5.pdf'))
+
+    fig13 = pl.figure(13)
+    fig13.clf()
+    gray = copy.copy(pl.cm.gray_r)
+    gray.set_bad('white')
+    gray.set_under('white')
+    FMM = FITSFigure(msxhdu, figure=fig13, cmap=gray)
+    FMM.show_colorscale(cmap=gray, vmin=-0.5, vmax=2.5, stretch='linear')
+    FMM.show_contour(sfmasshdu1e4, levels=[100,1000], zorder=1000, smooth=1, colors=['#AA1111','#FF4411','#BB6666'], alpha=0.7)
+    FMM.show_contour(sfmasshdu1e5, levels=[100,1000], zorder=1000, smooth=1, colors=['#1111AA','#4499FF','#6699BB'], alpha=0.9)
+    FMM.colorbar._colorbar.set_label("SFR Surface Density\n[log $M_{\odot}$ yr$^{-1}$ kpc$^{-2}$]",
+                                     rotation=270, labelpad=50)
+    #FMM.show_markers(cl1coords.l, cl1coords.b, marker='x', edgecolor='r', zorder=1100)
+    FMM.save(paths.fpath('SFRmap24um_SFMassDensityContours.pdf'))
