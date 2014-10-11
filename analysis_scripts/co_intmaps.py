@@ -322,13 +322,21 @@ if __name__ == "__main__":
     ysos = Vizier(row_limit=1e6).query_region(coordinates.SkyCoord.from_name('W51'),
                                               radius=1*u.deg,
                                               catalog=catalog_list.keys())
-    cl1 = ((ysos[0]['Cl1'] == 'I') |
-           (ysos[0]['Cl1'] == 'F') |
-           (ysos[0]['Cl2'] == 'I') |
-           (ysos[0]['Cl2'] == 'F'))
-    cl1coords = coordinates.SkyCoord(ysos[0][cl1]['_RAJ2000'],
-                                     ysos[0][cl1]['_DEJ2000'],
-                                     frame='fk5').galactic
+    cl1lt10 = ((ysos[0]['Cl1'] == 'I') |
+               (ysos[0]['Cl1'] == 'F') |
+               (ysos[0]['Cl2'] == 'I') |
+               (ysos[0]['Cl2'] == 'F')) & (ysos[0]['Mstar'] < 10)
+    cl1gt10 = ((ysos[0]['Cl1'] == 'I') |
+               (ysos[0]['Cl1'] == 'F') |
+               (ysos[0]['Cl2'] == 'I') |
+               (ysos[0]['Cl2'] == 'F')) & (ysos[0]['Mstar'] >= 10)
+    cl1lt10coords = coordinates.SkyCoord(ysos[0][cl1lt10]['_RAJ2000'],
+                                         ysos[0][cl1lt10]['_DEJ2000'],
+                                         frame='fk5').galactic
+    cl1gt10coords = coordinates.SkyCoord(ysos[0][cl1gt10]['_RAJ2000'],
+                                         ysos[0][cl1gt10]['_DEJ2000'],
+                                         frame='fk5').galactic
+
     fig7 = pl.figure(7)
     fig7.clf()
     gray = copy.copy(pl.cm.gray_r)
@@ -337,7 +345,8 @@ if __name__ == "__main__":
     FMM = FITSFigure(sfmasshdu1e4, figure=fig7, cmap=gray, stretch='log', vmax=99.95)
     FMM.colorbar._colorbar.set_label("Star-Forming ($n>10^4$ cm$^{-3}$) Gas Surface Density\n[$M_{\odot}$ pc$^{-2}$]",
                                      rotation=270, labelpad=50)
-    FMM.show_markers(cl1coords.l, cl1coords.b, marker='x', edgecolor='r', zorder=1100)
+    FMM.show_markers(cl1lt10coords.l, cl1lt10coords.b, marker='x', edgecolor='r', zorder=1100)
+    FMM.show_markers(cl1gt10coords.l, cl1gt10coords.b, marker='o', edgecolor='r', zorder=1100)
     FMM.save(paths.fpath('StarFormingMassMap_Kang2009ClassIYSOs.pdf'))
 
     fig8 = pl.figure(8)
@@ -420,8 +429,8 @@ if __name__ == "__main__":
     gray.set_under('white')
     FMM = FITSFigure(msxhdu, figure=fig13, cmap=gray)
     FMM.show_colorscale(cmap=gray, vmin=-0.5, vmax=2.5, stretch='linear')
-    FMM.show_contour(sfmasshdu1e4, levels=[100,1000], zorder=1000, smooth=1, colors=['#AA1111','#FF4411','#BB6666'], alpha=0.7)
-    FMM.show_contour(sfmasshdu1e5, levels=[100,1000], zorder=1000, smooth=1, colors=['#1111AA','#4499FF','#6699BB'], alpha=0.9)
+    FMM.show_contour(sfmasshdu1e4, levels=[100,1000], zorder=1000, smooth=1, colors=['#AA1111','#FF4411','#BB6666'], linewidths=[2,3], alpha=0.7)
+    FMM.show_contour(sfmasshdu1e5, levels=[100,1000], zorder=1000, smooth=1, colors=['#1111BB','#1144FF','#6699BB'], linewidths=[2,3], alpha=0.9)
     FMM.colorbar._colorbar.set_label("SFR Surface Density\n[log $M_{\odot}$ yr$^{-1}$ kpc$^{-2}$]",
                                      rotation=270, labelpad=50)
     #FMM.show_markers(cl1coords.l, cl1coords.b, marker='x', edgecolor='r', zorder=1100)
