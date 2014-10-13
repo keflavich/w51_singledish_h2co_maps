@@ -2,7 +2,7 @@
 
 \begin{document}
 
-\title{The dense gas mass fraction in the W51 cloud and protoclusters}
+\title{The dense gas mass fraction in the W51 cloud and its protoclusters}
 \titlerunning{W51 DGMF}
 \authorrunning{Ginsburg et al}
 % NEED A BETTER TITLE...
@@ -62,7 +62,8 @@ star formation.}
 (3) The nondetection of \formaldehyde emission implies that the  emission
 detected in other galaxies, e.g. Arp 220, comes from high-density gas that is
 not directly affiliated with already-formed massive stars.  Either the
-non-star-forming ISM of these galaxies is very dense, or \hii regions have
+non-star-forming ISM of these galaxies is very dense\added{, implying
+the star formation density threshold is higher,} or \hii regions have
 their emission suppressed.
 }
 %\end{abstract}
@@ -74,7 +75,8 @@ their emission suppressed.
 %\todo{Compiled on \today\ at \currenttime.}
 
 Massive star clusters, those containing $>10^4$ \msun of stars, are among the
-most visually outstanding features in the night sky.  In other galaxies, they
+most visually outstanding features in the night sky \citep[see review
+by][]{Longmore2014a}.  In other galaxies, they
 are useful probes of the star formation history and can be individually
 identified and measured \citep{Bastian2008a}.  Locally, they are the essential
 laboratories in which we can study the formation of massive stars
@@ -105,7 +107,8 @@ whether these initial conditions differ in any qualitative way from turbulence
 in local, low-mass star-forming regions.
 
 Star formation appears to occur \added{efficiently} only above a volume
-density threshold in molecular gas, specifically $n(\hh)\gtrsim10^4$ \percc
+density threshold in molecular gas, specifically $n(\hh)\gtrsim10^4$ \percc,
+\added{in the Galactic disk}
 \citep[][who advocate a
 column density threshold corresponding to this density]{Lada2010a}; \added{note however
 that this is a smooth threshold, not  a step function \citep{Padoan2013a}}.  The `dense
@@ -120,9 +123,9 @@ The existence of a \added{universal}
 density threshold for star formation is contentious
 \citep{Burkert2012a,Clark2013b}\added{; the star formation threshold} likely
 varies with the turbulent properties of clouds
-\citep{Longmore2013b,Hennebelle2011a,Hennebelle2013a}.  Star
-formation thresholds can only be evaluated when measurements of density and
-column density are simultaneously available.  
+\citep{Longmore2013b,Kruijssen2014b,Hennebelle2011a,Hennebelle2013a,Padoan2011b,Krumholz2005a}.
+Star formation thresholds can only be evaluated when measurements of density
+and column density are simultaneously available.  
 % Padoan 2013 fig 1: SFR/M_dense vs M_dense; "dense" = A_V>8
 
 \subsection{W51}
@@ -238,7 +241,7 @@ This is a fit to 5 years worth of calibration data acquired at Arecibo and
 assembled by Phil Perrilat\footnote{The data can be retrieved from within aoIDL
 with the command \texttt{n=mmgetarchive(yymmdd1,yymmdd2,mm,rcvnum=9)}, then
 the $\eta_{MB}$ data are in \texttt{mm.fit.etamb}.  The calibration process is
-recorded in detail in \citet{Heiles2001a}.}
+recorded in detail in \citet{Heiles2001a}.}.
 
 
 The maps were made by computing an output grid in Galactic coordinates with
@@ -295,7 +298,7 @@ The GBT data were taken as part of program AGBT10B/019.  \added{We used the GBT
 Spectrometer with 4 windows covering the \ortho 14.488479 GHz line,
 H77$\alpha$ (14.12861 GHz), and two others that were not reduced targeting H$_2$CN (14.82579
 GHz) and NaCl and SO (13.03606 GHz); online examination of the latter windows
-suggested that we did not detect any emission.}
+suggested that we did not detect any emission or absorption.}
 % 14488.479,13036.06,14128.61,14825.79
 The data presented in this paper
 include sessions 10, 11, 14, 16, 17, 20, 21, and 22; the other sessions from
@@ -1063,8 +1066,8 @@ assigning a density to each resolution element in both velocity and position.
 $n(\hh)$ \percc.  The $y$-axis shows the sum of \thirteenco pixels from the GRS
 cube with
 \formaldehyde-derived density above the value shown on the $x$-axis divided by
-the total.  Both values are computed over the velocity range $40 \kms < v_{LSR}
-< 75 \kms$.  The solid line represents the fraction of \thirteenco emitting
+the total.  Both values are computed over the velocity range $40~\kms < v_{LSR}
+< 75~\kms$.  The solid line represents the fraction of \thirteenco emitting
 voxels above the mean measured \formaldehyde density as described in Section
 \ref{sec:densmaps}.
 The blue shaded region shows the extent of plausible model fits at
@@ -1086,8 +1089,12 @@ low-density gas.}
 {figures/FractionOfMassAboveDensity_W51B}
 {Same as Figure \ref{fig:dgmf}, but for two individual regions: W51 Main
 (left), the region $49.4\arcdeg < \ell < 49.6\arcdeg$, $-0.5\arcdeg < b <
--0.3\arcdeg$, and W51 B (right) with $\ell < 49.4\arcdeg$.  Note
-that the $y$ axes have different ranges.}
+-0.3\arcdeg$, and W51 B (right) with $48.8\arcdeg \ell < 49.4\arcdeg$ and
+$-0.5\arcdeg < b < -0.1\arcdeg$.  Note that the $y$ axes have different
+ranges.  \added{The area covered by the W51 B cutout is $6\times$ larger than
+the W51 A cutout, so its effect on Figure \ref{fig:dgmf} is greater. The total
+area covered in Figure \ref{fig:dgmf} includes some regions with no detected
+\formaldehyde, which is why the peak fraction in that figure is lower.}}
 {fig:dgmf_regions}{1}{6.5in}
 
 % co_intmaps.py
@@ -1138,10 +1145,11 @@ similar analysis on molecular cloud simulations projected into PPV space
 \section{Discussion}
 \label{sec:discussion}
 The W51 cloud complex includes a full range of star forming conditions.  In the
-west, W51 B, there is an older generation of stars including at least one supernova
-remnant.  In the east, there is a pair of forming, still-embedded massive clusters.
-We have described the geometry of these regions and features of the cloud structures,
-now we speculate on the broader implications of these observations.
+west, W51 B, there is an older generation of stars including at least one
+supernova remnant.  In the east, there is a pair of forming, still-embedded
+massive clusters.  We have described the geometry of these regions and features
+of the cloud structures, now we speculate on the broader implications of these
+observations.
 
 The gas in the W51 B region, while clearly impacted by the expanding W51 C
 supernova, is less dense than most of the gas in the W51 A region.  The
@@ -1159,7 +1167,9 @@ embedded in the $\sim55$ \kms molecular cloud (e.g. Figure
 \ref{fig:northsouthpv}).  The velocity difference and their relative positions
 along the line of sight unambiguously indicate that these
 components are approaching each other, which is consistent with the cloud-cloud
-collision hypothesis.
+collision hypothesis\added{, though the distinction of these velocity components
+as individual clouds is somewhat arbitrary since they are components of the same
+hierarchical medium}.
 
 It is possible that the 68 \kms cloud is streaming in to a spiral arm, while
 the 50 \kms cloud is slowed down as it exits the spiral arm on the far side.
@@ -1237,11 +1247,13 @@ densities, the SFR and gas are nearly anticorrelated.  This offset is due to an
 age difference: the gas is tracing star formation yet to begin up to $\sim1$
 Myr, while the infrared emission traces older \citep[0-100 Myr, with a peak at
 5 Myr;][]{Kennicutt2012a} star formation.  The small-scale anticorrelation
-is consistent with the 5-20\arcmin scales required to recover a star formation `law'
-from Galactic plane survey observations \citep{Vutisalchavakul2014a}.  The
-improved correlation at the highest densities implies that the massive star
-formation threshold is closer to $10^5$ \percc than the $10^4$ \percc often
-measured for nearby, low-mass star-forming regions.}
+is consistent with the 5-20\arcmin scales required to recover a star formation
+`law' from Galactic plane survey observations \citep{Vutisalchavakul2014a}
+because of the \citet{Kruijssen2014a} `uncertainty principle for star
+formation'.
+The improved correlation at the highest densities also implies that the massive
+star formation threshold is closer to $10^5$ \percc than the $10^4$ \percc
+often measured for nearby, low-mass star-forming regions.}
 
 In order to evaluate star formation efficiency as a
 function of dense gas fraction, a more complete assessment of the present-day
@@ -1324,10 +1336,13 @@ The only location in which densities $n\gtrsim5\ee{5}$ \percc (comparable to
 $n(\textrm{Arp } 220)$, etc.) are observed in W51 are in the central W51
 Main region.  We do not observe emission because of the bright
 continuum background source.  It is therefore not possible to explain a
-\formaldehyde-emission galaxy by constructing it from collections of UCHII
+\formaldehyde-emission galaxy by constructing it from collections of \uchii
 regions; such a galaxy would be continuum-bright and show only \formaldehyde
 absorption.  Instead, they must be assembled from huge quantities of
-high-density, non-star-forming gas.  This result is in contradiction to the
+high-density, non-star-forming gas.  \added{The presence of this gas in turn
+implies that the density threshold for star formation must be higher in
+starburst galaxies.}
+This result is in contradiction to the
 idea that Giant \hii Regions are the `building blocks' of starburst galaxies
 \citep[e.g.][]{Miura2014a}.
 
@@ -1376,8 +1391,10 @@ which most of the molecular gas has density $n\gtrsim1\ee{5}$ \percc.  The
 highest gas density is closely associated with bright mid-infrared emission.
 W51 B and the outskirts of the W51 cloud have some gas with $n>10^4$ \percc,
 but these regions exhibit limited star formation and show infrared emission
-anticorrelated with the dense gas.  The density threshold for high-mass star
-formation is higher than that for low-mass star formation.}
+anticorrelated with the dense gas.  The tighter correlation with massive-star
+driven star formation indicators at high densities suggests that the density
+threshold for high-mass star formation is higher than that for low-mass star
+formation.}
 
 
 The \formaldehyde lines and their ratios have also been used to constrain the
@@ -1404,7 +1421,14 @@ GMC.  The nondetection on scales from $\sim1-100$ pc implies that detections of
 surround bright \hii regions.  These galaxies may therefore have interstellar
 media dominated by very high-density gas ($n(\hh)>10^{5.5}$ \percc) that is not
 presently forming stars.
-
+\added{The density threshold for star formation in these galaxies must
+therefore be larger than in the Galactic disk, confirming earlier empirical
+(Longmore et al.  2013) and theoretical
+\citep{Krumholz2005a,Hennebelle2013a,Padoan2011b} results
+that such a threshold cannot
+be universal. These results are inconsistent with a `universal' density
+threshold for star formation observed in studies of nearby clouds
+\citep{Lada2010a,Lada2012a,Andre2013c}.}
 
 The data are made available in FITS cubes and images hosted at the CfA
 dataverse \url{doi:10.7910/DVN/26818},
@@ -1446,7 +1470,7 @@ snapshot of the publication version available from zenodo
 \textbf{Acknowledgements}:
 We thank Xiaohui Sun for providing the Urumqi 6 cm Stokes I image prior to its
 availability on the survey website.  \added{The paper benefitted from discussions
-with Jonathan Tan and Neal Evans.
+with Jonathan Tan, Neal Evans, and Diederik Kruijssen.
 We thank our referee Jeff Mangum for a helpful and rapid referee report.}
 ER is supported by a Discovery Grant from NSERC of Canada.
 This research has made use of the VizieR catalogue access tool, CDS,

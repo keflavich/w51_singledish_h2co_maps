@@ -17,6 +17,7 @@ import pyregion
 import re
 from paths import datapath_w51 as datapath
 from paths import figurepath as figpath
+from paths import h2co11taufn
 import paths
 import os
 
@@ -25,7 +26,7 @@ import os
 pl.mpl.rc_file(os.path.join(paths.source_root, 'plot_scripts/pubfiguresrc'))
 
 
-h2co11 = fits.open(datapath+'W51_H2CO11_taucube.fits')
+h2co11 = fits.open(h2co11taufn)
 co32 = fits.open(datapath+'w51_bieging_13co32.fits')
 #hdr = fits.getheader(datapath+'h2co_integ.fits')
 hdr = flatten_header(h2co11[0].header)
@@ -68,7 +69,7 @@ F = aplpy.FITSFigure(datapath+'v2.0_ds2_l050_13pca_map20_reproject.fits',
 
 H = fits.Header()
 #H.fromTxtFile('/Volumes/128gbdisk/w51/pngs/hdr4096.hdr')
-H.fromTxtFile(paths.pdpath('hdr4906.hdr'))
+H.fromTxtFile(paths.pdpath('hdr4096.hdr'))
 hwcs = wcs.WCS(H)
 #F.show_rgb('/Volumes/128gbdisk/w51/pngs/W51_4096sq_WISE_bolo_mosaic_rotated_blackbg.png',wcs=hwcs)
 F.show_rgb(paths.pdpath('W51_4096sq_WISE_bolo_mosaic_rotated_blackbg.png'),

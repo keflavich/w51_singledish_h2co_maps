@@ -149,7 +149,7 @@ log.info("Both: {0}".format(both_fraction))
 
 
 w51a_corners = denscube_mean.wcs.dropaxis(denscube_mean.wcs.wcs.spec).wcs_world2pix([49.4,49.6],[-0.5,-0.3],0)
-w51b_corners = denscube_mean.wcs.dropaxis(denscube_mean.wcs.wcs.spec).wcs_world2pix([48.0,49.4],[-0.5, 0.0],0)
+w51b_corners = denscube_mean.wcs.dropaxis(denscube_mean.wcs.wcs.spec).wcs_world2pix([48.8,49.4],[-0.5,-0.1],0)
 region_slices = {'All':(slice(None),slice(None),slice(None)),
                  'W51 Main':(
                              slice(None),
