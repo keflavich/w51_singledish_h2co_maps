@@ -1,8 +1,13 @@
 W51 Single Dish maps
 ====================
 
-Repository for a paper presently in prep.  Let me know if you want access to
-the data or want to join in on the paper.
+Repository for a paper to be published in A&A.
+
+The data are publicly available from http://thedata.harvard.edu/dvn/dv/W51_H2CO.
+
+.. raw:: html
+
+    <input type="text"/><input value="Search" type="button" onclick="location='http://thedata.harvard.edu/dvn/dv/W51_H2CO/faces/StudyListingPage.xhtml?mode=2&searchValue=' + this.previousSibling.previousSibling.value"/>
 
 Instructions
 ------------
