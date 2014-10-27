@@ -56,7 +56,9 @@ def do_everything():
     else:
         outprefix = os.path.splitext(args.outfile)[0]
 
-    shutil.move("w51_maps.pdf",outprefix+".pdf")
+    # Don't move unnecessarily; messes with Skim.app (maybe?)
+    if outprefix != 'w51_maps':
+        shutil.move("w51_maps.pdf",outprefix+".pdf")
 
 
     gscmd = ["gs",

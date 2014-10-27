@@ -42,6 +42,11 @@ F1.colorbar.set_ticks(con11)
 F2.colorbar.set_ticks(con22)
 L1 = F1.colorbar._colorbar_axes.hlines(loc1(con11),0,1, color='r',linewidth=2,alpha=0.8)
 L2 = F2.colorbar._colorbar_axes.hlines(loc2(con22),0,1, color='r',linewidth=2,alpha=0.8)
+F1.colorbar.set_axis_label_text(r'$T_{MB}$')
+F2.colorbar.set_axis_label_text(r'$T_{A}^*$')
+for F in F1,F2:
+    F.colorbar.set_axis_label_rotation(270)
+    F.colorbar.set_axis_label_pad(30)
 
 for LL in (L1,L2):
     LL.set_linewidths(linewidths)

@@ -247,6 +247,8 @@ if __name__ == "__main__":
         cax.collections[0].set_visible(False)
         FF.colorbar = pl.colorbar(FF._layers['contour_set_1'], cax=cax)
         FF.colorbar.set_label("Dense Fraction", rotation=270, labelpad=30)
+        for lines in FF.colorbar.lines:
+            lines.set_linewidth(76)
         FF._ax1.set_title(label)
         #FF.scalebar._scalebar.set_zorder(40)
         #FF.refresh()
@@ -435,3 +437,17 @@ if __name__ == "__main__":
                                      rotation=270, labelpad=50)
     #FMM.show_markers(cl1coords.l, cl1coords.b, marker='x', edgecolor='r', zorder=1100)
     FMM.save(paths.fpath('SFRmap24um_SFMassDensityContours.pdf'))
+
+    # Abundance:
+    fig14 = pl.figure(14)
+    fig14.clf()
+    ax14 = fig14.gca()
+    h2cocol = np.nansum(10**fits.getdata(paths.dpath('H2CO_ParameterFits_likewtdcol.fits')), axis=0)
+    cocol = cube13ss_slab3_masked_mom0.value*cotocol().value
+    ax14.plot(np.log10(cocol.ravel()), np.log10(h2cocol.ravel()), '.', alpha=0.4, color=(0.2,0.2,1,1))
+    x = np.linspace(21,23)
+    ax14.plot(x, x-9, 'k--', label='$X=10^{-9}$', alpha=0.5, zorder=-5)
+    ax14.plot(x, x-8, 'k-', label='$X=10^{-8}$', alpha=0.5, zorder=-5)
+    ax14.plot(x, x-10, 'k:', label='$X=10^{-10}$', alpha=0.5, zorder=-5)
+    ax14.set_xlim(21,23)
+    ax14.set_ylim(12,16)

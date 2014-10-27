@@ -110,8 +110,10 @@ Star formation appears to occur \added{efficiently} only above a volume
 density threshold in molecular gas, specifically $n(\hh)\gtrsim10^4$ \percc,
 \added{in the Galactic disk}
 \citep[][who advocate a
-column density threshold corresponding to this density]{Lada2010a}; \added{note however
-that this is a smooth threshold, not  a step function \citep{Padoan2013a}}.  The `dense
+column density threshold corresponding to this density]{Lada2010a}; \added{note
+however that the `threshold' is smooth, not  a step function as implied by the
+term \citep{Padoan2013a}}.
+The `dense
 gas mass fraction' has been measured for various definitions of `dense'
 \citep{Battisti2014a,Wu2005a}, but these definitions don't always correspond to
 the associated threshold
@@ -627,10 +629,20 @@ The abundance was left as a free parameter in the model fitting.
 %Figure \ref{fig:ratiovsdens}.  
 The model grids were generated using RADEX LVG models
 \citep[python wrapper \url{https://github.com/keflavich/pyradex/}; original
-code][]{van-Der-Tak2007a}.  They assume a velocity gradient of 1 \kms \perpc.
-\citet{Ginsburg2011a} and \citet{Ginsburg2013a} discussed the effect of a local
-gas density distribution on the molecular excitation, but due to the complexity
-involved in accounting for these effects, we ignore them here.
+code][]{van-Der-Tak2007a}\added{ and the grids were fit using
+\url{https://github.com/keflavich/h2co_modeling}}.  \added{The RADEX models}
+assume a velocity gradient of 1 \kms \perpc.  \citet{Ginsburg2011a} and
+\citet{Ginsburg2013a}
+discussed the effect of a local gas density distribution on the molecular
+excitation, but due to the complexity involved in accounting for these effects,
+we ignore them here.  \added{The derived physical parameters are moderately
+sensitive to the input collision rates, with a 50\% error in collision rates
+yielding a factor of 2 error in derived density \citep{Zeiger2012a}, but the
+error on the collision rates in the low temperature regime we are modeling have
+recently been improved from the previously used \citet{Green1991a} rates and
+should not be a dominant factor in our calculations
+\citep{Troscompt2009a,Wiesenfeld2013a}.}
+
 
 \subsection{\formaldehyde observables}
 \label{sec:h2co}
@@ -763,13 +775,18 @@ available from Equation \ref{eqn:chi2}, but by weighting by column density, we
 have effectively selected the highest signal-to-noise points; the statistical
 errors are therefore negligible relative to the systematic (i.e., those caused
 by invalid assumptions about the single-zone nature of the models) in these
-maps.
+maps.  \added{The maps are shown split into two velocity components,
+$v<62$ \kms and $v>62$ \kms, which approximately separates out the 68 \kms
+cloud from other components, though because the lines are quite broad the
+separation is imperfect.  Figures \ref{fig:kinematics} and
+\ref{fig:h2cokinematics} shows the velocity
+separation in more detail.}
 
 
 
-The overall picture is of a central protocluster region (W51 Main and IRS2) with most
-of the gas mass at a density $n\sim10^{5.5}$ \percc within a diameter of
-$\sim3$ pc, surrounded by a rich cloud in which most of the mass is at a
+The overall picture is of a central protocluster region (W51 Main and IRS2)
+with most of the gas mass at a density $n\sim10^{5.5}$ \percc within a diameter
+of $\sim3$ pc, surrounded by a rich cloud in which most of the mass is at a
 density $\sim10^4$ \percc out to a diameter $d\sim14$ pc.
 
 
@@ -778,17 +795,22 @@ density $\sim10^4$ \percc out to a diameter $d\sim14$ pc.
 %{figures/H2CO_ParameterFitPlot_weighted_mean_meanfit_density_mean_linear.pdf}
 {figures/H2CO_ParameterFitPlot_weighted_mean_likewtdfit_density_log.pdf}
 {Map of the column-weighted volume density along the line of sight averaged
-over all velocities.  }
+over all velocities.  \added{The colors are `greyed out' where the
+signal-to-noise ratio in the \oneone line is less than $\sim7$, with
+lower-signal regions being progressively more gray.}}
 {fig:wtdmeandens}{0.5}{0}
 
 % parplots_chi2gridfit.py
 \FigureTwoAA
-{figures/H2CO_ParameterFitPlot_weighted_mean_likewtdfit_density_v40.0to62.0_log.pdf}
-{figures/H2CO_ParameterFitPlot_weighted_mean_likewtdfit_density_v62.0to75.0_log.pdf}
+{figures/H2CO_ParameterFitPlot_weighted_mean_likewtdfit_density_v40.4to61.38_log.pdf}
+{figures/H2CO_ParameterFitPlot_weighted_mean_likewtdfit_density_v62.62to74.25_log.pdf}
 %{figures/H2CO_ParameterFitPlot_weighted_mean_meanfit_density_v40.0to62.0_mean_linear.pdf}
 %{figures/H2CO_ParameterFitPlot_weighted_mean_meanfit_density_v62.0to75.0_mean_linear.pdf}
 {Map of the column-weighted volume density along the line of sight, split into 
-(a) the 40-62 \kms component and (b) the 62 to 75 \kms component.}
+(a) the 40-62 \kms component and (b) the 62 to 75 \kms component.  \added{The
+similarity between the two figures is due to large line widths; the cut at 62 \kms
+is meant to highlight the low-density filament around $\ell=49$ and the clouds
+surrounding W51 Main.}}
 {fig:wtdmeandensvrange}{1}{6.5in}
 
 \subsection{Model fitting and geometry}
@@ -858,9 +880,10 @@ and \texttt{pvextractor} (\protect\url{http://pvextractor.rtfd.org}).
 \Figure
 {figures/purple_wide_PV_h2co11_22_13co_wcsaxes.pdf}
 {Position-velocity diagrams of filamentary structures to the north and south of
-W51 Main.  The 50 \kms component at offset $\sim0.15$ degrees
-($\ell\approx49.47, b\approx-0.42$) is in the background of the \hii region.
-The extracted region is identified in purple in Figure
+W51 Main. \added{The panels are \formaldehyde \oneone, \twotwo, and \thirteenco
+1-0 as in Figure \ref{fig:filament_pvslice}.}  The 50 \kms component at offset
+$\sim0.15$ degrees ($\ell\approx49.47, b\approx-0.42$) is in the background of
+the \hii region.  The extracted region is identified in purple in Figure
 \ref{fig:filament_pvslice}; the left side of the position-velocity diagram
 corresponds to the $b=-0.5$ end of the region.}
 {fig:northsouthpv}{0.5}{0}
@@ -1020,11 +1043,11 @@ our Galaxy.}
 
 \subsection{Dense Gas Mass Fractions}
 Because the \formaldehyde densitometer yields a
-mass-weighted\footnote{\added{This is a simplification; other factors in the weight
-include the optical depth for an optically thick line, the abundance of \formaldehyde,
-and the geometry if there is a background source.  For most of the W51 cloud, a
-fixed abundance and optically thin lines are not a bad assumption, and we account
-for the geometry in the discussion.}}
+mass-weighted\footnote{\added{This is a simplification; other factors in the
+weight include the optical depth for an optically thick line, the abundance of
+\formaldehyde, and the geometry if there is a background source.  For most of
+the W51 cloud, a fixed abundance and optically thin lines are not a bad
+assumption, and we account for the geometry in the discussion.}}
 measurement of
 the gas volume density, it is difficult to connect directly to the total gas
 mass, which is the quantity of interest when determining bulk properties like
@@ -1039,16 +1062,31 @@ The `dense gas mass fraction' (DGMF) is an oft-quoted measurement used to argue
 about the speed of the star formation process, the existence of density
 thresholds, and turbulent properties of the ISM \citep[e.g. Fig. 5
 of][]{Krumholz2007a,Battisti2014a,Kainulainen2013a,Juneau2009a,Muraoka2009a,Hopkins2013e}.
-However, these fractions are most often quoted as mass of gas at a \emph{single}
-density divided by the total mass.  We present an improvement on these measurements,
-showing the continuous distribution of the dense gas mass fraction.
+However, these fractions are most often quoted as mass of gas at a
+\emph{single} density divided by the total mass.  We present an improvement on
+these measurements, showing the continuous distribution of the dense gas mass
+fraction.
 
 Figure \ref{fig:dgmf} shows the result of using our \formaldehyde PPV density
 cubes to measure the DGMF from \thirteenco.  We use a range of density
 thresholds from $\sim10^3$ to $\sim10^6$ \percc.  At each density, we identify
-all voxels in the \thirteenco PPV cube above that density and sum those.  We
-then divide by the total integrated \thirteenco brightness to get the mass
-fraction. 
+all voxels in the \thirteenco PPV cube above that density and integrate those.
+We then divide by the total integrated \thirteenco brightness to get the mass
+fraction: 
+\begin{eqnarray}
+    N(n>n_0) =  C \int T_{\thirteenco}(v,\ell,b) 
+                G\left(n(v,\ell,b)\right) dv~d\ell~db \\
+    G(n) = \left\{ \begin{array}{ll}
+        1 & : n >= n_0 \\
+        0 & : n < n_0 \\
+    \end{array} \right.\\
+    N(total) = C \int T_{\thirteenco}(v, \ell, b) dv~d\ell~db\\
+    DGMF = N(n>n_0) / N(total)
+\end{eqnarray}
+\added{where $N$ is the column of \hh and $C=8.1\ee{20} \persc /
+(\Kkms)$ is a constant used to convert \thirteenco brightness to
+\hh column; it cancels in the DGMF equation.
+}
 
 Figure \ref{fig:dgmf_regions} shows the same results, but for two individual
 regions: the W51 Main/IRS2 protoclusters and the W51 B region.  Within about 10 pc
@@ -1088,8 +1126,8 @@ low-density gas.}
 {figures/FractionOfMassAboveDensity_W51Main}
 {figures/FractionOfMassAboveDensity_W51B}
 {Same as Figure \ref{fig:dgmf}, but for two individual regions: W51 Main
-(left), the region $49.4\arcdeg < \ell < 49.6\arcdeg$, $-0.5\arcdeg < b <
--0.3\arcdeg$, and W51 B (right) with $48.8\arcdeg \ell < 49.4\arcdeg$ and
+($a$), the region $49.4\arcdeg < \ell < 49.6\arcdeg$, $-0.5\arcdeg < b <
+-0.3\arcdeg$, and W51 B ($b$) with $48.8\arcdeg \ell < 49.4\arcdeg$ and
 $-0.5\arcdeg < b < -0.1\arcdeg$.  Note that the $y$ axes have different
 ranges.  \added{The area covered by the W51 B cutout is $6\times$ larger than
 the W51 A cutout, so its effect on Figure \ref{fig:dgmf} is greater. The total
@@ -1120,10 +1158,13 @@ similar analysis should be performed on hydrodynamic simulations.
 The DGMF analysis relies on the \thirteenco being optically thin and thermally
 excited, both of which are generally good assumptions for the majority of the
 mass.  The molecular cloud probably includes no more than $\sim20\%$ of its mass
-in CO-dark gas \citep{Pineda2013a,Langer2013a,Smith2014b}, which adds little to
-the overall uncertainty.  \added{As long as we can assume the
-\thirteenco-traced gas represents the majority of the total cloud gas, the
-$^{13}$C/$^{12}$C ratio has no effect on our measurements.} 
+in \twelveco-dark gas \citep{Pineda2013a,Langer2013a,Smith2014b}, which adds little to
+the overall uncertainty.  \added{Similarly, we expect that there is little 
+\thirteenco-dark molecular gas \citep[the ratio of \twelveco to \thirteenco
+should not vary significantly in molecular clouds;][]{Visser2009a}.}
+%\added{As long as we can assume the
+%\thirteenco-traced gas represents the majority of the total cloud gas, the
+%$^{13}$C/$^{12}$C ratio has no effect on our measurements.} 
 
 In Section \ref{sec:densmaps}, we discussed the various caveats and issues
 related to \formaldehyde density fitting.  To account for the full range of
@@ -1362,7 +1403,8 @@ thin \hii regions in the Galaxy where ionized gas pressure dominates.
 \label{sec:conclusion}
 We have presented maps of the \formaldehyde \oneone and \twotwo and H77$\alpha$
 and H110$\alpha$ lines covering the W51 star forming complex and used these maps
-to examine the geometry and density structure of the complex.  
+to examine the geometry and density structure of the complex.  \added{For the
+recombination lines, see Appendix \ref{sec:contrrldata}.}
 
 %The broad-brush picture is of a massive protocluster region with high density
 %(W51 Main, $n(\hh) > 10^5$ \percc) surrounded by a dense cloud ($n(\hh)>10^4$
@@ -2010,13 +2052,44 @@ v_{LSR} < 66$ \kms (left) and $66 < v_{LSR} < 75$ \kms (right).  The regions
 that appear noisy have ambiguous multi-component decompositions.  }
 {fig:h2cokinematics}{1}{6.5in}
 
+\subsection{Abundances}
+\label{sec:abundance}
+\added{
+The LVG modeling also yields measurements of abundance that are degenerate with
+the assumed velocity gradient.  The abundance within the LVG model is defined
+as $X = n(\hh)/N(\ortho) \left(\frac{1 \kms}{1 \kms \perpc}\right)$.
+We show the distribution of fitted abundances under this definition in Figure
+\ref{fig:abundances}.  The histogram shows the average abundance along each
+line of sight derived from the likelihood-weighted density divided by the
+likelihood-weighted column.  We also show a two-gaussian fit to the 
+abundance distribution: 70\% of the area is consistent with an abundance
+$X(\ortho) = 10^{-8.5 \pm 0.6}$ and 30\% with $X(\ortho) = 10^{-10.0\pm0.5}$.
+However, we caution that these abundances are sensitive to the background
+brightness and are best treated as order-of-magnitude estimates.
+}
+
+\Figure
+{figures/H2CO_ParameterFits_mean_likewtd_abundance.pdf}
+{\added{A histogram of the abundances derived for each spatial pixel using the
+LVG grid fit.  The abundance shown assumes a velocity gradient 1 \kms \perpc.
+The overlaid fits show that 70\% of the area of W51 is consistent with an
+abundance $X(\ortho) = 10^{-8.5 \pm 0.6}$ and 30\% with $X(\ortho) =
+10^{-10.0\pm0.5}$.}
+}
+{fig:abundances}{0.5}{0}
+
 \subsection{Supplementary Picture}
-We include a large-scale WISE + BGPS composite image of the entire W51 cloud and its
-surroundings, including the W51 C supernova remnant.
+We include a large-scale WISE + BGPS composite image of the entire W51 cloud
+and its surroundings.  The figure highlights the W51 C supernova remnant.
 
 \Figure{figures/W51_modified}
 {A large-scale color composite that highlights the W51 C supernova remnant as a
-white haze.}{fig:w51huge}{0.2}{0}
+white haze \added{using 90 cm data from \citet{Brogan2013a}.
+The colors are the same as in Figure \ref{fig:w51large}:
+The blue, green, and red colors are WISE bands 1, 3, and 4 (3.4, 12, and 22
+\um) respectively.  The yellow-orange semitransparent layer is from the Bolocam
+1.1 mm Galactic Plane Survey data \citep{Aguirre2011a,Ginsburg2013a}.}
+}{fig:w51huge}{0.2}{0}
 
 \input{solobib}
 \end{document}
