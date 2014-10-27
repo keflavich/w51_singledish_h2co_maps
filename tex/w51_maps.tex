@@ -1513,7 +1513,9 @@ snapshot of the publication version available from zenodo
 We thank Xiaohui Sun for providing the Urumqi 6 cm Stokes I image prior to its
 availability on the survey website.  \added{The paper benefitted from discussions
 with Jonathan Tan, Neal Evans, and Diederik Kruijssen.
-We thank our referee Jeff Mangum for a helpful and rapid referee report.}
+We thank our referee Jeff Mangum for a helpful and rapid referee report.
+We are grateful to the editor, Malcolm Walmsley, for additional comments
+and for catching many small but significant errors.}
 ER is supported by a Discovery Grant from NSERC of Canada.
 This research has made use of the VizieR catalogue access tool, CDS,
 Strasbourg, France. The original description of the VizieR service was
@@ -2057,24 +2059,30 @@ that appear noisy have ambiguous multi-component decompositions.  }
 \added{
 The LVG modeling also yields measurements of abundance that are degenerate with
 the assumed velocity gradient.  The abundance within the LVG model is defined
-as $X = n(\hh)/N(\ortho) \left(\frac{1 \kms}{1 \kms \perpc}\right)$.
+as 
+\begin{equation}
+    X = \frac{N(\ortho) [\persc / (\kms~\perpc)]}{n(\hh) [\percc]}
+    \cdot \left(\frac{1~\kms~\perpc}{\mathrm{pc}}\right)
+\end{equation}
 We show the distribution of fitted abundances under this definition in Figure
 \ref{fig:abundances}.  The histogram shows the average abundance along each
 line of sight derived from the likelihood-weighted density divided by the
 likelihood-weighted column.  We also show a two-gaussian fit to the 
-abundance distribution: 70\% of the area is consistent with an abundance
-$X(\ortho) = 10^{-8.5 \pm 0.6}$ and 30\% with $X(\ortho) = 10^{-10.0\pm0.5}$.
-However, we caution that these abundances are sensitive to the background
-brightness and are best treated as order-of-magnitude estimates.
+abundance distribution: 30\% of the area is consistent with an abundance
+$X(\ortho) = 10^{-8.4 \pm 0.5}$ and 70\% with $X(\ortho) = 10^{-9.9\pm0.6}$.
+We caution that these abundance measurements are highly uncertain and are
+contingent on both the backlighting source brightness and the assumed velocity
+gradient.
 }
 
 \Figure
 {figures/H2CO_ParameterFits_mean_likewtd_abundance.pdf}
-{\added{A histogram of the abundances derived for each spatial pixel using the
-LVG grid fit.  The abundance shown assumes a velocity gradient 1 \kms \perpc.
-The overlaid fits show that 70\% of the area of W51 is consistent with an
-abundance $X(\ortho) = 10^{-8.5 \pm 0.6}$ and 30\% with $X(\ortho) =
-10^{-10.0\pm0.5}$.}
+{\added{A histogram of the abundances derived for each spatial pixel using
+the LVG grid fit.  The abundance shown assumes a velocity gradient 1 \kms
+\perpc.  The overlaid fits show that 30\% of the area of W51 is consistent with
+an abundance $X(\ortho) = 10^{-8.4 \pm 0.5}$ and 70\% with $X(\ortho) =
+10^{-9.9\pm0.6}$.
+}
 }
 {fig:abundances}{0.5}{0}
 

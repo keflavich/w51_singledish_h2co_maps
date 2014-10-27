@@ -443,11 +443,41 @@ if __name__ == "__main__":
     fig14.clf()
     ax14 = fig14.gca()
     h2cocol = np.nansum(10**fits.getdata(paths.dpath('H2CO_ParameterFits_likewtdcol.fits')), axis=0)
-    cocol = cube13ss_slab3_masked_mom0.value*cotocol().value
-    ax14.plot(np.log10(cocol.ravel()), np.log10(h2cocol.ravel()), '.', alpha=0.4, color=(0.2,0.2,1,1))
-    x = np.linspace(21,23)
-    ax14.plot(x, x-9, 'k--', label='$X=10^{-9}$', alpha=0.5, zorder=-5)
-    ax14.plot(x, x-8, 'k-', label='$X=10^{-8}$', alpha=0.5, zorder=-5)
-    ax14.plot(x, x-10, 'k:', label='$X=10^{-10}$', alpha=0.5, zorder=-5)
-    ax14.set_xlim(21,23)
-    ax14.set_ylim(12,16)
+    cocol = (cube13ss_slab3_masked_mom0*cotocol()).to(u.cm**-2).value
+    abund = np.log10(h2cocol) - np.log10(cocol)
+    h,l,p = ax14.hist(abund[np.isfinite(abund)], bins=200, alpha=0.5)
+    import pyspeckit
+    # Do a very bad thing: fit to binned data
+    sp = pyspeckit.Spectrum(xarr=l[:-1]+(l[1]-l[0])/2, data=h)
+    sp.specfit(fittype='gaussian', multifit=True, guesses=[100, -8.5, 0.5, 30,-7.0,0.5])
+    totamp = (sp.specfit.parinfo.values[0] + sp.specfit.parinfo.values[3])
+    w1 = (sp.specfit.parinfo.values[0])/totamp
+    w2 = (sp.specfit.parinfo.values[3])/totamp
+    m1 = (sp.specfit.parinfo.values[1])
+    m2 = (sp.specfit.parinfo.values[4])
+    c1 = (sp.specfit.parinfo.values[2])**2
+    c2 = (sp.specfit.parinfo.values[5])**2
+    #from sklearn import mixture
+    # apparently sklearn can't do this?
+    #fit = mixture.GMM(n_components=2, covariance_type='full', n_iter=10000).fit(abund)
+    #m1, m2 = fit.means_[:,0]
+    #w1, w2 = fit.weights_
+    #c1, c2 = fit.covars_[:,0,0]
+    x = np.linspace(abund[np.isfinite(abund)].min(), abund[np.isfinite(abund)].max(), 1000)
+    ax14.plot(x, totamp*(w1*np.exp(-(x-m1)**2/(2*c1)) + (w2*np.exp(-(x-m2)**2/(2*c2)))), linewidth=2, color='r', alpha=0.75)
+    ax14.plot(x, totamp*(w1*np.exp(-(x-m1)**2/(2*c1))), linewidth=2, color='b', alpha=0.75)
+    ax14.plot(x, totamp*(w2*np.exp(-(x-m2)**2/(2*c2))), linewidth=2, color='b', alpha=0.75)
+    log.info("Fitted 2 gaussians: \n{0}\nWeights: {1},{2}".format(sp.specfit.parinfo,w1,w2))
+    
+    ax14.set_xlim(-10,-5)
+    ax14.set_xlabel("log $X$(o-H$_2$CO)")
+    ax14.set_ylabel("N(pixels)")
+
+    fig14.savefig(paths.fpath("H2CO_abundance_fromratioto13CO.pdf"), bbox_inches='tight')
+    #ax14.plot(np.log10(cocol.ravel()), np.log10(h2cocol.ravel()), '.', alpha=0.4, color=(0.2,0.2,1,1))
+    #x = np.linspace(21,23)
+    #ax14.plot(x, x-9, 'k--', label='$X=10^{-9}$', alpha=0.5, zorder=-5)
+    #ax14.plot(x, x-8, 'k-', label='$X=10^{-8}$', alpha=0.5, zorder=-5)
+    #ax14.plot(x, x-10, 'k:', label='$X=10^{-10}$', alpha=0.5, zorder=-5)
+    #ax14.set_xlim(21,23)
+    #ax14.set_ylim(12,16)

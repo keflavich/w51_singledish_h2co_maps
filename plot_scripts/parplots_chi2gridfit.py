@@ -8,6 +8,7 @@ import matplotlib as mpl
 from aplpy_figure_maker import FITSFigure
 from astropy.io import fits
 from astropy import units as u
+from astropy import constants
 from astropy import log
 from paths import datapath, datapath_w51, figurepath, h2co11taufn
 from common_constants import get_cached
@@ -183,7 +184,11 @@ for meastype in ('likewtd','mean','best',):
                            header=flathead)
     hdu6.writeto(paths.dpath("H2CO_ParameterFits_min_{0}_density_stdmasked.fits".format(meastype)), clobber=True)
 
-    abundcube = (denscube.filled_data[:]-colcube.filled_data[:]).value
+    dvdr = 1.0 # km/s
+    abundcube = (colcube.filled_data[:].value-
+                 denscube.filled_data[:].value-
+                 np.log10(constants.pc.to(u.cm).value)-
+                 np.log10(dvdr))
     abundimg = np.nanmean(abundcube,axis=0)
     hdu7 = fits.PrimaryHDU(data=abundimg,
                            header=flathead)
@@ -203,7 +208,7 @@ for meastype in ('likewtd','mean','best',):
     import pyspeckit
     # Do a very bad thing: fit to binned data
     sp = pyspeckit.Spectrum(xarr=l[:-1]+(l[1]-l[0])/2, data=h)
-    sp.specfit(fittype='gaussian', multifit=True, guesses=[30, -9, 1, 150,-8,0.5])
+    sp.specfit(fittype='gaussian', multifit=True, guesses=[30, -8.5, 1, 80,-9.5,0.5])
     totamp = (sp.specfit.parinfo.values[0] + sp.specfit.parinfo.values[3])
     w1 = (sp.specfit.parinfo.values[0])/totamp
     w2 = (sp.specfit.parinfo.values[3])/totamp
