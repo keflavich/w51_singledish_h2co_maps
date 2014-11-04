@@ -1,0 +1,127 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                                                                       %%%
+%%%            LaTeX MACRO FOR THE STAR FORMATION NEWSLETTER              %%%
+%%%                                                                       %%%
+%%%    Please use for abstracts of papers which have been ACCEPTED in     %%%
+%%%    REFEREED JOURNALS (do not send abstracts of reviews for books      %%%
+%%%    or conference notes).  Merely fill in the brackets below and       %%%
+%%%    mail to reipurth@ifa.hawaii.edu.  If you have problems, let me     %%%
+%%%    know in an accompanying note and I will fix them.                  %%%
+%%%                                                                       %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[]{article}
+\textwidth 18cm
+\textheight 23cm
+\oddsidemargin -1cm
+\topmargin 0cm
+\parskip 0.15cm
+\parindent 0pt
+\small
+
+% needed for gtrsim:
+\usepackage{amssymb}
+% Needed for the DOI url
+\usepackage{url}
+% needed for other macros
+\usepackage{xspace}
+% Macros for author institutions
+\newcommand{\eso}{$^{1}$}
+\newcommand{\casa}{$^{2}$}
+\newcommand{\cfa}{$^{3}$}
+\newcommand{\edmonton}{$^{4}$}
+\newcommand{\yale}{$^{5}$}
+\newcommand{\puertorico}{$^{6}$}
+
+\begin{document}
+
+{\large\bf{The dense gas mass fraction in the W51 cloud and its protoclusters}}
+
+{\bf{
+Adam Ginsburg{\eso},
+John Bally{\casa},
+Cara Battersby{\cfa},
+Allison Youngblood{\casa},
+Jeremy Darling{\casa},
+Erik Rosolowsky{\edmonton},
+Héctor Arce{\yale},
+Mayra E. Lebrón Santos{\puertorico}
+}}
+
+{\eso}{\it{European Southern Observatory, Karl-Schwarzschild-Strasse 2, D-85748 Garching bei München, Germany }} \\ 
+{\casa}{\it{CASA, University of Colorado, 389-UCB, Boulder, CO 80309}} \\ 
+{\cfa}{\it{Harvard-Smithsonian Center for Astrophysics, 60 Garden Street, Cambridge, MA 02138, USA}} \\ 
+{\edmonton}{\it{University of Alberta, Department of Physics, 4-181 CCIS, Edmonton AB T6G 2E1 Canada}} \\ 
+{\yale}{\it{Department of Astronomy, Yale University, P.O. Box 208101, New Haven, CT 06520-8101 USA}} \\ 
+{\puertorico}{\it{Department of Physical Sciences, University of Puerto Rico, P.O. Box 23323, San Juan, PR 00931}}
+
+%% Here you may write the e-mail address of one or more of the authors
+%% who will act as contact person for preprint requests etc, for example:
+
+{E-mail contact: adam.g.ginsburg@gmail.com}
+
+
+  %% IF YOU USE ANY PERSONAL LATEX COMMANDS IN YOUR ABSTRACT,
+  %% PLEASE INCLUDE THEIR DEFINITIONS HERE!
+  %% AND PLEASE INCLUDE ONLY THOSE YOU NEED FOR THE ABSTRACT.
+
+\newcommand{\percc}{\ensuremath{\textrm{cm}^{-3}}\xspace}
+\newcommand{\formaldehyde}{\ensuremath{\textrm{H}_2\textrm{CO}}\xspace}
+\newcommand{\hh}{\ensuremath{\textrm{H}_{2}}\xspace}			%  H2
+\newcommand{\hii}{H~{\sc ii}\xspace}
+\def\ee#1{\ensuremath{\times10^{#1}}}
+\newcommand\arcsec{\mbox{$^{\prime\prime}$}\xspace} 
+
+%% Within the following brackets you place your text:
+
+{
+
+\textit{Context:} The density structure of molecular clouds determines how they will evolve.
+\textit{Aims:} To map the velocity-resolved density structure of the most vigorously
+star-forming molecular cloud in the Galactic disk, the W51 Giant Molecular
+Cloud.\\
+\textit{Methods:}
+We present new 2 cm and 6 cm maps of \formaldehyde, radio recombination lines,
+and the radio continuum in the W51 star forming complex acquired with Arecibo
+and the Green Bank Telescope at $\sim50\arcsec$ resolution.
+We use \formaldehyde absorption to determine the relative line-of-sight
+positions of molecular and ionized gas.  We measure gas densities using the
+\formaldehyde densitometer, including continuous measurements of the dense gas
+mass
+fraction (DGMF) over the range $10^4$ $\percc< n(\hh) < 10^6$ \percc - this is
+the first time a dense gas mass fraction has been measured over a range
+of densities with a single data set.\\
+\textit{Results:} The DGMF in W51 A is high, $f\gtrsim70\%$ above $n>10^4$
+\percc, while it is low, $f<20\%$, in W51 B.
+We did not detect \emph{any} \formaldehyde emission throughout the W51 GMC; all
+gas dense enough to emit under normal conditions is in front of bright
+continuum sources and therefore is seen in absorption instead.  
+The data set has been made public at \protect\url{http://dx.doi.org/10.7910/DVN/26818}. \\
+\textit{Conclusions:} (1) The dense gas fraction in the W51 A and B clouds shows that W51 A will
+continue to form stars vigorously, while star formation has mostly ended in W51
+B.  The lack of dense, star-forming gas around W51 C indicates that
+collect-and-collapse is not acting or is inefficient in W51.
+(2) Ongoing high-mass star formation is correlated with $n\gtrsim1\ee{5}$
+\percc gas.  Gas with $n>10^4$ \percc is weakly correlated with low and
+moderate mass star formation, but does not strongly correlate with high-mass
+star formation.
+(3) The nondetection of \formaldehyde emission implies that the  emission
+detected in other galaxies, e.g. Arp 220, comes from high-density gas that is
+not directly affiliated with already-formed massive stars.  Either the
+non-star-forming ISM of these galaxies is very dense, implying
+the star formation density threshold is higher, or \hii regions have
+their emission suppressed.
+
+}
+
+
+% Here you write which journal accepted your paper, for example:
+
+{ Accepted by A\&A }
+
+%% If preprints are available on the WWW you can give the web
+%% direction here.
+%% (will be posted on arXiv soon)
+
+
+\end{document}
