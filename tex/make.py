@@ -57,7 +57,7 @@ def do_everything():
         outprefix = os.path.splitext(args.outfile)[0]
 
     # Don't move unnecessarily; messes with Skim.app (maybe?)
-    if outprefix != 'w51_maps':
+    if os.path.split(os.path.basename(outprefix))[0] != 'w51_maps':
         shutil.move("w51_maps.pdf",outprefix+".pdf")
 
 
