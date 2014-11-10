@@ -1,7 +1,7 @@
 W51 Single Dish maps
 ====================
 
-Repository for a paper to be published in A&A.
+Repository for a paper to be published in A&A and posted on arxiv_.
 
 The data are publicly available from http://thedata.harvard.edu/dvn/dv/W51_H2CO.
 
@@ -55,6 +55,7 @@ pip install https://github.com/keflavich/pyregion/archive/master.zip
 .. image:: https://zenodo.org/badge/3821/keflavich/w51_singledish_h2co_maps.png
    :target: http://dx.doi.org/10.5281/zenodo.11737
 
+.. _arxiv: http://arxiv.org/abs/1411.1756
 
 ..
     http://thedata.harvard.edu/dvn/dv/W51_H2CO/FileDownload/?fileId=2387750&xff=0&versionNumber=1
