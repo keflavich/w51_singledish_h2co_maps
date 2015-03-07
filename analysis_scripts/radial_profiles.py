@@ -15,6 +15,11 @@ pl.mpl.rc_file(paths.rcfilepath)
 h2co_densfile = paths.dpath("H2CO_ParameterFits_weighted_mean_mean_density_stdmasked.fits")
 column_image = FITS_tools.hcongrid.hcongrid_hdu(fits.open(paths.dpath2('HIGAL_W51_mosaic_fit_160to500_N.fits'))[0],
                                                 fits.getheader(h2co_densfile))
+luminosity_image160 = FITS_tools.hcongrid.hcongrid_hdu(fits.open(paths.dpath2('HIGAL_W51_mosaic_fit_160to500_luminosity.fits'))[0],
+                                                       fits.getheader(h2co_densfile))
+luminosity_image70 = FITS_tools.hcongrid.hcongrid_hdu(fits.open(paths.dpath2('HIGAL_W51_mosaic_fit_070to500_luminosity.fits'))[0],
+                                                      fits.getheader(h2co_densfile))
+
 w = wcs.WCS(column_image.header)
 dens_image = fits.open(h2co_densfile)[0]
 w2 = wcs.WCS(dens_image.header)
@@ -54,8 +59,10 @@ result = radialprofile.azimuthalAverage(bgsub, center=(x,y),
                                         return_nr=True, mask=mask)
 nr, centers, rprof = result
 
-distprof = centers*(pixsize*distance).to(u.pc,u.dimensionless_angles())
+angdistprof = centers*pixsize
+distprof = (angdistprof*distance).to(u.pc,u.dimensionless_angles())
 rprof_all = rprof_all*u.cm**-2
+# without _all means masked
 rprof = rprof*u.cm**-2
 h2co_distprof = h2co_centers*(h2co_pixsize*distance).to(u.pc,u.dimensionless_angles())
 h2co_rprof = h2co_rprof*u.cm**-3
@@ -74,6 +81,27 @@ dr = np.mean(np.diff(distprof))
 
 cumul_massprof = np.cumsum(massprof)
 dens_profile = (cumul_massprof.to(constants.m_p)/(4/3.*np.pi*distprof.to(u.cm)**3)) / muh2
+
+# Luminosity radial profile
+lumresult160 = radialprofile.azimuthalAverage(luminosity_image160.data, center=(x,y),
+                                           return_nr=True)
+nr_lum160, centers_lum160, rprof_lum160 = lumresult160
+# To convert to isotropic luminosity, multiply by 4 pi 
+rprof_lum160 = rprof_lum160*u.L_sun * 4*np.pi
+# multiply by nr because these are *averages* per annulus; we want *sums*
+cumul_rprof_lum160 = np.cumsum(np.nan_to_num(rprof_lum160.value)*nr_lum160)*u.L_sun
+assert np.all(centers == centers_lum160)
+lumresult70 = radialprofile.azimuthalAverage(luminosity_image70.data, center=(x,y),
+                                             return_nr=True)
+nr_lum70, centers_lum70, rprof_lum70 = lumresult70
+rprof_lum70 = rprof_lum70*u.L_sun * 4*np.pi
+cumul_rprof_lum70 = np.cumsum(np.nan_to_num(rprof_lum70.value)*nr_lum70)*u.L_sun
+assert np.all(centers == centers_lum70)
+
+
+############
+# PLOTTING #
+############
 
 fig = pl.figure(1)
 fig.clf()
@@ -204,6 +232,14 @@ pl.savefig(paths.fpath("HiGal_RadialProfile_ColumnDensity.pdf"))
 h2coimg = fits.getdata(paths.dpath("H2CO_ParameterFits_weighted_mean_density_chi2masked.fits"))
 h2conr, h2cocen, h2codensprof = radialprofile.azimuthalAverage(h2coimg, center=(x,y), return_nr=True, interpnan=True, mask=np.isfinite(h2coimg))
 
-
+fig5 = pl.figure(5)
+fig5.clf()
+ax5 = fig5.gca()
+ax5.semilogy(distprof.value, cumul_rprof_lum160[radOK].value, '-')
+ax5.semilogy(distprof.value, cumul_rprof_lum70[radOK].value, '-')
+ax5.axhline(8.3e6, linewidth=20, zorder=-5, alpha=0.1)
+ax5.set_xlim(0,10)
+ax5.set_xlabel("Radius (pc)")
+ax5.set_ylabel("Luminosity ($L_{\odot}$)")
 
 pl.show()
