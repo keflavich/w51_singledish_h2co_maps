@@ -242,4 +242,6 @@ ax5.set_xlim(0,10)
 ax5.set_xlabel("Radius (pc)")
 ax5.set_ylabel("Luminosity ($L_{\odot}$)")
 
+pl.savefig(paths.fpath("HiGal_RadialProfile_Luminosity.pdf"))
+
 pl.show()

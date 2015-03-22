@@ -347,9 +347,15 @@ if __name__ == "__main__":
     FMM = FITSFigure(sfmasshdu1e4, figure=fig7, cmap=gray, stretch='log', vmax=99.95)
     FMM.colorbar._colorbar.set_label("Star-Forming ($n>10^4$ cm$^{-3}$) Gas Surface Density\n[$M_{\odot}$ pc$^{-2}$]",
                                      rotation=270, labelpad=50)
-    FMM.show_markers(cl1lt10coords.l, cl1lt10coords.b, marker='x', edgecolor='r', zorder=1100)
-    FMM.show_markers(cl1gt10coords.l, cl1gt10coords.b, marker='o', edgecolor='r', zorder=1100)
+    FMM.save(paths.fpath('StarFormingMassMap.pdf'))
+    FMM.show_markers(cl1lt10coords.l, cl1lt10coords.b, marker='x', edgecolor='r', zorder=1100, layer='kangx')
+    FMM.show_markers(cl1gt10coords.l, cl1gt10coords.b, marker='o', edgecolor='r', zorder=1100, layer='kango')
     FMM.save(paths.fpath('StarFormingMassMap_Kang2009ClassIYSOs.pdf'))
+    FMM.remove_layer('kangx')
+    FMM.remove_layer('kango')
+    FMM.show_contour(sfmasshdu1e4, levels=[100,1000], zorder=1000, smooth=1, colors=['#AA1111','#FF4411','#BB6666'], linewidths=[2,3], alpha=0.7)
+    FMM.show_contour(sfmasshdu1e5, levels=[100,1000], zorder=1000, smooth=1, colors=['#1111BB','#1144FF','#6699BB'], linewidths=[2,3], alpha=0.9)
+    FMM.save(paths.fpath('StarFormingMassMap_thresholdcontours.pdf'))
 
     fig8 = pl.figure(8)
     fig8.clf()
@@ -366,10 +372,11 @@ if __name__ == "__main__":
     msxhdu = fits.open(paths.dpath2('MSX_MIPS_merged.fits'))[0]
     msxwcs = wcs.WCS(msxhdu.header)
     logC24 = 42.69 # Kennicutt & Evans 2012 reporting Rieke et al 2009
-    msxpixsize_deg = (wcs.utils.celestial_pixel_scale(msxwcs)**2)
-    msxpixsize = (msxpixsize_deg*distance**2).to(u.pc**2, u.dimensionless_angles())
+    #msxpixsize_deg = (wcs.utils.celestial_pixel_scale(msxwcs)**2)
+    msxpixsize_deg2 = np.product(wcs.utils.proj_plane_pixel_scales(msxwcs))*u.deg**2
+    msxpixsize = (msxpixsize_deg2*distance**2).to(u.pc**2, u.dimensionless_angles())
     msxfreq = (24*u.um).to(u.THz, u.spectral())
-    L_msx = ((msxhdu.data*u.MJy/u.sr) * msxpixsize_deg * (4*np.pi*distance**2)
+    L_msx = ((msxhdu.data*u.MJy/u.sr) * msxpixsize_deg2 * (4*np.pi*distance**2)
              * msxfreq).to(u.erg/u.s)
     sfrmsx = np.log10(L_msx.to(u.erg/u.s).value) - logC24 # Kennicutt & Evans 2012
     sfrsdmsx = sfrmsx - np.log10(msxpixsize.to(u.kpc**2).value)

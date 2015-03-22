@@ -1,8 +1,9 @@
 import os
 root = os.path.expanduser('~/work/')
 datapath_w51 = os.path.join(root, 'w51/')
-datapath = os.path.join(datapath_w51, 'h2co_singledish/')
+#datapath = os.path.join(datapath_w51, 'h2co_singledish/')
 source_root = os.path.join(root,'w51_singledish_maps/')
+datapath = os.path.join(source_root, 'data/dpath/')
 analysis_figurepath = os.path.join(source_root, 'figures/')
 figurepath = os.path.join(source_root, 'tex/figures/')
 datapath_spectra = os.path.join(datapath, 'spectralfits/')
