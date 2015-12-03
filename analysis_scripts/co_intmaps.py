@@ -213,6 +213,11 @@ if __name__ == "__main__":
 
     pl.matplotlib.rc_file('pubfiguresrc')
 
+    lognpars = {'W51 B': {'mu':5e2, 'sigma':1.5},
+                'W51 Main':{'mu':6e4, 'sigma':0.5},
+                'All':{'mu':1e2, 'sigma':2.0},
+               }
+
     for region in tables:
         tbl = tables[region]
         pk_frac = tbl.meta['Peak Fraction']
@@ -230,6 +235,18 @@ if __name__ == "__main__":
         pl.title(region)
         pl.ylim(0, pk_frac*1.05)
         pl.savefig(paths.fpath("FractionOfMassAboveDensity_{0}.pdf".format(region.replace(" ",""))))
+        pl.ylim(0, 1.0)
+        pl.savefig(paths.fpath("FractionOfMassAboveDensity_{0}_fullrange.pdf".format(region.replace(" ",""))))
+
+        # Just some tests; never used.  Tough to get a lognormal that looks
+        # anything like our distribution
+        xl = pl.xlim()
+        x = np.logspace(-10,10,10000)
+        y = (np.exp(-np.log10(x/lognpars[region]['mu'])**2/(2*lognpars[region]['sigma']**2)))
+        pl.semilogx(x, 1-np.cumsum(y)/y.sum(), label='Lognormal $\sigma={sigma} \mu={mu}$'.format(**lognpars[region]))
+        pl.xlim(*xl)
+        pl.legend(loc='best')
+        pl.savefig(paths.fpath("FractionOfMassAboveDensity_{0}_fullrange_logn.pdf".format(region.replace(" ",""))))
 
     def show_con(dgmf, fignum=3, label="$f(n>10^4$ cm$^{-3})$"):
         figN = pl.figure(fignum)

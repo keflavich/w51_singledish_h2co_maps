@@ -104,7 +104,7 @@ lines.antialiased : True         # render lines in antialised (no jaggies)
 #
 #font.family         : sans-serif
 #font.family          : Helvetica
-font.family         : Bitstream Vera Sans
+font.family         : Bitstream Vera Sans # only other one that works: cmr10
 #font.style          : normal
 #font.variant        : normal
 #font.weight         : medium

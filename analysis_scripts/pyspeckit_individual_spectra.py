@@ -900,11 +900,11 @@ def do_all3spectra():
     Horder = ['H77$\\alpha$', 'H110$\\alpha$']
     cocubes = load_cocubes()
     COorder = ['$^{13}$CO 1-0',
-               #'$^{13}$CO 2-1',
-               #'$^{13}$CO 3-2',
-               #'$^{12}$CO 3-2',
+               '$^{13}$CO 2-1',
+               '$^{13}$CO 3-2',
+               '$^{12}$CO 3-2',
                '$^{12}$CO 1-0',
-               #'$^{12}$CO 2-1',
+               '$^{12}$CO 2-1',
                ]
     for c in both.cubelist:
         c.xarr.convert_to_unit('km/s')

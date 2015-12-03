@@ -40,10 +40,12 @@ cube2 = pyspeckit.Cube(h2co22subfn)
 cube2.data /= etamb_gbt # etamb scaling *crucial* for 2-2!
 cube1.xarr.refX_units='GHz'
 cube1.xarr.refX = 4.829659400
+cube1.xarr.velocity_convention = 'radio'
 E1 = cube1.cube[cube1.xarr.as_unit('km/s') < 0].std(axis=0)
 cube1.errorcube = np.repeat(np.reshape(E1,(1,)+E1.shape),cube1.shape[0],axis=0)
 cube2.xarr.refX_units='GHz'
 cube2.xarr.refX = 14.48847881
+cube2.xarr.velocity_convention = 'radio'
 E2 = cube2.cube[cube2.xarr.as_unit('km/s') < 0].std(axis=0)
 cube2.errorcube = np.repeat(np.reshape(E2,(1,)+E2.shape),cube2.shape[0],axis=0)
 both = pyspeckit.CubeStack([cube1,cube2])

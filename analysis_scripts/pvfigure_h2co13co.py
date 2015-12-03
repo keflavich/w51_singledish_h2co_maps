@@ -18,7 +18,9 @@ import warnings
 cubefiles = ('h2co_singledish/W51_H2CO11_taucube_supersampled.fits',
              'h2co_singledish/W51_H2CO22_pyproc_taucube_lores_supersampled.fits',
              'grs_48and50_cube_supersampledh2cogrid.fits',
-             'h2co_singledish/H2CO_ParameterFits_bestdens.fits',
+             'H2CO_ParameterFits_bestdens.fits',
+             'w51_bieging_12co32.fits',
+             'w51_12co10_carpenter_rightaxes.fits',
              )
 
 if 'colorpvs' in locals():
@@ -38,7 +40,8 @@ else:
             pvs[cubefn] = get_pvs(cubefn, endpoints)
         colorpvs[color] = pvs
 
-def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
+def pvplots(pvs, color='cyan', coname='13CO', h2coname='h2co11_22', extranumber=0, width=0.85,
+            cubefiles=cubefiles):
     fig11 = pl.figure(11+extranumber)
     fig11.clf()
     cm = pl.cm.gray_r
@@ -102,7 +105,7 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
 
     # the -0.5 is just to force the colors to the high-end
     con = ax.contour(hdus[0].data, levels=[-0.5,0.025,0.05,0.1,0.2,0.4])
-    fig11.savefig(os.path.join(paths.figurepath, color+"_filaments_H2CO_13CO_pvslice.pdf"))
+    fig11.savefig(os.path.join(paths.figurepath, color+"_filaments_H2CO_"+coname+"_pvslice.pdf"))
     for cc in ax.collections:
         cc.set_visible(False)
 
@@ -121,8 +124,8 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
     vmax = auto_levels(99.75)
     levels = np.linspace(vmin, vmax, 5)
     c1 = ax.contour(hdus[0].data, levels=levels)
-    #fig11.savefig(os.path.join(paths.figurepath, color+"_filaments_H2CO_13CO_density_pvslice.pdf"))
-    fig11.savefig(os.path.join(paths.figurepath, color+"_wide_PV_h2co11_22_13co_wcsaxes.pdf"))
+    #fig11.savefig(os.path.join(paths.figurepath, color+"_filaments_H2CO_"+coname+"_density_pvslice.pdf"))
+    fig11.savefig(os.path.join(paths.figurepath, color+"_wide_PV_"+h2coname+"_"+coname+"_wcsaxes.pdf"))
 
     for cc in c1.collections:
         cc.set_visible(False)
@@ -132,12 +135,12 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
                                        (0.3,0.95,0,0.3)][::-1],
                 levels=[1,2,3,4,5,6]) # density
                 #levels=[0,1,2,5,10,15,35]) # ratio
-    fig11.savefig(os.path.join(paths.figurepath, color+"_filaments_H2CO_13CO_density_pvslice.pdf"))
+    fig11.savefig(os.path.join(paths.figurepath, color+"_filaments_"+h2coname+"_"+coname+"_density_pvslice.pdf"))
     ((x0,y0),(x1,y1)) = ax.bbox._bbox.get_points()
     A = matplotlib.axes.Axes(fig11, [x1,y0,0.025,y1-y0])
     pl.colorbar(c, cax=A)
     fig11.add_axes(A)
-    fig11.savefig(os.path.join(paths.figurepath, color+"_filaments_H2CO_13CO_density_pvslice_colorbar.pdf"))
+    fig11.savefig(os.path.join(paths.figurepath, color+"_filaments_"+h2coname+"_"+coname+"_density_pvslice_colorbar.pdf"))
 
 
 
@@ -175,56 +178,97 @@ def pvplots(pvs, color='cyan', extranumber=0, width=0.85):
     ffs[1].axis_labels.set_ytext('$V_{LSR}$ km $\mathrm{s}^{-1}$')
     ffs[2].axis_labels.hide_y()
 
-    F.save(os.path.join(paths.figurepath, color+"_wide_PV_h2co11_22_13co.pdf"))
+    F.save(os.path.join(paths.figurepath, color+"_wide_PV_"+h2coname+"_"+coname+".pdf"))
 
     return ffs
 
 
-ffsc = pvplots(colorpvs['cyan'], color='cyan', width=0.85)
-ffsp = pvplots(colorpvs['purple'], color='purple', extranumber=-2, width=0.45)
+if __name__ == "__main__":
+
+    ffsca = pvplots(colorpvs['cyan'], coname='12CO21',
+                   color='cyan', width=0.85, cubefiles=
+                    ('h2co_singledish/W51_H2CO11_taucube_supersampled.fits',
+                     'h2co_singledish/W51_H2CO22_pyproc_taucube_lores_supersampled.fits',
+                     'w51_bieging_12co32.fits',
+                     'H2CO_ParameterFits_bestdens.fits',
+                    ),
+                   )
+
+    ffscb = pvplots(colorpvs['cyan'], coname='12CO21',
+                    h2coname='h2co11_13CO10',
+                    color='cyan', width=0.85, cubefiles=
+                    ('h2co_singledish/W51_H2CO11_taucube_supersampled.fits',
+                     'grs_48and50_cube_supersampledh2cogrid.fits',
+                     'w51_bieging_12co32.fits',
+                     'H2CO_ParameterFits_bestdens.fits',
+                    ),
+                   )
+
+    ffscc = pvplots(colorpvs['cyan'], coname='12CO10',
+                   color='cyan', width=0.85, cubefiles=
+                    ('h2co_singledish/W51_H2CO11_taucube_supersampled.fits',
+                     'h2co_singledish/W51_H2CO22_pyproc_taucube_lores_supersampled.fits',
+                     'w51_12co10_carpenter_rightaxes.fits',
+                     'H2CO_ParameterFits_bestdens.fits',
+                    ),
+                   )
+
+    ffscd = pvplots(colorpvs['cyan'], coname='13CO10',
+                    h2coname='h2co11_13CO10',
+                    color='cyan', width=0.85, cubefiles=
+                    ('h2co_singledish/W51_H2CO11_taucube_supersampled.fits',
+                     'grs_48and50_cube_supersampledh2cogrid.fits',
+                     'grs_48and50_cube_supersampledh2cogrid.fits',
+                     'H2CO_ParameterFits_bestdens.fits',
+                    ),
+                   )
+
+    if False:
+        ffsc = pvplots(colorpvs['cyan'], color='cyan', width=0.85)
+        ffsp = pvplots(colorpvs['purple'], color='purple', extranumber=-2, width=0.45)
 
 
 
 
-bgps = fits.open(os.path.join(paths.datapath_w51, 'v2.0_ds2_l050_13pca_map20.fits'))[0]
-bgps_wcs = WCS(bgps.header)
-column = fits.open(os.path.join(paths.datapath_w51, 'HIGAL_W51_mosaic_fit_160to500_N.fits'))[0]
-column_wcs = WCS(column.header)
+        bgps = fits.open(os.path.join(paths.datapath_w51, 'v2.0_ds2_l050_13pca_map20.fits'))[0]
+        bgps_wcs = WCS(bgps.header)
+        column = fits.open(os.path.join(paths.datapath_w51, 'HIGAL_W51_mosaic_fit_160to500_N.fits'))[0]
+        column_wcs = WCS(column.header)
 
-fig13 = pl.figure(13)
-fig13.clf()
-F = aplpy.FITSFigure(column, convention='calabretta', figure=fig13)
-#F.show_grayscale(invert=True, vmax=25, stretch='log', vmin=0, vmid=-0.2)
-F.show_grayscale(invert=True, vmax=1e23, stretch='log', vmin=2e21, vmid=1e21)
-F.recenter(49.22, -0.33612413, width=0.85, height=0.55)
-F.show_regions(os.path.join(paths.datapath_w51, 'cyan_segments.reg'))
-F.show_regions(os.path.join(paths.datapath_w51, 'bluered_segments.reg'))
+        fig13 = pl.figure(13)
+        fig13.clf()
+        F = aplpy.FITSFigure(column, convention='calabretta', figure=fig13)
+        #F.show_grayscale(invert=True, vmax=25, stretch='log', vmin=0, vmid=-0.2)
+        F.show_grayscale(invert=True, vmax=1e23, stretch='log', vmin=2e21, vmid=1e21)
+        F.recenter(49.22, -0.33612413, width=0.85, height=0.55)
+        F.show_regions(os.path.join(paths.datapath_w51, 'cyan_segments.reg'))
+        F.show_regions(os.path.join(paths.datapath_w51, 'bluered_segments.reg'))
 
-pve_path = pvextractor.geometry.path.Path
+        pve_path = pvextractor.geometry.path.Path
 
-warnings.warn("This next step may cause an error on some matplotlib backends,"
-              "e.g. MacOSX.  Try another backend, e.g. Qt4Agg")
+        warnings.warn("This next step may cause an error on some matplotlib backends,"
+                      "e.g. MacOSX.  Try another backend, e.g. Qt4Agg")
 
-F.remove_layer('region_set_1')
-F.remove_layer('region_set_2')
+        F.remove_layer('region_set_1')
+        F.remove_layer('region_set_2')
 
-for color in ['cyan', 'purple']:
-    pvs = {}
-    coords = np.array([s.coord_list for s in endpoints_wcs if
-                       s.attr[1]['color'] == color])
-    endpoints = coordinates.Galactic(coords[:,0],coords[:,1], unit=(u.deg,u.deg))
-    polygons = pve_path(endpoints, width=25*u.arcsec).sample_polygons(1,
-                                                                      wcs=column_wcs)
-    for poly in polygons:
-        F._ax1.add_patch(Polygon(zip(poly.x, poly.y), ec=color, fc='none',
-                                   transform=F._ax1.transData, clip_on=True,
-                                   clip_box=F._ax1.bbox, zorder=10))
-    #    F._ax1.draw_artist(Polygon(zip(poly.x, poly.y), ec='green', fc='none',
-    #                               transform=F._ax1.transData, clip_on=True,
-    #                               clip_box=F._ax1.bbox, zorder=10))
-F.set_tick_labels_xformat('dd.d')
-F.set_tick_labels_yformat('dd.d')
-F.refresh()
-F.save(os.path.join(paths.figurepath, 'filament_extraction_region_on_HiGal.pdf'))
+        for color in ['cyan', 'purple']:
+            pvs = {}
+            coords = np.array([s.coord_list for s in endpoints_wcs if
+                               s.attr[1]['color'] == color])
+            endpoints = coordinates.Galactic(coords[:,0],coords[:,1], unit=(u.deg,u.deg))
+            polygons = pve_path(endpoints, width=25*u.arcsec).sample_polygons(1,
+                                                                              wcs=column_wcs)
+            for poly in polygons:
+                F._ax1.add_patch(Polygon(zip(poly.x, poly.y), ec=color, fc='none',
+                                           transform=F._ax1.transData, clip_on=True,
+                                           clip_box=F._ax1.bbox, zorder=10))
+            #    F._ax1.draw_artist(Polygon(zip(poly.x, poly.y), ec='green', fc='none',
+            #                               transform=F._ax1.transData, clip_on=True,
+            #                               clip_box=F._ax1.bbox, zorder=10))
+        F.set_tick_labels_xformat('dd.d')
+        F.set_tick_labels_yformat('dd.d')
+        F.refresh()
+        F.save(os.path.join(paths.figurepath, 'filament_extraction_region_on_HiGal.pdf'))
 
-pl.show()
+        pl.show()
