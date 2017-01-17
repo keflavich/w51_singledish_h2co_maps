@@ -256,7 +256,7 @@ image.origin : lower             # lower | upper
 #savefig.dpi       : 100      # figure dots per inch
 #savefig.facecolor : white    # figure facecolor when saving
 #savefig.edgecolor : white    # figure edgecolor when saving
-savefig.transparent : True    # setting that controls whether figures are saved with a
+#savefig.transparent : True    # setting that controls whether figures are saved with a
                                # transparent background by default
 
 # tk backend params

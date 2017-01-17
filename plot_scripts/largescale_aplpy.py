@@ -1,16 +1,18 @@
 """
 Requires rgb_wcs branch of aplpy June 10, 2014
 """
+from __future__ import print_function
 from astropy.io import fits
 import aplpy
-from aplpy_figure_maker import FITSFigure
+#from aplpy_figure_maker import FITSFigure
 from aplpy import FITSFigure
 import PIL
 import matplotlib.colors as mc
 import numpy as np
 import pylab as pl
 from astropy import wcs
-from agpy.cubes import flatten_header
+#from agpy.cubes import flatten_header
+from FITS_tools.strip_headers import flatten_header
 from astropy import units as u
 import matplotlib
 import pyregion
@@ -67,9 +69,7 @@ F = aplpy.FITSFigure(datapath+'v2.0_ds2_l050_13pca_map20_reproject.fits',
                      figure=fig, convention='calabretta', colorbar=False,
                      color=False)
 
-H = fits.Header()
-#H.fromTxtFile('/Volumes/128gbdisk/w51/pngs/hdr4096.hdr')
-H.fromTxtFile(paths.pdpath('hdr4096.hdr'))
+H = fits.Header.fromtextfile(paths.pdpath('hdr4096.hdr'))
 hwcs = wcs.WCS(H)
 #F.show_rgb('/Volumes/128gbdisk/w51/pngs/W51_4096sq_WISE_bolo_mosaic_rotated_blackbg.png',wcs=hwcs)
 F.show_rgb(paths.pdpath('W51_4096sq_WISE_bolo_mosaic_rotated_blackbg.png'),
@@ -77,10 +77,12 @@ F.show_rgb(paths.pdpath('W51_4096sq_WISE_bolo_mosaic_rotated_blackbg.png'),
 
 #F.show_regions(paths.rpath('large_scale_regions.reg'))
 regions = pyregion.open(paths.rpath('large_scale_regions.reg'))
-text = re.compile("text={([^}]*)}")
+#text = re.compile("text={([^}]*)}")
 for reg in regions:
-    t = text.search(reg.comment).groups()[0]
-    F.add_label(reg.coord_list[0], reg.coord_list[1], t, color='white', size=16, weight='bold')
+    #t = text.search(reg.comment).groups()[0]
+    t = reg.attr[1]['text']
+    F.add_label(reg.coord_list[0], reg.coord_list[1], t, color='white',
+                size=16, weight='bold')
 F.set_tick_labels_xformat('dd.d')
 F.set_tick_labels_yformat('dd.d')
 F.recenter(49.27, -0.32, width=0.9, height=0.4)
@@ -88,7 +90,17 @@ F.save(paths.fpath('W51_wisecolor_largescale_labeled.pdf'), dpi=72)
 F.show_rgb(paths.dpath("make_pretty_picture/W51_modified.png",paths.datapath_w51),
            wcs=hwcs)
 F.save(paths.fpath('W51_wisecolor_modified_largescale_labeled.pdf'), dpi=72)
-for L in F._layers.keys():
+
+F.add_scalebar(((10*u.pc)/(5.1*u.kpc)*u.radian).to(u.deg).value)
+F.scalebar.set_label("10 pc")
+F.scalebar.set_font_size(18)
+F.scalebar.set_font_weight('bold')
+F.scalebar.set_color('w')
+F.scalebar.set_linewidth(3)
+F.save(paths.fpath('W51_wisecolor_modified_largescale_labeled_scalebar.pdf'), dpi=150)
+F.scalebar.hide()
+
+for L in list(F._layers.keys()):
     if L in F._layers:
         F.remove_layer(L)
 
@@ -132,14 +144,19 @@ F.add_label(48.85,-0.48+0.020*(ii+1),
             size=18)
 
 
-F.add_scalebar(((10*u.pc)/(5.1*u.kpc)*u.radian).to(u.deg).value)
+scalebar_length = ((10*u.pc)/(5.1*u.kpc)*u.radian).to(u.deg).value
+try:
+    F.add_scalebar(scalebar_length)
+except:
+    F.scalebar.show(scalebar_length)
 F.scalebar.set_label("10 pc")
 F.scalebar.set_font_size(18)
 F.scalebar.set_font_weight('bold')
-F.scalebar.set_color((0.8,0.3,0.01,0.9))
-F.scalebar.set_linewidth(3)
+F.scalebar.set_color('w')
+#F.scalebar.set_color((0.8,0.3,0.01,0.9))
+#F.scalebar.set_linewidth(3)
 
-print "Trying to save..."
+print("Trying to save...")
 
 F.refresh()
 # PDF led to 
@@ -148,7 +165,7 @@ F.refresh()
 # Abort trap: 6
 #F.save(figpath+'w51_wisecolor_densityoverlay.pdf')
 F.save(figpath+'w51_wisecolor_densityoverlay.png', dpi=72)
-for L in F._layers.keys():
+for L in list(F._layers.keys()):
     if L in F._layers:
         F.remove_layer(L)
 
@@ -162,22 +179,26 @@ for L in F._layers.keys():
 F.show_contour(fits.PrimaryHDU(co_45to55, cohdr), levels=[15,55,85,500], filled=True, colors=[(0,0.5,0.5,0.3),(0,0.5,0.5,0.4),(0,0.5,0.5,0.5)])
 F.refresh()
 F.save(figpath+'w51_wisecolor_cooverlay_45to55.png')
-for L in F._layers.keys(): F.remove_layer(L)
+for L in list(F._layers.keys()):
+    F.remove_layer(L)
 
 F.show_contour(fits.PrimaryHDU(co_55to60, cohdr), levels=[15,55,85,500], filled=True, colors=[(0,0,1,0.2),(0,0,1,0.3),(0,0,1,0.4)])
 F.refresh()
 F.save(figpath+'w51_wisecolor_cooverlay_55to60.png')
-for L in F._layers.keys(): F.remove_layer(L)
+for L in list(F._layers.keys()):
+    F.remove_layer(L)
 
 F.show_contour(fits.PrimaryHDU(co_60to65, cohdr), levels=[15,55,85,500], filled=True, colors=[(0,0.5,0,0.3),(0,0.5,0,0.4),(0,0.5,0,0.6)])
 F.refresh()
 F.save(figpath+'w51_wisecolor_cooverlay_60to65.png')
-for L in F._layers.keys(): F.remove_layer(L)
+for L in list(F._layers.keys()):
+    F.remove_layer(L)
 
 F.show_contour(fits.PrimaryHDU(co_65to75, cohdr), levels=[15,55,85,500], filled=True, colors=[(1,0,0,0.2),(1,0,0,0.3),(1,0,0,0.4)])
 F.refresh()
 F.save(figpath+'w51_wisecolor_cooverlay_65to75.png')
-for L in F._layers.keys(): F.remove_layer(L)
+for L in list(F._layers.keys()):
+    F.remove_layer(L)
 
 F.refresh()
 F.save(figpath+'w51_wisecolor_nooverlay.png')
@@ -187,10 +208,17 @@ F.refresh()
 F.save(figpath+'w51_wisecolor_nooverlay_vlazoomregion.png')
 
 
-for L in F._layers.keys(): F.remove_layer(L)
+for L in list(F._layers.keys()):
+    F.remove_layer(L)
 F.recenter(49.48,-0.38,0.05)
 slength = ((10*u.pc)/(5.1*u.kpc)*u.radian).to(u.deg).value
-F.scalebar.set_length(slength)
+if slength != scalebar_length:
+    try:
+        F.scalebar.set_length(slength)
+    except:
+        F.scalebar._scalebar_settings.pop('linewidth')
+        F.scalebar.set_length(slength)
+        F.scalebar.set_linewidth(3)
 F.save(figpath+'w51_wisecolor_zoomW51Main.png')
 F.refresh()
 F.show_regions(paths.rpath('w51main_spectral_apertures.reg'))
